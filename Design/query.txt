@@ -1,0 +1,44 @@
+# DOCUMENT DB:
+
+### QUERY ###
+
+1) ADD GAME
+2) DELETE GAME
+3) MODIFY GAME
+
+4) ADD USER 
+5) DELETE USER
+6) MODIFY USER
+
+7) ADD ARTICLE
+8) DELETE ARTICLE
+9) MODIFY ARTICLE
+10) WRITE COMMENT TO AN ARTICLE
+
+11) ADD GROUP
+12) ADD POST TO A GROUP
+13) REMOVE A POST OF A GROUP
+14) REMOVE A GROUP
+
+### ANALYTICS ### 
+
+1) view the most (number) rated game per year/genre/category/altro
+2) 10 most rated game from year xxxx
+3) distribution of games per category
+4) 10 games that have more groups about
+5) influencer who wrotes articles about more genres
+
+# GRAPH DB:
+
+### QUERY ###
+
+### ANALYTICS ### 
+
+1) suggest users according to categories
+2) retrieve list of users' groups 
+3) suggest the promotion of a user to influencer
+4) retrieve the list of most commented/liked articles
+5) suggest most liked influencer 
+6) suggest games accoding to categories
+7) suggest friends according to friends' friends 
+8) user who wrote more reviews about different genres of games 
