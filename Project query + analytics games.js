@@ -181,15 +181,6 @@ db.Games.aggregate([
 ])
 
 
-//Number of games per category
-
-db.games.aggregate(
-{$unwind: "$category"},
-{$group: {_id:"$category", countGames: {$sum: 1}} }
- 
-).pretty();
-
-
 //L'ho cambiata perchè l'altra doveva accedere a due collection, cosa che non esiste nella realtà, perchè
 //Non avevamo la categoria dentro gli articoli, questa ho pensato che può essere utile per declassare un influencer
 //Se non fa abbastanza articoli in un periodo
@@ -209,9 +200,9 @@ db.users.aggregate(
   ]
 ).pretty();
 
-### Query MongoDB su articles e groups ###
+//### Query MongoDB su articles e groups ###
 
-1) aggiungi un articolo
+//1) aggiungi un articolo
 db.users.updateOne(
     {bgg_user_name: "microcline"},
     {$push: 
@@ -230,7 +221,7 @@ db.users.updateOne(
     }  
 )
 
-2) cancella un articolo
+//2) cancella un articolo
 db.users.updateOne( 
     { bgg_user_name: "microcline" }, 
     { $pull: 
@@ -240,14 +231,14 @@ db.users.updateOne(
     } 
 )
 
-3) modificare un articolo (qua solo il titolo all'occorrenza quello che si vuole)
+//3) modificare un articolo (qua solo il titolo all'occorrenza quello che si vuole)
 
 db.users.updateOne(
     { bgg_user_name: "microcline","articles.title": "Nuovo articolo"}, 
     {$set : {"articles.$.title" : "Articolo modificato"} }
 )
 
-4) Distribuzione dei giochi per categoria 
+//4) Distribuzione dei giochi per categoria 
 
 db.boardgame.aggregate(
     [ 
@@ -258,15 +249,15 @@ db.boardgame.aggregate(
                 _id: "$category", 
                 totalGames: {$sum: 1 }, 
                 avgRating: {$avg: "$avg_rating"},
-                avgNumVoter: {$avg: "$num_voters} 
+                avgNumVoter: {$avg: "$num_voters"} 
             } 
         }, 
         {$sort: {"totalGames": -1} } 
     ]
 )
 
-### GROUPS ### 
-1) creare un gruppo
+//### GROUPS ### 
+//1) creare un gruppo
 db.boardgame.updateOne(
     {name: "Zombicide"},
     {$push: 
@@ -282,7 +273,7 @@ db.boardgame.updateOne(
     }
 )
 
-2) aggiungere un post ad un gruppo
+//2) aggiungere un post ad un gruppo
 db.boardgame.updateOne( 
     { name: "Renegade","groups.name":  "Gruppo su Renegade"}, 
     { $push: 
@@ -292,7 +283,7 @@ db.boardgame.updateOne(
     } 
 )
 
-3)  rimuovere post da un Gruppo
+//3)  rimuovere post da un Gruppo
 db.boardgame.updateOne( 
     { name: "Renegade", "groups.name": "Gruppo su Renegade" }, 
     { $pull: 
@@ -302,7 +293,7 @@ db.boardgame.updateOne(
     } 
 )
 
-4) Rimuovere un Gruppo
+//4) Rimuovere un Gruppo
 db.boardgame.updateOne( 
     { name: "Renegade" }, 
     { $pull: 
@@ -312,7 +303,7 @@ db.boardgame.updateOne(
     } 
 )
 
-5) 10 giochi che hanno più gruppi che parlano di loro
+//5) 10 giochi che hanno più gruppi che parlano di loro
 
 db.boardgame.aggregate(
     {$unwind: "$groups"}, 
