@@ -209,5 +209,120 @@ db.users.aggregate(
   ]
 ).pretty();
 
+### Query MongoDB su articles e groups ###
+
+1) aggiungi un articolo
+db.users.updateOne(
+    {bgg_user_name: "microcline"},
+    {$push: 
+        {articles: 
+            {
+                "title": "Nuovo articolo6", 
+                "body": "Testo del nuovo articolo", 
+                "timestamp": new Date(), 
+                "author": "Autore", 
+                "games": ["gioco1", "gioco2"], 
+                "num_comments": 0, 
+                "num_like": 0, 
+                "num_dislike": 0
+            }                   
+        }
+    }  
+)
+
+2) cancella un articolo
+db.users.updateOne( 
+    { bgg_user_name: "microcline" }, 
+    { $pull: 
+        { articles:
+            { "title": "Nuovo articolo6"}
+        }  
+    } 
+)
+
+3) modificare un articolo (qua solo il titolo all'occorrenza quello che si vuole)
+
+db.users.updateOne(
+    { bgg_user_name: "microcline","articles.title": "Nuovo articolo"}, 
+    {$set : {"articles.$.title" : "Articolo modificato"} }
+)
+
+4) Distribuzione dei giochi per categoria 
+
+db.boardgame.aggregate(
+    [ 
+        {$match: {category: {$ne: ''} } }, 
+        {$unwind: "$category"}, 
+        {$group: 
+            {
+                _id: "$category", 
+                totalGames: {$sum: 1 }, 
+                avgRating: {$avg: "$avg_rating"},
+                avgNumVoter: {$avg: "$num_voters} 
+            } 
+        }, 
+        {$sort: {"totalGames": -1} } 
+    ]
+)
+
+### GROUPS ### 
+1) creare un gruppo
+db.boardgame.updateOne(
+    {name: "Zombicide"},
+    {$push: 
+        {groups: 
+            {
+                "name": "Gruppo su Zombicide",
+                "description":"In questo gruppo si parla di Zombicide",
+                "creation_timestamp": new Date(),
+                "owner": "Leonardo",
+                posts: [] 
+            }
+        }
+    }
+)
+
+2) aggiungere un post ad un gruppo
+db.boardgame.updateOne( 
+    { name: "Renegade","groups.name":  "Gruppo su Renegade"}, 
+    { $push: 
+        { "groups.$.posts":
+                {"text": "Questo è un nuovo post","timestamp": new Date(), "author": "Leonardo"}
+        }  
+    } 
+)
+
+3)  rimuovere post da un Gruppo
+db.boardgame.updateOne( 
+    { name: "Renegade", "groups.name": "Gruppo su Renegade" }, 
+    { $pull: 
+        { "groups.$.posts":
+                {"text": "Questo è un nuovo post", "author": "Leonardo"}
+        }  
+    } 
+)
+
+4) Rimuovere un Gruppo
+db.boardgame.updateOne( 
+    { name: "Renegade" }, 
+    { $pull: 
+        { groups:
+            { "name": "Gruppo su Renegade2"}
+        }  
+    } 
+)
+
+5) 10 giochi che hanno più gruppi che parlano di loro
+
+db.boardgame.aggregate(
+    {$unwind: "$groups"}, 
+    {$group: 
+        {
+            _id: "$name", 
+            totGroups: {$sum: 1}
+        }
+    },
+    {$sort: {totGroups: -1} }
+)
 
 
