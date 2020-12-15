@@ -303,7 +303,7 @@ db.boardgame.updateOne(
     } 
 )
 
-//5) 10 giochi che hanno più gruppi che parlano di loro
+//5) Giochi che hanno più gruppi che parlano di loro ()
 
 db.boardgame.aggregate(
     {$unwind: "$groups"}, 
