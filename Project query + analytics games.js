@@ -2,7 +2,7 @@
 
 //#QUERY
 
-//1) ADD GAME
+//1) ADD GAME (form nella parte dell'amministratore)
 db.Games.insertOne({
   "name": "Spirit Island",
   "year": 2016,
@@ -74,7 +74,7 @@ db.Games.insertOne({
   "scraped_at": "2020-12-02T11:23:38+0000"
 })
 	
-//2) DELETE GAME 
+//2) DELETE GAME (menù a scorrimento nella parte dell'amministratore)
 db.Games.deleteMany({
 	"name": "Spirit Island"
 })
@@ -84,7 +84,7 @@ db.Games.deleteMany({
 })
 	
 	
-//3) MODIFY A GAME
+//3) MODIFY A GAME (menù nella parte dell'amministratore)
 db.Games.updateOne({
 	"name": "Spirit Island"},
 	{
@@ -93,7 +93,7 @@ db.Games.updateOne({
 )
 
 
-//INSERT ONE OR MORE USERS
+//INSERT ONE OR MORE USERS ( form per registrarsi )
 db.users.insertOne(
   {"firstName": "Clarissa", "last_name": "Polidori", "registered": "2020", "last_login": "", "country":"Italy"}, 
 );
@@ -104,13 +104,13 @@ db.users.insertMany([
 {"firstName": "Ester", "last_name": "Pivirotto", "registered": "2020","last_login": "2020-11-30T00:00:00+0000", "country":"Italy"}, 
 ]);
 
-//DELETE USER ONE OR MORE USERS
+//DELETE USER ONE OR MORE USERS (parte dell'amministratore E gestione del profilo dell'utente, deve potersi disiscrivere?)
 db.users.deleteMany({name: "Ester" })
 
 
 db.users.deleteOne({name: "Ester" })
 
-//MODIFY USER
+//MODIFY USER (gestione del profilo dell'utente)
 
 db.users.update(
 {"item_id" : ""},
@@ -188,21 +188,42 @@ db.Games.aggregate([
 //avrà 1000 errori ma aspettavo la insert dell'article per provarla, e le date non so se si trattano così+
 //Influencers who wrotes articles about less than 10 games in a period
 
-
-db.users.aggregate(
-  [
-  {$unwind: "$articles"},
-  {$match: {"articles.timestamp": {"$gt": ISODate("2020-01-01T00:00:00.000Z"), "$lt" : ISODate("2020-02-01T00:00:00Z") }}},
+// però questa query è un po' diversa in realtà:
+// presi gli articoli pubblicati nell'ultimo mese (ad esempio) conta il numero di volte che un gioco è stato riferito da questi articoli, che potrebbe essere interessante
+// da proporre nella schermata del gioco ma non riporta informazioni sugli autori
+db.users.aggregate( 
+[
+  {$unwind: "$articles"}, 
+  {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
   {$unwind: "$articles.games"},
-  {$group: {_id:"$articles.game", countGames: {$sum: 1}} },
+  {$group: {_id:"$articles.games", countGames: {$sum: 1}} },
   {$match: {countGames: {$lt: 10}}},
   {$sort: {countGames: 1}}
   ]
 ).pretty();
 
+// (variante) Quante volte un utente ha recensito un gioco, potrebbe essere utile?
+db.users.aggregate( 
+[
+  {$unwind: "$articles"}, 
+  {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
+  {$unwind: "$articles.games"},
+  {$group: {_id: {author: "$articles.author", game: "$articles.games"}, countAuthor: {$sum: 1}} },  ]
+).pretty();
+
+
+// questa sembra più simile a quello che hai scritto, trova il numero di giochi che un utente ha recensito in un tot periodo
+db.users.aggregate( 
+[
+  {$unwind: "$articles"}, 
+  {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
+  {$unwind: "$articles.games"},
+  {$group: {_id: {author: "$articles.author", game: "$articles.games"}, countAuthor: {$sum: 1}} }, {$group: {_id: "$_id.author", countGames: {$sum: 1}} } ]
+).pretty();
+
 //### Query MongoDB su articles e groups ###
 
-//1) aggiungi un articolo
+//1) aggiungi un articolo (profilo dell'infliencer)
 db.users.updateOne(
     {bgg_user_name: "microcline"},
     {$push: 
@@ -221,7 +242,7 @@ db.users.updateOne(
     }  
 )
 
-//2) cancella un articolo
+//2) cancella un articolo (profilo dell'influencer)
 db.users.updateOne( 
     { bgg_user_name: "microcline" }, 
     { $pull: 
@@ -231,7 +252,7 @@ db.users.updateOne(
     } 
 )
 
-//3) modificare un articolo (qua solo il titolo all'occorrenza quello che si vuole)
+//3) modificare un articolo (qua solo il titolo all'occorrenza quello che si vuole) (profilo dell'influencer)
 
 db.users.updateOne(
     { bgg_user_name: "microcline","articles.title": "Nuovo articolo"}, 
@@ -257,7 +278,7 @@ db.boardgame.aggregate(
 )
 
 //### GROUPS ### 
-//1) creare un gruppo
+//1) creare un gruppo (lista degli amici)
 db.boardgame.updateOne(
     {name: "Zombicide"},
     {$push: 
@@ -273,7 +294,7 @@ db.boardgame.updateOne(
     }
 )
 
-//2) aggiungere un post ad un gruppo
+//2) aggiungere un post ad un gruppo (lista dei gruppi o schermata del gruppo)
 db.boardgame.updateOne( 
     { name: "Renegade","groups.name":  "Gruppo su Renegade"}, 
     { $push: 
@@ -283,7 +304,7 @@ db.boardgame.updateOne(
     } 
 )
 
-//3)  rimuovere post da un Gruppo
+//3)  rimuovere post da un Gruppo (schermata del gruppo da parte dell'amministratore)
 db.boardgame.updateOne( 
     { name: "Renegade", "groups.name": "Gruppo su Renegade" }, 
     { $pull: 
@@ -293,7 +314,7 @@ db.boardgame.updateOne(
     } 
 )
 
-//4) Rimuovere un Gruppo
+//4) Rimuovere un Gruppo (proprietario del gruppo o moderatore da schermata del gruppo = riepilogo messaggi)
 db.boardgame.updateOne( 
     { name: "Renegade" }, 
     { $pull: 
