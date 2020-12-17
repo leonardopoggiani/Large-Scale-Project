@@ -1,2 +1,3 @@
-//ADD :PUBLISHED RELATIONS
-match (p:User{name:"Antonio Di Noia"}),(a:Article{id:1}) create (p)-[:PUBLISHED{timestamp:datetime()}]->(a)
+//Create Group and be part
+MATCH (u:User{id:"asdfg"}),(ga:Game{id:"1234"})
+CREATE (u)-[:BE_PART{id:"3", timestamp:datetime(), admin:"si"}]->(gr:Group {name:"Gruppo brutto",id:"14"})-[:REFERRED{id:"3"}]->(ga)
