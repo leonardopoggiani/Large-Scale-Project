@@ -211,7 +211,6 @@ db.users.aggregate(
   {$group: {_id: {author: "$articles.author", game: "$articles.games"}, countAuthor: {$sum: 1}} },  ]
 ).pretty();
 
-
 // questa sembra più simile a quello che hai scritto, trova il numero di giochi che un utente ha recensito in un tot periodo
 db.users.aggregate( 
 [
@@ -325,7 +324,6 @@ db.boardgame.updateOne(
 )
 
 //5) Giochi che hanno più gruppi che parlano di loro (statistiche sui giochi oppure suggerimenti su gruppi)
-
 db.boardgame.aggregate(
     {$unwind: "$groups"}, 
     {$group: 
@@ -358,4 +356,23 @@ db.boardgame.aggregate(
     }
 )
 
+// FIND QUERIES
+// 1) Trovare i giochi con valutazione superiore a tot ( schermata dei giochi, indice su valutazione?  )
+db.boardgame.find( 
+    { avg_rating: { $gt: 7} } 
+)
 
+// 2) Trovare i giochi in base al tipo (schermata dei giochi, indice sul game_type?)
+db.boardgame.find( 
+    {category: "Math:1104"}
+)
+
+// 3) Trovare i 3 giochi con valutazione più alta per tipo (schermata dei giochi)
+db.boardgame.find( 
+    {category: "Math:1104", avg_rating: {$ne: null}}
+).sort( {avg_rating: -1} ).limit(3)
+
+// 4) Trovare 3 giochi con valutazione più bassa per tipo (schermata dei giochi)
+db.boardgame.find( 
+    {category: "Math:1104", avg_rating: {$ne: null}}
+).sort( {avg_rating: 1} ).limit(3)
