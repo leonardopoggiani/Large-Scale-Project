@@ -25,7 +25,7 @@
 2) 10 most rated game from year xxxx
 3) distribution of games per category
 4) 10 games that have more groups about
-5) influencer who wrotes articles about more genres
+5) influencer who wrotes articles about more categories
 6) LISTA DEGLI ARTICOLI (tipo bacheca ordinata temporalmente)
 
 # GRAPH DB:
@@ -46,7 +46,12 @@ Gruppo 1) GAIA
 6) [bacheca] suggest most liked and/or recent articles (ordina in vari modi) (nome nell'articolo da mettere nel graphDB)
 Gruppo 2) LEONARDO
 7) influencer who wrote more reviews about different genres of games  (  ) 
-8) suggest friends according to groups (gruppi a cui appartenete entrambi)
+8) suggest friends according to groups (gruppi a cui appartenete entrambi di cui non è ancora amico)
+
+
+
+
+Togliere timestamp dal documentDB nell'articolo e fare le query nel graph
 9) [bacheca] show comment list and number of like below an article (mettere tipo nel Like) 
 10) [schermata del gioco] show reviews and ratings of a game
 
