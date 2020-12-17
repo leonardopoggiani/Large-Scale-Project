@@ -107,11 +107,9 @@ db.users.insertMany([
 //DELETE USER ONE OR MORE USERS (parte dell'amministratore E gestione del profilo dell'utente, deve potersi disiscrivere?)
 db.users.deleteMany({name: "Ester" })
 
-
 db.users.deleteOne({name: "Ester" })
 
 //MODIFY USER (gestione del profilo dell'utente)
-
 db.users.update(
 {"item_id" : ""},
 {$set: [{ "name" : "Veronica"}, { "surname" : "Veronica"}]}
@@ -222,7 +220,7 @@ db.users.aggregate(
 
 //### Query MongoDB su articles e groups ###
 
-//1) aggiungi un articolo (profilo dell'infliencer)
+//1) aggiungi un articolo (profilo dell'influencer)
 db.users.updateOne(
     {bgg_user_name: "microcline"},
     {$push: 
