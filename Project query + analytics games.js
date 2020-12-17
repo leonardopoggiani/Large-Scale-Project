@@ -359,7 +359,7 @@ db.boardgame.aggregate(
 // FIND QUERIES
 // 1) Trovare i giochi con valutazione superiore a tot ( schermata dei giochi, indice su valutazione?  )
 db.boardgame.find( 
-    { avg_rating: { $gt: 7} } 
+    { avg_rating: {$gt: 7} } 
 )
 
 // 2) Trovare i giochi in base al tipo (schermata dei giochi, indice sul game_type?)

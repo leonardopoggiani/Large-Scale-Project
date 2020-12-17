@@ -26,6 +26,7 @@
 3) distribution of games per category
 4) 10 games that have more groups about
 5) influencer who wrotes articles about more genres
+6) LISTA DEGLI ARTICOLI (tipo bacheca ordinata temporalmente)
 
 # GRAPH DB:
 
@@ -35,11 +36,17 @@ CRUD operations
 
 ### ANALYTICS ### 
 
-1) suggest users according to categories
-2) retrieve list of users' groups 
-3) suggest the promotion of a user to influencer
-4) retrieve the list of most commented/liked articles
-5) suggest most liked influencer 
-6) suggest games accoding to categories
-7) suggest friends according to friends' friends 
-8) user who wrote more reviews about different genres of games 
+Gruppo 0) CLARISSA
+1) [schermata amici se non hai amici] suggest users according to categories ( va a guardare se c'è almeno una categoria in comune, ritorna lista utenti, divisione tra suggeriti (una in comune) e *best match* (con tutte e due in comune) ) 
+2) retrieve list of users' groups ( sia i suoi gruppi (di cui è owner) che quelli di cui è partecipante )
+3) [moderator] suggest the promotion of a user to influencer ( [1] quanti amici ha [2] quante review ha fatto )
+Gruppo 1) GAIA
+4) [schermata influencer] suggest top 3 liked influencer ( contare i like agli articoli dello stesso influencer )
+5) [schermata giochi] suggest games according to categories ( mostra giochi che appartengono alle categorie che lo user ha messo tra i preferiti )
+6) [bacheca] suggest most liked and/or recent articles (ordina in vari modi) (nome nell'articolo da mettere nel graphDB)
+Gruppo 2) LEONARDO
+7) influencer who wrote more reviews about different genres of games  (  ) 
+8) suggest friends according to groups (gruppi a cui appartenete entrambi)
+9) [bacheca] show comment list and number of like below an article (mettere tipo nel Like) 
+10) [schermata del gioco] show reviews and ratings of a game
+
