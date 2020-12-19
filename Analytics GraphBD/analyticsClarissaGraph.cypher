@@ -41,3 +41,21 @@ MATCH (u:User)-[r:REVIEWED]->(ga:Game)
 WHERE u.role="normalUser" AND r.timestamp >= datetime({year:2020, month:1, day:1}) AND r.timestamp <= datetime({year:2020, month:12, day:31})
 RETURN u.id, u.name,COUNT(r) AS CountReviews
 ORDER BY CountReviews DESC
+
+//How many articles an influencer pubblished in a period, ordered
+MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)
+WHERE u.role="influencer" //Non servirebbe 
+AND p.timestamp >= datetime({year:2020, month:1, day:1})
+AND p.timestamp <= datetime({year:2020, month:12, day: 31})
+RETURN u.name,  count (distinct g) AS countGames
+ORDER BY countGames ASC
+
+//Influencers who wrotes articles about less than 10 games in a period, ordered
+MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)
+WHERE u.role="influencer" //Non servirebbe 
+AND p.timestamp >= datetime({year:2020, month:1, day:1})
+AND p.timestamp <= datetime({year:2020, month:12, day: 31})
+WITH g, count (distinct g) AS countGames
+WHERE countGames <10
+RETURN g.name, countGames
+ORDER BY countGames ASC
