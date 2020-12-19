@@ -116,107 +116,7 @@ db.users.update(
 );
 	
 	
-//#ANALYTIC
 
-//#Show the game with the most number of rate for each year (pagina delle statistiche sui giochi o suggerimenti per i giochi)
-db.Games.aggregate([
-	{$match: 
-		{"num_votes": { "$exists": true, "$ne": "" }}
-	},
-	{$group: 
-		{_id: {name: "$name", year: "$year"}, totRate: {$sum: "$num_votes"}}
-	},
-	{$sort: {totRate:-1}},
-	{$group: 
-		{_id: "$_id.year",
-		mostRated: {$first: "$_id.name"}
-		}
-	},
-	{$sort:{_id:-1}}
-])
-
-//Show the game with the most number of rate for each category (pagina delle statistiche sui giochi)
-db.Games.aggregate([
-	{$match: 
-		{"num_votes": { "$exists": true, "$ne": "" }}
-	},
-	{$unwind: "$category" },
-	{$group: 
-		{_id: {name: "$name", category: "$category"}, totRate: {$sum: "$num_votes"}}
-	},
-	{$sort: {totRate:-1}},
-	{$group: {_id: "$_id.category", mostRated: {$first: "$_id.name"}}},
-	{$sort:{_id:-1}}
-])
-
-//#Show the game with the most number of rate for each value of min_players (pagina delle statistiche sui giochi)
-db.games.aggregate([
-	{$match: 
-		{"num_votes": { "$exists": true, "$ne": "" }, 
-		"min_players": {"$exists": true, "$ne": null}
-		}
-	},
-	{$group: 
-		{_id: {name: "$name", min_players: "$min_players"}, totRate: {$sum: "$num_votes"}}
-	},
-	{$sort: {totRate:-1}},
-	{$group: {_id: "$_id.min_players", mostRated: {$first: "$_id.name"}}}
-])
-
-//#Show the game with the most number of rate for each value of min_time
-db.Games.aggregate([
-	{$match: 
-		{"num_votes": { "$exists": true, "$ne": "" }, 
-		"min_time": {"$exists": true, "$ne": null}}
-	},
-	{$group: 
-		{_id: {name: "$name", min_time: "$min_time"}, 
-		totRate: {$sum: "$num_votes"}}
-	},
-	{$sort: {totRate:-1}},
-	{$group: {_id: "$_id.min_time", mostRated: {$first: "$_id.name"}}}, 
-	{$sort:{_id:1}}
-])
-
-
-//L'ho cambiata perchè l'altra doveva accedere a due collection, cosa che non esiste nella realtà, perchè
-//Non avevamo la categoria dentro gli articoli, questa ho pensato che può essere utile per declassare un influencer
-//Se non fa abbastanza articoli in un periodo
-
-//avrà 1000 errori ma aspettavo la insert dell'article per provarla, e le date non so se si trattano così+
-//Influencers who wrotes articles about less than 10 games in a period
-
-// però questa query è un po' diversa in realtà:
-// presi gli articoli pubblicati nell'ultimo mese (ad esempio) conta il numero di volte che un gioco è stato riferito da questi articoli, che potrebbe essere interessante
-// da proporre nella schermata del gioco ma non riporta informazioni sugli autori
-db.users.aggregate( 
-[
-  {$unwind: "$articles"}, 
-  {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
-  {$unwind: "$articles.games"},
-  {$group: {_id:"$articles.games", countGames: {$sum: 1}} },
-  {$match: {countGames: {$lt: 10}}},
-  {$sort: {countGames: 1}}
-  ]
-).pretty();
-
-// (variante) Quante volte un utente ha recensito un gioco, potrebbe essere utile?
-db.users.aggregate( 
-[
-  {$unwind: "$articles"}, 
-  {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
-  {$unwind: "$articles.games"},
-  {$group: {_id: {author: "$articles.author", game: "$articles.games"}, countAuthor: {$sum: 1}} },  ]
-).pretty();
-
-// questa sembra più simile a quello che hai scritto, trova il numero di giochi che un utente ha recensito in un tot periodo
-db.users.aggregate( 
-[
-  {$unwind: "$articles"}, 
-  {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
-  {$unwind: "$articles.games"},
-  {$group: {_id: {author: "$articles.author", game: "$articles.games"}, countAuthor: {$sum: 1}} }, {$group: {_id: "$_id.author", countGames: {$sum: 1}} } ]
-).pretty();
 
 //### Query MongoDB su articles e groups ###
 
@@ -256,23 +156,6 @@ db.users.updateOne(
     {$set : {"articles.$.title" : "Articolo modificato"} }
 )
 
-//4) Distribuzione dei giochi per categoria (pagina delle statistiche sui giochi oppure sulla schermata del gioco)
-
-db.boardgame.aggregate(
-    [ 
-        {$match: {category: {$ne: ''} } }, 
-        {$unwind: "$category"}, 
-        {$group: 
-            {
-                _id: "$category", 
-                totalGames: {$sum: 1 }, 
-                avgRating: {$avg: "$avg_rating"},
-                avgNumVoter: {$avg: "$num_voters"} 
-            } 
-        }, 
-        {$sort: {"totalGames": -1} } 
-    ]
-)
 
 //### GROUPS ### 
 //1) creare un gruppo (lista degli amici)
@@ -284,7 +167,7 @@ db.boardgame.updateOne(
                 "name": "Gruppo su Zombicide",
                 "description":"In questo gruppo si parla di Zombicide",
                 "creation_timestamp": new Date(),
-                "owner": "Leonardo",
+                // "owner": "Leonardo",
                 posts: [] 
             }
         }
@@ -321,39 +204,6 @@ db.boardgame.updateOne(
     } 
 )
 
-//5) Giochi che hanno più gruppi che parlano di loro (statistiche sui giochi oppure suggerimenti su gruppi)
-db.boardgame.aggregate(
-    {$unwind: "$groups"}, 
-    {$group: 
-        {
-            _id: "$name", 
-            totGroups: {$sum: 1}
-        }
-    },
-    {$sort: {totGroups: -1} }
-)
-
-// 6) Distribuzione dei commenti su gruppi per Autore (ad esempio nella pagina del profilo personale oppure per mostrare persona più attiva)
-db.boardgame.aggregate(
-    {$unwind: "$groups"},
-    {$unwind: "$groups.posts"},
-    {$group: {
-        _id: "$groups.posts.author", 
-        totPosts: {$sum: 1}} 
-    }
-)
-
-// 7) Persona che modera più gruppi ( ad esempio nel profilo personale, potrebbe essere interessante vedere di quanti gruppi si è admin per poter proporre admin/moderatori)
-db.boardgame.aggregate(
-    {$unwind: "$groups"},
-    {$group: 
-        {
-            _id: "$groups.owner", 
-            totAdminGroups: {$sum: 1}
-        }
-    }
-)
-
 // FIND QUERIES
 // 1) Trovare i giochi con valutazione superiore a tot ( schermata dei giochi, indice su valutazione?  )
 db.boardgame.find( 
@@ -362,7 +212,7 @@ db.boardgame.find(
 
 // 2) Trovare i giochi in base al tipo (schermata dei giochi, indice sul game_type?)
 db.boardgame.find( 
-    {category: "Math:1104"}
+    { avg_rating: {$lt: 8, $gt: 5}}
 )
 
 // 3) Trovare i 3 giochi con valutazione più alta per tipo (schermata dei giochi)
