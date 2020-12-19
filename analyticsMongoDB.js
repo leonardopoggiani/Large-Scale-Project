@@ -163,3 +163,12 @@ db.boardgame.aggregate(
 )
 
 // -------------
+
+// numero di giocatori per paese
+db.users.aggregate( 
+    {$match: {country: {$ne: null} } }, 
+    {$group: 
+        { _id: "$country", totUsers: {$sum: 1} } 
+    },
+    {$sort: {totUsers: -1}}
+)

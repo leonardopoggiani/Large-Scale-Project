@@ -210,7 +210,7 @@ db.boardgame.find(
     { avg_rating: {$gt: 7} } 
 )
 
-// 2) Trovare i giochi in base al tipo (schermata dei giochi, indice sul game_type?)
+// 2) Trovare i giochi con un range di valutazione
 db.boardgame.find( 
     { avg_rating: {$lt: 8, $gt: 5}}
 )
@@ -224,3 +224,35 @@ db.boardgame.find(
 db.boardgame.find( 
     {category: "Math:1104", avg_rating: {$ne: null}}
 ).sort( {avg_rating: 1} ).limit(3)
+
+// 5) Trovare i giochi in un range di difficoltà
+db.boardgame.find( 
+    { complexity: {$lt: 3, $gt: 2}}
+)
+
+// 6) Giochi con maggior numero di votanti
+db.boardgame.find().sort({num_votes: -1}).limit(3)
+
+// 7) Giochi più recenti
+db.boardgame.find(
+    { year: {$gt: 2019} }
+).sort({year: -1})
+
+// 8) Utenti registrati da più tempo
+db.users.find().sort({registered: 1}).limit(3)
+
+// 9) Utenti di un determinato paese
+db.users.find( {country: "United States"} )
+
+// 10) Lista articoli 
+db.users.aggregate( {$match: {articles: {$ne: null}} }, {$project: {bgg_user_name: 1, articles: 1} } )
+
+// 11) Articoli con il testo
+db.users.aggregate( {$match: {articles: {$ne: null}} }, {$project: {bgg_user_name: 1, "articles.body": 1} } )
+
+// crea index per avg_rating
+db.boardgame.createIndex({avg_rating: 1}, {name: "query per rating"})
+
+db.boardgame.createIndex({year: 1}, {name: "query per year"})
+
+db.boardgame.createIndex({num_votes: 1}, {name: "query per num_votes"})
