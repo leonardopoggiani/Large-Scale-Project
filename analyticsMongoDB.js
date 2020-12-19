@@ -81,6 +81,7 @@ db.users.aggregate(
   ]
 ).pretty();
 
+//SOLO SE SE NE PUÒ FARE PIÙ DI UNA
 // (variante) Quante volte un utente ha recensito un gioco, potrebbe essere utile?
 db.users.aggregate( 
 [

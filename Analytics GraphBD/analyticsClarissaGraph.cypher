@@ -59,3 +59,9 @@ WITH g, count (distinct g) AS countGames
 WHERE countGames <10
 RETURN g.name, countGames
 ORDER BY countGames ASC
+
+//SERVE SOLO SE LE RECENSIONI SE NE PUÒ FARE PIÙ DI UNA
+//Quante volte un utente ha recensito un gioco, potrebbe essere utile?
+MATCH (u:User)-[r:REVIEWED]->(g:Game)
+WHERE u.id="asdfg"AND g.id="14"
+RETURN u.name, count(r) AS countReviewsGame
