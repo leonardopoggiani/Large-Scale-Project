@@ -244,15 +244,35 @@ db.users.find().sort({registered: 1}).limit(3)
 // 9) Utenti di un determinato paese
 db.users.find( {country: "United States"} )
 
-// 10) Lista articoli 
-db.users.aggregate( {$match: {articles: {$ne: null}} }, {$project: {bgg_user_name: 1, articles: 1} } )
+// 10) influencer con articoli
+db.users.find({articles: {$ne: null}}, {bgg_user_name: 1, articles: 1})
 
-// 11) Articoli con il testo
-db.users.aggregate( {$match: {articles: {$ne: null}} }, {$project: {bgg_user_name: 1, "articles.body": 1} } )
+// 11) testo degli articoli
+db.users.find({articles: {$ne: null}}, {"articles.title": 1, "articles.body": 1})
 
-// crea index per avg_rating
+// 12) tutti i giochi 
+db.boardgame.find()
+
+// 13) giochi di una categoria
+db.boardgame.find({category: "Card Game:1002"})
+
+// 14) tutti gli Utenti
+db.users.find()
+
+// 15) Tutti i giochi con età minima sopra a tot
+db.boardgame.find({min_age: {$gt: 10}})
+
+// crea index 
 db.boardgame.createIndex({avg_rating: 1}, {name: "query per rating"})
 
 db.boardgame.createIndex({year: 1}, {name: "query per year"})
 
 db.boardgame.createIndex({num_votes: 1}, {name: "query per num_votes"})
+
+
+// meglio farlo con le find così possiamo vedere statistiche
+// Lista articoli 
+db.users.aggregate( {$match: {articles: {$ne: null}} }, {$project: {bgg_user_name: 1, articles: 1} } )
+
+// Articoli con il testo
+db.users.aggregate( {$match: {articles: {$ne: null}} }, {$project: {bgg_user_name: 1, "articles.body": 1} } )
