@@ -65,3 +65,10 @@ ORDER BY countGames ASC
 MATCH (u:User)-[r:REVIEWED]->(g:Game)
 WHERE u.id="asdfg"AND g.id="14"
 RETURN u.name, count(r) AS countReviewsGame
+
+//Mostra tutti gli articoli, ordinati per data, che riguardano almeno un gioco con la stessa categoria dei giochi dell'articolo in questione
+MATCH (aq:Article)-[rq:REFERRED]->(gq:Game),(a:Article)-[r:REFERRED]->(g:Game), (a)<-[p:PUBLISHED]-(u:User)
+WHERE aq.id=2 AND ((g.category_1 = gq.category_1 OR g.category_1 = gq.category_2)
+OR (g.category_2 = gq.category_1 OR g.category_2 = gq.category_2))
+RETURN a.name, p.timestamp, u.name
+ORDER BY p.timestamp
