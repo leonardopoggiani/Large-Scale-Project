@@ -52,12 +52,12 @@ ORDER BY countGames ASC
 
 //Influencers who wrotes articles about less than 10 games in a period, ordered
 MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)
-WHERE u.role="influencer" //Non servirebbe 
+WHERE u.role="influencer" 
 AND p.timestamp >= datetime({year:2020, month:1, day:1})
 AND p.timestamp <= datetime({year:2020, month:12, day: 31})
-WITH g, count (distinct g) AS countGames
+WITH u, count (distinct g) AS countGames
 WHERE countGames <10
-RETURN g.name, countGames
+RETURN u.name, countGames
 ORDER BY countGames ASC
 
 //SERVE SOLO SE LE RECENSIONI SE NE PUÒ FARE PIÙ DI UNA
@@ -66,7 +66,8 @@ MATCH (u:User)-[r:REVIEWED]->(g:Game)
 WHERE u.id="asdfg"AND g.id="14"
 RETURN u.name, count(r) AS countReviewsGame
 
-//Mostra tutti gli articoli, ordinati per data, che riguardano almeno un gioco con la stessa categoria dei giochi dell'articolo in questione
+//Mostra tutti gli articoli, ordinati per data, che riguardano almeno 
+// un gioco con la stessa categoria dei giochi dell'articolo in questione
 MATCH (aq:Article)-[rq:REFERRED]->(gq:Game),(a:Article)-[r:REFERRED]->(g:Game), (a)<-[p:PUBLISHED]-(u:User)
 WHERE aq.id=2 AND ((g.category_1 = gq.category_1 OR g.category_1 = gq.category_2)
 OR (g.category_2 = gq.category_1 OR g.category_2 = gq.category_2))
