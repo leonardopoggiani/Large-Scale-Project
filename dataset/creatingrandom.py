@@ -16,6 +16,7 @@ df_utenti = pd.read_csv("users.csv",index_col = "_id")
 df_categorie_1 = []
 df_categorie_2 = []
 df_eta = []
+df_role = []
 
 categorie_trovate = ["Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
                      "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
@@ -47,6 +48,7 @@ for row in df_utenti.iterrows():
   df_categorie_1.append(categorie_trovate[int(index_1)])
   df_categorie_2.append(categorie_trovate[int(index_2)])
   df_eta.append(int(eta))
+  df_role.append("normalUser")
   
 df_utenti["Eta"] = df_eta
 df_utenti["Categoria1"] = df_categorie_1
