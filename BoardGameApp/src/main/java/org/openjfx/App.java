@@ -5,6 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.logging.*;
+
+import org.openjfx.View.*;
 
 import java.io.IOException;
 
@@ -14,15 +17,17 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    Logger logger =  Logger.getLogger(this.getClass().getName());
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"));
+        logger.info("Applicazione partita");
+        scene = new Scene(loadFXML("login"));
         stage.setScene(scene);
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
