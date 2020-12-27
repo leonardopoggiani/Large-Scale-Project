@@ -1,4 +1,4 @@
-package org.openjfx.MongoDBManager;
+/*package org.openjfx.DBManager.MongoDBManager;
 
 
 import com.mongodb.client.*;
@@ -21,4 +21,4 @@ public class MongoDBManager {
     public static void close(){
         mongoClient.close();
     }
-}
+}*/

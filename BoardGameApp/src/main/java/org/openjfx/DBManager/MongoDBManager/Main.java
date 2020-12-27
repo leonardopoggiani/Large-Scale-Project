@@ -1,6 +1,4 @@
-package org.openjfx.MongoDBManager;
-
-import org.openjfx.MongoDBManager.MongoDBManager;
+/*package org.openjfx.DBManager.MongoDBManager;
 
 public class Main {
     public static void main (String[] args){
@@ -9,4 +7,4 @@ public class Main {
         MongoDBManager.close();
 
     }
-}
+}*/

@@ -9,10 +9,7 @@ import static org.neo4j.driver.Values.parameters;
 public class SignUpDBManager extends Neo4jDBManager {
 
 
-     /** Funzione che permette la registrazione di un utente nuovo tramite l'utilizzo della funzione
-     * createUtenteNode
 
-     */
 
     public static void registerUser(User u) {
         try (Session session = driver.session()) {
