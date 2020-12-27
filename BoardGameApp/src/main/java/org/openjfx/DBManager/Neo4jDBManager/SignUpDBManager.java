@@ -1,4 +1,4 @@
-package org.openjfx.DBManager;
+package org.openjfx.DBManager.Neo4jDBManager;
 
 import org.neo4j.driver.Session;
 import org.neo4j.driver.TransactionWork;

@@ -1,4 +1,4 @@
-package org.openjfx.DBManager;
+package org.openjfx.DBManager.Neo4jDBManager;
 
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
@@ -13,6 +13,7 @@ public class Neo4jDBManager  {
 
     public static void InitializeDriver()
     {
+
         driver=GraphDatabase.driver(uri, AuthTokens.basic(user,password));
     }
 
