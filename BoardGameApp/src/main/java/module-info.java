@@ -7,6 +7,8 @@ module org.openjfx {
     requires org.kordamp.ikonli.fontawesome;
     requires com.gluonhq.charm.glisten;
     requires com.gluonhq.attach.display;
+    requires org.neo4j.driver;
+    requires java.naming;
 
     opens org.openjfx.View to javafx.fxml;
     opens org.openjfx to javafx.fxml;
