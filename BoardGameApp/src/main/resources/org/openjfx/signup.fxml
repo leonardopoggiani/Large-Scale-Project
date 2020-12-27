@@ -10,10 +10,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="462.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.RegisterResult">
+<AnchorPane prefHeight="462.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.signup">
    <children>
       <Text layoutX="287.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Signup" />
-      <Button layoutX="275.0" layoutY="347.0" mnemonicParsing="false" onMouseClicked="#registerResult" text="Register" />
+      <Button layoutX="275.0" layoutY="347.0" mnemonicParsing="false" onMouseClicked="#registerUser" text="Register" />
       <HBox layoutX="201.0" layoutY="101.0" />
       <HBox layoutX="206.0" layoutY="127.0" />
       <TextField layoutX="261.0" layoutY="166.0" />

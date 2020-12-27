@@ -5,7 +5,12 @@ import org.openjfx.App;
 
 import java.io.IOException;
 
-public class signupController {
+public class registerResult {
+
+    @FXML
+    void registerResult() throws IOException {
+        App.setRoot("registerResult");
+    }
 
     @FXML
     void goToLogin() throws IOException {

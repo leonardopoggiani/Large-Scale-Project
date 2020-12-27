@@ -6,7 +6,7 @@ import org.openjfx.App;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class loginController {
+public class login {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
 

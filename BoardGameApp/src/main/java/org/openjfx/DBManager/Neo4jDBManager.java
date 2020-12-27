@@ -4,7 +4,6 @@ import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
 
-
 public class Neo4jDBManager  {
     protected static Driver driver;
     protected static String uri="bolt://localhost:7687";
@@ -21,7 +20,7 @@ public class Neo4jDBManager  {
         driver.close();
     }
 
-    }
+}
 
 
 
