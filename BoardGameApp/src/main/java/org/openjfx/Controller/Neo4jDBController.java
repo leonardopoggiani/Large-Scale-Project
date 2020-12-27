@@ -1,7 +1,7 @@
 package org.openjfx.Controller;
 
-import static org.openjfx.DBManager.Neo4jDBManager.InitializeDriver;
-import static org.openjfx.DBManager.SignUpDBManager.registerUser;
+import static org.openjfx.DBManager.Neo4jDBManager.Neo4jDBManager.InitializeDriver;
+import static org.openjfx.DBManager.Neo4jDBManager.SignUpDBManager.registerUser;
 
 public class Neo4jDBController {
 
