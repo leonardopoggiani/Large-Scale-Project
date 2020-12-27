@@ -4,10 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.util.logging.*;
-
-import org.openjfx.View.*;
 
 import java.io.IOException;
 
@@ -24,6 +23,7 @@ public class App extends Application {
         logger.info("Applicazione partita");
         scene = new Scene(loadFXML("login"));
         stage.setScene(scene);
+        stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
         stage.show();
     }
 
