@@ -5,7 +5,7 @@ import org.openjfx.App;
 
 import java.io.IOException;
 
-public class homePage {
+public class users {
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -31,4 +31,5 @@ public class homePage {
     void goToSettings() throws IOException {
         App.setRoot("profileSettings");
     }
+
 }

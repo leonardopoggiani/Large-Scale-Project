@@ -5,7 +5,7 @@ import org.openjfx.App;
 
 import java.io.IOException;
 
-public class homePage {
+public class groups {
 
     @FXML
     void returnToHomepage() throws IOException {
