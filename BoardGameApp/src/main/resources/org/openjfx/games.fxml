@@ -18,7 +18,7 @@
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
-            <Button layoutX="42.0" layoutY="91.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
+            <Button layoutX="42.0" layoutY="91.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
             <Avatar layoutX="87.0" layoutY="24.0" />
             <Line endX="100.0" layoutX="105.0" layoutY="144.0" startX="-100.0" />
             <Text layoutX="49.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
@@ -39,7 +39,7 @@
             <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
             <BottomNavigation layoutX="51.0" layoutY="6.0">
                <actionItems>
-                  <BottomNavigationButton selected="true" text="Home">
+                  <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
                      <graphic>
                         <Icon content="EMPTY" onMouseClicked="#returnToHomepage" />
                      </graphic>
@@ -54,7 +54,7 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToFriends" text="Friends">
+                  <BottomNavigationButton onMouseClicked="#goToFriends" text="Users">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>
