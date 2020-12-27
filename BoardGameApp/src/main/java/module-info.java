@@ -9,8 +9,14 @@ module org.openjfx {
     requires com.gluonhq.attach.display;
     requires org.neo4j.driver;
     requires java.naming;
+    requires org.mongodb.driver.sync.client;
+    requires mongo.java.driver;
+
 
     opens org.openjfx.View to javafx.fxml;
-    opens org.openjfx to javafx.fxml;
+    opens org.openjfx to javafx.fxml; 
+    opens org.mongodb.driver.sync.client;
+
+
     exports org.openjfx;
 }
