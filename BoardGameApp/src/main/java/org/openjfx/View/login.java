@@ -14,6 +14,7 @@ public class login {
     Logger logger =  Logger.getLogger(this.getClass().getName());
     private static String loggedUser;
     LoginSignUpDBController neo = new LoginSignUpDBController();
+    private static int logged = -1;
 
     @FXML
     boolean validateLogin() throws IOException {
@@ -26,7 +27,9 @@ public class login {
         if(username != null && password != null ){
             // controllo username, se controllo va male check = false
             loggedUser = username;
-            neo.neo4jLoginUserController(username,password);
+            boolean ret = neo.neo4jLoginUserController(username,password);
+
+            if(ret) logged = 1;
         } else {
             return false;
         }
@@ -52,4 +55,7 @@ public class login {
     public static String getLoggedUser(){
         return loggedUser;
     }
+
+    public static int getLogged() { return logged ; }
+    public static void logout() { logged = -1; }
 }

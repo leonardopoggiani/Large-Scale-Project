@@ -33,18 +33,23 @@ public class LoginSignUpDBController {
 
     }
 
-    public void neo4jLoginUserController(String username, String password) {
+    public boolean neo4jLoginUserController(String username, String password) {
 
         // varie cose che aggiustano la roba
         String roleLogin;
         roleLogin = LoginSignUpDBManager.loginUser(username, password);
+        boolean logOk = false;
 
         if(roleLogin != "NA")
         {
             System.err.println("Login effettuato con successo! Role: " + roleLogin);
+            logOk = true;
         }
-        else
+        else {
             System.out.println("Pass o username non corretti! Role: " + roleLogin);
+        }
+
+        return logOk;
     }
 
 }

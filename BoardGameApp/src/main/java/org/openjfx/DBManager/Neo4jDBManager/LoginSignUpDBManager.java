@@ -14,7 +14,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      public static int registerUser(final String username, final String password, final String category1, final String category2, final int age, final String role)
      {
 
-         try(Session session=driver.session())
+         try(Session session = driver.session())
          {
              return session.writeTransaction(new TransactionWork<Integer>()
                  {
@@ -31,7 +31,6 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      }
 
    /**
-
      * @return 0 se non esiste un utente con la stesso username l'operazione andra' a
      * buon fine.
      * @return  1 se esiste un utente con lo stesso username passato come parametro
@@ -39,7 +38,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      */
     private static int createUserNode(Transaction tx,String username, String password, String category1,String category2, int age, String role)
     {
-        HashMap<String,Object> parameters =new HashMap<>();
+        HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username",username);
         parameters.put("password",password);
         parameters.put("category1",category1);
