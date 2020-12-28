@@ -34,6 +34,4 @@ public class MongoDBManager {
         mongoClient.close();
     }
 
-
-
 }
