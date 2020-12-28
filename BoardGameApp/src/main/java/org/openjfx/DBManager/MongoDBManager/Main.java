@@ -1,5 +1,3 @@
-package org.openjfx.MongoDBManager;
-
 package org.openjfx.DBManager.MongoDBManager;
 
 public class Main {

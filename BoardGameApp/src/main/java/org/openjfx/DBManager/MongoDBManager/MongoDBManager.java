@@ -1,4 +1,4 @@
-/*package org.openjfx.DBManager.MongoDBManager;
+package org.openjfx.DBManager.MongoDBManager;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
@@ -25,4 +25,4 @@ public class MongoDBManager {
     public static void close(){
         mongoClient.close();
     }
-}*/
+}
