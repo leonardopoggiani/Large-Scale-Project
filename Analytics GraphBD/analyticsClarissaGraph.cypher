@@ -73,3 +73,12 @@ WHERE aq.id=2 AND ((g.category_1 = gq.category_1 OR g.category_1 = gq.category_2
 OR (g.category_2 = gq.category_1 OR g.category_2 = gq.category_2))
 RETURN a.name, p.timestamp, u.name
 ORDER BY p.timestamp
+
+
+//Mostra tutti gli articoli, ordinati per data, che riguardano almeno 
+// un gioco con la stessa categoria dei giochi dell'articolo in questione
+MATCH (i:User)-[p:PUBBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)
+WHERE u.username="Gaia4" AND ((g.category1 = u.category1 OR g.category1 = u.category2)
+OR (g.category2 = u.category1 OR g.category2 = u.category2))
+RETURN a.name, u.username, p.timestamp
+ORDER BY p.timestamp

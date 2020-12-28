@@ -51,7 +51,7 @@
       <TextField fx:id="password" layoutX="340.0" layoutY="93.0" />
       <TextField fx:id="age" layoutX="340.0" layoutY="134.0" />
       <Button layoutX="360.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#modifyUserSettings" text="Modify profile" />
-      <ComboBox fx:id="favouritecategory1" layoutX="341.0" layoutY="170.0" prefWidth="150.0" promptText="Categories" />
-      <ComboBox fx:id="favouritecategory1" layoutX="341.0" layoutY="204.0" prefWidth="150.0" promptText="Categories" />
+      <ComboBox fx:id="favouritecategory1" layoutX="341.0" layoutY="170.0" onMouseClicked="#caricaCategorie" prefWidth="150.0" promptText="Categories" />
+      <ComboBox fx:id="favouritecategory2" layoutX="341.0" layoutY="204.0" onMouseClicked="#caricaCategorie" prefWidth="150.0" promptText="Categories" />
    </children>
 </Pane>

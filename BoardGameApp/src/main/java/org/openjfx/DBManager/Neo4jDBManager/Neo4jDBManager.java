@@ -6,11 +6,11 @@ import org.neo4j.driver.GraphDatabase;
 
 public class Neo4jDBManager  {
     protected static Driver driver;
-    protected static String uri= "bolt://localhost:11003";
-    // protected static String uri="bolt://localhost:7687";
+    //protected static String uri= "bolt://localhost:11003";
+    protected static String uri="bolt://localhost:7687";
     protected static String user="neo4j";
-    protected static String password="Caparezza123";
-    // protected static String password="root";
+    //protected static String password="Caparezza123";
+    protected static String password="root";
 
     public static void InitializeDriver()
     {
@@ -23,17 +23,5 @@ public class Neo4jDBManager  {
     }
 
 }
-
-
-
-    /*protected static boolean UtentePresente(Transaction tx,String email)
-    {
-        HashMap<String,Object> parameters =new HashMap<>();
-        parameters.put("email",email);
-        StatementResult result=tx.run("MATCH(a:Utente) WHERE a.email=$email RETURN a",parameters);
-        if(result.hasNext())
-            return true;
-        return false;
-    }*/
 
 
