@@ -66,10 +66,8 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
 
     public static int loginUser(final String username,final String password)
     {
-
         try(Session session=driver.session())
         {
-
             return session.readTransaction(new TransactionWork<Integer>()
             {
                 @Override

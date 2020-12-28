@@ -8,8 +8,8 @@ public class Neo4jDBManager  {
     protected static Driver driver;
     protected static String uri="bolt://localhost:11003";
     protected static String user="neo4j";
-    // protected static String password="Caparezza123";
-    protected static String password="root";
+    protected static String password="Caparezza123";
+    // protected static String password="root";
 
     public static void InitializeDriver()
     {
