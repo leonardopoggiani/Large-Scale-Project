@@ -9,6 +9,7 @@ module org.openjfx {
     requires org.mongodb.driver.core;
     requires org.mongodb.bson;
     requires org.mongodb.driver.sync.client;
+    requires jdk.net;
 
     opens org.openjfx.View to javafx.fxml;
     opens org.openjfx to javafx.fxml;
