@@ -1,2 +1,2 @@
 //ADD :PUBLISHED RELATIONS
-match (p:User{name:"Antonio Di Noia"}),(a:Article{id:1}) create (p)-[:PUBLISHED{timestamp:datetime()}]->(a)
+match (u:User{username:"Gaia4"}) create (u)-[:PUBLISHED{timestamp:datetime()}]->(a:Article{name: "Articolo Bello")
