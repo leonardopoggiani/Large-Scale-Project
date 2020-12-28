@@ -47,7 +47,7 @@ public class Article {
         return "Article{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", timestamp='" + timestamp + '\'' +
+                ", timestamp=" + timestamp +
                 '}';
     }
 

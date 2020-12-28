@@ -42,11 +42,11 @@ public class LoginSignUpDBController {
 
         if(roleLogin != "NA")
         {
-            System.err.println("Login effettuato con successo! Role: " + roleLogin);
+            System.out.println("Login effettuato con successo! Role: " + roleLogin);
             logOk = true;
         }
         else {
-            System.out.println("Pass o username non corretti! Role: " + roleLogin);
+            System.err.println("Pass o username non corretti! Role: " + roleLogin);
         }
 
         return logOk;
