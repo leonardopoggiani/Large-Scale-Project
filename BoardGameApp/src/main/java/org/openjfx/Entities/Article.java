@@ -1,17 +1,18 @@
 package org.openjfx.Entities;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Article {
     String title;
     String author;
-    String timestamp;
+    Timestamp timestamp;
 
     public Article() {
     }
 
 
-    public Article( String title, String author, String timestamp) {
+    public Article( String title, String author, Timestamp timestamp) {
         this.title = title;
         this.author = author;
         this.timestamp = timestamp;
@@ -26,7 +27,7 @@ public class Article {
         return title;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
@@ -38,7 +39,7 @@ public class Article {
         this.title = title;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

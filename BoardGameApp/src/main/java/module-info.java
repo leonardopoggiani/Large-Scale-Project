@@ -10,6 +10,8 @@ module org.openjfx {
     requires org.mongodb.bson;
     requires org.mongodb.driver.sync.client;
     requires jdk.net;
+    requires com.google.common;
+    requires java.sql;
 
     opens org.openjfx.View to javafx.fxml;
     opens org.openjfx to javafx.fxml;
