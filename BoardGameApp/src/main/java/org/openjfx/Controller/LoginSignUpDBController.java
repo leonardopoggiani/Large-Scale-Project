@@ -8,6 +8,10 @@ public class LoginSignUpDBController {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
+    public LoginSignUpDBController() {
+        LoginSignUpDBManager.InitializeDriver();
+    }
+
     public void neo4jRegisterUserController(User user) {
 
         // varie cose che aggiustano la roba

@@ -14,7 +14,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      public static int registerUser(String username, String password, String category1, String category2, int age, String role)
      {
 
-         try(Session session=driver.session())
+         try(Session session = driver.session())
          {
              return session.writeTransaction(new TransactionWork<Integer>()
                  {
