@@ -30,15 +30,15 @@ public class LoginSignUpDBController {
     public void neo4jLoginUserController(String username, String password) {
 
         // varie cose che aggiustano la roba
-        int login;
-        login = LoginSignUpDBManager.loginUser(username, password);
+        String roleLogin;
+        roleLogin = LoginSignUpDBManager.loginUser(username, password);
 
-        if(login == 1)
+        if(roleLogin != "NA")
         {
-            System.err.println("Login effettuato con successo!");
+            System.err.println("Login effettuato con successo! Role: " + roleLogin);
         }
         else
-            System.out.println("Pass o username non corretti!");
+            System.out.println("Pass o username non corretti! Role: " + roleLogin);
     }
 
 }

@@ -1,14 +1,15 @@
 package org.openjfx.Entities;
 
 public class User {
-    private String name;
-    private String surname;
+
     private String username;
     private String password;
     private String category1;
     private String category2;
     private int age;
     private String role;
+    private String name;
+    private String surname;
     //Da concludere per mongoDB
 
     public User() {
@@ -20,6 +21,7 @@ public class User {
         this.category2 = category2;
         this.age = age;
         this.role = role;
+        this.password = password;
     }
 
     //Da concluedere per mongoDB

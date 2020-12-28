@@ -1,11 +1,11 @@
 package org.openjfx.DBManager.Neo4jDBManager;
 
-import org.neo4j.driver.Result;
-import org.neo4j.driver.Session;
-import org.neo4j.driver.Transaction;
-import org.neo4j.driver.TransactionWork;
+import org.neo4j.driver.Record;
+import org.neo4j.driver.*;
+import org.neo4j.driver.util.Pair;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class LoginSignUpDBManager extends Neo4jDBManager {
 
@@ -64,17 +64,18 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
     }
 
 
-    public static int loginUser(final String username,final String password)
+    public static String loginUser(final String username,final String password)
     {
 
         try(Session session=driver.session())
         {
 
-            return session.readTransaction(new TransactionWork<Integer>()
+            return session.readTransaction(new TransactionWork<String>()
             {
                 @Override
-                public Integer execute(Transaction tx)
+                public String execute(Transaction tx)
                 {
+
                     return matchUser(tx,username,password);
                 }
             });
@@ -92,18 +93,37 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      * @return 1 se non esiste nessun utente che abbia username e password dati da
      * parametro
      */
-    private static int matchUser(Transaction tx,String username,String password) {
+    private static String matchUser(Transaction tx,String username,String password) {
         HashMap<String, Object> parameters = new HashMap<>();
+        String role = "NA";
         parameters.put("username", username);
         parameters.put("password", password);
         Result result = tx.run("MATCH(u:User) WHERE u.username=$username AND u.password = $password RETURN u", parameters);
-        if (!result.hasNext())
-            return 1;
-        return 0;
+        role = getRole(result);
+
+        return role;
 
     }
 
+    private static String getRole(Result result) {
+        String role = "NA";
+        while (result.hasNext()) {
+            Record record = result.next();
+            List<Pair<String, Value>> values = record.fields();
+            for (Pair<String, Value> nameValue : values) {
+                if ("u".equals(nameValue.key())) {
+                    Value value = nameValue.value();
+                    if (value.isNull()) {
+                        System.err.println("Boh errore in value!");
+                    }
+                    else
+                        role = value.get("role", role);
 
+                }
+            }
+        }
+        return role;
+    }
 
 }
 
