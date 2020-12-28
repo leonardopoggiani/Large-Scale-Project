@@ -31,4 +31,10 @@ public class homePage {
     void goToSettings() throws IOException {
         App.setRoot("profileSettings");
     }
+
+    @FXML
+    void logout() throws IOException {
+        App.setRoot("login");
+        login.logout();
+    }
 }

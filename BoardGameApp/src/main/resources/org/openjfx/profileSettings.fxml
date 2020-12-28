@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -45,12 +46,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Text>
-      <TextField layoutX="333.0" layoutY="31.0" />
-      <TextField layoutX="340.0" layoutY="59.0" />
-      <TextField layoutX="340.0" layoutY="93.0" />
-      <TextField layoutX="340.0" layoutY="134.0" />
-      <TextField layoutX="340.0" layoutY="169.0" />
-      <TextField layoutX="340.0" layoutY="205.0" />
-      <Button layoutX="360.0" layoutY="250.0" mnemonicParsing="false" text="Modify profile" />
+      <TextField fx:id="name" layoutX="333.0" layoutY="31.0" />
+      <TextField fx:id="surname" layoutX="340.0" layoutY="59.0" />
+      <TextField fx:id="password" layoutX="340.0" layoutY="93.0" />
+      <TextField fx:id="age" layoutX="340.0" layoutY="134.0" />
+      <Button layoutX="360.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#modifyUserSettings" text="Modify profile" />
+      <ComboBox fx:id="favouritecategory1" layoutX="341.0" layoutY="170.0" onMouseClicked="#caricaCategorie" prefWidth="150.0" promptText="Categories" />
+      <ComboBox fx:id="favouritecategory2" layoutX="341.0" layoutY="204.0" onMouseClicked="#caricaCategorie" prefWidth="150.0" promptText="Categories" />
    </children>
 </Pane>

@@ -1,16 +1,18 @@
 package org.openjfx.DBManager.Neo4jDBManager;
 
-import org.openjfx.Controller.Neo4jDBController;
+import org.openjfx.Controller.LoginSignUpDBController;
 import org.openjfx.Entities.User;
 
 public class Main {
 
     public static void main( String[] args ) throws Exception {
         Neo4jDBManager.InitializeDriver();
-        Neo4jDBController cont = new Neo4jDBController();
-        User user = new User("Leonardo", "ciao", "Strategic", "Cards Game", 28, "normalUser" );
+        LoginSignUpDBController cont = new LoginSignUpDBController();
+        User user = new User("Gaia4", "ciaociao", "Strategic", "Cards Game", 28, "normalUser" );
 
-        cont.registerUserController(user);
+        cont.neo4jRegisterUserController(user);
+        System.out.println("---------------------------");
+        cont.neo4jLoginUserController("Gaia4", "ciaociao");
         System.out.println("---------------------------");
 
     }

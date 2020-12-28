@@ -5,8 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class User {
-    private String name;
-    private String surname;
+
     private String username;
     private String password;
     private String category1;
@@ -18,6 +17,8 @@ public class User {
     private Date lastLogin;
     private Date updated;
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private String name;
+    private String surname;
     //Da concludere per mongoDB
 
     public User() {
@@ -42,6 +43,7 @@ public class User {
         this.category2 = category2;
         this.age = age;
         this.role = role;
+        this.password = password;
     }
 
     //Da concluedere per mongoDB
