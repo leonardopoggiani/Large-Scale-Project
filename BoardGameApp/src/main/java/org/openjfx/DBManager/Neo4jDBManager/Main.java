@@ -12,6 +12,8 @@ public class Main {
 
         cont.neo4jRegisterUserController(user);
         System.out.println("---------------------------");
+        cont.neo4jLoginUserController("Leonardo", "ciao");
+        System.out.println("---------------------------");
 
     }
 }
