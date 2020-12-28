@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.openjfx.App;
 import org.openjfx.Controller.LoginSignUpDBController;
+import org.openjfx.Entities.User;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -103,9 +104,9 @@ public class signup {
             return;
         }
 
-        logger.info("Registrazione di " + username + ", con password: " + password);
-        // User u = new User(username);
-        // neo.registerUserController(u);
+        logger.info("Registrazione di " + username);
+        User u = new User(username,password,categoria1,categoria2,age,"normalUser");
+        neo.neo4jRegisterUserController(u);
         logger.info("Registrazione completata");
         goToLogin();
     }

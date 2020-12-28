@@ -61,7 +61,7 @@ public class SignUpDBManager extends Neo4jDBManager {
 
     protected static boolean UserPresent(Transaction tx,String username)
     {
-        HashMap<String,Object> parameters =new HashMap<>();
+        HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username",username);
         Result result=tx.run("MATCH(u:User) WHERE u.username=$username RETURN u",parameters);
         if(result.hasNext())

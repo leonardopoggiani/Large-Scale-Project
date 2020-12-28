@@ -2,11 +2,13 @@ package org.openjfx.Controller;
 import org.openjfx.DBManager.Neo4jDBManager.SignUpDBManager;
 import org.openjfx.Entities.User;
 
+import java.util.logging.Logger;
+
 public class LoginSignUpDBController {
 
+    Logger logger =  Logger.getLogger(this.getClass().getName());
+
     public void neo4jRegisterUserController(User user) {
-
-
 
         // varie cose che aggiustano la roba
         String username = user.getUsername();
@@ -17,7 +19,9 @@ public class LoginSignUpDBController {
         String role = user.getRole();
         SignUpDBManager.registerUser(username, password, category1, category2, age, role);
 
-        System.out.println("Creazione utente!");
+       logger.info("Utente registrato");
     }
+
+
 
 }
