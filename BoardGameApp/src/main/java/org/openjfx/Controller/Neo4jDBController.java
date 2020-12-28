@@ -7,6 +7,8 @@ public class Neo4jDBController {
 
     public void registerUserController(User user) {
 
+        // varie cose che aggiustano la roba
+
         SignUpDBManager.registerUser(user);
 
         System.out.println("Creazione utente!");

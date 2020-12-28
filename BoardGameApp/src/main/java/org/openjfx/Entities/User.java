@@ -1,7 +1,6 @@
 package org.openjfx.Entities;
 
 public class User {
-    private String _id;
     private String name;
     private String surname;
     private String username;
@@ -15,7 +14,6 @@ public class User {
     }
 
     public User( String username, String category1, String category2, int age, String role) {
-        //this._id = _id;
         this.username = username;
         this.category1 = category1;
         this.category2 = category2;
@@ -24,17 +22,13 @@ public class User {
     }
 
     //Da concluedere per mongoDB
-    public User(String _id, String name, String surname, String username, String category1, String category2,  int age, String role) {
-        this._id = _id;
+    public User(String name, String surname, String username, String category1, String category2,  int age, String role) {
+
         this.username = username;
         this.category1 = category1;
         this.category2 = category2;
         this.age = age;
         this.role = role;
-    }
-
-    public String get_id() {
-        return _id;
     }
 
     public String getUsername() {

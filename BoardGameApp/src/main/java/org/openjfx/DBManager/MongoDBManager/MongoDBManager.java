@@ -20,6 +20,7 @@ public class MongoDBManager {
         //String url = "mongodb://localhost:27017";
         mongoClient = MongoClients.create(url);
         database = mongoClient.getDatabase("Project");
+
     }
 
     public static void close(){
