@@ -1,11 +1,12 @@
 package org.openjfx.Controller;
-
 import org.openjfx.DBManager.Neo4jDBManager.SignUpDBManager;
 import org.openjfx.Entities.User;
 
-public class Neo4jDBController {
+public class LoginSignUpDBController {
 
-    public void registerUserController(User user) {
+    public void neo4jRegisterUserController(User user) {
+
+
 
         // varie cose che aggiustano la roba
         String username = user.getUsername();

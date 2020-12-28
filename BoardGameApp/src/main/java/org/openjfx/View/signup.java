@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.openjfx.App;
-import org.openjfx.Controller.Neo4jDBController;
+import org.openjfx.Controller.LoginSignUpDBController;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class signup {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
-    Neo4jDBController neo = new Neo4jDBController();
+    LoginSignUpDBController neo = new LoginSignUpDBController();
     // le categorie dei due menù dropdown
     ObservableList<String> categorie = FXCollections.observableArrayList("Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
