@@ -11,7 +11,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
 
 
 
-     public static int registerUser(String username, String password, String category1, String category2, int age, String role)
+     public static int registerUser(final String username, final String password, final String category1, final String category2, final int age, final String role)
      {
 
          try(Session session = driver.session())
@@ -62,6 +62,48 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
             return true;
         return false;
     }
+
+
+    public static int loginUser(final String username,final String password)
+    {
+
+        try(Session session=driver.session())
+        {
+
+            return session.readTransaction(new TransactionWork<Integer>()
+            {
+                @Override
+                public Integer execute(Transaction tx)
+                {
+                    return matchUser(tx,username,password);
+                }
+            });
+
+        }
+
+    }
+    /**
+     *
+     * @param tx
+     * @param username
+     * @param password
+     * @return 0 se viene trovato un utente che ha  password e  username passati
+     * a parametro alla funzione
+     * @return 1 se non esiste nessun utente che abbia username e password dati da
+     * parametro
+     */
+    private static int matchUser(Transaction tx,String username,String password) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("username", username);
+        parameters.put("password", password);
+        Result result = tx.run("MATCH(u:User) WHERE u.username=$username AND u.password = $password RETURN u", parameters);
+        if (!result.hasNext())
+            return 1;
+        return 0;
+
+    }
+
+
 
 }
 

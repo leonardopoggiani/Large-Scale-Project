@@ -33,6 +33,18 @@ public class LoginSignUpDBController {
 
     }
 
+    public void neo4jLoginUserController(String username, String password) {
 
+        // varie cose che aggiustano la roba
+        int login;
+        login = LoginSignUpDBManager.loginUser(username, password);
+
+        if(login == 1)
+        {
+            System.err.println("Login effettuato con successo!");
+        }
+        else
+            System.out.println("Pass o username non corretti!");
+    }
 
 }
