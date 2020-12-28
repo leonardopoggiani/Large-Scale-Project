@@ -5,9 +5,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.loginResult">
+<VBox alignment="CENTER" onMouseMoved="#setUsername" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.loginResult">
     <children>
-        <Label text="Login result" />
+        <Label text="Login correctly done! " />
+      <Label fx:id="loggedUser" />
         <Button fx:id="secondaryButton" onAction="#goToHomepage" text="Go to your homepage" />
     </children>
     <padding>

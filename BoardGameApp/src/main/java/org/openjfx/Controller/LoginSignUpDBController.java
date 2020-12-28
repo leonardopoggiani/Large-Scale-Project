@@ -2,11 +2,17 @@ package org.openjfx.Controller;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.Entities.User;
 
+import java.util.logging.Logger;
+
 public class LoginSignUpDBController {
 
+    Logger logger =  Logger.getLogger(this.getClass().getName());
+
+    public LoginSignUpDBController() {
+        LoginSignUpDBManager.InitializeDriver();
+    }
+
     public void neo4jRegisterUserController(User user) {
-
-
 
         // varie cose che aggiustano la roba
         int registration;
@@ -24,8 +30,8 @@ public class LoginSignUpDBController {
         }
         else
             System.out.println("Utente creato!");
-    }
 
+    }
 
     public void neo4jLoginUserController(String username, String password) {
 
