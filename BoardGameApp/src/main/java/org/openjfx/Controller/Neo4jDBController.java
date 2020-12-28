@@ -1,16 +1,15 @@
 package org.openjfx.Controller;
 
-import static org.openjfx.DBManager.Neo4jDBManager.Neo4jDBManager.InitializeDriver;
-import static org.openjfx.DBManager.Neo4jDBManager.SignUpDBManager.registerUser;
+import org.openjfx.DBManager.Neo4jDBManager.SignUpDBManager;
+import org.openjfx.Entities.User;
 
 public class Neo4jDBController {
 
-    public Neo4jDBController(){
-        InitializeDriver();
-    }
+    public void registerUserController(User user) {
 
-    public void registerNewUser(){
-        registerUser("Clarissa", "Cards Game", "Strategic", 28, "normalUser");
+        SignUpDBManager.registerUser(user);
+
+        System.out.println("Creazione utente!");
     }
 
 }
