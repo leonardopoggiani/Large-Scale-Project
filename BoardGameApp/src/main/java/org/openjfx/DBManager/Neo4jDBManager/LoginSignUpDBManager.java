@@ -7,12 +7,9 @@ import org.neo4j.driver.TransactionWork;
 
 import java.util.HashMap;
 
-public class SignUpDBManager extends Neo4jDBManager {
+public class LoginSignUpDBManager extends Neo4jDBManager {
 
-     /** Funzione che permette la registrazione di un utente nuovo tramite l'utilizzo della funzione
-     * createUtenteNode
 
-     */
 
      public static int registerUser(String username, String password, String category1, String category2, int age, String role)
      {
@@ -33,14 +30,11 @@ public class SignUpDBManager extends Neo4jDBManager {
 
      }
 
-    /**
-     * Funzione che permette la creazione del nodo utente da registrare
-     * treamite i valori passati da parametro
-     *
+   /**
 
-     * @return 0 se non esiste un utente con la stessa email l'operazione andra' a
+     * @return 0 se non esiste un utente con la stesso username l'operazione andra' a
      * buon fine.
-     * @return  1 se esiste un utente con la stessa email passata come parametro
+     * @return  1 se esiste un utente con lo stesso username passato come parametro
      * l'operazione fallisce.
      */
     private static int createUserNode(Transaction tx,String username, String password, String category1,String category2, int age, String role)
