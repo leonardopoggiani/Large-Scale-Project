@@ -32,9 +32,7 @@ public class ListArticlesCommentDBManager extends Neo4jDBManager{
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", author);
         parameters.put("title", title);
-        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User)" +
-                "WHERE au.username=$author AND a.name=$title" +
-                "RETURN c,u", parameters);
+        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User) WHERE au.username=$author AND a.title=$title RETURN c,u", parameters);
 
         while (result.hasNext()) {
             Record record = result.next();
