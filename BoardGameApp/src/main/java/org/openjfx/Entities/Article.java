@@ -11,15 +11,26 @@ public class Article {
     String author;
     String timestamp;
     String text;
+import java.util.List;
+import java.util.Objects;
+
+public class Article {
+    private String title;
+    private String author;
+    private String timestamp;
+
+    List<Comment> comments;
+
 
     public Article() {
     }
 
 
-    public Article( String title, String author, String timestamp) {
+    public Article( String title, String author, String timestamp, List<Comment> comments) {
         this.title = title;
         this.author = author;
         this.timestamp = timestamp;
+        this.comments = comments;
     }
 
 
@@ -50,6 +61,13 @@ public class Article {
     }
 
     public void setText (String text){ this.text = text;}
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
 
     @Override
     public String toString() {

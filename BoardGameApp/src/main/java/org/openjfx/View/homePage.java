@@ -1,5 +1,6 @@
 package org.openjfx.View;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Text;
@@ -12,10 +13,7 @@ import java.util.List;
 
 public class homePage {
 
-    @FXML
-    void initialize() throws IOException {
-        setSuggestedArticles();
-    }
+    int giàCaricato = -1;
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -50,26 +48,30 @@ public class homePage {
 
     @FXML
     void setSuggestedArticles() throws IOException {
-        HomepageController home = new HomepageController();
-        List<Article> list = home.showSuggestedArticlesController(login.getLoggedUser());
+        if(giàCaricato == -1) {
+            HomepageController home = new HomepageController();
+            List<Article> list = home.showSuggestedArticlesController(login.getLoggedUser());
 
-        if(list != null){
-            System.out.println("Lunghezza lista " + list.size());
-            for (int i = 0; i < list.size(); i++){
-                Article a = list.get(i);
-                TitledPane articolo = (TitledPane) App.getScene().lookup("#articolo" + (i + 1));
-                Text author = (Text) App.getScene().lookup("#author" + (i + 1));
-                Text timestamp = (Text) App.getScene().lookup("#timestamp" + (i + 1));
+            if (list != null) {
+                System.out.println("Lunghezza lista " + list.size());
+                for (int i = 0; i < list.size(); i++) {
+                    Article a = list.get(i);
+                    TitledPane articolo = (TitledPane) App.getScene().lookup("#articolo" + (i + 1));
+                    Text author = (Text) App.getScene().lookup("#author" + (i + 1));
+                    Text timestamp = (Text) App.getScene().lookup("#timestamp" + (i + 1));
 
-                articolo.setText(a.getTitle());
-                author.setText(a.getAuthor());
-                timestamp.setText(String.valueOf(a.getTimestamp()));
+                    articolo.setText(a.getTitle());
+                    author.setText(a.getAuthor());
+                    timestamp.setText(String.valueOf(a.getTimestamp()));
+                }
             }
+
+            giàCaricato = 1;
         }
     }
 
     @FXML
-    void goToArticle() throws IOException {
+    void goToArticle(final ActionEvent event) throws IOException {
         App.setRoot("article");
     }
 }
