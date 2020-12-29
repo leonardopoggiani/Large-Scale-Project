@@ -5,20 +5,15 @@ package org.openjfx.Entities;
 import javafx.scene.text.Text;
 
 import java.util.Objects;
-
-public class Article {
-    String title;
-    String author;
-    String timestamp;
-    String text;
 import java.util.List;
 import java.util.Objects;
+
 
 public class Article {
     private String title;
     private String author;
     private String timestamp;
-
+    String text;
     List<Comment> comments;
 
 

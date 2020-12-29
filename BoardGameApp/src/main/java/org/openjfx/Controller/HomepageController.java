@@ -17,6 +17,10 @@ public class HomepageController {
 
     public List<Article> showSuggestedArticlesController(String username) {
         List<Article> ret = ListSuggArticlesDBManager.searchSuggestedArticles(username);
+        for (int i=0; i<ret.size(); i++){
+            Article a = ret.get(i);
+            org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle(username, a.getTitle());
+        }
         return ret;
     }
 }
