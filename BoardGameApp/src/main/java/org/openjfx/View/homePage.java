@@ -13,6 +13,11 @@ import java.util.List;
 public class homePage {
 
     @FXML
+    void initialize() throws IOException {
+        setSuggestedArticles();
+    }
+
+    @FXML
     void returnToHomepage() throws IOException {
         App.setRoot("homePage");
     }
@@ -63,5 +68,8 @@ public class homePage {
         }
     }
 
-
+    @FXML
+    void goToArticle() throws IOException {
+        App.setRoot("article");
+    }
 }
