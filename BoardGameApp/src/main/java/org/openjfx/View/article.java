@@ -5,6 +5,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import org.openjfx.App;
 import org.openjfx.Controller.ListArticlesAndCommentsDBController;
+import org.openjfx.DBManager.MongoDBManager.ArticleDBManager;
 import org.openjfx.Entities.Article;
 
 import java.io.IOException;
@@ -17,9 +18,10 @@ public class article {
 
     @FXML
     void setArticleFields() throws IOException {
-        ListArticlesAndCommentsDBController list = new ListArticlesAndCommentsDBController();
-        Article a = list.readArticle(homePage.getArticolo(),homePage.getAuthor());
+
        if(giàCaricato == -1) {
+           ArticleDBManager article = new ArticleDBManager(); // sostituire con controller
+           Article a = article.readArticle(homePage.getArticolo(),homePage.getAuthor());
            // devo recuperare l'articolo intero
            Text titolo = (Text) App.getScene().lookup("#titolo");
            TextArea body = (TextArea) App.getScene().lookup("#articlebody");
@@ -29,7 +31,6 @@ public class article {
 
            author.setText("written by " + homePage.getAuthor() + " published by " + homePage.getTimestamp());
            titolo.setText(homePage.getTitolo());
-
 
            giàCaricato = 1;
        }
