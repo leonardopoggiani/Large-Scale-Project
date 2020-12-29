@@ -12,7 +12,11 @@ public class Main {
         SignupLoginDBManager.signup(u);
 
         //update login
-        SignupLoginDBManager.updateLogin("gaia2");
+        //SignupLoginDBManager.updateLogin("gaia2");
+
+        //Read article
+        Article a = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle("gaia1", "Giudizio su Azul");
+        //System.out.println(a.getAuthor() +" , " + a.getTitle() + " , " +a.getTimestamp() +" , " + a.getText());
 
         MongoDBManager.close();
 

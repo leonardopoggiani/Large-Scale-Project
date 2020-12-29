@@ -1,13 +1,19 @@
 package org.openjfx.Entities;
 
+
+
+import javafx.scene.text.Text;
+
+import java.util.Objects;
 import java.util.List;
 import java.util.Objects;
+
 
 public class Article {
     private String title;
     private String author;
     private String timestamp;
-
+    String text;
     List<Comment> comments;
 
 
@@ -34,6 +40,8 @@ public class Article {
         return timestamp;
     }
 
+    public String getText(){return text;}
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -46,6 +54,7 @@ public class Article {
         this.timestamp = timestamp;
     }
 
+    public void setText (String text){ this.text = text;}
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }

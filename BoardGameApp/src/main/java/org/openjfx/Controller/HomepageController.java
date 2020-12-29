@@ -17,6 +17,9 @@ public class HomepageController {
 
     public List<Article> showSuggestedArticlesController(String username) {
         List<Article> ret = ListSuggArticlesDBManager.searchSuggestedArticles(username);
+        for (int i=0; i<ret.size(); i++){
+
+        }
         return ret;
     }
 }
