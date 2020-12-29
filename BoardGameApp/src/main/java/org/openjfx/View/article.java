@@ -7,8 +7,10 @@ import org.openjfx.App;
 import org.openjfx.Controller.ListArticlesAndCommentsDBController;
 import org.openjfx.DBManager.MongoDBManager.ArticleDBManager;
 import org.openjfx.Entities.Article;
+import org.openjfx.Entities.Comment;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class article {
@@ -20,8 +22,8 @@ public class article {
     void setArticleFields() throws IOException {
 
        if(giàCaricato == -1) {
-           ArticleDBManager article = new ArticleDBManager(); // sostituire con controller
-           Article a = article.readArticle(homePage.getArticolo(),homePage.getAuthor());
+           ListArticlesAndCommentsDBController article = new ListArticlesAndCommentsDBController(); // sostituire con controller
+           Article a = article.mongoDBshowArticle(homePage.getArticolo(),homePage.getAuthor());
            // devo recuperare l'articolo intero
            Text titolo = (Text) App.getScene().lookup("#titolo");
            TextArea body = (TextArea) App.getScene().lookup("#articlebody");
@@ -29,9 +31,20 @@ public class article {
            Text like = (Text) App.getScene().lookup("#numberlike");
            Text unlike = (Text) App.getScene().lookup("#numberunlike");
 
-           author.setText("written by " + homePage.getAuthor() + " published by " + homePage.getTimestamp());
+           author.setText("written by " + homePage.getAuthor() + " published on " + homePage.getTimestamp());
            titolo.setText(homePage.getTitolo());
+           like.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"like")));
+           unlike.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"dislike")));
+            body.setText(a.getText());
 
+           List<Comment> comments = null;
+           comments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
+
+           for(int i = 0; /*i < comments.size() &&*/ i < 3; i++){
+               TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
+               // commento.setText(comments.get(i).getText());
+               commento.setText("Provaaa");
+           }
            giàCaricato = 1;
        }
     }

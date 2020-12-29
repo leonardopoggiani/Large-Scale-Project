@@ -1,5 +1,6 @@
 package org.openjfx.Controller;
 
+import org.openjfx.DBManager.MongoDBManager.MongoDBManager;
 import org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListArticlesCommentDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
