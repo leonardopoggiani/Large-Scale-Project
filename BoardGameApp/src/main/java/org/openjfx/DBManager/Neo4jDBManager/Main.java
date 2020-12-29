@@ -24,6 +24,8 @@ public class Main {
         la.neo4jListArticlesComment("Mio articolo bello", "Clarissa1");
         System.out.println("---------------------------");
 
+        
+
 
     }
 }
