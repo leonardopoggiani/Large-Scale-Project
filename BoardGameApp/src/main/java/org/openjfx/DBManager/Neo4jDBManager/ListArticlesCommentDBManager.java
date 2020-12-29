@@ -87,9 +87,7 @@ public class ListArticlesCommentDBManager extends Neo4jDBManager{
         parameters.put("type", type);
         parameters.put("author", author);
         parameters.put("title", title);
-        Result result = tx.run("(ul:User)-[l:LIKED{type:$type}]->(a),(i:User)-[p:PUBLISHED]->(a)" +
-                "WHERE a.name=$title AND i.username=$author" +
-                "return count(distinct l) AS quantiLike", parameters);
+        Result result = tx.run("MATCH (ul:User)-[l:LIKED{type:$type}]->(a),(i:User)-[p:PUBLISHED]->(a) WHERE a.name=$title AND i.username=$author return count(distinct l) AS quantiLike", parameters);
 
         if (result.hasNext()) {
             Record record = result.next();

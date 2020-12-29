@@ -1,5 +1,6 @@
 package org.openjfx.Controller;
 
+import org.openjfx.DBManager.MongoDBManager.MongoDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListArticlesCommentDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
@@ -14,6 +15,7 @@ public class ListArticlesAndCommentsDBController {
 
     public ListArticlesAndCommentsDBController() {
         LoginSignUpDBManager.InitializeDriver();
+        MongoDBManager.createConnection();
     }
 
     public List<Article> neo4jListSuggestedArticles(String username) {
@@ -29,7 +31,7 @@ public class ListArticlesAndCommentsDBController {
             for(int i=0;i<articles.size();i++){
                 System.out.println(articles.get(i).toString());
                 Article a = articles.get(i);
-                org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle(username, a.getTitle());
+
                 /*for(int j=0;j<articles.get(i).getComments().size();j++){
                     System.out.println(articles.get(i).getComments().get(j).toString());
                 }*/
@@ -57,6 +59,30 @@ public class ListArticlesAndCommentsDBController {
 
         }
         return comments;
+
+    }
+
+    //Restituisce un articolo intero con testo da mongoDB
+
+    public Article mongoDBshowArticle(String title, String author) {
+
+        Article article = new Article();
+        article = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle(author, title);
+
+        System.out.println(article.toString());
+
+        return article;
+
+    }
+
+    public int neo4jCountLikes(String title, String author, String type) {
+
+        int quantiLike = 0;
+        quantiLike = ListArticlesCommentDBManager.countLikes(title, author, type);
+
+        System.out.println(quantiLike);
+
+        return quantiLike;
 
     }
 }
