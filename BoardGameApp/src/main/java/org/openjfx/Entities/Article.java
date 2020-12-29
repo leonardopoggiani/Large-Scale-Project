@@ -1,11 +1,16 @@
 package org.openjfx.Entities;
 
+
+
+import javafx.scene.text.Text;
+
 import java.util.Objects;
 
 public class Article {
     String title;
     String author;
     String timestamp;
+    String text;
 
     public Article() {
     }
@@ -30,6 +35,8 @@ public class Article {
         return timestamp;
     }
 
+    public String getText(){return text;}
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -41,6 +48,8 @@ public class Article {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    public void setText (String text){ this.text = text;}
 
     @Override
     public String toString() {
