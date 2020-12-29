@@ -2,16 +2,17 @@ package org.openjfx.DBManager.MongoDBManager;
 
 import org.openjfx.Entities.*;
 
-import org.openjfx.DBManager.Neo4jDBManager.SignUpDBManager;
-
 public class Main {
     public static void main (String[] args){
         MongoDBManager.createConnection();
         System.out.println("Connesso");
 
         //signup
-        User u = new User("gaia1", "gaia", "anastasi", 22, "italy"); //Da definire
-        org.openjfx.DBManager.MongoDBManager.SignUpDBManager.signup(u);
+        User u = new User("gaia2", "gaia", "anastasi", 22, "italy"); //Da definire
+        SignupLoginDBManager.signup(u);
+
+        //update login
+        SignupLoginDBManager.updateLogin("gaia2");
 
         MongoDBManager.close();
 
