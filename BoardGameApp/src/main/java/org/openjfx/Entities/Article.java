@@ -1,20 +1,25 @@
 package org.openjfx.Entities;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Article {
-    String title;
-    String author;
-    String timestamp;
+    private String title;
+    private String author;
+    private String timestamp;
+
+    List<Comment> comments;
+
 
     public Article() {
     }
 
 
-    public Article( String title, String author, String timestamp) {
+    public Article( String title, String author, String timestamp, List<Comment> comments) {
         this.title = title;
         this.author = author;
         this.timestamp = timestamp;
+        this.comments = comments;
     }
 
 
@@ -40,6 +45,14 @@ public class Article {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 
     @Override

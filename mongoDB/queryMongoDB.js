@@ -122,18 +122,14 @@ db.users.update(
 
 //1) aggiungi un articolo (profilo dell'influencer)
 db.users.updateOne(
-    {bgg_user_name: "microcline"},
+    {username: "microcline"},
     {$push: 
         {articles: 
             {
                 "title": "Nuovo articolo6", 
                 "body": "Testo del nuovo articolo", 
-                "timestamp": new Date(), 
-                "author": "Autore", 
+                "timestamp": new Date(),  
                 "games": ["gioco1", "gioco2"], 
-                "num_comments": 0, 
-                "num_like": 0, 
-                "num_dislike": 0
             }                   
         }
     }  
