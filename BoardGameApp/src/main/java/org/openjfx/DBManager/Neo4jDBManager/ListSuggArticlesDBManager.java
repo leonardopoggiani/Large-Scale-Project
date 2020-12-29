@@ -42,15 +42,19 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
             Article article=new Article();
+            String author = "";
+            String title = "";
             for (Pair<String,Value> nameValue: values) {
                 if ("a".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    article.setTitle(value.get("name").asString());
+                    title = value.get("name").asString();
+                    article.setTitle(title);
 
                 }
                 if ("i".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    article.setAuthor(value.get("username").asString());
+                    author = value.get("username").asString();
+                    article.setAuthor(author);
 
                 }
                 if ("p".equals(nameValue.key())) {
@@ -61,7 +65,11 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
                 }
 
+
             }
+            article.setComments(ListArticlesCommentDBManager.searchListComments(title, author));
+
+
             articles.add(article);
         }
             return articles;
