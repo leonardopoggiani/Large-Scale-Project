@@ -1,6 +1,7 @@
 package org.openjfx.View;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import org.openjfx.App;
 
@@ -10,6 +11,21 @@ import java.util.logging.Logger;
 public class article {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
+    int giàCaricato = -1;
+
+    @FXML
+    void setArticleFields() throws IOException {
+       if(giàCaricato == -1) {
+           // devo recuperare l'articolo intero
+           Text titolo = (Text) App.getScene().lookup("#titolo");
+           TextArea body = (TextArea) App.getScene().lookup("#articlebody");
+           Text like = (Text) App.getScene().lookup("#numberlike");
+           Text unlike = (Text) App.getScene().lookup("#numberunlike");
+
+           titolo.setText(homePage.getTitolo());
+           giàCaricato = 1;
+       }
+    }
 
     @FXML
     void returnToHomepage() throws IOException {
