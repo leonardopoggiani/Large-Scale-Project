@@ -1,4 +1,5 @@
 package org.openjfx.Controller;
+import org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.Entities.User;
 
@@ -30,6 +31,7 @@ public class LoginSignUpDBController {
         }
         else
             System.out.println("Utente creato!");
+            org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager.signup(user);
 
     }
 
@@ -43,6 +45,7 @@ public class LoginSignUpDBController {
         if(roleLogin != "NA")
         {
             System.out.println("Login effettuato con successo! Role: " + roleLogin);
+            org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager.updateLogin(username);
             logOk = true;
         }
         else {
