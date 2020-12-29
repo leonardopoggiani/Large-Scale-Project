@@ -13,7 +13,8 @@ public class Article {
     private String title;
     private String author;
     private String timestamp;
-    String text;
+    private String text;
+
     List<Comment> comments;
 
 

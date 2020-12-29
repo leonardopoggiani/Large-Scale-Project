@@ -59,4 +59,41 @@ public class ListArticlesCommentDBManager extends Neo4jDBManager{
         }
         return comments;
     }
+
+
+
+    public static int countLikes(String title, String author, String type)
+    {
+        try(Session session=driver.session())
+        {
+            return session.writeTransaction(new TransactionWork<Integer>()
+            {
+                @Override
+                public Integer execute(Transaction tx)
+                {
+                    return transactionCountLikes(tx, title, author, type);
+                }
+            });
+        }
+    }
+
+    //Funzione che conta i like o i dislike in base al parametro type
+    //Prende titolo dell'articolo, autore e tipo
+
+    public static int transactionCountLikes(Transaction tx, String title, String author, String type) {
+
+        int numberLike = 0;
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("type", type);
+        parameters.put("author", author);
+        parameters.put("title", title);
+        Result result = tx.run("MATCH (ul:User)-[l:LIKED{type:$type}]->(a),(i:User)-[p:PUBLISHED]->(a) WHERE a.name=$title AND i.username=$author return count(distinct l) AS quantiLike", parameters);
+
+        if (result.hasNext()) {
+            Record record = result.next();
+            numberLike = record.get("quantiLike").asInt();
+
+            }
+        return numberLike;
+    }
 }
