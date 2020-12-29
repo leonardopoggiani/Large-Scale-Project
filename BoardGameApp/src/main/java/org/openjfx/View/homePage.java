@@ -1,17 +1,11 @@
 package org.openjfx.View;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.skin.TitledPaneSkin;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.openjfx.App;
-import org.openjfx.Controller.HomepageController;
+import org.openjfx.Controller.ListArticlesAndCommentsDBController;
 import org.openjfx.Entities.Article;
 
 import java.io.IOException;
@@ -62,8 +56,8 @@ public class homePage {
     @FXML
     void setSuggestedArticles() throws IOException {
         if(giàCaricato == -1) {
-            HomepageController home = new HomepageController();
-            List<Article> list = home.showSuggestedArticlesController(login.getLoggedUser());
+            ListArticlesAndCommentsDBController home = new ListArticlesAndCommentsDBController();
+            List<Article> list = home.neo4jListSuggestedArticles(login.getLoggedUser());
 
             if (list != null) {
                 System.out.println("Lunghezza lista " + list.size());

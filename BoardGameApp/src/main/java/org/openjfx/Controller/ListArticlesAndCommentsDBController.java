@@ -1,5 +1,6 @@
 package org.openjfx.Controller;
 
+import org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListArticlesCommentDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
@@ -14,6 +15,7 @@ public class ListArticlesAndCommentsDBController {
 
     public ListArticlesAndCommentsDBController() {
         LoginSignUpDBManager.InitializeDriver();
+        SignupLoginDBManager.createConnection();
     }
 
     public List<Article> neo4jListSuggestedArticles(String username) {

@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import org.openjfx.App;
+import org.openjfx.Controller.ListArticlesAndCommentsDBController;
+import org.openjfx.Entities.Article;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -15,14 +17,20 @@ public class article {
 
     @FXML
     void setArticleFields() throws IOException {
+        ListArticlesAndCommentsDBController list = new ListArticlesAndCommentsDBController();
+        Article a = list.readArticle(homePage.getArticolo(),homePage.getAuthor());
        if(giàCaricato == -1) {
            // devo recuperare l'articolo intero
            Text titolo = (Text) App.getScene().lookup("#titolo");
            TextArea body = (TextArea) App.getScene().lookup("#articlebody");
+           Text author = (Text) App.getScene().lookup("#author");
            Text like = (Text) App.getScene().lookup("#numberlike");
            Text unlike = (Text) App.getScene().lookup("#numberunlike");
 
+           author.setText("written by " + homePage.getAuthor() + " published by " + homePage.getTimestamp());
            titolo.setText(homePage.getTitolo());
+
+
            giàCaricato = 1;
        }
     }

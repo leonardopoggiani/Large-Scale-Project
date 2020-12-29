@@ -9,9 +9,9 @@
 
 <TitledPane fx:id="article" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="714.0" prefWidth="855.0" text="Article" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.article">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" onMouseMoved="#setArticleFields" prefHeight="598.0" prefWidth="853.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="853.0">
          <children>
-            <Text fx:id="titolo" layoutX="423.0" layoutY="37.0" onMouseMoved="#setArticleFields" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
+            <Text fx:id="titolo" layoutX="380.0" layoutY="44.0" onMouseMoved="#setArticleFields" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
                <font>
                   <Font size="34.0" />
                </font>
@@ -65,6 +65,7 @@
                   <Font name="System Italic" size="18.0" />
                </font>
             </Text>
+            <Text fx:id="author" layoutX="25.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
          </children></AnchorPane>
   </content>
 </TitledPane>
