@@ -28,9 +28,9 @@ public class ListArticlesAndCommentsDBController {
         else {
             for(int i=0;i<articles.size();i++){
                 System.out.println(articles.get(i).toString());
-                for(int j=0;j<articles.get(i).getComments().size();j++){
-                    System.out.println(articles.get(j).toString());
-                }
+                /*for(int j=0;j<articles.get(i).getComments().size();j++){
+                    System.out.println(articles.get(i).getComments().get(j).toString());
+                }*/
             }
 
         }
@@ -48,11 +48,12 @@ public class ListArticlesAndCommentsDBController {
             System.err.println("Niente!");
         }
         else {
-                for(int j=0;j< comments.size();j++){
-                    System.out.println(comments.get(j).toString());
-                }
+            for(int i=0;i<comments.size();i++){
+                System.out.println(comments.get(i).toString());
+
             }
 
+        }
         return comments;
 
     }
