@@ -11,6 +11,7 @@ public class LoginSignUpDBController {
 
     public LoginSignUpDBController() {
         LoginSignUpDBManager.InitializeDriver();
+        SignupLoginDBManager.createConnection();
     }
 
     public void neo4jRegisterUserController(User user) {
@@ -29,10 +30,10 @@ public class LoginSignUpDBController {
         {
             System.err.println("Esiste utente con lo stesso username!");
         }
-        else
+        else {
             System.out.println("Utente creato!");
-            org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager.signup(user);
-
+            SignupLoginDBManager.signup(user);
+        }
     }
 
     public boolean neo4jLoginUserController(String username, String password) {
