@@ -1,5 +1,6 @@
 package org.openjfx.View;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Text;
@@ -70,7 +71,7 @@ public class homePage {
     }
 
     @FXML
-    void goToArticle() throws IOException {
+    void goToArticle(final ActionEvent event) throws IOException {
         App.setRoot("article");
     }
 }

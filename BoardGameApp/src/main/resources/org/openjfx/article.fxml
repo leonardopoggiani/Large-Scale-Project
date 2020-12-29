@@ -7,57 +7,64 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TitledPane fx:id="article" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="714.0" prefWidth="855.0" text="Article" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="org.openjfx.View.article">
+<TitledPane fx:id="article" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="714.0" prefWidth="855.0" text="Article" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.article">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="636.0" prefWidth="853.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="853.0">
          <children>
             <Text layoutX="423.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
                <font>
                   <Font size="34.0" />
                </font>
             </Text>
-            <TextArea layoutX="24.0" layoutY="52.0" prefHeight="200.0" prefWidth="739.0" promptText="Article body" />
-            <Text layoutX="24.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average rating:" />
-            <Text layoutX="145.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of ratings:" />
-            <Text layoutX="118.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text layoutX="258.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text layoutX="277.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Like">
+            <TextArea layoutX="24.0" layoutY="52.0" prefHeight="97.0" prefWidth="739.0" promptText="Article body" />
+            <Text layoutX="24.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average rating:" />
+            <Text layoutX="145.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of ratings:" />
+            <Text fx:id="avgrating" layoutX="123.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="numberratings" layoutX="262.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text layoutX="277.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Like">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text layoutX="306.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text layoutX="326.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unlike">
+            <Text fx:id="numberlike" layoutX="306.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text layoutX="326.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unlike">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text layoutX="368.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Button layoutX="428.0" layoutY="258.0" mnemonicParsing="false" text="Like" />
-            <Button layoutX="520.0" layoutY="258.0" mnemonicParsing="false" text="Unlike" />
-            <TextArea layoutX="25.0" layoutY="299.0" prefHeight="46.0" prefWidth="652.0" promptText="Comment" />
-            <Button layoutX="688.0" layoutY="306.0" mnemonicParsing="false" text="Comment" />
-            <TextArea layoutX="25.0" layoutY="388.0" prefHeight="44.0" prefWidth="481.0" />
-            <Text layoutX="24.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Other comments:" />
-            <TextArea layoutX="25.0" layoutY="432.0" prefHeight="44.0" prefWidth="481.0" />
-            <TextArea layoutX="25.0" layoutY="482.0" prefHeight="44.0" prefWidth="481.0" />
-            <Text layoutX="17.0" layoutY="548.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested articles:" />
-            <TitledPane animated="false" layoutX="23.0" layoutY="560.0" prefHeight="87.0" prefWidth="181.0" text="Article 1">
+            <Text fx:id="numberunlike" layoutX="369.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Button layoutX="428.0" layoutY="159.0" mnemonicParsing="false" onMouseClicked="#like" text="Like" />
+            <Button layoutX="520.0" layoutY="159.0" mnemonicParsing="false" onMouseClicked="#unlike" text="Unlike" />
+            <TextArea layoutX="14.0" layoutY="210.0" prefHeight="46.0" prefWidth="652.0" promptText="Comment" />
+            <Button layoutX="678.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#postComment" text="Comment" />
+            <TextArea layoutX="22.0" layoutY="299.0" prefHeight="44.0" prefWidth="481.0" />
+            <Text layoutX="17.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Other comments:">
+               <font>
+                  <Font name="System Italic" size="18.0" />
+               </font></Text>
+            <TextArea layoutX="22.0" layoutY="352.0" prefHeight="44.0" prefWidth="481.0" />
+            <TextArea layoutX="22.0" layoutY="407.0" prefHeight="44.0" prefWidth="481.0" />
+            <TitledPane animated="false" layoutX="19.0" layoutY="491.0" prefHeight="87.0" prefWidth="181.0" text="Article 1">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </TitledPane>
-            <TitledPane animated="false" layoutX="219.0" layoutY="560.0" prefHeight="87.0" prefWidth="181.0" text="Article 2">
+            <TitledPane animated="false" layoutX="215.0" layoutY="491.0" prefHeight="87.0" prefWidth="181.0" text="Article 2">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
             </TitledPane>
-            <TitledPane animated="false" layoutX="416.0" layoutY="560.0" prefHeight="87.0" prefWidth="181.0" text="Article 3">
+            <TitledPane animated="false" layoutX="412.0" layoutY="491.0" prefHeight="87.0" prefWidth="181.0" text="Article 3">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
             </TitledPane>
-            <Button layoutX="25.0" layoutY="14.0" mnemonicParsing="false" text="Go to homepage"  onMouseClicked="#returnToHomepage"/>
+            <Button layoutX="25.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#returnToHomepage" text="Go to homepage" />
+            <Text layoutX="17.0" layoutY="484.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested articles:">
+               <font>
+                  <Font name="System Italic" size="18.0" />
+               </font>
+            </Text>
          </children></AnchorPane>
   </content>
 </TitledPane>
