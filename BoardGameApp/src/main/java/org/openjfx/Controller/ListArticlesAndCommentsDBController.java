@@ -28,6 +28,8 @@ public class ListArticlesAndCommentsDBController {
         else {
             for(int i=0;i<articles.size();i++){
                 System.out.println(articles.get(i).toString());
+                Article a = articles.get(i);
+                org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle(username, a.getTitle());
                 /*for(int j=0;j<articles.get(i).getComments().size();j++){
                     System.out.println(articles.get(i).getComments().get(j).toString());
                 }*/

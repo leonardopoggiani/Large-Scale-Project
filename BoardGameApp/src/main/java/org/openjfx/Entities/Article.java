@@ -1,8 +1,13 @@
 package org.openjfx.Entities;
 
 
+
+import javafx.scene.text.Text;
+
+import java.util.Objects;
 import java.util.List;
 import java.util.Objects;
+
 
 public class Article {
     private String title;
