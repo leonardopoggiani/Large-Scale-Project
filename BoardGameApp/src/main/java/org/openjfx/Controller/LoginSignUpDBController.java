@@ -1,4 +1,5 @@
 package org.openjfx.Controller;
+import org.openjfx.DBManager.MongoDBManager.MongoDBManager;
 import org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.Entities.User;
@@ -11,7 +12,7 @@ public class LoginSignUpDBController {
 
     public LoginSignUpDBController() {
         LoginSignUpDBManager.InitializeDriver();
-        SignupLoginDBManager.createConnection();
+        MongoDBManager.createConnection();
     }
 
     public void neo4jRegisterUserController(User user) {

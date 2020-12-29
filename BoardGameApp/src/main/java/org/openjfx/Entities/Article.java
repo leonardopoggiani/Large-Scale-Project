@@ -21,7 +21,6 @@ public class Article {
     public Article() {
     }
 
-
     public Article( String title, String author, String timestamp, List<Comment> comments) {
         this.title = title;
         this.author = author;
