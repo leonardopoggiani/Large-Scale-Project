@@ -13,13 +13,13 @@ public class Article {
     private String title;
     private String author;
     private String timestamp;
-    String text;
+    private String text;
+
     List<Comment> comments;
 
 
     public Article() {
     }
-
 
     public Article( String title, String author, String timestamp, List<Comment> comments) {
         this.title = title;

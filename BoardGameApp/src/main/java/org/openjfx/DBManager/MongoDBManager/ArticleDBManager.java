@@ -5,14 +5,21 @@ import com.mongodb.client.*;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Projections;
 import javafx.scene.text.Text;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.openjfx.Entities.Article;
-import java.util.*;
 
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 
 public class ArticleDBManager {
 
