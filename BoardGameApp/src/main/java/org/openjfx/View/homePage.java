@@ -5,7 +5,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.openjfx.App;
-import org.openjfx.Controller.ListArticlesAndCommentsDBController;
+import org.openjfx.Controller.ArticlesCommentsLikesDBController;
 import org.openjfx.Entities.Article;
 
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class homePage {
     @FXML
     void setSuggestedArticles() throws IOException {
         if(giàCaricato == -1) {
-            ListArticlesAndCommentsDBController home = new ListArticlesAndCommentsDBController();
+            ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
             List<Article> list = home.neo4jListSuggestedArticles(login.getLoggedUser());
 
             if (list != null) {

@@ -1,14 +1,16 @@
 package org.openjfx.DBManager.MongoDBManager;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.*;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import javafx.scene.text.Text;
 import org.bson.Document;
 import org.openjfx.Entities.Article;
-import java.util.*;
 
-import static com.mongodb.client.model.Filters.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 
 public class ArticleDBManager {
     private Article a;

@@ -1,6 +1,6 @@
 package org.openjfx.DBManager.Neo4jDBManager;
 
-import org.openjfx.Controller.ListArticlesAndCommentsDBController;
+import org.openjfx.Controller.ArticlesCommentsLikesDBController;
 import org.openjfx.Controller.LoginSignUpDBController;
 import org.openjfx.Entities.Article;
 import org.openjfx.Entities.User;
@@ -12,7 +12,8 @@ public class Main {
         LoginSignUpDBController cont = new LoginSignUpDBController();
         Article a = new Article();
         int quantiLike = 0;
-        ListArticlesAndCommentsDBController la = new ListArticlesAndCommentsDBController();
+        int quantiComments = 0;
+        ArticlesCommentsLikesDBController la = new ArticlesCommentsLikesDBController();
         User user = new User("Gaia4", "ciaociao", "Strategic", "Cards Game", 28, "normalUser" );
 
         cont.neo4jRegisterUserController(user);
@@ -34,6 +35,8 @@ public class Main {
         quantiLike = la.neo4jCountLikes("Mio articolo bello", "Clarissa1", "like");
 
         quantiLike = la.neo4jCountLikes("Mio articolo bello", "Clarissa1", "dislike");
+
+        quantiComments = la.neo4jCountComments("Mio articolo bello", "Clarissa1");
 
 
 

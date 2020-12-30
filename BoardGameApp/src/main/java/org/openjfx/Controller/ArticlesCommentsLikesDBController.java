@@ -1,8 +1,7 @@
 package org.openjfx.Controller;
 
 import org.openjfx.DBManager.MongoDBManager.MongoDBManager;
-import org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.ListArticlesCommentDBManager;
+import org.openjfx.DBManager.Neo4jDBManager.ArticlesCommentsLikesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.Entities.Article;
@@ -11,10 +10,10 @@ import org.openjfx.Entities.Comment;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ListArticlesAndCommentsDBController {
+public class ArticlesCommentsLikesDBController {
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
-    public ListArticlesAndCommentsDBController() {
+    public ArticlesCommentsLikesDBController() {
         LoginSignUpDBManager.InitializeDriver();
         MongoDBManager.createConnection();
     }
@@ -46,7 +45,7 @@ public class ListArticlesAndCommentsDBController {
     public List<Comment> neo4jListArticlesComment(String title, String author) {
 
         List<Comment> comments ;
-        comments = ListArticlesCommentDBManager.searchListComments(title, author);
+        comments = ArticlesCommentsLikesDBManager.searchListComments(title, author);
 
         if(comments.isEmpty())
         {
@@ -79,11 +78,22 @@ public class ListArticlesAndCommentsDBController {
     public int neo4jCountLikes(String title, String author, String type) {
 
         int quantiLike = 0;
-        quantiLike = ListArticlesCommentDBManager.countLikes(title, author, type);
+        quantiLike = ArticlesCommentsLikesDBManager.countLikes(title, author, type);
 
         System.out.println(quantiLike);
 
         return quantiLike;
+
+    }
+
+    public int neo4jCountComments(String title, String author) {
+
+        int quantiComments = 0;
+        quantiComments = ArticlesCommentsLikesDBManager.countComments(title, author);
+
+        System.out.println(quantiComments);
+
+        return quantiComments;
 
     }
 }

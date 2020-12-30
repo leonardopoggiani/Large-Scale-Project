@@ -67,7 +67,7 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
 
             }
-            //article.setComments(ListArticlesCommentDBManager.searchListComments(title, author));
+            //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
 
 
             articles.add(article);

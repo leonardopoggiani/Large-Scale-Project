@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListArticlesCommentDBManager extends Neo4jDBManager{
+public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
 
     public static List<Comment> searchListComments(String title, String author)
     {
@@ -95,5 +95,39 @@ public class ListArticlesCommentDBManager extends Neo4jDBManager{
 
             }
         return numberLike;
+    }
+
+    public static int countComments(String title, String author)
+    {
+        try(Session session=driver.session())
+        {
+            return session.writeTransaction(new TransactionWork<Integer>()
+            {
+                @Override
+                public Integer execute(Transaction tx)
+                {
+                    return transactionCountLikes(tx, title, author);
+                }
+            });
+        }
+    }
+
+    //Funzione che conta i like o i dislike in base al parametro type
+    //Prende titolo dell'articolo, autore e tipo
+
+    public static int transactionCountLikes(Transaction tx, String title, String author) {
+
+        int numberComments = 0;
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("author", author);
+        parameters.put("title", title);
+        Result result = tx.run("MATCH (ul:User)-[c:COMMENTED]->(a),(i:User)-[p:PUBLISHED]->(a) WHERE a.name=$title AND i.username=$author return count(distinct c) AS quantiComments", parameters);
+
+        if (result.hasNext()) {
+            Record record = result.next();
+            numberComments = record.get("quantiComments").asInt();
+
+        }
+        return numberComments;
     }
 }
