@@ -61,7 +61,7 @@
             <Button layoutX="407.0" layoutY="407.0" mnemonicParsing="false" onMouseClicked="#postReview" text="Review" />
             <TextArea fx:id="description" layoutX="31.0" layoutY="287.0" prefHeight="100.0" prefWidth="548.0" promptText="Game Description" />
             <TextField layoutX="28.0" layoutY="474.0" prefHeight="26.0" prefWidth="379.0" promptText="review1" />
-            <Text fx:id="title11" layoutX="28.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Other comments:">
+            <Text fx:id="title11" layoutX="28.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Other infoComments:">
                <font>
                   <Font size="14.0" />
                </font>

@@ -6,7 +6,7 @@ import javafx.scene.text.Text;
 import org.openjfx.App;
 import org.openjfx.Controller.ArticlesCommentsLikesDBController;
 import org.openjfx.Entities.Article;
-import org.openjfx.Entities.Comment;
+import org.openjfx.Entities.InfoComment;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,12 +36,12 @@ public class article {
            unlike.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"dislike")));
             body.setText(a.getText());
 
-           List<Comment> comments = null;
-           comments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
+           List<InfoComment> infoComments = null;
+           infoComments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
 
-           for(int i = 0; /*i < comments.size() &&*/ i < 3; i++){
+           for(int i = 0; /*i < infoComments.size() &&*/ i < 3; i++){
                TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
-               // commento.setText(comments.get(i).getText());
+               // commento.setText(infoComments.get(i).getText());
                commento.setText("Provaaa");
            }
            giàCaricato = 1;

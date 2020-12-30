@@ -5,7 +5,7 @@ import org.openjfx.DBManager.Neo4jDBManager.ArticlesCommentsLikesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.Entities.Article;
-import org.openjfx.Entities.Comment;
+import org.openjfx.Entities.InfoComment;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -43,23 +43,23 @@ public class ArticlesCommentsLikesDBController {
     }
 
     // tutti i commenti di un articolo
-    public List<Comment> neo4jListArticlesComment(String title, String author) {
+    public List<InfoComment> neo4jListArticlesComment(String title, String author) {
 
-        List<Comment> comments ;
-        comments = ArticlesCommentsLikesDBManager.searchListComments(title, author);
+        List<InfoComment> infoComments;
+        infoComments = ArticlesCommentsLikesDBManager.searchListComments(title, author);
 
-        if(comments.isEmpty())
+        if(infoComments.isEmpty())
         {
             System.err.println("Niente!");
         }
         else {
-            for(int i=0;i<comments.size();i++){
-                System.out.println(comments.get(i).toString());
+            for(int i = 0; i< infoComments.size(); i++){
+                System.out.println(infoComments.get(i).toString());
 
             }
 
         }
-        return comments;
+        return infoComments;
 
     }
 
@@ -70,7 +70,7 @@ public class ArticlesCommentsLikesDBController {
         Article article = new Article();
         article = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle(author, title);
 
-        System.out.println(article.toString());
+        //System.out.println(article.toString());
 
         return article;
 

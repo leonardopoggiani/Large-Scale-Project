@@ -38,7 +38,7 @@
             <TextArea fx:id="articlecomment" layoutX="14.0" layoutY="210.0" prefHeight="46.0" prefWidth="652.0" promptText="Comment" />
             <Button layoutX="678.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#postComment" text="Comment" />
             <TextArea fx:id="comment1" layoutX="22.0" layoutY="299.0" prefHeight="44.0" prefWidth="481.0" />
-            <Text layoutX="17.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Other comments:">
+            <Text layoutX="17.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Other infoComments:">
                <font>
                   <Font name="System Italic" size="18.0" />
                </font></Text>

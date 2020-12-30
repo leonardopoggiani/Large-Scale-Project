@@ -3,7 +3,7 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
-import org.openjfx.Entities.Comment;
+import org.openjfx.Entities.InfoComment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,14 +11,14 @@ import java.util.List;
 
 public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
 
-    public static List<Comment> searchListComments(String title, String author)
+    public static List<InfoComment> searchListComments(String title, String author)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<List<Comment>>()
+            return session.writeTransaction(new TransactionWork<List<InfoComment>>()
             {
                 @Override
-                public List<Comment> execute(Transaction tx)
+                public List<InfoComment> execute(Transaction tx)
                 {
                     return transactionListComments(tx, title, author);
                 }
@@ -26,9 +26,9 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
         }
     }
 
-    public static List<Comment> transactionListComments(Transaction tx, String title, String author) {
+    public static List<InfoComment> transactionListComments(Transaction tx, String title, String author) {
 
-        List<Comment> comments = new ArrayList<>();
+        List<InfoComment> infoComments = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", author);
         parameters.put("title", title);
@@ -37,27 +37,27 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
         while (result.hasNext()) {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
-            Comment comment = new Comment();
+            InfoComment infoComment = new InfoComment();
             for (Pair<String, Value> nameValue : values) {
                 if ("c".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    comment.setText(value.get("text").asString());
+                    infoComment.setText(value.get("text").asString());
                     String timestamp = value.get("timestamp").toString();
-                    comment.setTimestamp(timestamp);
+                    infoComment.setTimestamp(timestamp);
 
                 }
                 if ("u".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    comment.setAuthor(value.get("username").asString());
+                    infoComment.setAuthor(value.get("username").asString());
 
                 }
 
             }
 
 
-            comments.add(comment);
+            infoComments.add(infoComment);
         }
-        return comments;
+        return infoComments;
     }
 
 
