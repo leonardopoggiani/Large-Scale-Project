@@ -18,7 +18,7 @@ public class Article {
     public Article() {
     }
 
-    public Article( String title, String author, String timestamp, List<InfoComment> infoComments) {
+    public Article(String title, String author, String timestamp, List<InfoComment> infoComments) {
         this.title = title;
         this.author = author;
         this.timestamp = timestamp;

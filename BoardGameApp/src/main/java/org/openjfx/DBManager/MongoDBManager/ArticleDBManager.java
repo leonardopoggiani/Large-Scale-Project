@@ -7,12 +7,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.openjfx.Entities.Article;
 
-import static com.mongodb.client.model.Aggregates.*;
-import static com.mongodb.client.model.Filters.*;
-import static com.mongodb.client.model.Projections.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.and;
@@ -37,7 +32,7 @@ public class ArticleDBManager {
                 a.setAuthor(next.get("username").toString());
                 Document article = (Document)next.get("articles");
                 a.setTitle(article.get("title").toString());
-                a.setTimestamp(article.get("timestamp").toString());
+                //a.setTimestamp(article.get("timestamp").toString());
                 a.setText(article.get("body").toString());
             }
             cursor.close();
