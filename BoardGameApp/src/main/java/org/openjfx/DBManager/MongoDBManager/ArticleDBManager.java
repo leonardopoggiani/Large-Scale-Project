@@ -1,11 +1,20 @@
 package org.openjfx.DBManager.MongoDBManager;
 
+
+import com.mongodb.client.*;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Projections;
+import javafx.scene.text.Text;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.openjfx.Entities.Article;
 
+import static com.mongodb.client.model.Aggregates.*;
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Projections.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,34 +22,28 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 public class ArticleDBManager {
-    private Article a;
-    final static Class<?extends List> docClazz = new ArrayList<Document>().getClass();
 
     public static Article readArticle(String user, String title){
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
 
-        Document fields = new Document();
-        fields.put("username", 1);
-        fields.put("title", 1);
-        fields.put("timestamp", 1);
-        fields.put("text", 1);
-        fields.put("_id", 0);
-
-        FindIterable<Document> docs = collection.find(and(eq("username", user), eq("articles.title", title)));
+        Bson unwind = unwind("$articles");
+        Bson projection = project(fields( excludeId(), include("username", "articles")));
+        Bson match =  match(and(eq("username",user), eq("articles.title", title)));
 
         Article a = new Article();
-        try(MongoCursor<Document> cursor = docs.iterator()){
+
+       try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()){
             while(cursor.hasNext()){
                 Document next = cursor.next();
+                //System.out.println(next.toJson());
                 a.setAuthor(next.get("username").toString());
-                Document articles = (Document) next.get("articles");
-                a.setTitle(articles.get("title").toString());
-                a.setTimestamp(articles.get("timestamp").toString());
-                a.setText(articles.get("body").toString());
+                Document article = (Document)next.get("articles");
+                a.setTitle(article.get("title").toString());
+                a.setTimestamp(article.get("timestamp").toString());
+                a.setText(article.get("body").toString());
             }
             cursor.close();
-        }
-        return a;
+        } return a;
 
 
 
