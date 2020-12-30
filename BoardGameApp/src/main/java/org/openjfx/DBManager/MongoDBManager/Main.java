@@ -15,7 +15,7 @@ public class Main {
         //SignupLoginDBManager.updateLogin("gaia2");
 
         //Read article
-        Article a = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle("gaia1", "Pippi");
+        Article a = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle("Clarissa1", "Nuovo articolo6");
         System.out.println(a.getAuthor() +" , " + a.getTitle() + " , " +a.getTimestamp() +" , " + a.getText());
 
         MongoDBManager.close();
