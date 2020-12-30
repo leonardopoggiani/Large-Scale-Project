@@ -1,5 +1,7 @@
 package org.openjfx.Entities;
 
+import java.sql.Timestamp;
+
 public class InfoLike {
 
     private String type;
@@ -8,7 +10,9 @@ public class InfoLike {
     private String authorArt;
     private String titleArt;
 
-    public void InfoLike(String type, String author, String timestamp, String authorArt, String titleArt)
+    public InfoLike() {}
+
+    public InfoLike(String type, String author, String timestamp, String authorArt, String titleArt)
     {
         this.type = type;
         this.author = author;

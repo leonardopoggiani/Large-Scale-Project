@@ -11,7 +11,7 @@ public class InfoComment {
     public InfoComment() {
     }
 
-    public void Comment(String text, String author, String timestamp, String authorArt, String titleArt)
+    public InfoComment(String text, String author, String timestamp, String authorArt, String titleArt)
     {
         this.text = text;
         this.author = author;

@@ -5,10 +5,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import org.openjfx.App;
 import org.openjfx.Controller.ArticlesCommentsLikesDBController;
+import org.openjfx.Controller.UpdateDatabaseDBController;
 import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoComment;
+import org.openjfx.Entities.InfoLike;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -58,6 +61,9 @@ public class article {
         Text like = (Text) App.getScene().lookup("#numberlike");
         int numberOfLike = Integer.parseInt(like.getText());
         like.setText(String.valueOf(numberOfLike + 1));
+        UpdateDatabaseDBController update = new UpdateDatabaseDBController();
+        InfoLike aLike = new InfoLike("like",login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
+        update.Neo4jAddLike(aLike);
         // salvare numero like
     }
 
@@ -66,11 +72,19 @@ public class article {
         Text like = (Text) App.getScene().lookup("#numberunlike");
         int numberOfUnlike = Integer.parseInt(like.getText());
         like.setText(String.valueOf(numberOfUnlike + 1));
+        UpdateDatabaseDBController update = new UpdateDatabaseDBController();
+        InfoLike anUnlike = new InfoLike("dislike",login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
+        update.Neo4jAddLike(anUnlike);
         // salvare numero unlike
     }
 
     @FXML
     void postComment() throws IOException {
-        logger.info("Commento");
+        TextArea articlecomment = (TextArea) App.getScene().lookup("#articlecomment");
+        UpdateDatabaseDBController update = new UpdateDatabaseDBController();
+        InfoComment comment = new InfoComment(articlecomment.getText(),login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
+        update.Neo4jAddComment(comment);
+        TextArea nuovo = (TextArea) App.getScene().lookup("#comment1");
+        nuovo.setText(comment.getText());
     }
 }
