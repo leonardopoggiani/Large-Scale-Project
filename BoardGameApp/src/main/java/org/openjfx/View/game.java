@@ -6,8 +6,7 @@ import org.openjfx.App;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class games {
-
+public class game {
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
     @FXML
@@ -31,17 +30,17 @@ public class games {
     }
 
     @FXML
-    void goToSettings() throws IOException {
-        App.setRoot("profileSettings");
+    void setGameFields() {
     }
 
     @FXML
-    void goToGame() throws IOException {
-        App.setRoot("game");
+    void postReview() {
+
     }
 
     @FXML
-    void setSuggestedGames() throws IOException {
-        logger.info("Carico i giochi suggeriti");
+    void goToGame() {
+
     }
+
 }

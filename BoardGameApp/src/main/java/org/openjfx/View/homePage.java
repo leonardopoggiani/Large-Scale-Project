@@ -66,10 +66,15 @@ public class homePage {
                     TitledPane articolo = (TitledPane) App.getScene().lookup("#articolo" + (i + 1));
                     Text author = (Text) App.getScene().lookup("#author" + (i + 1));
                     Text timestamp = (Text) App.getScene().lookup("#timestamp" + (i + 1));
+                    Text stats = (Text) App.getScene().lookup("#stats" + (i + 1));
+                    int numComments = home.neo4jCountComments(a.getTitle(),a.getAuthor());
+                    int numLikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"like");
+                    int numUnlikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"dislike");
 
                     articolo.setText(a.getTitle());
                     author.setText(a.getAuthor());
                     timestamp.setText(String.valueOf(a.getTimestamp()));
+                    stats.setText("Number of comments: " + numComments + ", likes:" + numLikes + "/ unlikes: " + numUnlikes);
                 }
             }
 

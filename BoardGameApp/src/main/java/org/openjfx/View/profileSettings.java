@@ -58,4 +58,9 @@ public class profileSettings {
         cat1.setItems(categorie);
         cat2.setItems(categorie);
     }
+
+    @FXML
+    void returnToHomepage() throws IOException {
+        App.setRoot("homePage");
+    }
 }

@@ -53,5 +53,6 @@
       <Button layoutX="360.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#modifyUserSettings" text="Modify profile" />
       <ComboBox fx:id="favouritecategory1" layoutX="341.0" layoutY="170.0" onMouseClicked="#caricaCategorie" prefWidth="150.0" promptText="Categories" />
       <ComboBox fx:id="favouritecategory2" layoutX="341.0" layoutY="204.0" onMouseClicked="#caricaCategorie" prefWidth="150.0" promptText="Categories" />
+      <Button layoutX="71.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#returnToHomepage" text="Go to homepage" />
    </children>
 </Pane>

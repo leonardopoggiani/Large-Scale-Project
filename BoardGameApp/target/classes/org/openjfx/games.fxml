@@ -8,15 +8,15 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.homePage">
+<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.games">
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
@@ -36,7 +36,7 @@
             <ChoiceBox layoutX="95.0" layoutY="319.0" prefHeight="28.0" prefWidth="88.0" />
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="532.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0" onMouseMoved="#setSuggestedGames" prefHeight="501.0" prefWidth="532.0">
          <children>
             <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
             <BottomNavigation layoutX="51.0" layoutY="6.0">
@@ -67,7 +67,36 @@
                </cursor>
             </BottomNavigation>
             <Accordion layoutX="51.0" layoutY="118.0" />
-            <Pagination layoutX="24.0" layoutY="113.0" prefHeight="352.0" prefWidth="412.0" />
+            <TitledPane fx:id="game1" animated="false" layoutX="14.0" layoutY="87.0" onMouseClicked="#goToGame" prefHeight="109.0" prefWidth="202.0" text="game1">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </TitledPane>
+            <TitledPane fx:id="game2" animated="false" layoutX="225.0" layoutY="87.0" onMouseClicked="#goToGame" prefHeight="109.0" prefWidth="202.0" text="game2">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
+            <TitledPane fx:id="game3" animated="false" layoutX="14.0" layoutY="205.0" onMouseClicked="#goToGame" prefHeight="109.0" prefWidth="202.0" text="game3">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
+            <TitledPane fx:id="game4" animated="false" layoutX="225.0" layoutY="205.0" onMouseClicked="#goToGame" prefHeight="109.0" prefWidth="202.0" text="game4">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
+            <TitledPane fx:id="game5" animated="false" layoutX="14.0" layoutY="322.0" onMouseClicked="#goToGame" prefHeight="109.0" prefWidth="202.0" text="game5">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" layoutX="225.0" layoutY="322.0" onMouseClicked="#goToGame" prefHeight="109.0" prefWidth="202.0" text="game6">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
          </children>
       </AnchorPane>
    </items>

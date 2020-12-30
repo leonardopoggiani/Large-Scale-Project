@@ -42,6 +42,7 @@ public class ArticlesCommentsLikesDBController {
 
     }
 
+    // tutti i commenti di un articolo
     public List<Comment> neo4jListArticlesComment(String title, String author) {
 
         List<Comment> comments ;
