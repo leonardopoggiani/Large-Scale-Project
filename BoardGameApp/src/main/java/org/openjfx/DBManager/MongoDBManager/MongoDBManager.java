@@ -1,19 +1,10 @@
 package org.openjfx.DBManager.MongoDBManager;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.client.*;
-
-import static com.mongodb.client.model.Filters.eq;
-
-import java.net.UnknownHostException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
-import java.util.Set;
-
-import com.mongodb.internal.connection.Connection;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import jdk.net.ExtendedSocketOptions;
 
 public class MongoDBManager {
     static MongoClient mongoClient;
@@ -21,7 +12,7 @@ public class MongoDBManager {
 
     public static void createConnection(){
         mongoClient = MongoClients.create("mongodb://localhost:27017");
-        database = mongoClient.getDatabase("Project");
+        database = mongoClient.getDatabase("boardgameApp");
     }
 
     public static MongoCollection<Document> getCollection(String coll){

@@ -1,11 +1,6 @@
 package org.openjfx.DBManager.MongoDBManager;
 
 
-import com.mongodb.client.*;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Projections;
-import javafx.scene.text.Text;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
@@ -19,8 +14,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Projections.*;
 
 public class ArticleDBManager {
 
