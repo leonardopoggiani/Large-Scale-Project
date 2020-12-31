@@ -64,7 +64,7 @@ public class homePage {
                 System.out.println("Lunghezza lista " + list.size());
                 for (int i = 0; i < list.size(); i++) {
                     Article a = list.get(i);
-                    TitledPane articolo = (TitledPane) App.getScene().lookup("#article" + (i + 1));
+                    TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
                     Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
                     Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
                     Text stats = (Text) App.getScene().lookup("#stats" + (i + 1));
