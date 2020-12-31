@@ -42,11 +42,11 @@ public class article {
            List<InfoComment> infoComments = null;
            infoComments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
 
-           for(int i = 0; /*i < infoComments.size() &&*/ i < 3; i++){
+           for(int i = 0; i < infoComments.size() && i < 3; i++){
                TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
-               // commento.setText(infoComments.get(i).getText());
-               commento.setText("Provaaa");
+               commento.setText(infoComments.get(i).getText());
            }
+
            giàCaricato = 1;
        }
     }
