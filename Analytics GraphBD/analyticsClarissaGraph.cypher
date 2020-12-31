@@ -66,6 +66,8 @@ MATCH (u:User)-[r:REVIEWED]->(g:Game)
 WHERE u.id="asdfg"AND g.id="14"
 RETURN u.name, count(r) AS countReviewsGame
 
+//NON LA USIAMO PIÙ PER ORA USIAMO QUELLA SOTTO 
+
 //Mostra tutti gli articoli, ordinati per data, che riguardano almeno 
 // un gioco con la stessa categoria dei giochi dell'articolo in questione
 MATCH (aq:Article)-[rq:REFERRED]->(gq:Game),(a:Article)-[r:REFERRED]->(g:Game), (a)<-[p:PUBLISHED]-(u:User)
@@ -76,7 +78,7 @@ ORDER BY p.timestamp
 
 
 //Mostra tutti gli articoli, ordinati per data, che riguardano almeno 
-// un gioco con la stessa categoria dei giochi dell'articolo in questione
+// un gioco con la stessa categoria dei giochi preferiti dall'utente
 MATCH (i:User)-[p:PUBBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)
 WHERE u.username="Gaia4" AND ((g.category1 = u.category1 OR g.category1 = u.category2)
 OR (g.category2 = u.category1 OR g.category2 = u.category2))
