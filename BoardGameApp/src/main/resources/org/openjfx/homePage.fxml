@@ -70,7 +70,10 @@
                         <Text fx:id="authorarticle1" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle1" layoutX="14.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="stats1" layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                     </children></AnchorPane>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></AnchorPane>
               </content>
             </TitledPane>
             <TitledPane fx:id="article2" animated="false" layoutX="243.0" layoutY="102.0" onMouseClicked="#goToArticle" text="article2">
@@ -80,7 +83,10 @@
                         <Text fx:id="authorarticle2" layoutX="2.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle2" layoutX="2.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="stats2" layoutX="11.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                     </children></AnchorPane>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></AnchorPane>
                </content>
             </TitledPane>
             <TitledPane fx:id="article3" animated="false" layoutX="30.0" layoutY="225.0" onMouseClicked="#goToArticle" text="article3">
@@ -90,7 +96,10 @@
                         <Text fx:id="authorarticle3" layoutX="18.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle3" layoutX="18.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="stats3" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                     </children></AnchorPane>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></AnchorPane>
                </content>
             </TitledPane>
             <TitledPane fx:id="article4" animated="false" layoutX="243.0" layoutY="225.0" onMouseClicked="#goToArticle" text="article4">
@@ -100,7 +109,10 @@
                         <Text fx:id="authorarticle4" layoutX="18.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle4" layoutX="18.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="stats4" layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                     </children></AnchorPane>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></AnchorPane>
                </content>
             </TitledPane>
             <TitledPane fx:id="article5" animated="false" layoutX="30.0" layoutY="346.0" onMouseClicked="#goToArticle" text="article5">
@@ -110,7 +122,10 @@
                         <Text fx:id="authorarticle5" layoutX="12.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle5" layoutX="12.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="stats5" layoutX="9.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                     </children></AnchorPane>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></AnchorPane>
                </content>
             </TitledPane>
             <TitledPane fx:id="article6" animated="false" layoutX="243.0" layoutY="346.0" onMouseClicked="#goToArticle" text="article6">
@@ -120,7 +135,10 @@
                         <Text fx:id="authorarticle6" layoutX="19.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle6" layoutX="19.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="stats6" layoutX="14.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                     </children></AnchorPane>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></AnchorPane>
                </content>
             </TitledPane>
          </children></AnchorPane>

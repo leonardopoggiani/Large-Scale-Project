@@ -1,7 +1,11 @@
 package org.openjfx.View;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TitledPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.openjfx.App;
 import org.openjfx.Controller.ArticlesCommentsLikesDBController;
@@ -26,6 +30,7 @@ public class article {
        if(giàCaricato == -1) {
            ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController(); // sostituire con controller
            Article a = article.mongoDBshowArticle(homePage.getArticolo(),homePage.getAuthor());
+           System.out.println(a);
            // devo recuperare l'articolo intero
            Text titolo = (Text) App.getScene().lookup("#titolo");
            TextArea body = (TextArea) App.getScene().lookup("#articlebody");
@@ -37,7 +42,7 @@ public class article {
            titolo.setText(homePage.getTitolo());
            like.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"like")));
            unlike.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"dislike")));
-            body.setText(a.getText());
+           body.setText(a.getText());
 
            List<InfoComment> infoComments = null;
            infoComments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
@@ -47,6 +52,7 @@ public class article {
                commento.setText(infoComments.get(i).getText());
            }
 
+           setSuggestedArticles();
            giàCaricato = 1;
        }
     }
@@ -58,24 +64,70 @@ public class article {
 
     @FXML
     void like() throws IOException {
+        Button likebutton = (Button) App.getScene().lookup("#likebutton");
+        Button dislikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Text like = (Text) App.getScene().lookup("#numberlike");
         int numberOfLike = Integer.parseInt(like.getText());
-        like.setText(String.valueOf(numberOfLike + 1));
-        UpdateDatabaseDBController update = new UpdateDatabaseDBController();
-        InfoLike aLike = new InfoLike("like",login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
-        update.Neo4jAddLike(aLike);
-        // salvare numero like
+
+        // like button disabled vuol dire che ho pigiato dislike
+        if(!likebutton.isDisabled()) {
+            if(likebutton.getText().equals("Like")){
+                like.setText(String.valueOf(numberOfLike + 1));
+
+                likebutton.setStyle("-fx-background-color: red");
+                likebutton.setText("Remove like");
+                dislikebutton.setDisable(true);
+
+                UpdateDatabaseDBController update = new UpdateDatabaseDBController();
+                InfoLike aLike = new InfoLike("like", login.getLoggedUser(), String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(), homePage.getTitolo());
+                update.Neo4jAddLike(aLike);
+            } else {
+                like.setText(String.valueOf(numberOfLike - 1));
+
+                likebutton.setStyle("-fx-background-color: green");
+                likebutton.setText("Like");
+                dislikebutton.setDisable(false);
+
+                UpdateDatabaseDBController update = new UpdateDatabaseDBController();
+                InfoLike aLike = new InfoLike("like", login.getLoggedUser(), String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(), homePage.getTitolo());
+                update.Neo4jAddLike(aLike);
+            }
+
+        }
     }
 
     @FXML
     void unlike() throws IOException {
         Text like = (Text) App.getScene().lookup("#numberunlike");
+        Button unlikebutton = (Button) App.getScene().lookup("#unlikebutton");
+        Button likebutton = (Button) App.getScene().lookup("#likebutton");
         int numberOfUnlike = Integer.parseInt(like.getText());
-        like.setText(String.valueOf(numberOfUnlike + 1));
-        UpdateDatabaseDBController update = new UpdateDatabaseDBController();
-        InfoLike anUnlike = new InfoLike("dislike",login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
-        update.Neo4jAddLike(anUnlike);
-        // salvare numero unlike
+
+        // unlike button disabled vuol dire che ho pigiato like
+        if(!unlikebutton.isDisabled()) {
+            if(unlikebutton.getText().equals("Dislike")){
+                unlikebutton.setStyle("-fx-background-color: green");
+                unlikebutton.setText("Remove dislike");
+                likebutton.setDisable(true);
+                like.setText(String.valueOf(numberOfUnlike + 1));
+
+                UpdateDatabaseDBController update = new UpdateDatabaseDBController();
+                InfoLike anUnlike = new InfoLike("dislike",login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
+                update.Neo4jAddLike(anUnlike);
+            } else {
+                unlikebutton.setStyle("-fx-background-color: red");
+                unlikebutton.setText("Dislike");
+                likebutton.setDisable(false);
+
+                like.setText(String.valueOf(numberOfUnlike - 1));
+                UpdateDatabaseDBController update = new UpdateDatabaseDBController();
+                InfoLike anUnlike = new InfoLike("dislike",login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
+                update.Neo4jAddLike(anUnlike);
+            }
+        } else {
+            logger.warning("else");
+        }
+
     }
 
     @FXML
@@ -86,5 +138,48 @@ public class article {
         update.Neo4jAddComment(comment);
         TextArea nuovo = (TextArea) App.getScene().lookup("#comment1");
         nuovo.setText(comment.getText());
+    }
+
+    @FXML
+    void setSuggestedArticles() throws IOException {
+        ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
+        List<Article> list = home.neo4jListSuggestedArticles(login.getLoggedUser());
+
+        if (list != null) {
+            System.out.println("Lunghezza lista " + list.size());
+            for (int i = 0; i < list.size(); i++) {
+                Article a = list.get(i);
+                TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
+                Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
+                Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
+
+                articolo.setText(a.getTitle());
+                author.setText(a.getAuthor());
+                timestamp.setText(String.valueOf(a.getTimestamp()));
+            }
+        }
+
+    }
+
+    @FXML
+    void goToArticle (MouseEvent event) throws IOException {
+
+    /*    autore = null;
+        timestamp = null;
+        articolo = null;
+        titolo = null;
+
+        AnchorPane articolo = (AnchorPane) event.getTarget();
+        String idArticle = articolo.getId();
+        System.out.println("ID " + "#author" + idArticle);
+        System.out.println("ID " + "#timestamp" + idArticle);
+
+        Text a = (Text) App.getScene().lookup("#author" + idArticle);
+        Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
+        autore = a.getText();
+        timestamp = t.getText();
+        TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
+        titolo = tx.getText();
+        App.setRoot("article");*/
     }
 }
