@@ -37,18 +37,18 @@ public class LoginSignUpDBController {
         }
     }
 
-    public boolean neo4jLoginUserController(String username, String password) {
+    public String neo4jLoginUserController(String username, String password) {
 
         // varie cose che aggiustano la roba
         String roleLogin;
         roleLogin = LoginSignUpDBManager.loginUser(username, password);
-        boolean logOk = false;
+        String logOk = "fallito";
 
         if(roleLogin != "NA")
         {
             System.out.println("Login effettuato con successo! Role: " + roleLogin);
             org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager.updateLogin(username);
-            logOk = true;
+            logOk = roleLogin;
         }
         else {
             System.err.println("Pass o username non corretti! Role: " + roleLogin);

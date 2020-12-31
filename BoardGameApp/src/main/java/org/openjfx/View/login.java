@@ -13,6 +13,7 @@ public class login {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
     private static String loggedUser;
+    private static String loggedRole;
     LoginSignUpDBController neo = new LoginSignUpDBController();
     private static int logged = -1;
 
@@ -26,11 +27,12 @@ public class login {
         boolean ret = false;
 
         if(username != null && password != null ){
-             ret = neo.neo4jLoginUserController(username,password);
+            loggedRole = neo.neo4jLoginUserController(username,password);
 
-            if(ret){
+            if(!loggedRole.equals("fallito")){
                 logged = 1;
                 loggedUser = username;
+                ret = true;
             }
         } else {
             return false;
@@ -47,7 +49,11 @@ public class login {
     @FXML
     void loginResult() throws IOException {
         if(validateLogin()) {
-            App.setRoot("loginResult");
+            if(loggedRole.equals("admin")){
+                App.setRoot("adminHomepage");
+            } else {
+                App.setRoot("loginResult");
+            }
             logger.info("Login correttamente effettuato");
         } else {
             logger.info("Login non corretto");

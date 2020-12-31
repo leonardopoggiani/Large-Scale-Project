@@ -36,9 +36,8 @@ public class ArticleDBManager {
                 a.setText(article.get("body").toString());
             }
             cursor.close();
-        } return a;
-
-
+       }
+       return a;
 
     }
 }
