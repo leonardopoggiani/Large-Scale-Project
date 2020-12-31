@@ -64,8 +64,8 @@ public class homePage {
                 for (int i = 0; i < list.size(); i++) {
                     Article a = list.get(i);
                     TitledPane articolo = (TitledPane) App.getScene().lookup("#article" + (i + 1));
-                    Text author = (Text) App.getScene().lookup("#author" + (i + 1));
-                    Text timestamp = (Text) App.getScene().lookup("#timestamp" + (i + 1));
+                    Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
+                    Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
                     Text stats = (Text) App.getScene().lookup("#stats" + (i + 1));
                     int numComments = home.neo4jCountComments(a.getTitle(),a.getAuthor());
                     int numLikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"like");
