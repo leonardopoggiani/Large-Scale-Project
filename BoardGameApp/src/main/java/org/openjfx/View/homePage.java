@@ -3,6 +3,7 @@ package org.openjfx.View;
 import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.openjfx.App;
 import org.openjfx.Controller.ArticlesCommentsLikesDBController;
@@ -84,32 +85,23 @@ public class homePage {
 
     @FXML
     void goToArticle (MouseEvent event) throws IOException {
-        Text tx = new Text();
         autore = null;
         timestamp = null;
         articolo = null;
         titolo = null;
 
+        AnchorPane articolo = (AnchorPane) event.getTarget();
+        String idArticle = articolo.getId();
+        System.out.println("ID " + "#author" + idArticle);
+        System.out.println("ID " + "#timestamp" + idArticle);
 
-        tx = (Text) event.getTarget();
-
-        if(event.getTarget().getClass() == tx.getClass()) {
-
-             tx = (Text) event.getTarget();
-             articolo = tx.getText();
-             System.out.println("ID " + "#author" + articolo);
-            System.out.println("ID " + "#timestamp" + articolo);
-
-            Text a = (Text) App.getScene().lookup("#author" + articolo);
-            Text t = (Text) App.getScene().lookup("#timestamp" + articolo);
-            autore = a.getText();
-            timestamp = t.getText();
-            titolo = tx.getText();
-            App.setRoot("article");
-
-        } else {
-            logger.severe("errore nell'articolo");
-        }
+        Text a = (Text) App.getScene().lookup("#author" + idArticle);
+        Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
+        autore = a.getText();
+        timestamp = t.getText();
+        TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
+        titolo = tx.getText();
+        App.setRoot("article");
     }
 
     public static String getAuthor() {
