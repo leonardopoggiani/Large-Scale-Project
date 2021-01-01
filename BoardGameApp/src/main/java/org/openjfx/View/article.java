@@ -28,10 +28,10 @@ public class article {
     void setArticleFields() throws IOException {
 
        if(giàCaricato == -1) {
-           ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController(); // sostituire con controller
+           ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
            Article a = article.mongoDBshowArticle(homePage.getArticolo(),homePage.getAuthor());
            System.out.println(a);
-           // devo recuperare l'articolo intero
+
            Text titolo = (Text) App.getScene().lookup("#titolo");
            TextArea body = (TextArea) App.getScene().lookup("#articlebody");
            Text author = (Text) App.getScene().lookup("#author");
@@ -138,6 +138,7 @@ public class article {
         update.Neo4jAddComment(comment);
         TextArea nuovo = (TextArea) App.getScene().lookup("#comment1");
         nuovo.setText(comment.getText());
+        articlecomment.setText("");
     }
 
     @FXML
@@ -146,7 +147,6 @@ public class article {
         List<Article> list = home.neo4jListSuggestedArticles(login.getLoggedUser());
 
         if (list != null) {
-            System.out.println("Lunghezza lista " + list.size());
             for (int i = 0; i < list.size(); i++) {
                 Article a = list.get(i);
                 TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
@@ -164,22 +164,15 @@ public class article {
     @FXML
     void goToArticle (MouseEvent event) throws IOException {
 
-    /*    autore = null;
-        timestamp = null;
-        articolo = null;
-        titolo = null;
-
         AnchorPane articolo = (AnchorPane) event.getTarget();
         String idArticle = articolo.getId();
-        System.out.println("ID " + "#author" + idArticle);
-        System.out.println("ID " + "#timestamp" + idArticle);
 
         Text a = (Text) App.getScene().lookup("#author" + idArticle);
         Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
-        autore = a.getText();
-        timestamp = t.getText();
+        homePage.setAuthor(a.getText());
+        homePage.setTimestamp(t.getText());
         TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
-        titolo = tx.getText();
-        App.setRoot("article");*/
+        homePage.setTitle(tx.getText());
+        App.setRoot("article");
     }
 }

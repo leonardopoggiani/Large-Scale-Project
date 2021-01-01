@@ -117,4 +117,17 @@ public class homePage {
         return articolo;
     }
 
+    public static void setAuthor(String author) {
+        autore = author;
+    }
+    public static void setTimestamp(String ts) {
+        timestamp = ts;
+    }
+    public static void setTitle(String title) {
+        titolo = title;
+    }
+    public static void setArticle(String article) {
+        articolo = article;
+    }
+
 }
