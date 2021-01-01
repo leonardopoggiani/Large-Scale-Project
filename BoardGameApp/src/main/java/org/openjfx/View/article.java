@@ -145,17 +145,21 @@ public class article {
     void setSuggestedArticles() throws IOException {
         ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
         List<Article> list = home.neo4jListSuggestedArticles(login.getLoggedUser());
+        Text titolo = (Text) App.getScene().lookup("#titolo");
 
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Article a = list.get(i);
-                TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
-                Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
-                Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
+                if(a.getTitle().equals(titolo.getText())) {
 
-                articolo.setText(a.getTitle());
-                author.setText(a.getAuthor());
-                timestamp.setText(String.valueOf(a.getTimestamp()));
+                    TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
+                    Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
+                    Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
+
+                    articolo.setText(a.getTitle());
+                    author.setText(a.getAuthor());
+                    timestamp.setText(String.valueOf(a.getTimestamp()));
+                }
             }
         }
 
@@ -163,16 +167,18 @@ public class article {
 
     @FXML
     void goToArticle (MouseEvent event) throws IOException {
+        Text testo = new Text();
+        if(event.getTarget().getClass()!= testo.getClass()) {
+            AnchorPane articolo = (AnchorPane) event.getTarget();
+            String idArticle = articolo.getId();
 
-        AnchorPane articolo = (AnchorPane) event.getTarget();
-        String idArticle = articolo.getId();
-
-        Text a = (Text) App.getScene().lookup("#author" + idArticle);
-        Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
-        homePage.setAuthor(a.getText());
-        homePage.setTimestamp(t.getText());
-        TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
-        homePage.setTitle(tx.getText());
-        App.setRoot("article");
+            Text a = (Text) App.getScene().lookup("#author" + idArticle);
+            Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
+            homePage.setAuthor(a.getText());
+            homePage.setTimestamp(t.getText());
+            TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
+            homePage.setTitle(tx.getText());
+            App.setRoot("article");
+        }
     }
 }

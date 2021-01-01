@@ -89,19 +89,22 @@ public class homePage {
         timestamp = null;
         articolo = null;
         titolo = null;
+        Text testo = new Text();
 
-        AnchorPane articolo = (AnchorPane) event.getTarget();
-        String idArticle = articolo.getId();
-        System.out.println("ID " + "#author" + idArticle);
-        System.out.println("ID " + "#timestamp" + idArticle);
+        if(event.getTarget().getClass() != testo.getClass()) {
+            AnchorPane articolo = (AnchorPane) event.getTarget();
+            String idArticle = articolo.getId();
+            System.out.println("ID " + "#author" + idArticle);
+            System.out.println("ID " + "#timestamp" + idArticle);
 
-        Text a = (Text) App.getScene().lookup("#author" + idArticle);
-        Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
-        autore = a.getText();
-        timestamp = t.getText();
-        TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
-        titolo = tx.getText();
-        App.setRoot("article");
+            Text a = (Text) App.getScene().lookup("#author" + idArticle);
+            Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
+            autore = a.getText();
+            timestamp = t.getText();
+            TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
+            titolo = tx.getText();
+            App.setRoot("article");
+        }
     }
 
     public static String getAuthor() {
