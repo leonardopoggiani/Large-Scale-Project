@@ -53,7 +53,8 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
                 }
 
             }
-
+            infoComment.setAuthorArt(author);
+            infoComment.setText(title);
 
             infoComments.add(infoComment);
         }

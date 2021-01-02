@@ -56,7 +56,7 @@ public class Main {
 
         System.out.println("Comments prima: " + quantiComments);
 
-        quantiComments = la.neo4jCountComments("Mio articolo bello", "Clarissa1");
+        quantiComments = la.neo4jCountComments("Nuovo articolo6", "Clarissa1");
 
         System.out.println("Comments dopo: " + quantiComments);
 
