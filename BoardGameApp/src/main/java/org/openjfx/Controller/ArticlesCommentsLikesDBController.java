@@ -6,6 +6,7 @@ import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoComment;
+import org.openjfx.DBManager.MongoDBManager.ArticleDBManager;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -68,7 +69,7 @@ public class ArticlesCommentsLikesDBController {
     public Article mongoDBshowArticle(String title, String author) {
 
         Article article = new Article();
-        article = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle(author, title);
+        article = ArticleDBManager.readArticle(author, title);
 
         //System.out.println(article.toString());
 

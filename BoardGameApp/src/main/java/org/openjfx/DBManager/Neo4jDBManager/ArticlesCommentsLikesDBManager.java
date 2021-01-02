@@ -57,6 +57,7 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
 
             infoComments.add(infoComment);
         }
+
         return infoComments;
     }
 

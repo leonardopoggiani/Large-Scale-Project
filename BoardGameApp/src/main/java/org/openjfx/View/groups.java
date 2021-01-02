@@ -1,6 +1,7 @@
 package org.openjfx.View;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import org.openjfx.App;
 
 import java.io.IOException;
@@ -31,4 +32,18 @@ public class groups {
     void goToSettings() throws IOException {
         App.setRoot("profileSettings");
     }
+
+    @FXML
+    void createGroup() throws IOException {
+        TextField tf = (TextField) App.getScene().lookup("#groupname");
+        TextField tf2 = (TextField) App.getScene().lookup("#referredgame");
+
+        String groupname = tf.getText();
+        String game = tf2.getText();
+
+        tf.setText("");
+        tf2.setStyle("");
+    }
+
+    
 }

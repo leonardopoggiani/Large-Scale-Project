@@ -29,8 +29,7 @@ public class article {
 
        if(giàCaricato == -1) {
            ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
-           Article a = article.mongoDBshowArticle(homePage.getArticolo(),homePage.getAuthor());
-           System.out.println(a);
+           Article a = article.mongoDBshowArticle(homePage.getTitolo(),homePage.getAuthor());
 
            Text titolo = (Text) App.getScene().lookup("#titolo");
            TextArea body = (TextArea) App.getScene().lookup("#articlebody");
@@ -42,6 +41,7 @@ public class article {
            titolo.setText(homePage.getTitolo());
            like.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"like")));
            unlike.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"dislike")));
+           System.out.println("testo" + a.getText());
            body.setText(a.getText());
 
            List<InfoComment> infoComments = null;
