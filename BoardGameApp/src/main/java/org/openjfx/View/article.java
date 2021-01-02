@@ -79,7 +79,7 @@ public class article {
                 dislikebutton.setDisable(true);
 
                 UpdateDatabaseDBController update = new UpdateDatabaseDBController();
-                InfoLike aLike = new InfoLike("like", login.getLoggedUser(), String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(), homePage.getTitolo());
+                InfoLike aLike = new InfoLike("like", login.getLoggedUser(), new Timestamp(System.currentTimeMillis()), homePage.getAuthor(), homePage.getTitolo());
                 update.Neo4jAddLike(aLike);
             } else {
                 like.setText(String.valueOf(numberOfLike - 1));
@@ -89,7 +89,7 @@ public class article {
                 dislikebutton.setDisable(false);
 
                 UpdateDatabaseDBController update = new UpdateDatabaseDBController();
-                InfoLike aLike = new InfoLike("like", login.getLoggedUser(), String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(), homePage.getTitolo());
+                InfoLike aLike = new InfoLike("like", login.getLoggedUser(), new Timestamp(System.currentTimeMillis()), homePage.getAuthor(), homePage.getTitolo());
                 update.Neo4jAddLike(aLike);
             }
 
@@ -112,7 +112,7 @@ public class article {
                 like.setText(String.valueOf(numberOfUnlike + 1));
 
                 UpdateDatabaseDBController update = new UpdateDatabaseDBController();
-                InfoLike anUnlike = new InfoLike("dislike",login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
+                InfoLike anUnlike = new InfoLike("dislike",login.getLoggedUser(), new Timestamp(System.currentTimeMillis()), homePage.getAuthor(),homePage.getTitolo());
                 update.Neo4jAddLike(anUnlike);
             } else {
                 unlikebutton.setStyle("-fx-background-color: red");
@@ -121,7 +121,7 @@ public class article {
 
                 like.setText(String.valueOf(numberOfUnlike - 1));
                 UpdateDatabaseDBController update = new UpdateDatabaseDBController();
-                InfoLike anUnlike = new InfoLike("dislike",login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
+                InfoLike anUnlike = new InfoLike("dislike",login.getLoggedUser(),new Timestamp(System.currentTimeMillis()), homePage.getAuthor(),homePage.getTitolo());
                 update.Neo4jAddLike(anUnlike);
             }
         } else {

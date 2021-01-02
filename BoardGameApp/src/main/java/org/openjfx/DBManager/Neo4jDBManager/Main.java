@@ -59,14 +59,15 @@ public class Main {
 
         System.out.println("Comments prima: " + quantiComments);
 
-        quantiComments = la.neo4jCountComments("Nuovo articolo6", "Clarissa1");
+        quantiComments = la.neo4jCountComments("Mio articolo bello", "Clarissa1");
 
         System.out.println("Comments dopo: " + quantiComments);
 
 
         like.setAuthor("sara");
         like.setType("dislike");
-        like.setTimestamp("DataEora");
+        ts = new Timestamp(System.currentTimeMillis());
+        like.setTimestamp(ts);
         like.setAuthorArt("Clarissa1");
         like.setTitleArt("Mio articolo bello");
         Boolean retLike;
@@ -80,6 +81,20 @@ public class Main {
         quantiDislike = la.neo4jCountLikes("Mio articolo bello", "Clarissa1", "dislike");
 
         System.out.println("Dislike dopo: " + quantiDislike);
+
+
+        System.out.println("Prova deleteComment, Comment prima: ");
+
+        System.out.println(c.toString());
+
+
+        Boolean retDelCom = ud.Neo4jDeleteComment(c);
+
+
+
+
+
+
 
 
     }

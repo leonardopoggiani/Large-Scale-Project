@@ -35,4 +35,13 @@ public class UpdateDatabaseDBController {
         return ret;
 
     }
+
+    public Boolean Neo4jDeleteComment(InfoComment comm) {
+
+       Boolean ret = false;
+        ret  = UpdateDatabaseDBManager.deleteComment(comm);
+
+        return ret;
+
+    }
 }

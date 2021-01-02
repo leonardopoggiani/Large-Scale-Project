@@ -64,7 +64,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
         HashMap<String,Object> parameters= new HashMap<>();
         parameters.put("authorLike",like.getAuthor());
         parameters.put("type", like.getType());
-        parameters.put("timestamp", like.getTimestamp());
+        parameters.put("timestamp", like.getTimestamp().toString());
         parameters.put("authorArt", like.getAuthorArt());
         parameters.put("title", like.getTitleArt());
 
@@ -95,6 +95,32 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
 
 
 
+    }
+
+    public static Boolean deleteComment(InfoComment newComm) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionDeleteComment(tx, newComm);
+                }
+            });
+
+
+        }
+    }
+    private static Boolean transactionDeleteComment(Transaction tx, InfoComment delComm) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("authorComm", delComm.getAuthor());
+        parameters.put("timestamp", delComm.getTimestamp().toString());
+        parameters.put("title", delComm.getTitleArt());
+
+        Result result = tx.run("MATCH (ua:User {username:$authorComm})-[c:COMMENTED {timestamp:$timestamp}]->(a:Article{name:$title}) " +
+                        "DELETE c return c"
+                , parameters);
+
+        return true;
     }
 
 }

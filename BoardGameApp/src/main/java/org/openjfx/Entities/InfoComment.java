@@ -15,6 +15,7 @@ public class InfoComment {
 
     public InfoComment(String text, String author, Timestamp timestamp, String authorArt, String titleArt)
     {
+
         this.text = text;
         this.author = author;
         this. timestamp = timestamp;
