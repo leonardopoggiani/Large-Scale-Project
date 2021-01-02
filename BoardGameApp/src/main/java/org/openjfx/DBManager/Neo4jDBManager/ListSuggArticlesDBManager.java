@@ -5,6 +5,7 @@ import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
 import org.openjfx.Entities.Article;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
             articles.add(article);
         }
-            return articles;
+        return articles;
        /* Article a1 = new Article("Ottimo articolo","Leonardo Poggiani",new Timestamp(System.currentTimeMillis()));
         Article a2 = new Article("Bell'articolo","Lorenzo Poggiani",new Timestamp(System.currentTimeMillis()));
         Article a3 = new Article("Un articolo","Marco Poggiani",new Timestamp(System.currentTimeMillis()));

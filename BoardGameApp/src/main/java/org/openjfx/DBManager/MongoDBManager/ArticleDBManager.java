@@ -26,6 +26,7 @@ public class ArticleDBManager {
         Article a = new Article();
 
        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()){
+           System.out.println("Dentro");
             while(cursor.hasNext()){
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
@@ -37,6 +38,7 @@ public class ArticleDBManager {
             }
             cursor.close();
        }
+
        return a;
 
     }
