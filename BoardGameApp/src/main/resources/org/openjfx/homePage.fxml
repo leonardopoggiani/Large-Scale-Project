@@ -76,7 +76,7 @@
                      </cursor></AnchorPane>
               </content>
             </TitledPane>
-            <TitledPane fx:id="article2" animated="false" layoutX="243.0" layoutY="102.0" onMouseClicked="#goToArticle" text="article2">
+            <TitledPane fx:id="fullarticle2" animated="false" layoutX="243.0" layoutY="102.0" onMouseClicked="#goToArticle" text="article2">
                <content>
                   <AnchorPane fx:id="bodyarticle2" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
                      <children>
@@ -89,7 +89,7 @@
                      </cursor></AnchorPane>
                </content>
             </TitledPane>
-            <TitledPane fx:id="article3" animated="false" layoutX="30.0" layoutY="225.0" onMouseClicked="#goToArticle" text="article3">
+            <TitledPane fx:id="fullarticle3" animated="false" layoutX="30.0" layoutY="225.0" onMouseClicked="#goToArticle" text="article3">
                <content>
                   <AnchorPane fx:id="bodyarticle3" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
                      <children>
@@ -102,7 +102,7 @@
                      </cursor></AnchorPane>
                </content>
             </TitledPane>
-            <TitledPane fx:id="article4" animated="false" layoutX="243.0" layoutY="225.0" onMouseClicked="#goToArticle" text="article4">
+            <TitledPane fx:id="fullarticle4" animated="false" layoutX="243.0" layoutY="225.0" onMouseClicked="#goToArticle" text="article4">
                <content>
                   <AnchorPane fx:id="bodyarticle4" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
                      <children>
@@ -115,7 +115,7 @@
                      </cursor></AnchorPane>
                </content>
             </TitledPane>
-            <TitledPane fx:id="article5" animated="false" layoutX="30.0" layoutY="346.0" onMouseClicked="#goToArticle" text="article5">
+            <TitledPane fx:id="fullarticle5" animated="false" layoutX="30.0" layoutY="346.0" onMouseClicked="#goToArticle" text="article5">
                <content>
                   <AnchorPane fx:id="bodyarticle5" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
                      <children>
@@ -128,7 +128,7 @@
                      </cursor></AnchorPane>
                </content>
             </TitledPane>
-            <TitledPane fx:id="article6" animated="false" layoutX="243.0" layoutY="346.0" onMouseClicked="#goToArticle" text="article6">
+            <TitledPane fx:id="fullarticle6" animated="false" layoutX="243.0" layoutY="346.0" onMouseClicked="#goToArticle" text="article6">
                <content>
                   <AnchorPane fx:id="bodyarticle6" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
                      <children>
