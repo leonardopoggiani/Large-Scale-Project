@@ -1,18 +1,15 @@
 package org.openjfx.DBManager.MongoDBManager;
 
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
-import org.openjfx.Entities.*;
+import org.openjfx.Entities.User;
 
-import static com.mongodb.client.model.Filters.*;
-
-
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import static com.mongodb.client.model.Filters.eq;
 
 
 public class SignupLoginDBManager extends MongoDBManager {
@@ -30,7 +27,6 @@ public class SignupLoginDBManager extends MongoDBManager {
         System.out.println("Nella update login");
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
         Document setLastLogin = new Document();
         setLastLogin.append("last_login", dateFormat.format(Calendar.getInstance().getTime()));
         Document update = new Document();

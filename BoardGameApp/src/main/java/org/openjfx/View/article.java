@@ -134,7 +134,7 @@ public class article {
     void postComment() throws IOException {
         TextArea articlecomment = (TextArea) App.getScene().lookup("#articlecomment");
         UpdateDatabaseDBController update = new UpdateDatabaseDBController();
-        InfoComment comment = new InfoComment(articlecomment.getText(),login.getLoggedUser(),String.valueOf(new Timestamp(System.currentTimeMillis())), homePage.getAuthor(),homePage.getTitolo());
+        InfoComment comment = new InfoComment(articlecomment.getText(),login.getLoggedUser(),new Timestamp(System.currentTimeMillis()), homePage.getAuthor(),homePage.getTitolo());
         update.Neo4jAddComment(comment);
         TextArea nuovo = (TextArea) App.getScene().lookup("#comment1");
         nuovo.setText(comment.getText());

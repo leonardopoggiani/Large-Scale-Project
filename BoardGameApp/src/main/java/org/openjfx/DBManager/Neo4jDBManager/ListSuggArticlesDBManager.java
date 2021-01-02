@@ -60,8 +60,8 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
                 }
                 if ("p".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    String timestamp = value.get("timestamp").toString();
-                    article.setTimestamp(timestamp);
+                    String timestamp = value.get("timestamp").asString();
+                    article.setTimestamp(Timestamp.valueOf(timestamp));
 
                 }
 

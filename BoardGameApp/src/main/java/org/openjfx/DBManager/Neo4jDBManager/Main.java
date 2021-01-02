@@ -8,6 +8,8 @@ import org.openjfx.Entities.InfoComment;
 import org.openjfx.Entities.InfoLike;
 import org.openjfx.Entities.User;
 
+import java.sql.Timestamp;
+
 public class Main {
 
     public static void main( String[] args ) throws Exception {
@@ -47,7 +49,8 @@ public class Main {
 
         c.setAuthor("sara");
         c.setText("Carinooo");
-        c.setTimestamp("DataEora");
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        c.setTimestamp(ts);
         c.setAuthorArt("Clarissa1");
         c.setTitleArt("Mio articolo bello");
         Boolean ret;

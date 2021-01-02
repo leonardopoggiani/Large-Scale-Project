@@ -7,9 +7,6 @@ import org.neo4j.driver.TransactionWork;
 import org.openjfx.Entities.InfoComment;
 import org.openjfx.Entities.InfoLike;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class UpdateDatabaseDBManager extends Neo4jDBManager {
@@ -33,13 +30,10 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
         HashMap<String,Object> parameters= new HashMap<>();
         parameters.put("authorComm",newComm.getAuthor());
         parameters.put("text", newComm.getText());
-        //parameters.put("timestamp", newComm.getTimestamp());
+        parameters.put("timestamp", newComm.getTimestamp().toString());
         parameters.put("authorArt", newComm.getAuthorArt());
         parameters.put("title", newComm.getTitleArt());
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String datetime = dateFormat.format(Calendar.getInstance().getTime());
-        parameters.put("timestamp", datetime);
         Result result=tx.run("MATCH(u:User {username:$authorComm}),(ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title}) " +
                         "CREATE (u)-[c:COMMENTED{timestamp:$timestamp, text:$text}]->(a) " +
                         "return c"
@@ -66,6 +60,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
     }
     private static Boolean transactionAddLike(Transaction tx, InfoLike like)
     {
+
         HashMap<String,Object> parameters= new HashMap<>();
         parameters.put("authorLike",like.getAuthor());
         parameters.put("type", like.getType());

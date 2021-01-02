@@ -1,17 +1,19 @@
 package org.openjfx.Entities;
 
+import java.sql.Timestamp;
+
 public class InfoComment {
 
     private String text;
     private String author;
-    private String timestamp;
+    private Timestamp timestamp;
     private String authorArt;
     private String titleArt;
 
     public InfoComment() {
     }
 
-    public InfoComment(String text, String author, String timestamp, String authorArt, String titleArt)
+    public InfoComment(String text, String author, Timestamp timestamp, String authorArt, String titleArt)
     {
         this.text = text;
         this.author = author;
@@ -20,7 +22,7 @@ public class InfoComment {
         this.titleArt = titleArt;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -40,7 +42,7 @@ public class InfoComment {
         return titleArt;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 

@@ -5,6 +5,7 @@ import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
 import org.openjfx.Entities.InfoComment;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,8 +43,8 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
                 if ("c".equals(nameValue.key())) {
                     Value value = nameValue.value();
                     infoComment.setText(value.get("text").asString());
-                    String timestamp = value.get("timestamp").toString();
-                    infoComment.setTimestamp(timestamp);
+                    String timestamp = value.get("timestamp").asString();
+                    infoComment.setTimestamp(Timestamp.valueOf(timestamp));
 
                 }
                 if ("u".equals(nameValue.key())) {
