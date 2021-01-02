@@ -78,7 +78,7 @@
             </TitledPane>
             <TitledPane fx:id="fullarticle2" animated="false" layoutX="243.0" layoutY="102.0" onMouseClicked="#goToArticle" text="article2">
                <content>
-                  <AnchorPane fx:id="bodyarticle2" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
+                  <AnchorPane fx:id="bodyarticle2" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
                         <Text fx:id="authorarticle2" layoutX="2.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle2" layoutX="2.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -91,7 +91,7 @@
             </TitledPane>
             <TitledPane fx:id="fullarticle3" animated="false" layoutX="30.0" layoutY="225.0" onMouseClicked="#goToArticle" text="article3">
                <content>
-                  <AnchorPane fx:id="bodyarticle3" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
+                  <AnchorPane fx:id="bodyarticle3" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
                         <Text fx:id="authorarticle3" layoutX="18.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle3" layoutX="18.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -104,7 +104,7 @@
             </TitledPane>
             <TitledPane fx:id="fullarticle4" animated="false" layoutX="243.0" layoutY="225.0" onMouseClicked="#goToArticle" text="article4">
                <content>
-                  <AnchorPane fx:id="bodyarticle4" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
+                  <AnchorPane fx:id="bodyarticle4" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
                         <Text fx:id="authorarticle4" layoutX="18.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle4" layoutX="18.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -117,7 +117,7 @@
             </TitledPane>
             <TitledPane fx:id="fullarticle5" animated="false" layoutX="30.0" layoutY="346.0" onMouseClicked="#goToArticle" text="article5">
                <content>
-                  <AnchorPane fx:id="bodyarticle5" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
+                  <AnchorPane fx:id="bodyarticle5" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
                         <Text fx:id="authorarticle5" layoutX="12.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle5" layoutX="12.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -130,7 +130,7 @@
             </TitledPane>
             <TitledPane fx:id="fullarticle6" animated="false" layoutX="243.0" layoutY="346.0" onMouseClicked="#goToArticle" text="article6">
                <content>
-                  <AnchorPane fx:id="bodyarticle6" minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="200.0">
+                  <AnchorPane fx:id="bodyarticle6" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
                         <Text fx:id="authorarticle6" layoutX="19.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle6" layoutX="19.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" />
