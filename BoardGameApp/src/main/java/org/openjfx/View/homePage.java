@@ -75,7 +75,7 @@ public class homePage {
                     articolo.setText(a.getTitle());
                     author.setText(a.getAuthor());
                     timestamp.setText(String.valueOf(a.getTimestamp()));
-                    stats.setText("Number of comments: " + numComments + ", likes:" + numLikes + "/ unlikes: " + numUnlikes);
+                    stats.setText("Number of comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
                 }
             }
 
