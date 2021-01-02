@@ -1,7 +1,5 @@
 package org.openjfx.Entities;
 
-import java.sql.Timestamp;
-
 public class InfoLike {
 
     private String type;
