@@ -1,20 +1,13 @@
 package org.openjfx.DBManager.Neo4jDBManager;
 
-import org.openjfx.Controller.ArticlesCommentsLikesDBController;
-import org.openjfx.Controller.LoginSignUpDBController;
-import org.openjfx.Controller.UpdateDatabaseDBController;
-import org.openjfx.Entities.Article;
-import org.openjfx.Entities.InfoComment;
-import org.openjfx.Entities.InfoLike;
-import org.openjfx.Entities.User;
-
-import java.sql.Timestamp;
+import org.openjfx.Controller.GamesReviewsRatesDBController;
 
 public class Main {
 
     public static void main( String[] args ) throws Exception {
         Neo4jDBManager.InitializeDriver();
-        LoginSignUpDBController cont = new LoginSignUpDBController();
+        GamesReviewsRatesDBController gr = new GamesReviewsRatesDBController();
+        /*LoginSignUpDBController cont = new LoginSignUpDBController();
         UpdateDatabaseDBController ud = new UpdateDatabaseDBController();
         Article a = new Article();
         InfoComment c = new InfoComment();
@@ -23,7 +16,7 @@ public class Main {
         int quantiDislike = 0;
         int quantiComments = 0;
         ArticlesCommentsLikesDBController la = new ArticlesCommentsLikesDBController();
-        User user = new User("Gaia4", "ciaociao", "Strategic", "Cards Game", 28, "normalUser" );
+        User user = new User("Gaia4", "ciaociao", "Strategic", "Cards InfoGame", 28, "normalUser" );
 
         cont.neo4jRegisterUserController(user);
         System.out.println("---------------------------");
@@ -88,7 +81,27 @@ public class Main {
         System.out.println(c.toString());
 
 
-        Boolean retDelCom = ud.Neo4jDeleteComment(c);
+        Boolean retDelCom = ud.Neo4jDeleteComment(c);*/
+
+        gr.neo4jListSuggestedGames("Gaia5");
+        System.out.println("---------------------------");
+
+
+        System.out.println("Quante reviews: " + gr.neo4jCountReviews("Spirit Island"));
+
+        System.out.println("Quanti rates: " + gr.neo4jCountRates("Spirit Island"));
+
+        System.out.println("Average rates: " + gr.neo4jAvgRates("Spirit Island"));
+
+        gr.neo4jListGamesReviews("Spirit Island");
+
+
+
+
+
+
+
+
 
 
 

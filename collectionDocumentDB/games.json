@@ -73,25 +73,7 @@
     "updated_at":"",
     "scraped_at":"2020-11-30T10:21:07+0000",
 
-    /*"user_review":
-    [
-        {
-            "text":"",
-            "timestamp": "",
-            "author": ""
-        }
-        
-    ],
-
-    "user_rating":
-    [
-        {
-            "author": "",
-            "vote": ""
-        }
-    ]*/
-
-    ,groups: [
+    "groups": [
         {
             "Name": "",
             "Description": "",

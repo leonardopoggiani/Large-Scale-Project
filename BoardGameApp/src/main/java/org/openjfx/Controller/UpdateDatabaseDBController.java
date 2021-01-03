@@ -5,7 +5,9 @@ import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.UpdateDatabaseDBManager;
 import org.openjfx.Entities.InfoComment;
 import org.openjfx.Entities.InfoLike;
+import org.openjfx.Entities.InfoReview;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 public class UpdateDatabaseDBController {
@@ -44,4 +46,6 @@ public class UpdateDatabaseDBController {
         return ret;
 
     }
+
+
 }
