@@ -33,6 +33,9 @@ public class Main {
         //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByYear(1960);
         List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("reviews");
 
+        org.openjfx.DBManager.MongoDBManager.GameDBManager.updateAvgRating(4.5, "Monopoli");
+        org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(10, "Monopoli");
+
 
         MongoDBManager.close();
 

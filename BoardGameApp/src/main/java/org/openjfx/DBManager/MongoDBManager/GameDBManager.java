@@ -9,6 +9,7 @@ import org.openjfx.Entities.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.mongodb.client.model.Aggregates.*;
@@ -159,6 +160,26 @@ public class GameDBManager {
         }
 
         return ret;
+
+    }
+
+    public static void updateAvgRating(double avg, String game){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        Document updateAvg = new Document();
+        updateAvg.append("avg_rating", avg);
+        Document update = new Document();
+        update.append("$set", updateAvg);
+        collection.updateOne(eq("name", game), update);
+
+    }
+
+    public static void updateNumReviews(double tot, String game){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        Document reviews = new Document();
+        reviews.append("num_reviews", tot);
+        Document update = new Document();
+        update.append("$set", reviews);
+        collection.updateOne(eq("name", game), update);
 
     }
 

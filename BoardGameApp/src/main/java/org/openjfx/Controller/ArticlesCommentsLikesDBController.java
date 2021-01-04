@@ -1,5 +1,6 @@
 package org.openjfx.Controller;
 
+import org.bson.Document;
 import org.openjfx.DBManager.MongoDBManager.ArticleDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ArticlesCommentsLikesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
@@ -95,5 +96,20 @@ public class ArticlesCommentsLikesDBController {
 
         return quantiComments;
 
+    }
+
+    public List<Document> filterByInfluencer(String influencer){
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByInfluencer(influencer);
+        return list;
+    }
+
+    public List<Document> filterByGame(String game){
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame(game);
+        return list;
+    }
+
+    public List<Document> filterByDate(String date){
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate(date);
+        return list;
     }
 }
