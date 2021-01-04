@@ -171,4 +171,8 @@ public class InfoGame {
                 ", groups=" + groups +
                 '}';
     }
+
+    public String getName() {
+        return name;
+    }
 }
