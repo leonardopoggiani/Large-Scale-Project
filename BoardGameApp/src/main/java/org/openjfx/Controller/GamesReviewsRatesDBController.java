@@ -1,13 +1,13 @@
 package org.openjfx.Controller;
 
-import org.openjfx.DBManager.MongoDBManager.ArticleDBManager;
-import org.openjfx.DBManager.MongoDBManager.GameDBManager;
+import org.bson.Document;
 import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggGamesDBManager;
 import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoGame;
 import org.openjfx.Entities.InfoReview;
 
+import java.lang.annotation.Documented;
 import java.util.List;
 
 public class GamesReviewsRatesDBController {
@@ -44,6 +44,7 @@ public class GamesReviewsRatesDBController {
 
         int quanteReviews = 0;
         quanteReviews = GamesReviewsRatesDBManager.countReviews(name);
+
 
         System.out.println(quanteReviews);
 
@@ -96,14 +97,35 @@ public class GamesReviewsRatesDBController {
 
     }
 
-    public InfoGame mongoDBshowGame(String name) {
-
-        InfoGame game = new InfoGame();
-        game = GameDBManager.readGame(name);
-
-        System.out.println(game.toString());
-
-        return game;
+    public InfoGame showGame (String game){
+        InfoGame g = org.openjfx.DBManager.MongoDBManager.GameDBManager.readGame(game);
+        return g;
     }
+
+    public List<Document> filterByName (String game){
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByName(game);
+        return list;
+    }
+
+    public List<Document> filterByCategory(String category){
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByCategory(category);
+        return list;
+    }
+
+    public List<Document> filterByPlayers(int players){
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByPlayers(players);
+        return list;
+    }
+
+    public List<Document> filterByYear(int year){
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByYear(year);
+        return list;
+    }
+
+    public List<Document> orderBy(String mode){
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy(mode);
+        return list;
+    }
+
 
 }
