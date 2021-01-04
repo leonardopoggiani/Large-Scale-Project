@@ -41,7 +41,7 @@ public class game {
             logger.info("Carico " + game);
             GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
 
-            InfoGame currentGame = controller.mongoDBshowGame(game);
+            InfoGame currentGame = controller.showGame(game);
             System.out.println(currentGame);
 
             Text title = (Text) App.getScene().lookup("#title");

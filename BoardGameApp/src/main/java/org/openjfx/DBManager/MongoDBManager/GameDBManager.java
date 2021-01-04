@@ -31,7 +31,7 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()){
             while(cursor.hasNext()){
                 Document next = cursor.next();
-                System.out.println(next.toJson());
+                // System.out.println(next.toJson());
                 g.setAvgRating(Double.parseDouble(next.get("avg_rating").toString()));
                 g.setImageUrl(next.get("image_url").toString());
                 g.setMaxAge(Integer.parseInt(next.get("max_age").toString()));
