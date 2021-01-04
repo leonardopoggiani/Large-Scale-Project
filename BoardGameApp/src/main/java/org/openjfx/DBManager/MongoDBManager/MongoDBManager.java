@@ -12,7 +12,7 @@ public class MongoDBManager {
 
     public static void createConnection(){
         mongoClient = MongoClients.create("mongodb://localhost:27017");
-        database = mongoClient.getDatabase("boardgameApp");
+        database = mongoClient.getDatabase("Project");
     }
 
     public static MongoCollection<Document> getCollection(String coll){

@@ -9,14 +9,16 @@ public class Main {
 
         //signup
         User u = new User("gaia2", "gaia", "anastasi", 22, "italy"); //Da definire
-        SignupLoginDBManager.signup(u);
+        //SignupLoginDBManager.signup(u);
 
         //update login
         //SignupLoginDBManager.updateLogin("gaia2");
 
         //Read article
-        Article a = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.readArticle("Clarissa1", "Nuovo articolo6");
-        System.out.println(a.getAuthor() +" , " + a.getTitle() + " , " +a.getTimestamp() +" , " + a.getText());
+        InfoGame g = org.openjfx.DBManager.MongoDBManager.GameDBManager.readGame("Monopoli");
+        /*System.out.println(g.getAvgRating() + " " + g.getMaxAge() + " " + g.getMinAge() + " " +g.getMinPlayers() + " " +
+        g.getMaxPlayers() + " " +g.getNumReviews() + " " + g.getYear() + " " + g.getCategory1() + " " +g.getCategory2() + " " + g.getImageUrl() +g.getMaxTime()
+        +" " +g.getMinTime() +" " +g.getName() + " " + g.getUrl());*/
 
         MongoDBManager.close();
 
