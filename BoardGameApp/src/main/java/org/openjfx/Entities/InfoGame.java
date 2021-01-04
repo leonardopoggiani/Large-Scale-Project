@@ -172,7 +172,5 @@ public class InfoGame {
                 '}';
     }
 
-    public String getName() {
-        return name;
-    }
+
 }
