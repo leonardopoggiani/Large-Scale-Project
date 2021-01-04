@@ -6,6 +6,8 @@ import org.neo4j.driver.Transaction;
 import org.neo4j.driver.TransactionWork;
 import org.openjfx.Entities.InfoComment;
 import org.openjfx.Entities.InfoLike;
+import org.openjfx.Entities.InfoRate;
+import org.openjfx.Entities.InfoReview;
 
 import java.util.HashMap;
 
@@ -122,5 +124,78 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
 
         return true;
     }
+
+    public static Boolean addReview(InfoReview newRev) {
+        try (Session session = driver.session()) {
+            boolean res;
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionAddReview(tx, newRev);
+                }
+            });
+
+
+        }
+    }
+    private static Boolean transactionAddReview(Transaction tx, InfoReview newRev)
+    {
+        HashMap<String,Object> parameters= new HashMap<>();
+        parameters.put("author",newRev.getAuthor());
+        parameters.put("text", newRev.getText());
+        parameters.put("timestamp", newRev.getTimestamp().toString());
+        parameters.put("game", newRev.getGame());
+
+
+        Result result=tx.run("MATCH(u:User {username:$author}),(g:Game{name:$game}) " +
+                        "CREATE (u)-[r:REVIEWED{timestamp:$timestamp, text:$text}]->(g) " +
+                        "return r"
+                ,parameters);
+        if(result.hasNext())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean addRate(InfoRate newRate) {
+        try (Session session = driver.session()) {
+            boolean res;
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionAddRate(tx, newRate);
+                }
+            });
+
+
+        }
+    }
+    private static Boolean transactionAddRate(Transaction tx, InfoRate newRate)
+    {
+        HashMap<String,Object> parameters= new HashMap<>();
+        parameters.put("author",newRate.getAuthor());
+        parameters.put("vote", newRate.getVote());
+        parameters.put("timestamp", newRate.getTimestamp().toString());
+        parameters.put("game", newRate.getGame());
+
+        Result result0 = tx.run("MATCH (u:User {username:$author})-[r:RATED]->(g:Game{name:$game})" +
+                "return r", parameters);
+        if(result0.hasNext())
+        {
+            return false;
+        }
+
+        Result result=tx.run("MATCH(u:User {username:$author}),(g:Game{name:$game}) " +
+                        "CREATE (u)-[r:RATED{timestamp:$timestamp, vote:$vote}]->(g) " +
+                        "return r"
+                ,parameters);
+        if(result.hasNext())
+        {
+            return true;
+        }
+        return false;
+    }
+
 
 }

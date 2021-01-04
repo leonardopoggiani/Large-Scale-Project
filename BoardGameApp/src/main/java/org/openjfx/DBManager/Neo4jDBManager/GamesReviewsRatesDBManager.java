@@ -128,7 +128,7 @@ public class GamesReviewsRatesDBManager {
         return numberRates;
     }
 
-    public static int avgRates(String name)
+    public static float avgRates(String name)
     {
         try(Session session=driver.session())
         {

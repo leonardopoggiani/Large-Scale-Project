@@ -1,9 +1,7 @@
 package org.openjfx.Controller;
 
-import org.openjfx.DBManager.MongoDBManager.MongoDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggGamesDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.Entities.InfoGame;
 import org.openjfx.Entities.InfoReview;
 
@@ -11,8 +9,8 @@ import java.util.List;
 
 public class GamesReviewsRatesDBController {
     public GamesReviewsRatesDBController() {
-        LoginSignUpDBManager.InitializeDriver();
-        MongoDBManager.createConnection();
+        //LoginSignUpDBManager.InitializeDriver();
+        //MongoDBManager.createConnection();
     }
 
     public List<InfoGame> neo4jListSuggestedGames(String username) {
@@ -61,9 +59,9 @@ public class GamesReviewsRatesDBController {
 
     }
 
-    public int neo4jAvgRates(String name) {
+    public float neo4jAvgRates(String name) {
 
-        int avgRates = 0;
+        float avgRates = 0;
         avgRates = GamesReviewsRatesDBManager.avgRates(name);
 
         System.out.println(avgRates);
@@ -94,4 +92,6 @@ public class GamesReviewsRatesDBController {
         return infoReviews;
 
     }
+
+
 }

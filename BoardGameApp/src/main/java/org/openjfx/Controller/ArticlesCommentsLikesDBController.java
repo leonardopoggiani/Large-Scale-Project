@@ -1,12 +1,10 @@
 package org.openjfx.Controller;
 
-import org.openjfx.DBManager.MongoDBManager.MongoDBManager;
+import org.openjfx.DBManager.MongoDBManager.ArticleDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ArticlesCommentsLikesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoComment;
-import org.openjfx.DBManager.MongoDBManager.ArticleDBManager;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -15,8 +13,8 @@ public class ArticlesCommentsLikesDBController {
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
     public ArticlesCommentsLikesDBController() {
-        LoginSignUpDBManager.InitializeDriver();
-        MongoDBManager.createConnection();
+        //LoginSignUpDBManager.InitializeDriver();
+        //MongoDBManager.createConnection();
     }
 
     public List<Article> neo4jListSuggestedArticles(String username) {

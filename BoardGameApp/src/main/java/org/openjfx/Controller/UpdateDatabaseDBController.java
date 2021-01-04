@@ -1,13 +1,11 @@
 package org.openjfx.Controller;
 
-import org.openjfx.DBManager.MongoDBManager.MongoDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.UpdateDatabaseDBManager;
 import org.openjfx.Entities.InfoComment;
 import org.openjfx.Entities.InfoLike;
+import org.openjfx.Entities.InfoRate;
 import org.openjfx.Entities.InfoReview;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 public class UpdateDatabaseDBController {
@@ -15,8 +13,8 @@ public class UpdateDatabaseDBController {
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
     public  UpdateDatabaseDBController() {
-        LoginSignUpDBManager.InitializeDriver();
-        MongoDBManager.createConnection();
+        //LoginSignUpDBManager.InitializeDriver();
+        //MongoDBManager.createConnection();
     }
 
     public Boolean Neo4jAddComment(InfoComment newComm) {
@@ -42,6 +40,27 @@ public class UpdateDatabaseDBController {
 
        Boolean ret = false;
         ret  = UpdateDatabaseDBManager.deleteComment(comm);
+
+        return ret;
+
+    }
+
+    public Boolean Neo4jAddReview(InfoReview newRev) {
+
+        Boolean ret = false;
+        ret = UpdateDatabaseDBManager.addReview(newRev);
+
+        return ret;
+
+    }
+
+    //Add rate se non esiste già un voto fatto dalla stessa persona sullo stesso gioco
+    public Boolean Neo4jAddRate(InfoRate newRate) {
+
+        Boolean ret = false;
+        ret = UpdateDatabaseDBManager.addRate(newRate);
+
+
 
         return ret;
 

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Main {
     public static void main (String[] args){
-        MongoDBManager.createConnection();
+        //MongoDBManager.createConnection();
         System.out.println("Connesso");
 
         //signup
