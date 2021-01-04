@@ -92,6 +92,7 @@ public class ArticleDBManager {
 
             while (cursor.hasNext()) {
                 ret.add(cursor.next());
+
             }
         }
 

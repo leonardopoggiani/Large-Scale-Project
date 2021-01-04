@@ -26,10 +26,13 @@ public class Main {
         //Filter article
         //List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByInfluencer("gaia1");
         //List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame("Cluedo");
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate("2020-12-29");
-        for (int i = 0; i<list.size(); i++){
-            System.out.println(list.get(i));
-        }
+        //List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate("2020-12-29");
+        //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByName("Monopoli");
+        //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByCategory("Economy");
+        //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByPlayers(10);
+        //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByYear(1960);
+        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("reviews");
+
 
         MongoDBManager.close();
 
