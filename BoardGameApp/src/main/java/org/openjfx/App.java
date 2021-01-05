@@ -27,7 +27,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("login"));
         stage.setScene(scene);
         stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
-
+        stage.setTitle("BoardgameApp");
         stage.show();
     }
 
