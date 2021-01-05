@@ -2,92 +2,30 @@
     "name":"Quizduell",
     "alt_name":"",
     "year":"",
-    "game_type":["Board"],
+    "category":["Board"],
     "description":"",
-    // "designer":"",
-    // "artist":"",
     "publisher":"['Ravensburger']",
     "url":"https://www.luding.org/cgi-bin/GameData.py/ENgameid/27035",
-    // "official_url":"", o uno o l'altro fate pace
-
     "image_url":"['http://luding.org/luding/press/2014QuizduellDasSpiel.jpg']",
-    // "image_file":"[]",
-
-    // "video_url":"",
     "rules_url":"",
-    // "rules_file":"",
-    // external rating url
-    // "review_url":"['http://www.brettspielblog.ch/spielkritik/quizduell-das-spiel-spielkritik/', 'http://www.superfred.de/quizduelldasspiel.html', 'http://www.mikes-gaming.net/spiele-komplettliste/komplettliste-aktuelle-spiele-alphabet/item/324-quizduell-das-spiel.html', 'http://www.reich-der-spiele.de/kritiken/Quizduell-Das-Spiel', 'http://www.spielkult.de/quizduell.htm']",
-    // "external_link":"",
     "list_price":"",
     "min_players":"2",
     "max_players":"6",
-    "min_players_rec":"",
-    "max_players_rec":"",
-    // "min_players_best":"",
-    // "max_players_best":"",
     "min_age":"12",
     "max_age":"",
-    // "min_age_rec":"",
-    // "max_age_rec":"",
     "min_time":"",
     "max_time":"",
-    "category":"",
-    "mechanic":"",
     "cooperative":"",
-    // "compilation":"",
-    // "compilation_of":"",
     "family":"",
     "expansion":"",
-    "implementation":"",
-    // "integration":"",
-    // "rank":"",
-    // "add_rank":"",
     "num_votes":"", 
     "avg_rating":"", 
-    "num_internal_votes":"", 
-    "avg_internal_rating":"",
     "num_review": "",
-    // "worst_rating":"",
-    // "best_rating":"",
-    // "stddev_rating":"",
-    // "bayes_rating":"",
     "complexity":"",
-    "easiest_complexity":"",
-    "hardest_complexity":"",
     "language_dependency":"",
-    "lowest_language_dependency":"",
-    "highest_language_dependency":"",
-
-    // TENERE SOLO I NON NULL
-    "bgg_id":"",
-    "freebase_id":"",
-    "wikidata_id":"",
-    "wikipedia_id":"",
-    "dbpedia_id":"",
-    "luding_id":"27035",
-    "spielen_id":"",
-    "bga_id":"",
 
     "published_at":"",
     "updated_at":"",
-    "scraped_at":"2020-11-30T10:21:07+0000",
+    "scraped_at":"2020-11-30T10:21:07+0000"
 
-    "groups": [
-        {
-            "Name": "",
-            "Description": "",
-            "creation_timestamp": "",
-            "owner": "",
-            "game": [""],
-            "posts":
-            [
-                {
-                    "text":"",
-                    "timestamp":"",
-                    "author": ""
-                }
-            ]
-        }
-    ]
 }

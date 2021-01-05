@@ -84,6 +84,9 @@
                </font>
             </Text>
             <Text fx:id="author" layoutX="25.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Button fx:id="delete1" cancelButton="true" layoutX="526.0" layoutY="309.0" mnemonicParsing="false" text="Delete" visible="false" />
+            <Button fx:id="delete2" cancelButton="true" layoutX="528.0" layoutY="362.0" mnemonicParsing="false" text="Delete" visible="false" />
+            <Button fx:id="delete3" cancelButton="true" layoutX="530.0" layoutY="417.0" mnemonicParsing="false" text="Delete" visible="false" />
          </children></AnchorPane>
   </content>
 </TitledPane>

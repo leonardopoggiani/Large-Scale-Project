@@ -60,50 +60,6 @@ db.Games.aggregate([
 	{$sort:{_id:1}}
 ])
 
-// ------ NEL GRAPH DB -------
-
-//Influencers who wrotes articles about less than 10 games in a period
-
-// però questa query è un po' diversa in realtà:
-// presi gli articoli pubblicati nell'ultimo mese (ad esempio) conta il numero di volte che un gioco è stato riferito da questi articoli, 
-// che potrebbe essere interessante
-// da proporre nella schermata del gioco ma non riporta informazioni sugli autori
-
-// da portare su graphDB (schermata del gioco)
-db.users.aggregate( 
-[
-  {$unwind: "$articles"}, 
-  {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
-  {$unwind: "$articles.games"},
-  {$group: {_id:"$articles.games", countGames: {$sum: 1}} },
-  {$match: {countGames: {$lt: 10}}},
-  {$sort: {countGames: 1}}
-  ]
-).pretty();
-
-//SOLO SE SE NE PUÒ FARE PIÙ DI UNA
-// (variante) Quante volte un utente ha recensito un gioco, potrebbe essere utile?
-db.users.aggregate( 
-[
-  {$unwind: "$articles"}, 
-  {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
-  {$unwind: "$articles.games"},
-  {$group: {_id: {author: "$articles.author", game: "$articles.games"}, countAuthor: {$sum: 1}} },  ]
-).pretty();
-
-// questa sembra più simile a quello che hai scritto, trova il numero di giochi su cui un influencer ha scritto articoli in un tot periodo
-db.users.aggregate( 
-    [
-        {$unwind: "$articles"}, 
-        {$match: {"articles.timestamp": {"$lt": new Date("2020-12-31T00:00:00Z"),"$gt" : new Date("2020-12-01T00:00:00Z") } } },  
-        {$unwind: "$articles.games"},
-        {$group: {_id: {author: "$articles.author", game: "$articles.games"}, countAuthor: {$sum: 1}} }, {$group: {_id: "$_id.author", countGames: {$sum: 1}} },
-        {$sort: {countGames: 1}}
-    ]
-);
-
-// ------------
-
 //4) informazioni su una particolare categoria di giochi (schermata statistiche sui giochi)
 
 db.boardgame.aggregate(

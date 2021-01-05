@@ -50,6 +50,10 @@ public class article {
            for(int i = 0; i < infoComments.size() && i < 3; i++){
                TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
                commento.setText(infoComments.get(i).getText());
+               if(infoComments.get(i).getAuthor() == login.getLoggedUser()){
+                   Button delete = (Button) App.getScene().lookup("#button" + i);
+                   delete.setDisable(false);
+               }
            }
 
            setSuggestedArticles();
