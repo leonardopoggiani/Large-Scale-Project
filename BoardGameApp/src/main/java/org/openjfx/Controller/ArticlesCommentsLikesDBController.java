@@ -98,18 +98,18 @@ public class ArticlesCommentsLikesDBController {
 
     }
 
-    public List<Document> filterByInfluencer(String influencer){
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByInfluencer(influencer);
+    public List<Article> filterByInfluencer(String influencer){
+        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByInfluencer(influencer);
         return list;
     }
 
-    public List<Document> filterByGame(String game){
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame(game);
+    public List<Article> filterByGame(String game){
+        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame(game);
         return list;
     }
 
-    public List<Document> filterByDate(String date){
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate(date);
+    public List<Article> filterByDate(String date){
+        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate(date);
         return list;
     }
 }

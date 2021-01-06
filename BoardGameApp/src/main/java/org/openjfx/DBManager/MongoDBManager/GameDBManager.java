@@ -31,14 +31,14 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()){
             while(cursor.hasNext()){
                 Document next = cursor.next();
-                // System.out.println(next.toJson());
+                 System.out.println(next.toJson());
                 g.setAvgRating(Double.parseDouble(next.get("avg_rating").toString()));
                 g.setImageUrl(next.get("image_url").toString());
                 g.setMaxAge(Integer.parseInt(next.get("max_age").toString()));
                 g.setMaxPlayers(Integer.parseInt(next.get("max_player").toString()));
                 g.setMaxTime(next.get("max_time").toString());
                 g.setMinAge(Integer.parseInt(next.get("min_age").toString()));
-                g.setMinPlayers(Integer.parseInt(next.get("min_players").toString()));
+                g.setMinPlayers(Integer.parseInt(next.get("min_player").toString()));
                 g.setMinTime(next.get("min_time").toString());
                 g.setPublisher(next.get("publisher").toString());
                 g.setRules(next.get("rules").toString());
