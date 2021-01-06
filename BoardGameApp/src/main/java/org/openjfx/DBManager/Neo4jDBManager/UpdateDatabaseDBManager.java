@@ -4,10 +4,7 @@ import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 import org.neo4j.driver.TransactionWork;
-import org.openjfx.Entities.InfoComment;
-import org.openjfx.Entities.InfoLike;
-import org.openjfx.Entities.InfoRate;
-import org.openjfx.Entities.InfoReview;
+import org.openjfx.Entities.*;
 
 import java.util.HashMap;
 
@@ -158,6 +155,34 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
         return false;
     }
 
+    public static Boolean deleteReview(InfoReview delRev) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionDeleteRev(tx, delRev);
+                }
+            });
+
+
+        }
+    }
+    private static Boolean transactionDeleteRev(Transaction tx, InfoReview delRev) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("author", delRev.getAuthor());
+        parameters.put("timestamp", delRev.getTimestamp().toString());
+        parameters.put("game", delRev.getGame());
+
+        Result result = tx.run("MATCH (ua:User {username:$author})-[r:REVIEWED {timestamp:$timestamp}]->(g:Game{name:$game}) " +
+                        "DELETE r return r"
+                , parameters);
+
+
+        return true;
+    }
+
+
     public static Boolean addRate(InfoRate newRate) {
         try (Session session = driver.session()) {
             boolean res;
@@ -197,5 +222,57 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
         return false;
     }
 
+
+    public static Boolean addGroup(InfoGroup newGroup) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionAddGroup(tx, newGroup);
+                }
+            });
+
+
+        }
+    }
+
+    private static Boolean transactionAddGroup(Transaction tx, InfoGroup group)
+    {
+
+        HashMap<String,Object> parameters= new HashMap<>();
+        parameters.put("admin",group.getAdmin());
+        parameters.put("game", group.getGame());
+        parameters.put("timestamp", group.getTimestamp().toString());
+        parameters.put("desc", group.getDescription());
+        parameters.put("name", group.getName());
+
+        Result result0 = tx.run("MATCH (u:User {username:$admin})-[b:BE_PART]->(g:Group{name:$name, admin:$admin}) return g"
+                ,parameters);
+
+        if(result0.hasNext()) {
+            System.out.println("Già hai creato un gruppo con questo nome, cambialo!");
+            return false;
+        }
+        else {
+
+            Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game})" +
+                            "CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)"
+                    , parameters);
+            if(result.hasNext())
+            {
+                System.out.println("Ho aggiunto il nuovo gruppo");
+                return true;
+            }
+            return false;
+        }
+
+
+
+    }
+
+    //add member to a group
+    //show all members of a group
+    //delete group
 
 }

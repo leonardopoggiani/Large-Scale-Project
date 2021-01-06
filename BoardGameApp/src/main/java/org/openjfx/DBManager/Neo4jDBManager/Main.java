@@ -1,8 +1,9 @@
 package org.openjfx.DBManager.Neo4jDBManager;
 
 import org.openjfx.Controller.GamesReviewsRatesDBController;
+import org.openjfx.Controller.GroupsPostsDBController;
 import org.openjfx.Controller.UpdateDatabaseDBController;
-import org.openjfx.Entities.InfoRate;
+import org.openjfx.Entities.InfoGroup;
 
 import java.sql.Timestamp;
 
@@ -87,7 +88,7 @@ public class Main {
         System.out.println(c.toString());
 
 
-        Boolean retDelCom = ud.Neo4jDeleteComment(c);*/
+        Boolean retDelCom = ud.Neo4jDeleteComment(c);
 
         gr.neo4jListSuggestedGames("Gaia5");
         System.out.println("---------------------------");
@@ -103,7 +104,7 @@ public class Main {
 
         gr.neo4jListGamesReviews("Spirit Island");
 
-        /*InfoReview rev = new InfoReview();
+        InfoReview rev = new InfoReview();
 
         rev.setAuthor("sara");
         rev.setText("Gioco di merda");
@@ -118,9 +119,7 @@ public class Main {
 
         quanteRev = gr.neo4jCountReviews("Spirit Island");
 
-        System.out.println("Reviews dopo: " + quanteRev);*/
-
-
+        System.out.println("Reviews dopo: " + quanteRev);
 
 
 
@@ -155,13 +154,28 @@ public class Main {
 
 
 
+
+
+
+        InfoReview rev2 = new InfoReview();
+        rev2.setAuthor("sara");
+        rev2.setText("Gioco di merda");
+        Timestamp tsrev2 = Timestamp.valueOf("2021-01-02 17:38:12.893");
+        rev2.setTimestamp(tsrev2);
+        ud.Neo4jDeleteReview(rev2);*/
+
+        InfoGroup group = new InfoGroup();
+        group.setAdmin("Gaia5");
+        group.setDescription("carino e tutto");
+        group.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        group.setGame("Spirit Island");
+        group.setName("Gruppo mio");
+
+        ud.Neo4jAddGroup(group);
+
+        GroupsPostsDBController gp = new GroupsPostsDBController();
+        gp.neo4jShowUsersGroups("Gaia5");
         Neo4jDBManager.close();
-
-
-
-
-
-
 
 
 

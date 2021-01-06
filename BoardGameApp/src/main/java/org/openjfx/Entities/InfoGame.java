@@ -1,9 +1,5 @@
 package org.openjfx.Entities;
 
-import java.sql.*;
-
-import java.util.List;
-
 public class InfoGame {
     private String name;
     private int year;
@@ -22,8 +18,7 @@ public class InfoGame {
     private int numReviews;
     private double avgRating;
     //Non so se servono per ora le lascio qua
-    private List<InfoReview> reviews;
-    private List<InfoGroup> groups;
+    //private List<InfoReview> reviews;
 
     public InfoGame() {
     }
@@ -168,9 +163,6 @@ public class InfoGame {
                 "name='" + name + '\'' +
                 ", category1='" + category1 + '\'' +
                 ", category2='" + category2 + '\'' +
-                ", groups=" + groups +
                 '}';
     }
-
-
 }
