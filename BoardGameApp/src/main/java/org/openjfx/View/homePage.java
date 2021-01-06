@@ -158,9 +158,9 @@ public class homePage {
         String nome = (String) gioco.getSelectionModel().getSelectedItem();
         System.out.println(nome + " , " + autore.getText() + " , " + data.getValue() );
 
-        List<Document> filteredGames0 = null;
-        List<Document> filteredGames1 = null;
-        List<Document> filteredGames2 = null;
+        List<Article> filteredGames0 = null;
+        List<Article> filteredGames1 = null;
+        List<Article> filteredGames2 = null;
 
         if(nome != null) {
             filteredGames0 = controller.filterByGame(nome);
