@@ -155,32 +155,29 @@ public class homePage {
         DatePicker data = (DatePicker) App.getScene().lookup("#data");
 
         LocalDate valoreData = data.getValue();
-        String nome = (String) gioco.getSelectionModel().getSelectedItem();
-        System.out.println(nome + " , " + autore.getText() + " , " + data.getValue() );
+        String game = (String) gioco.getSelectionModel().getSelectedItem();
+        String nome = autore.getText();
 
         List<Article> filteredGames0 = null;
         List<Article> filteredGames1 = null;
         List<Article> filteredGames2 = null;
 
+        if(game != null) {
+            filteredGames0 = controller.filterByGame(game);
+        }
+
+        if(valoreData != null){
+            filteredGames1 = controller.filterByDate(String.valueOf(valoreData));
+        }
+
         if(nome != null) {
-            filteredGames0 = controller.filterByGame(nome);
+            filteredGames2 = controller.filterByInfluencer(nome);
         }
 
-        if(data.getValue() != null){
-            filteredGames1 = controller.filterByDate(String.valueOf(data.getValue()));
-        }
-
-        if(autore.getValue() != null) {
-            filteredGames2 = controller.filterByInfluencer(autore.getText());
-        }
-
-        if(filteredGames0 != null && filteredGames1 != null && filteredGames2 != null){
-            // and di tutti i filtri, solo risultati in comune
-            filteredGames0.retainAll(filteredGames1);
-            filteredGames0.retainAll(filteredGames2);
-            System.out.println(filteredGames0);
-        } else {
-            logger.info("Non ci sono elementi da mostrare");
+        if(filteredGames0 != null && filteredGames1 != null && filteredGames2 != null) {
+            if( filteredGames0.size() + filteredGames1.size() + filteredGames2.size() < 6 ) {
+                // gli articoli filtrati non riempiono la homepage
+            }
         }
 
     }

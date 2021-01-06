@@ -34,7 +34,7 @@
             <ComboBox fx:id="category" layoutX="87.0" layoutY="193.0" onMouseClicked="#caricaCategorie" prefHeight="28.0" prefWidth="114.0" promptText="Categories" />
             <ComboBox fx:id="order" layoutX="87.0" layoutY="319.0" onMouseClicked="#caricaOrdinamenti" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
             <TextField fx:id="year" layoutX="110.0" layoutY="282.0" prefHeight="26.0" prefWidth="78.0" />
-            <Slider fx:id="players" layoutX="64.0" layoutY="239.0" max="16.0" min="1.0" onMouseClicked="#aggiorna" prefHeight="24.0" prefWidth="114.0" value="1.0" />
+            <Slider fx:id="players" layoutX="64.0" layoutY="239.0" max="16.0" min="1.0" onMouseClicked="#aggiorna" onMouseDragOver="#aggiorna" prefHeight="24.0" prefWidth="114.0" value="1.0" />
             <Text fx:id="numplayers" layoutX="184.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
          </children>
       </AnchorPane>

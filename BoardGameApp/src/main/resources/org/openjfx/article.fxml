@@ -4,14 +4,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#setArticleFields" prefHeight="597.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.article">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#setArticleFields" prefHeight="597.0" prefWidth="810.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.article">
    <content>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="853.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="853.0" stylesheets="@style.css">
          <children>
             <Text fx:id="titolo" layoutX="348.0" layoutY="40.0" onMouseMoved="#setArticleFields" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
                <font>
@@ -35,14 +36,14 @@
             <Button fx:id="unlikebutton" layoutX="252.0" layoutY="158.0" mnemonicParsing="false" onMouseClicked="#unlike" style="-fx-background-color: red;" text="Dislike" />
             <TextArea fx:id="articlecomment" layoutX="14.0" layoutY="210.0" prefHeight="46.0" prefWidth="566.0" promptText="Comment" />
             <Button layoutX="608.0" layoutY="220.0" mnemonicParsing="false" onMouseClicked="#postComment" text="Comment" />
-            <TextArea fx:id="comment1" editable="false" layoutX="22.0" layoutY="299.0" prefHeight="44.0" prefWidth="481.0" />
+            <TextArea fx:id="comment1" editable="false" layoutX="22.0" layoutY="299.0" prefHeight="44.0" prefWidth="211.0" promptText="comment1" />
             <Text layoutX="17.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Other comments:">
                <font>
                   <Font name="System Italic" size="18.0" />
                </font>
             </Text>
-            <TextArea fx:id="comment2" editable="false" layoutX="22.0" layoutY="352.0" prefHeight="44.0" prefWidth="481.0" />
-            <TextArea fx:id="comment3" editable="false" layoutX="22.0" layoutY="407.0" prefHeight="44.0" prefWidth="481.0" />
+            <TextArea fx:id="comment2" editable="false" layoutX="22.0" layoutY="352.0" prefHeight="44.0" prefWidth="211.0" promptText="comment2" />
+            <TextArea fx:id="comment3" editable="false" layoutX="22.0" layoutY="407.0" prefHeight="44.0" prefWidth="209.0" promptText="comment3" />
             <TitledPane fx:id="fullarticle1" animated="false" layoutX="19.0" layoutY="491.0" prefHeight="87.0" prefWidth="181.0" text="Article 1">
                <content>
                   <AnchorPane fx:id="article1" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="72.0" prefWidth="179.0">
@@ -92,6 +93,12 @@
             <Button fx:id="delete1" cancelButton="true" layoutX="526.0" layoutY="309.0" mnemonicParsing="false" text="Delete" visible="false" />
             <Button fx:id="delete2" cancelButton="true" layoutX="528.0" layoutY="362.0" mnemonicParsing="false" text="Delete" visible="false" />
             <Button fx:id="delete3" cancelButton="true" layoutX="530.0" layoutY="417.0" mnemonicParsing="false" text="Delete" visible="false" />
+            <TextField fx:id="author1" layoutX="252.0" layoutY="309.0" prefHeight="26.0" prefWidth="94.0" promptText="author1" />
+            <TextField fx:id="timestamp1" layoutX="379.0" layoutY="309.0" prefHeight="26.0" prefWidth="94.0" promptText="timestamp1" />
+            <TextField fx:id="author2" layoutX="248.0" layoutY="361.0" prefHeight="26.0" prefWidth="94.0" promptText="author2" />
+            <TextField fx:id="timestamp2" layoutX="379.0" layoutY="361.0" prefHeight="26.0" prefWidth="94.0" promptText="timestamp2" />
+            <TextField fx:id="author3" layoutX="248.0" layoutY="416.0" prefHeight="26.0" prefWidth="94.0" promptText="author3" />
+            <TextField fx:id="timestamp3" layoutX="379.0" layoutY="416.0" prefHeight="26.0" prefWidth="94.0" promptText="timestamp3" />
          </children>
       </AnchorPane>
    </content>

@@ -82,7 +82,7 @@
             <Text layoutX="92.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group name" />
             <Text layoutX="110.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" wrappingWidth="35.084632873535156" />
             <Button layoutX="240.0" layoutY="480.0" mnemonicParsing="false" onAction="#createGroup" onMouseClicked="#createGroup" text="Create" />
-            <TextField fx:id="referredgame1" layoutX="206.0" layoutY="439.0" promptText="Description (optional)" />
+            <TextField fx:id="description" layoutX="206.0" layoutY="439.0" promptText="Description (optional)" />
             <Text layoutX="91.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="72.68880462646484" />
          </children>
       </AnchorPane>

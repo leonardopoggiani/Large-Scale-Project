@@ -133,7 +133,7 @@ public class games {
         if( categoria.getSelectionModel().getSelectedItem() != null) {
             int index1 = categoria.getSelectionModel().getSelectedIndex();
             String categoria1 = categorie.get(index1);
-            filteredGames0 = controller.filterByCategory(categoria1);
+            // filteredGames0 = controller.filterByCategory(categoria1);
         }
 
         if( autore.getText() != null && autore.getText().equals("")) {
@@ -188,7 +188,7 @@ public class games {
         Slider player = (Slider) App.getScene().lookup("#players");
         Text numplayers = (Text) App.getScene().lookup("#numplayers");
 
-        numplayers.setText(String.valueOf(Integer.parseInt(String.valueOf((Math.floor(player.getValue()))))));
+        numplayers.setText(String.valueOf(Math.floor(player.getValue())));
     }
 
     @FXML
@@ -209,7 +209,7 @@ public class games {
     }
 
 
-        public static String getGame(){
+    public static String getGame(){
         return game;
     }
 }
