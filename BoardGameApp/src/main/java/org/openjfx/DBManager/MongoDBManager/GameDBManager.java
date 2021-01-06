@@ -20,7 +20,7 @@ import static com.mongodb.client.model.Sorts.descending;
 
 public class GameDBManager {
     public static InfoGame readGame(String game){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("boardgame");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson unwind = unwind("$category");
         Bson projection = project(fields( excludeId()));
@@ -40,7 +40,7 @@ public class GameDBManager {
                 g.setMaxPlayers(Integer.parseInt(next.get("max_player").toString()));
                 g.setMaxTime(next.get("max_time").toString());
                 g.setMinAge(Integer.parseInt(next.get("min_age").toString()));
-                g.setMinPlayers(Integer.parseInt(next.get("min_players").toString()));
+                g.setMinPlayers(Integer.parseInt(next.get("min_player").toString()));
                 g.setMinTime(next.get("min_time").toString());
                 g.setPublisher(next.get("publisher").toString());
                 g.setRules(next.get("rules").toString());

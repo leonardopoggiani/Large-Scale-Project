@@ -37,12 +37,15 @@ public class groups {
     void createGroup() throws IOException {
         TextField tf = (TextField) App.getScene().lookup("#groupname");
         TextField tf2 = (TextField) App.getScene().lookup("#referredgame");
+        TextField tf3 = (TextField) App.getScene().lookup("#description");
 
         String groupname = tf.getText();
         String game = tf2.getText();
+        String description = tf3.getText();
 
         tf.setText("");
-        tf2.setStyle("");
+        tf2.setText("");
+        tf3.setText("");
     }
 
     

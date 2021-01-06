@@ -53,6 +53,7 @@ public class article {
                if(infoComments.get(i).getAuthor() == login.getLoggedUser()){
                    Button delete = (Button) App.getScene().lookup("#button" + i);
                    delete.setDisable(false);
+                   delete.setVisible(true);
                }
            }
 

@@ -1,6 +1,10 @@
 package org.openjfx.View;
 
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.graph.Graph;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,13 +15,18 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import org.bson.Document;
 import org.openjfx.App;
 import org.openjfx.Controller.ArticlesCommentsLikesDBController;
+import org.openjfx.Controller.GamesReviewsRatesDBController;
 import org.openjfx.Entities.Article;
+import org.openjfx.Entities.InfoGame;
 
 import java.io.IOException;
+import java.security.Key;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class homePage {
@@ -140,13 +149,40 @@ public class homePage {
 
     @FXML
     void filterResearch () throws IOException {
+        ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
         ComboBox gioco = (ComboBox) App.getScene().lookup("#gioco");
         AutoCompleteTextField autore = (AutoCompleteTextField) App.getScene().lookup("#author");
         DatePicker data = (DatePicker) App.getScene().lookup("#data");
 
         LocalDate valoreData = data.getValue();
         String nome = (String) gioco.getSelectionModel().getSelectedItem();
-        System.out.println(nome + " , " + autore.getText() + " , " + data.toString() );
+        System.out.println(nome + " , " + autore.getText() + " , " + data.getValue() );
+
+        List<Document> filteredGames0 = null;
+        List<Document> filteredGames1 = null;
+        List<Document> filteredGames2 = null;
+
+        if(nome != null) {
+            filteredGames0 = controller.filterByGame(nome);
+        }
+
+        if(data.getValue() != null){
+            filteredGames1 = controller.filterByDate(String.valueOf(data.getValue()));
+        }
+
+        if(autore.getValue() != null) {
+            filteredGames2 = controller.filterByInfluencer(autore.getText());
+        }
+
+        if(filteredGames0 != null && filteredGames1 != null && filteredGames2 != null){
+            // and di tutti i filtri, solo risultati in comune
+            filteredGames0.retainAll(filteredGames1);
+            filteredGames0.retainAll(filteredGames2);
+            System.out.println(filteredGames0);
+        } else {
+            logger.info("Non ci sono elementi da mostrare");
+        }
+
     }
 
     public static String getAuthor() {
