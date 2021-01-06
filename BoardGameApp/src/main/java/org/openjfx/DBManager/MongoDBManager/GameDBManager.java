@@ -20,7 +20,7 @@ import static com.mongodb.client.model.Sorts.descending;
 
 public class GameDBManager {
     public static InfoGame readGame(String game){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("boardgame");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson unwind = unwind("$category");
         Bson projection = project(fields( excludeId()));

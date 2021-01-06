@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.groups">
+<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.groups">
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
@@ -31,7 +31,7 @@
             <Text layoutX="22.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="532.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="575.0" prefWidth="514.0">
          <children>
             <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
             <BottomNavigation layoutX="51.0" layoutY="6.0">
@@ -77,11 +77,13 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-            <TextField fx:id="groupname" layoutX="206.0" layoutY="368.0" />
-            <TextField fx:id="referredgame" layoutX="203.0" layoutY="401.0" />
+            <TextField fx:id="groupname" layoutX="206.0" layoutY="368.0" promptText="Group name" />
+            <TextField fx:id="referredgame" layoutX="206.0" layoutY="402.0" promptText="Game name" />
             <Text layoutX="92.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group name" />
             <Text layoutX="110.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" wrappingWidth="35.084632873535156" />
-            <Button layoutX="210.0" layoutY="442.0" mnemonicParsing="false" onAction="#createGroup" onMouseClicked="#createGroup" text="Create" />
+            <Button layoutX="240.0" layoutY="480.0" mnemonicParsing="false" onAction="#createGroup" onMouseClicked="#createGroup" text="Create" />
+            <TextField fx:id="referredgame1" layoutX="206.0" layoutY="439.0" promptText="Description (optional)" />
+            <Text layoutX="92.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="66.076171875" />
          </children>
       </AnchorPane>
    </items>
