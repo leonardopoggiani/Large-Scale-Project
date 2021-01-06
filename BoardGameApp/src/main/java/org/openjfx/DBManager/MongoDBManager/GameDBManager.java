@@ -22,18 +22,20 @@ public class GameDBManager {
     public static InfoGame readGame(String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
-        Bson unwind = unwind("$game_type");
+        Bson unwind = unwind("$category");
         Bson projection = project(fields( excludeId()));
         Bson match =  match(eq("name",game));
 
         InfoGame g = new InfoGame();
 
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()){
+
             while(cursor.hasNext()){
+                // controlli su valori null
                 Document next = cursor.next();
-                 System.out.println(next.toJson());
-                g.setAvgRating(Double.parseDouble(next.get("avg_rating").toString()));
-                g.setImageUrl(next.get("image_url").toString());
+
+                g.setAvgRating(Double.parseDouble((next.get("avg_rating") == null) ? "0.0" : next.get("avg_rating").toString()));
+                g.setImageUrl((next.get("image_url") == null) ? "" : next.get("avg_rating").toString());
                 g.setMaxAge(Integer.parseInt(next.get("max_age").toString()));
                 g.setMaxPlayers(Integer.parseInt(next.get("max_player").toString()));
                 g.setMaxTime(next.get("max_time").toString());
@@ -50,9 +52,6 @@ public class GameDBManager {
                 g.setCategory1(next.get("game_type").toString());
                 Document d = cursor.next();
                 g.setCategory2(d.get("game_type").toString());
-
-
-
 
             }
             cursor.close();
