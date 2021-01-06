@@ -18,8 +18,8 @@ public class Main {
         //SignupLoginDBManager.updateLogin("gaia2");
 
         //Read game
-        //InfoGame g = org.openjfx.DBManager.MongoDBManager.GameDBManager.readGame("Monopoli");
-        /*System.out.println(g.getAvgRating() + " " + g.getMaxAge() + " " + g.getMinAge() + " " +g.getMinPlayers() + " " +
+        /*InfoGame g = org.openjfx.DBManager.MongoDBManager.GameDBManager.readGame("Muse: Awakenings");
+        System.out.println(g.getAvgRating() + " " + g.getMaxAge() + " " + g.getMinAge() + " " +g.getMinPlayers() + " " +
         g.getMaxPlayers() + " " +g.getNumReviews() + " " + g.getYear() + " " + g.getCategory1() + " " +g.getCategory2() + " " + g.getImageUrl() +g.getMaxTime()
         +" " +g.getMinTime() +" " +g.getName() + " " + g.getUrl());*/
 

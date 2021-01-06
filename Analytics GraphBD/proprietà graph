@@ -2,6 +2,7 @@ Group
 -Id
 -name
 -timestamp
+-Description
 
 //Da article o da group VERSO game
 REFERRED
@@ -49,10 +50,18 @@ FOLLOW
 
 -REVIEWED
 -id
--timestamo
+-timestamp
 -text
 
 -RATED
 -id
 -timestamp
 -value
+
+-POST
+-text
+-timestamp
+
+           
+
+

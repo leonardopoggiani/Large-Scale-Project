@@ -17,10 +17,11 @@ public class signup {
     Logger logger =  Logger.getLogger(this.getClass().getName());
     LoginSignUpDBController neo = new LoginSignUpDBController();
     // le categorie dei due menù dropdown
-    ObservableList<String> categorie = FXCollections.observableArrayList("Math:1104","Card InfoGame:1002","Humor:1079","Party InfoGame:1030",
+    ObservableList<String> categorie = FXCollections.observableArrayList(
+            "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
             "Book:1117","Fantasy:1010","Miniatures:1047","Wargame:1019",
-            "Napoleonic:1051","Children's InfoGame:1041","Memory:1045",
+            "Napoleonic:1051","Children's Game:1041","Memory:1045",
             "Educational:1094","Medical:2145","Animals:1089","Racing:1031",
             "Adventure:1022","Travel:1097","Abstact Strategy:1009",
             "Economic:1021","Trains:1034","Transportation:1011","Real-time:1037",
@@ -30,7 +31,7 @@ public class signup {
             "Spies/Secret Agents:1081","Deduction:1039","Murder/Mystery:1040",
             "Aviation/Flight:2650","Modern Warfare:1069","Territory Building:1086",
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
-            "Exploration:1020","Word-game:1025","Video InfoGame Theme:1101");
+            "Exploration:1020","Word-game:1025","Video Game Theme:1101");
 
     @FXML
     void caricaCategorie() throws IOException {

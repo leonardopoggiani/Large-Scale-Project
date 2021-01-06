@@ -1,8 +1,10 @@
 package org.openjfx.Controller;
 
 import org.bson.Document;
+import org.openjfx.DBManager.MongoDBManager.GameDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggGamesDBManager;
+import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoGame;
 import org.openjfx.Entities.InfoReview;
 
@@ -97,7 +99,9 @@ public class GamesReviewsRatesDBController {
     }
 
     public InfoGame showGame (String game){
-        InfoGame g = org.openjfx.DBManager.MongoDBManager.GameDBManager.readGame(game);
+        System.out.println("Game " + game);
+        InfoGame g = GameDBManager.readGame(game);
+        System.out.println(g);
         return g;
     }
 
