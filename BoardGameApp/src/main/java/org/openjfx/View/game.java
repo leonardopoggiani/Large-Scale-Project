@@ -7,6 +7,7 @@ import org.openjfx.App;
 import org.openjfx.Controller.GamesReviewsRatesDBController;
 import org.openjfx.Controller.UpdateDatabaseDBController;
 import org.openjfx.Entities.InfoGame;
+import org.openjfx.Entities.InfoRate;
 import org.openjfx.Entities.InfoReview;
 import javafx.scene.input.*;
 
@@ -140,4 +141,14 @@ public class game {
         controller.Neo4jDeleteReview(review);
     }
 
+    @FXML
+    void addVote() {
+        Slider voti = (Slider) App.getScene().lookup("#rate");
+        Text game = (Text) App.getScene().lookup("#title");
+        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+        System.out.println("Voto: " + voti.getValue());
+        InfoRate rate = new InfoRate(login.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
+        controller.Neo4jAddRate(rate);
+        System.out.println(rate);
+    }
 }

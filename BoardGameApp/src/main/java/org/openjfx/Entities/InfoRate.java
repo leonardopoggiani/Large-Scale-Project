@@ -4,13 +4,13 @@ import java.sql.Timestamp;
 
 public class InfoRate {
     private String author;
-    private int vote;
+    private double vote;
     private String game;
     private Timestamp timestamp;
 
     public InfoRate(){};
 
-    public  InfoRate(String author, int vote, String game, Timestamp timestamp)
+    public InfoRate(String author, double vote, String game, Timestamp timestamp)
     {
         this.author = author;
         this.vote = vote;
@@ -38,7 +38,7 @@ public class InfoRate {
         return author;
     }
 
-    public float getVote() {
+    public double getVote() {
         return vote;
     }
 

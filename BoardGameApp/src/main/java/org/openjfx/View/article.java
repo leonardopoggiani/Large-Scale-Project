@@ -1,10 +1,12 @@
 package org.openjfx.View;
 
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -37,8 +39,10 @@ public class article {
            Text author = (Text) App.getScene().lookup("#author");
            Text like = (Text) App.getScene().lookup("#numberlike");
            Text unlike = (Text) App.getScene().lookup("#numberunlike");
+           Text date = (Text) App.getScene().lookup("#data");
 
-           author.setText("written by " + homePage.getAuthor() + " published on " + homePage.getTimestamp());
+           date.setText(homePage.getTimestamp());
+           author.setText(homePage.getAuthor());
            titolo.setText(homePage.getTitolo());
            like.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"like")));
            unlike.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"dislike")));
@@ -156,6 +160,9 @@ public class article {
         TextField timestamp = (TextField) App.getScene().lookup("#timestamp1");
         timestamp.setText(String.valueOf(comment.getTimestamp()));
 
+        Button delete1 = (Button) App.getScene().lookup("#delete1");
+        delete1.setVisible(true);
+
         articlecomment.setText("");
     }
 
@@ -197,6 +204,49 @@ public class article {
             TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
             homePage.setTitle(tx.getText());
             App.setRoot("article");
+        }
+    }
+
+    @FXML
+    void deleteComment(MouseEvent event) throws IOException {
+        Button target = (Button) event.getSource();
+
+        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+        String comment = "";
+        String author = "";
+        String timestamp = "";
+        Text titolo = (Text) App.getScene().lookup("#titolo");
+        Text autore = (Text) App.getScene().lookup("#author");
+        String title = titolo.getText();
+        TextArea commentField = null;
+        TextField authorField = null;
+        TextField timestampField = null;
+
+        if(target.getId().equals("delete1")){
+            commentField = (TextArea) App.getScene().lookup("#comment1");
+            authorField = (TextField) App.getScene().lookup("#author1");
+            timestampField = (TextField) App.getScene().lookup("#timestamp1");
+        } else if (target.getId().equals("delete2")){
+            commentField = (TextArea) App.getScene().lookup("#comment2");
+            authorField = (TextField) App.getScene().lookup("#author2");
+            timestampField = (TextField) App.getScene().lookup("#timestamp2");
+        } else if (target.getId().equals("delete3")){
+            commentField = (TextArea) App.getScene().lookup("#comment3");
+            authorField = (TextField) App.getScene().lookup("#author3");
+            timestampField = (TextField) App.getScene().lookup("#timestamp3");
+        }
+
+        InfoComment infocomment = new InfoComment(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), autore.getText(),titolo.getText());
+        boolean ret = controller.Neo4jDeleteComment(infocomment);
+
+        commentField.setText("");
+        authorField.setText("");
+        timestampField.setText("");
+        target.setVisible(false);
+        if(ret){
+            logger.info("Ho cancellato il commento");
+        } else {
+            logger.info("Non c'erano commenti da cancellare");
         }
     }
 }

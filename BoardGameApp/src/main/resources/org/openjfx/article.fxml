@@ -89,16 +89,19 @@
                   <Font name="System Italic" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="author" layoutX="25.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Button fx:id="delete1" cancelButton="true" layoutX="526.0" layoutY="309.0" mnemonicParsing="false" text="Delete" visible="false" />
-            <Button fx:id="delete2" cancelButton="true" layoutX="528.0" layoutY="362.0" mnemonicParsing="false" text="Delete" visible="false" />
-            <Button fx:id="delete3" cancelButton="true" layoutX="530.0" layoutY="417.0" mnemonicParsing="false" text="Delete" visible="false" />
-            <TextField fx:id="author1" layoutX="252.0" layoutY="309.0" prefHeight="26.0" prefWidth="94.0" promptText="author1" />
-            <TextField fx:id="timestamp1" layoutX="379.0" layoutY="309.0" prefHeight="26.0" prefWidth="94.0" promptText="timestamp1" />
-            <TextField fx:id="author2" layoutX="248.0" layoutY="361.0" prefHeight="26.0" prefWidth="94.0" promptText="author2" />
-            <TextField fx:id="timestamp2" layoutX="379.0" layoutY="361.0" prefHeight="26.0" prefWidth="94.0" promptText="timestamp2" />
-            <TextField fx:id="author3" layoutX="248.0" layoutY="416.0" prefHeight="26.0" prefWidth="94.0" promptText="author3" />
-            <TextField fx:id="timestamp3" layoutX="379.0" layoutY="416.0" prefHeight="26.0" prefWidth="94.0" promptText="timestamp3" />
+            <Text fx:id="author" layoutX="98.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Button fx:id="delete1" cancelButton="true" layoutX="526.0" layoutY="309.0" mnemonicParsing="false" onMouseClicked="#deleteComment" text="delete1" visible="false" />
+            <Button fx:id="delete2" cancelButton="true" layoutX="526.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#deleteComment" text="delete2" visible="false" />
+            <Button fx:id="delete3" cancelButton="true" layoutX="526.0" layoutY="416.0" mnemonicParsing="false" onMouseClicked="#deleteComment" text="delete3" visible="false" />
+            <TextField fx:id="author1" editable="false" layoutX="248.0" layoutY="308.0" prefHeight="26.0" prefWidth="94.0" promptText="author1" />
+            <TextField fx:id="timestamp1" editable="false" layoutX="350.0" layoutY="309.0" prefHeight="26.0" prefWidth="156.0" promptText="timestamp1" />
+            <TextField fx:id="author2" editable="false" layoutX="248.0" layoutY="361.0" prefHeight="26.0" prefWidth="94.0" promptText="author2" />
+            <TextField fx:id="timestamp2" editable="false" layoutX="349.0" layoutY="361.0" prefHeight="26.0" prefWidth="157.0" promptText="timestamp2" />
+            <TextField fx:id="author3" editable="false" layoutX="248.0" layoutY="416.0" prefHeight="26.0" prefWidth="94.0" promptText="author3" />
+            <TextField fx:id="timestamp3" editable="false" layoutX="351.0" layoutY="416.0" prefHeight="26.0" prefWidth="154.0" promptText="timestamp3" />
+            <Text layoutX="25.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Written by" />
+            <Text layoutX="131.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text=", published on" />
+            <Text fx:id="data" layoutX="220.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
          </children>
       </AnchorPane>
    </content>

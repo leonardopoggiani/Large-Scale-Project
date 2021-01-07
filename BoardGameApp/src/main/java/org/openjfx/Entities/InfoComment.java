@@ -23,6 +23,7 @@ public class InfoComment {
         this.titleArt = titleArt;
     }
 
+
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
