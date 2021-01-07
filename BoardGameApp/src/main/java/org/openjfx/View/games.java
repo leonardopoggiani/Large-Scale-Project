@@ -119,43 +119,98 @@ public class games {
     void filterResearch () throws IOException {
         GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
         ComboBox categoria = (ComboBox) App.getScene().lookup("#category");
-        Text autore = (Text) App.getScene().lookup("#numplayers");
+        Slider players = (Slider) App.getScene().lookup("#players");
+        Text numplayers = (Text) App.getScene().lookup("#numplayers");
         TextField data = (TextField) App.getScene().lookup("#year");
         ComboBox order = (ComboBox) App.getScene().lookup("#order");
 
-        String filtraPerAutore = " ";
+        String filtraPerCategoria = " ";
+        int filtraGiocatori = 0;
         int filtraPerAnno = 0;
+        String ordina = "";
 
         List<InfoGame> filteredGames0 = null;
         List<InfoGame> filteredGames1 = null;
         List<InfoGame> filteredGames2 = null;
+        List<InfoGame> temp = null;
+        List<InfoGame> sortedList = null;
 
-        if( categoria.getSelectionModel().getSelectedItem() != null) {
+        if(categoria.getSelectionModel().getSelectedItem() != null) {
             int index1 = categoria.getSelectionModel().getSelectedIndex();
             String categoria1 = categorie.get(index1);
-            // filteredGames0 = controller.filterByCategory(categoria1);
+            filteredGames0 = controller.filterByCategory(categoria1);
+            temp = filteredGames0;
         }
 
-        if( autore.getText() != null && autore.getText().equals("")) {
-            filtraPerAutore = autore.getText();
-        }
-
-        if( data.getText() == null || data.getText().equals(" ")){
-            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Rome"), Locale.ITALY);
-            if( Integer.parseInt(data.getText()) > 1900 && Integer.parseInt(data.getText()) < calendar.get(Calendar.YEAR)){
+        if(!data.getText().equals("")) {
+            if (Integer.parseInt(data.getText()) > 1900 || Integer.parseInt(data.getText()) < 2022) {
                 filtraPerAnno = Integer.parseInt(data.getText());
+
+                if(filteredGames0 == null) {
+                    filteredGames0 = controller.filterByYear(filtraPerAnno);
+                    temp = filteredGames0;
+                }
+                else {
+                    filteredGames1 = controller.filterByYear(filtraPerAnno);
+                }
             }
+        }
+
+        if (players.getValue() > 0 || players.getValue() <= 16) {
+            filtraGiocatori = (int) players.getValue();
+
+            if(filteredGames0 == null) {
+                filteredGames0 = controller.filterByPlayers(filtraGiocatori);
+            }
+            else {
+                filteredGames2 = controller.filterByPlayers(filtraGiocatori);
+            }
+        }
+
+        temp = filteredGames0;
+
+        if(filteredGames1 != null) {
+            filteredGames0.retainAll(filteredGames1);
+        }
+        if(filteredGames2 != null) {
+            filteredGames0.retainAll(filteredGames2);
         }
 
         List<InfoGame> filteringResult = filteredGames0;
 
+        if(order.getSelectionModel().getSelectedItem() != null) {
+            int index1 = categoria.getSelectionModel().getSelectedIndex();
+            String ordering = categorie.get(index1);
+            sortedList = controller.orderBy(ordering);
+            filteredGames0.retainAll(sortedList);
+        }
+
+        if(filteringResult.size() < 6){
+            // ho pochi giochi da mostrare, aggiungo giochi a caso
+            if(temp.size() > 2){
+                filteringResult.add(temp.get(0));
+                filteringResult.add(temp.get(1));
+            }
+
+            if(filteredGames1.size() > 2){
+                filteringResult.add(filteredGames1.get(0));
+                filteringResult.add(filteredGames1.get(1));
+            }
+
+            if(filteredGames2.size() > 2){
+                filteringResult.add(filteredGames2.get(0));
+                filteringResult.add(filteredGames2.get(1));
+            }
+        }
         showFilteringResult(filteringResult);
     }
 
     private void showFilteringResult(List<InfoGame> filteringResult) {
+        logger.info("show filtering result");
         if (filteringResult != null) {
             System.out.println("Lunghezza lista " + filteringResult.size());
             for (int i = 0; i < filteringResult.size() && i < 6; i++) {
+                logger.info("mostro");
                 InfoGame g = (InfoGame) filteringResult.get(i);
                 TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
                 Text category1 = (Text) App.getScene().lookup("#category1" + (i + 1));

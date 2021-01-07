@@ -107,27 +107,28 @@ public class GamesReviewsRatesDBController {
     }
 
     public List<InfoGame> filterByName (String game){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByName(game);
+        List<InfoGame> list = GameDBManager.filterByName(game);
         return list;
     }
 
     public List<InfoGame> filterByCategory(String category){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByCategory(category);
+        List<InfoGame> list = GameDBManager.filterByCategory(category);
+        System.out.println(list);
         return list;
     }
 
     public List<InfoGame> filterByPlayers(int players){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByPlayers(players);
+        List<InfoGame> list = GameDBManager.filterByPlayers(players);
         return list;
     }
 
     public List<InfoGame> filterByYear(int year){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByYear(year);
+        List<InfoGame> list = GameDBManager.filterByYear(year);
         return list;
     }
 
     public List<InfoGame> orderBy(String mode){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy(mode);
+        List<InfoGame> list = GameDBManager.orderBy(mode);
         return list;
     }
 
