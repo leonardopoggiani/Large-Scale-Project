@@ -125,8 +125,18 @@ public class GamesReviewsRatesDBController {
         return list;
     }
 
-    public List<InfoGame> orderBy(String mode){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy(mode);
+    public List<InfoGame> orderByAvgRating(){
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("avgRating");
+        return list;
+    }
+
+    public List<InfoGame> orderByNumReviews(){
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("reviews");
+        return list;
+    }
+
+    public List<InfoGame> orderByNumVotes(){
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("numVotes");
         return list;
     }
 
