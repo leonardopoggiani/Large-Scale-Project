@@ -112,4 +112,19 @@ public class ArticlesCommentsLikesDBController {
         List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate(date);
         return list;
     }
+
+    public List<Article> orderByLikes (){
+        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("like");
+        return list;
+    }
+
+    public List<Article> orderByDislikes (){
+        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("dislike");
+        return list;
+    }
+
+    public List<Article> orderByComments (){
+        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("comments");
+        return list;
+    }
 }

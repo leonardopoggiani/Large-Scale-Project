@@ -1,5 +1,6 @@
 package org.openjfx.Controller;
 
+import org.openjfx.DBManager.Neo4jDBManager.ArticlesCommentsLikesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.UpdateDatabaseDBManager;
 import org.openjfx.Entities.*;
@@ -19,7 +20,8 @@ public class UpdateDatabaseDBController {
 
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addComment(newComm);
-
+        int tot = ArticlesCommentsLikesDBManager.countComments(newComm.getTitleArt(), newComm.getAuthorArt());
+        org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(tot, newComm.getAuthorArt(), newComm.getTitleArt());
         return ret;
 
     }
@@ -29,7 +31,8 @@ public class UpdateDatabaseDBController {
 
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addLike(like);
-
+        int tot = ArticlesCommentsLikesDBManager.countLikes(like.getTitleArt(), like.getAuthorArt(), like.getType());
+        org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(tot, like.getAuthorArt(), like.getTitleArt());
         return ret;
 
     }
@@ -38,7 +41,8 @@ public class UpdateDatabaseDBController {
 
        Boolean ret = false;
         ret  = UpdateDatabaseDBManager.deleteComment(comm);
-
+        int tot = ArticlesCommentsLikesDBManager.countComments(comm.getTitleArt(), comm.getAuthorArt());
+        org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(tot, comm.getAuthorArt(), comm.getTitleArt());
         return ret;
 
     }
@@ -48,7 +52,7 @@ public class UpdateDatabaseDBController {
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addReview(newRev);
         int tot = GamesReviewsRatesDBManager.countReviews(newRev.getGame());
-        org.openjfx.DBManager.MongoDBManager.GameDBManager.updateAvgRating(tot, newRev.getGame());
+        org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(tot, newRev.getGame());
 
         return ret;
 
@@ -59,6 +63,8 @@ public class UpdateDatabaseDBController {
 
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addRate(newRate);
+        int tot = GamesReviewsRatesDBManager.countRates(newRate.getGame());
+        org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumVotes(tot, newRate.getGame());
         double avg_rate = GamesReviewsRatesDBManager.avgRates(newRate.getGame());
         org.openjfx.DBManager.MongoDBManager.GameDBManager.updateAvgRating(avg_rate, newRate.getGame());
 
@@ -70,7 +76,8 @@ public class UpdateDatabaseDBController {
 
         Boolean ret = false;
         ret  = UpdateDatabaseDBManager.deleteReview(rev);
-
+        int tot = GamesReviewsRatesDBManager.countReviews(rev.getGame());
+        org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(tot, rev.getGame());
         return ret;
     }
 

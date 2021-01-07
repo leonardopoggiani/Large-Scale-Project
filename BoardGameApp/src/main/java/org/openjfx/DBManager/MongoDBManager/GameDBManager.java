@@ -136,7 +136,10 @@ public class GameDBManager {
         if(mode.equals("reviews")){
             match = match(and(ne("num_reviews", null), ne("num_reviews", "")));
             sort = sort(descending("num_reviews"));
-        }else {
+        } else if (mode.equals("numVotes")){
+            match = match(and(ne("num_votes", null), ne("num_votes", "")));
+            sort = sort(descending("num_votes"));
+        } else {
             match = match(and(ne("avg_rating", null), ne("avg_rating", "")));
             sort = sort(descending("avg_rating"));
         }
@@ -144,9 +147,10 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                
+
                 Document next = cursor.next();
                 InfoGame g = fillInfoGameFields(next, false);
+                System.out.println(next.toJson());
                 ret.add(g);
             }
         }
@@ -165,7 +169,7 @@ public class GameDBManager {
 
     }
 
-    public static void updateNumReviews(double tot, String game){
+    public static void updateNumReviews(int tot, String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Document reviews = new Document();
         reviews.append("num_reviews", tot);
@@ -173,6 +177,15 @@ public class GameDBManager {
         update.append("$set", reviews);
         collection.updateOne(eq("name", game), update);
 
+    }
+
+    public static void updateNumVotes(int tot, String game){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        Document votes = new Document();
+        votes.append("num_votes", tot);
+        Document update = new Document();
+        update.append("$set", votes);
+        collection.updateOne(eq("name", game), update);
     }
 
     private static InfoGame fillInfoGameFields (Document next, boolean unwindCategory){
