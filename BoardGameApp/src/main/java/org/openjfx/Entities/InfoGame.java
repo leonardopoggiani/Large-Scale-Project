@@ -17,6 +17,16 @@ public class InfoGame {
     private String maxTime;
     private int numReviews;
     private double avgRating;
+    private String alternativeName;
+    private String description;
+    private double price;
+    private boolean cooperative;
+    private String family;
+    private String expansion;
+    private int numVotes;
+    private double complexity;
+    private String languageDependency;
+
     //Non so se servono per ora le lascio qua
     //private List<InfoReview> reviews;
 
@@ -91,6 +101,78 @@ public class InfoGame {
 
     public String getMinTime() {
         return minTime;
+    }
+
+    public boolean isCooperative() {
+        return cooperative;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getComplexity() {
+        return complexity;
+    }
+
+    public int getNumVotes() {
+        return numVotes;
+    }
+
+    public String getAlternativeName() {
+        return alternativeName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getExpansion() {
+        return expansion;
+    }
+
+    public String getFamily() {
+        return family;
+    }
+
+    public String getLanguageDependency() {
+        return languageDependency;
+    }
+
+    public void setAlternativeName(String alternativeName) {
+        this.alternativeName = alternativeName;
+    }
+
+    public void setComplexity(double complexity) {
+        this.complexity = complexity;
+    }
+
+    public void setCooperative(boolean cooperative) {
+        this.cooperative = cooperative;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setExpansion(String expansion) {
+        this.expansion = expansion;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
+    public void setLanguageDependency(String languageDependency) {
+        this.languageDependency = languageDependency;
+    }
+
+    public void setNumVotes(int numVotes) {
+        this.numVotes = numVotes;
     }
 
     public void setAvgRating(double avgRating) {
