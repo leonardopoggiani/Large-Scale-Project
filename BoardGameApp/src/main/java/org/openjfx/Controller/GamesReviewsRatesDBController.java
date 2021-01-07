@@ -100,9 +100,7 @@ public class GamesReviewsRatesDBController {
     }
 
     public InfoGame showGame (String game){
-        System.out.println("Game " + game);
         InfoGame g = GameDBManager.readGame(game);
-        System.out.println(g);
         return g;
     }
 
@@ -113,7 +111,6 @@ public class GamesReviewsRatesDBController {
 
     public List<InfoGame> filterByCategory(String category){
         List<InfoGame> list = GameDBManager.filterByCategory(category);
-        System.out.println(list);
         return list;
     }
 

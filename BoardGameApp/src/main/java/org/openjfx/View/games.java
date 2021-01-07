@@ -1,6 +1,7 @@
 package org.openjfx.View;
 
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
+import com.google.common.collect.Lists;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ public class games {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
     int giàCaricato = -1;
+    ObservableList<String> ordinamenti = FXCollections.observableArrayList( "Number of reviews", "Number of ratings", "Average ratings");
     ObservableList<String> categorie = FXCollections.observableArrayList(
             "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
@@ -129,80 +131,64 @@ public class games {
         int filtraPerAnno = 0;
         String ordina = "";
 
-        List<InfoGame> filteredGames0 = null;
-        List<InfoGame> filteredGames1 = null;
-        List<InfoGame> filteredGames2 = null;
-        List<InfoGame> temp = null;
-        List<InfoGame> sortedList = null;
+        List<InfoGame> filteredGames0 = Lists.newArrayList();
+        List<InfoGame> filteredGames1 = Lists.newArrayList();
+        List<InfoGame> filteredGames2 = Lists.newArrayList();
+        List<InfoGame> sortedList = Lists.newArrayList();
 
         if(categoria.getSelectionModel().getSelectedItem() != null) {
+            // filtraggio per categoria, crea una lista con tutti i giochi appartenenti alla categoria data
             int index1 = categoria.getSelectionModel().getSelectedIndex();
             String categoria1 = categorie.get(index1);
             filteredGames0 = controller.filterByCategory(categoria1);
-            temp = filteredGames0;
         }
 
         if(!data.getText().equals("")) {
             if (Integer.parseInt(data.getText()) > 1900 || Integer.parseInt(data.getText()) < 2022) {
+                // filtraggio per anno
                 filtraPerAnno = Integer.parseInt(data.getText());
-
-                if(filteredGames0 == null) {
-                    filteredGames0 = controller.filterByYear(filtraPerAnno);
-                    temp = filteredGames0;
-                }
-                else {
-                    filteredGames1 = controller.filterByYear(filtraPerAnno);
-                }
+                filteredGames1 = controller.filterByYear(filtraPerAnno);
             }
         }
 
         if (players.getValue() > 0 || players.getValue() <= 16) {
+            // filtraggio per numero di giocatori
             filtraGiocatori = (int) players.getValue();
-
-            if(filteredGames0 == null) {
-                filteredGames0 = controller.filterByPlayers(filtraGiocatori);
-            }
-            else {
-                filteredGames2 = controller.filterByPlayers(filtraGiocatori);
-            }
+            filteredGames2 = controller.filterByPlayers(filtraGiocatori);
         }
 
-        temp = filteredGames0;
-
-        if(filteredGames1 != null) {
-            filteredGames0.retainAll(filteredGames1);
-        }
-        if(filteredGames2 != null) {
-            filteredGames0.retainAll(filteredGames2);
-        }
-
-        List<InfoGame> filteringResult = filteredGames0;
+        System.out.println("BEFORE Dimensione 1: " + filteredGames0.size() + ", dimensione 2:" + filteredGames1.size() + " , dimensione3 " + filteredGames2.size());
+        filteredGames0.addAll(filteredGames1);
+        filteredGames0.addAll(filteredGames2);
+        System.out.println("AFTER Dimensione 1: " + filteredGames0.size() + ", dimensione 2:" + filteredGames1.size() + " , dimensione3 " + filteredGames2.size());
 
         if(order.getSelectionModel().getSelectedItem() != null) {
+
             int index1 = categoria.getSelectionModel().getSelectedIndex();
-            String ordering = categorie.get(index1);
-            sortedList = controller.orderBy(ordering);
-            filteredGames0.retainAll(sortedList);
+            String ordering = ordinamenti.get(index1);
+
+            System.out.println("Ordinamento " + ordering);
+
+            if (ordering.equals("Average ratings")) {
+                logger.info("Ordino per rating");
+                sortedList = controller.orderByAvgRating();
+            } else if (ordering.equals("Number of reviews")) {
+                logger.info("Ordino per reviews");
+                sortedList = controller.orderByNumReviews();
+            } else if (ordering.equals("Number of ratings")) {
+                logger.info("Ordino per votes");
+                sortedList = controller.orderByNumVotes();
+            } else {
+                logger.info("Non ordino");
+            }
+
+            sortedList.addAll(filteredGames0);
+            List<InfoGame> filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(sortedList));
+            showFilteringResult(filteringResult);
+        } else {
+            List<InfoGame> filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(filteredGames0));
+            showFilteringResult(filteringResult);
         }
-
-        if(filteringResult.size() < 6){
-            // ho pochi giochi da mostrare, aggiungo giochi a caso
-            if(temp.size() > 2){
-                filteringResult.add(temp.get(0));
-                filteringResult.add(temp.get(1));
-            }
-
-            if(filteredGames1.size() > 2){
-                filteringResult.add(filteredGames1.get(0));
-                filteringResult.add(filteredGames1.get(1));
-            }
-
-            if(filteredGames2.size() > 2){
-                filteringResult.add(filteredGames2.get(0));
-                filteringResult.add(filteredGames2.get(1));
-            }
-        }
-        showFilteringResult(filteringResult);
     }
 
     private void showFilteringResult(List<InfoGame> filteringResult) {
@@ -243,7 +229,7 @@ public class games {
         Slider player = (Slider) App.getScene().lookup("#players");
         Text numplayers = (Text) App.getScene().lookup("#numplayers");
 
-        numplayers.setText(String.valueOf(Math.floor(player.getValue())));
+        numplayers.setText(String.valueOf((int)(Math.round(player.getValue()))));
     }
 
     @FXML
@@ -258,7 +244,6 @@ public class games {
     void caricaOrdinamenti() throws IOException {
         Scene scene = App.getScene(); // recupero la scena della signup
         ComboBox cat1 = (ComboBox) scene.lookup("#order");
-        ObservableList<String> ordinamenti = FXCollections.observableArrayList( "Reviews", "Ratings");
 
         cat1.setItems(ordinamenti);
     }

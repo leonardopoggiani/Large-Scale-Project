@@ -71,9 +71,9 @@
             </Text>
             <TextField fx:id="review2" editable="false" layoutX="18.0" layoutY="588.0" prefHeight="26.0" prefWidth="274.0" promptText="review2" />
             <TextField fx:id="review3" editable="false" layoutX="18.0" layoutY="639.0" prefHeight="26.0" prefWidth="273.0" promptText="review3" />
-            <Button fx:id="delete1" cancelButton="true" layoutX="492.0" layoutY="531.0" mnemonicParsing="false" onMouseClicked="#deleteReview" text="Delete" />
-            <Button fx:id="delete2" cancelButton="true" layoutX="492.0" layoutY="585.0" mnemonicParsing="false" onMouseClicked="#deleteReview" text="Delete" />
-            <Button fx:id="delete3" cancelButton="true" layoutX="492.0" layoutY="636.0" mnemonicParsing="false" onMouseClicked="#deleteReview" text="Delete" />
+            <Button fx:id="delete1" cancelButton="true" layoutX="492.0" layoutY="531.0" mnemonicParsing="false" onMouseClicked="#deleteReview" text="Delete" visible="false" />
+            <Button fx:id="delete2" cancelButton="true" layoutX="492.0" layoutY="585.0" mnemonicParsing="false" onMouseClicked="#deleteReview" text="Delete" visible="false" />
+            <Button fx:id="delete3" cancelButton="true" layoutX="492.0" layoutY="636.0" mnemonicParsing="false" onMouseClicked="#deleteReview" text="Delete" visible="false" />
             <TextField fx:id="author1" editable="false" layoutX="309.0" layoutY="534.0" prefHeight="26.0" prefWidth="67.0" promptText="author1" />
             <TextField fx:id="author2" editable="false" layoutX="309.0" layoutY="588.0" prefHeight="26.0" prefWidth="67.0" promptText="author2" />
             <TextField fx:id="author3" editable="false" layoutX="309.0" layoutY="639.0" prefHeight="26.0" prefWidth="67.0" promptText="author3" />
