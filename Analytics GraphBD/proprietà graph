@@ -3,6 +3,7 @@ Group
 -name
 -timestamp
 -Description
+-admin
 
 //Da article o da group VERSO game
 REFERRED
@@ -29,7 +30,7 @@ Article
 BE_PART
 -Id
 -timestamp
--Admin: si o no
+//-Admin: si o no (non più per ora)
 
 LIKE
 -id

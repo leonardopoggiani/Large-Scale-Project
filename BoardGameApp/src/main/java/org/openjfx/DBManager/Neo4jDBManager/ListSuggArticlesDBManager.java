@@ -33,7 +33,7 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
         List<Article> articles = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username", username);
-        Result result=tx.run("MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:InfoGame),(u:User)" +
+        Result result=tx.run("MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
                 "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
                 "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
                 "RETURN a,i,p ORDER BY p.timestamp", parameters);

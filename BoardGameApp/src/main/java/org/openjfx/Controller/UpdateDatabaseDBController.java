@@ -2,10 +2,7 @@ package org.openjfx.Controller;
 
 import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.UpdateDatabaseDBManager;
-import org.openjfx.Entities.InfoComment;
-import org.openjfx.Entities.InfoLike;
-import org.openjfx.Entities.InfoRate;
-import org.openjfx.Entities.InfoReview;
+import org.openjfx.Entities.*;
 
 import java.util.logging.Logger;
 
@@ -65,6 +62,25 @@ public class UpdateDatabaseDBController {
         double avg_rate = GamesReviewsRatesDBManager.avgRates(newRate.getGame());
         org.openjfx.DBManager.MongoDBManager.GameDBManager.updateAvgRating(avg_rate, newRate.getGame());
 
+
+        return ret;
+
+    }
+
+
+    public Boolean Neo4jDeleteReview(InfoReview rev) {
+
+        Boolean ret = false;
+        ret  = UpdateDatabaseDBManager.deleteReview(rev);
+
+        return ret;
+
+    }
+
+    public Boolean Neo4jAddGroup(InfoGroup newGroup) {
+
+        Boolean ret = false;
+        ret  = UpdateDatabaseDBManager.addGroup(newGroup);
 
         return ret;
 

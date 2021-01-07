@@ -3,6 +3,7 @@ package org.openjfx.View;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -50,6 +51,11 @@ public class article {
            for(int i = 0; i < infoComments.size() && i < 3; i++){
                TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
                commento.setText(infoComments.get(i).getText());
+               TextField autore = (TextField) App.getScene().lookup("#author" + i);
+               autore.setText(infoComments.get(i).getAuthor());
+               TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + i);
+               timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
+
                if(infoComments.get(i).getAuthor() == login.getLoggedUser()){
                    Button delete = (Button) App.getScene().lookup("#button" + i);
                    delete.setDisable(false);
@@ -143,6 +149,13 @@ public class article {
         update.Neo4jAddComment(comment);
         TextArea nuovo = (TextArea) App.getScene().lookup("#comment1");
         nuovo.setText(comment.getText());
+
+        TextField author = (TextField) App.getScene().lookup("#author1");
+        author.setText(comment.getAuthor());
+
+        TextField timestamp = (TextField) App.getScene().lookup("#timestamp1");
+        timestamp.setText(String.valueOf(comment.getTimestamp()));
+
         articlecomment.setText("");
     }
 
