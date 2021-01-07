@@ -36,22 +36,24 @@ public class GameDBManager {
 
                 g.setAvgRating(Double.parseDouble((next.get("avg_rating") == null) ? "0.0" : next.get("avg_rating").toString()));
                 g.setImageUrl((next.get("image_url") == null) ? "" : next.get("avg_rating").toString());
-                g.setMaxAge(Integer.parseInt(next.get("max_age").toString()));
-                g.setMaxPlayers(Integer.parseInt(next.get("max_player").toString()));
-                g.setMaxTime(next.get("max_time").toString());
-                g.setMinAge(Integer.parseInt(next.get("min_age").toString()));
-                g.setMinPlayers(Integer.parseInt(next.get("min_player").toString()));
-                g.setMinTime(next.get("min_time").toString());
-                g.setPublisher(next.get("publisher").toString());
-                g.setRules(next.get("rules").toString());
-                g.setUrl(next.get("url").toString());
-                g.setYear(Integer.parseInt(next.get("year").toString()));
-                g.setNumReviews(Integer.parseInt(next.get("num_reviews").toString()));
-                g.setName(next.get("name").toString());
-                g.setAvgRating(Double.parseDouble(next.get("avg_rating").toString()));
-                g.setCategory1(next.get("game_type").toString());
+                g.setMaxAge((next.get("max_age") == null) ? 99 : Integer.parseInt(next.get("max_age").toString()));
+                g.setMaxPlayers((next.get("max_player") == null) ? 1000 : Integer.parseInt(next.get("max_player").toString()));
+                g.setMaxTime((next.get("max_time") == null) ? "" : next.get("max_time").toString());
+                g.setMinAge((next.get("min_age") == null) ? 3 :Integer.parseInt(next.get("min_age").toString()));
+                g.setMinPlayers((next.get("min_player") == null) ? 1 :Integer.parseInt(next.get("min_player").toString()));
+                g.setMinTime((next.get("min_time") == null) ? "60" :next.get("min_time").toString());
+                g.setPublisher((next.get("publisher") == null) ? "" :next.get("publisher").toString());
+                g.setRules((next.get("rules") == null) ? "" : next.get("rules").toString());
+                g.setUrl((next.get("url") == null) ? "" : next.get("url").toString());
+                g.setYear((next.get("year") == null) ? 0 :Integer.parseInt(next.get("year").toString()));
+                g.setNumReviews((next.get("num_reviews") == null) ? 0 :Integer.parseInt(next.get("num_reviews").toString()));
+                g.setName((next.get("name") == null) ? "" :next.get("name").toString());
+                g.setAvgRating((next.get("avg_rating") == null) ? 0.0 :Double.parseDouble(next.get("avg_rating").toString()));
+                g.setCategory1((next.get("category") == null) ? "" :next.get("category").toString());
+
+                
                 Document d = cursor.next();
-                g.setCategory2(d.get("game_type").toString());
+                g.setCategory2((next.get("category") == null) ? "" :next.get("category").toString());
 
             }
             cursor.close();
@@ -61,8 +63,8 @@ public class GameDBManager {
 
     }
 
-    public static List<Document> filterByName(String game){
-        List<Document> ret = new ArrayList<Document>();
+    public static List<InfoGame> filterByName(String game){
+        List<InfoGame> ret = new ArrayList<InfoGame>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
 
@@ -72,16 +74,18 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(match, projection)).iterator()) {
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
-                ret.add(cursor.next());
+                Document next = cursor.next();
+                System.out.println(next.toJson());
+                InfoGame g = new InfoGame();
+                ret.add(g);
             }
         }
 
         return ret;
     }
 
-    public static List<Document> filterByCategory(String category){
-        List<Document> ret = new ArrayList<Document>();
+    public static List<InfoGame> filterByCategory(String category){
+        List<InfoGame> ret = new ArrayList<InfoGame>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson unwind = unwind("$game_type");
@@ -92,15 +96,17 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                ret.add(cursor.next());
+                Document next = cursor.next();
+                InfoGame g = new InfoGame();
+                ret.add(g);
             }
         }
 
         return ret;
     }
 
-    public static List<Document> filterByPlayers(int players){
-        List<Document> ret = new ArrayList<Document>();
+    public static List<InfoGame> filterByPlayers(int players){
+        List<InfoGame> ret = new ArrayList<InfoGame>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = project(fields( excludeId()));
@@ -110,15 +116,17 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                ret.add(cursor.next());
+                Document next = cursor.next();
+                InfoGame g = new InfoGame();
+                ret.add(g);
             }
         }
 
         return ret;
     }
 
-    public static List<Document> filterByYear(int year){
-        List<Document> ret = new ArrayList<Document>();
+    public static List<InfoGame> filterByYear(int year){
+        List<InfoGame> ret = new ArrayList<InfoGame>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = project(fields( excludeId()));
@@ -128,15 +136,17 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                ret.add(cursor.next());
+                Document next = cursor.next();
+                InfoGame g = new InfoGame();
+                ret.add(g);
             }
         }
 
         return ret;
     }
 
-    public static List<Document> orderBy (String mode){
-        List<Document> ret = new ArrayList<Document>();
+    public static List<InfoGame> orderBy (String mode){
+        List<InfoGame> ret = new ArrayList<InfoGame>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = project(fields( excludeId(), include("name", "num_reviews")));
@@ -155,6 +165,9 @@ public class GameDBManager {
             while (cursor.hasNext()) {
                 System.out.println(cursor.next().toJson());
                 //ret.add(cursor.next());
+                Document next = cursor.next();
+                InfoGame g = new InfoGame();
+                ret.add(g);
             }
         }
 

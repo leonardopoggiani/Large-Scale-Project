@@ -25,12 +25,11 @@ public class Main {
 
         //Filter article
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByInfluencer("gaia1");
-
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame("Cluedo");
-        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate("2020-12-29");
+        //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate("2020-12-29");
 
         //Filter game
-        //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByName("Monopoli");
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByName("Monopoli");
         //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByCategory("Economy");
         //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByPlayers(10);
         //List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByYear(1960);

@@ -105,28 +105,28 @@ public class GamesReviewsRatesDBController {
         return g;
     }
 
-    public List<Document> filterByName (String game){
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByName(game);
+    public List<InfoGame> filterByName (String game){
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByName(game);
         return list;
     }
 
-    public List<Document> filterByCategory(String category){
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByCategory(category);
+    public List<InfoGame> filterByCategory(String category){
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByCategory(category);
         return list;
     }
 
-    public List<Document> filterByPlayers(int players){
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByPlayers(players);
+    public List<InfoGame> filterByPlayers(int players){
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByPlayers(players);
         return list;
     }
 
-    public List<Document> filterByYear(int year){
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByYear(year);
+    public List<InfoGame> filterByYear(int year){
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByYear(year);
         return list;
     }
 
-    public List<Document> orderBy(String mode){
-        List<Document> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy(mode);
+    public List<InfoGame> orderBy(String mode){
+        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy(mode);
         return list;
     }
 
