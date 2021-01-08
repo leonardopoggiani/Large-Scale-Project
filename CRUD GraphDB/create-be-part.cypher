@@ -1,5 +1,5 @@
 //Create BE_PART
 MATCH (u:User),(gr:Group)
-WHERE u.id = 'fd545634' AND gr.id = '12'
-CREATE (u)-[r:BE_PART {timestamp: datetime(),id:"1", admin:"fd545635"}]->(gr)
+WHERE u.username = "sara" AND gr.name = "Gruppo mio" AND gr.admin="Gaia5"
+CREATE (u)-[r:BE_PART {timestamp:"2021-01-06 13:34:12.89"}]->(gr)
 RETURN r

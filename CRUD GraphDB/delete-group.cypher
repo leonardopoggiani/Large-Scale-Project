@@ -1,4 +1,3 @@
-//Delete Group
-MATCH (gr:Group)
-WHERE gr.id="12"
-DELETE gr
+MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)
+WHERE gr.name="Gruppo mio" and  gr.admin="Gaia5"
+DELETE b,gr,r
