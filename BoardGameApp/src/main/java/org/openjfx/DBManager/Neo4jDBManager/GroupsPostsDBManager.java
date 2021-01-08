@@ -61,9 +61,13 @@ public class GroupsPostsDBManager {
 
                 if ("gr".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    group.setName(value.get("name").asString());
+                    String nameGame = value.get("name").asString();
+                    String adminGame = value.get("admin").asString();
+                    group.setName(nameGame);
                     group.setDescription(value.get("description").asString());
-                    group.setAdmin(value.get("admin").asString());
+                    group.setAdmin(adminGame);
+                    if(type == "admin")
+                        group.setLastPost(timestampLastPost(nameGame, adminGame));
 
                 }
 
@@ -75,6 +79,8 @@ public class GroupsPostsDBManager {
                 }
 
 
+
+
             }
             //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
 
@@ -83,50 +89,92 @@ public class GroupsPostsDBManager {
         return groups;
 
     }
-        public static List<String> showGroupsMembers(String name, String admin)
+    public static List<String> showGroupsMembers(String name, String admin)
+    {
+        try(Session session=driver.session())
         {
-            try(Session session=driver.session())
+            return session.writeTransaction(new TransactionWork<List>()
             {
-                return session.writeTransaction(new TransactionWork<List>()
+                @Override
+                public List<String> execute(Transaction tx)
                 {
-                    @Override
-                    public List<String> execute(Transaction tx)
-                    {
-                        return transactionShowGroupsMembers(tx, name, admin);
-                    }
-                });
+                    return transactionShowGroupsMembers(tx, name, admin);
+                }
+            });
+        }
+    }
+
+    public static Timestamp timestampLastPost(String name, String admin)
+    {
+        try(Session session=driver.session())
+        {
+            return session.writeTransaction(new TransactionWork<Timestamp>()
+            {
+                @Override
+                public Timestamp execute(Transaction tx)
+                {
+                    return transactionTimestampLastPost(tx, name, admin);
+                }
+            });
+        }
+    }
+
+    private static Timestamp transactionTimestampLastPost(Transaction tx, String name, String admin)
+    {
+
+        HashMap<String,Object> parameters = new HashMap<>();
+        parameters.put("name", name);
+        parameters.put("admin", admin);
+        Timestamp ts = null;
+        Result result1 = tx.run("MATCH (gr:Group{name:$name, admin:$admin})<-[p:POST]-(u:User)" +
+                "RETURN p ORDER BY p.timestamp DESC LIMIT 1 ", parameters);
+
+        while (result1.hasNext())
+        {
+            Record record = result1.next();
+            List<Pair<String, Value>> values = record.fields();
+            InfoGroup group= new InfoGroup();
+            for (Pair<String,Value> nameValue: values) {
+                    Value value = nameValue.value();
+                    String timestamp = value.get("timestamp").asString();
+                    ts = Timestamp.valueOf(timestamp);
+
             }
         }
 
-        private static List<String> transactionShowGroupsMembers(Transaction tx, String name, String admin)
+        return ts;
+
+    }
+
+    private static List<String> transactionShowGroupsMembers(Transaction tx, String name, String admin)
+    {
+        List<String> members = new ArrayList<>();
+        String member = null;
+        HashMap<String,Object> parameters = new HashMap<>();
+        parameters.put("name", name);
+        parameters.put("admin", admin);
+
+        Result result1 = tx.run("MATCH (gr:Group{name:$name, admin:$admin})<-[b:BE_PART]-(u:User)" +
+                    "RETURN u", parameters);
+
+        while(result1.hasNext())
         {
-            List<String> members = new ArrayList<>();
-            String member = null;
-            HashMap<String,Object> parameters = new HashMap<>();
-            parameters.put("name", name);
-            parameters.put("admin", admin);
-
-            Result result1 = tx.run("MATCH (gr:Group{name:$name, admin:$admin})<-[b:BE_PART]-(u:User)" +
-                        "RETURN u", parameters);
-
-            while(result1.hasNext())
-            {
-                Record record = result1.next();
-                List<Pair<String, Value>> values = record.fields();
-                InfoGroup group= new InfoGroup();
-                for (Pair<String,Value> nameValue: values) {
-                    if ("u".equals(nameValue.key())) {
-                        Value value = nameValue.value();
-                        member = value.get("username").asString();
-
-                    }
+            Record record = result1.next();
+            List<Pair<String, Value>> values = record.fields();
+            InfoGroup group= new InfoGroup();
+            for (Pair<String,Value> nameValue: values) {
+                if ("u".equals(nameValue.key())) {
+                    Value value = nameValue.value();
+                    member = value.get("username").asString();
 
                 }
-                //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
 
-                members.add(member);
             }
-            return members;
+            //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
+
+            members.add(member);
+        }
+        return members;
 
     }
 

@@ -3,6 +3,7 @@ package org.openjfx.Controller;
 import org.openjfx.DBManager.Neo4jDBManager.GroupsPostsDBManager;
 import org.openjfx.Entities.InfoGroup;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class GroupsPostsDBController {
@@ -61,6 +62,12 @@ public class GroupsPostsDBController {
         System.out.println(numMembers);
 
         return numMembers;
+
+    }
+
+    public Timestamp neo4jTimestampLastPost(String name, String admin) {
+
+        return GroupsPostsDBManager.timestampLastPost(name, admin);
 
     }
 

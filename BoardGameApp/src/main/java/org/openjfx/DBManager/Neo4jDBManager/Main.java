@@ -195,6 +195,9 @@ public class Main {
 
         else
             System.out.println("Membro già presente!");
+
+        Timestamp ret = gp.neo4jTimestampLastPost("Gruppo Mio2", "sara");
+        System.out.println(ret.toString());
         Neo4jDBManager.close();
 
 
