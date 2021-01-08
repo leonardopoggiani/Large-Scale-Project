@@ -51,6 +51,7 @@ public class article {
 
            List<InfoComment> infoComments = null;
            infoComments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
+           System.out.println("Numero di commenti " + infoComments.size());
 
            for(int i = 0; i < infoComments.size() && i < 3; i++){
                TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
@@ -60,7 +61,8 @@ public class article {
                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + i);
                timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
 
-               if(infoComments.get(i).getAuthor() == login.getLoggedUser()){
+               if(infoComments.get(i).getAuthor().equals(login.getLoggedUser())){
+                   // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
                    Button delete = (Button) App.getScene().lookup("#button" + i);
                    delete.setDisable(false);
                    delete.setVisible(true);
@@ -187,7 +189,6 @@ public class article {
                 }
             }
         }
-
     }
 
     @FXML
@@ -218,9 +219,13 @@ public class article {
         Text titolo = (Text) App.getScene().lookup("#titolo");
         Text autore = (Text) App.getScene().lookup("#author");
         String title = titolo.getText();
+        author = autore.getText();
+        System.out.println(titolo + ", " + author);
         TextArea commentField = null;
         TextField authorField = null;
         TextField timestampField = null;
+
+        System.out.println(target.getId());
 
         if(target.getId().equals("delete1")){
             commentField = (TextArea) App.getScene().lookup("#comment1");
@@ -243,6 +248,7 @@ public class article {
         authorField.setText("");
         timestampField.setText("");
         target.setVisible(false);
+
         if(ret){
             logger.info("Ho cancellato il commento");
         } else {

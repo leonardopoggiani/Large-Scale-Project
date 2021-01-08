@@ -2,6 +2,8 @@ package org.openjfx.View;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import org.openjfx.App;
 import org.openjfx.Controller.GamesReviewsRatesDBController;
@@ -42,7 +44,9 @@ public class game {
 
     @FXML
     void setGameFields() {
+        // setto i campi del gioco
         if (giàCaricato == -1) {
+            ImageView image = (ImageView) App.getScene().lookup("#image");
             String game = games.getGame();
             logger.info("Carico " + game);
             GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
@@ -50,18 +54,29 @@ public class game {
             InfoGame currentGame = controller.showGame(game);
             System.out.println(currentGame);
 
+            if( (currentGame.getImageUrl() != null) && !(currentGame.getImageUrl().equals("")) ) {
+                System.out.println("Immagine " + currentGame.getImageUrl());
+                image.setImage(new Image(currentGame.getImageUrl()));
+            }
+
             Text title = (Text) App.getScene().lookup("#title");
-            title.setText(game);
+            title.setText(currentGame.getName());
 
             Text vote = (Text) App.getScene().lookup("#votes");
             vote.setText(String.valueOf(currentGame.getAvgRating()));
             ProgressBar votes = (ProgressBar) App.getScene().lookup("#votes1");
-            votes.setProgress(currentGame.getAvgRating()*100);
+            votes.setProgress(currentGame.getAvgRating()/10);
 
             TextArea rule = (TextArea) App.getScene().lookup("#rules");
+            System.out.println("Regole" + currentGame.getRules());
             rule.setText(currentGame.getRules());
 
+            TextArea description = (TextArea) App.getScene().lookup("#description");
+            System.out.println("Descrizione" + currentGame.getDescription());
+            description.setText(currentGame.getDescription());
+
             List<InfoReview> reviews = controller.neo4jListGamesReviews(game);
+            System.out.println("Numero di review: " + reviews.size());
 
             if(reviews.size() != 0) {
                 for (int i = 0; i < reviews.size() || i < 3; i++) {
@@ -114,7 +129,7 @@ public class game {
 
     @FXML
     public void deleteReview(MouseEvent event) {
-        Button deleteButton = (Button) event.getTarget();
+        Button deleteButton = (Button) event.getSource();
         String id = deleteButton.getId();
 
         TextField reviewDaCancellare = null;
@@ -135,7 +150,7 @@ public class game {
             timestamp = (TextField) App.getScene().lookup("#timestamp3");
         }
 
-        InfoReview review = new InfoReview(reviewDaCancellare.getText(), games.getGame(), autore.getText(), new Timestamp(Long.parseLong(timestamp.getText())));
+        InfoReview review = new InfoReview(reviewDaCancellare.getText(), games.getGame(), autore.getText(), Timestamp.valueOf(timestamp.getText()));
 
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
         controller.Neo4jDeleteReview(review);
@@ -145,10 +160,19 @@ public class game {
     void addVote() {
         Slider voti = (Slider) App.getScene().lookup("#rate");
         Text game = (Text) App.getScene().lookup("#title");
+        ProgressBar progress = (ProgressBar) App.getScene().lookup("#votes1");
+        Text voting = (Text) App.getScene().lookup("#votes");
+
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
         System.out.println("Voto: " + voti.getValue());
+
         InfoRate rate = new InfoRate(login.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
         controller.Neo4jAddRate(rate);
         System.out.println(rate);
+
+        GamesReviewsRatesDBController rating = new GamesReviewsRatesDBController();
+        double votoMedio = rating.neo4jAvgRates(game.getText());
+        progress.setProgress(votoMedio);
+        voting.setText(String.valueOf(Math.round(votoMedio)));
     }
 }

@@ -193,11 +193,17 @@ public class GameDBManager {
         g.setName((next.get("name") == null) ? "" :next.get("name").toString());
         g.setAlternativeName((next.get("alt_name") == null) ? "" :next.get("alt_name").toString());
         g.setYear((next.get("year") == null) ? 0 :Integer.parseInt(next.get("year").toString()));
+
         g.setDescription((next.get("description") == null) ? "" :(next.get("description").toString()));
+        System.out.println("Descrizione " + g.getDescription());
+
         g.setPublisher((next.get("publisher") == null) ? "" :next.get("publisher").toString());
         g.setUrl((next.get("url") == null) ? "" : next.get("url").toString());
-        g.setImageUrl((next.get("image_url") == null) ? "" : next.get("image_url").toString());
-        g.setRules((next.get("rules") == null) ? "" : next.get("rules").toString());
+
+        // gli url delle immagini vengono attraverso un array, prendo la prima immagini
+        List<String> image_url = (List<String>) next.getList("image_url", String.class);
+        g.setImageUrl((next.get("image_url") == null) ? "" : image_url.get(0).toString());
+
         //g.setPrice((next.get("list_price") == null) ? 0.0 : Double.parseDouble(next.get("list_price").toString()));
         g.setMinPlayers((next.get("min_players") == null) ? 1 :Integer.parseInt(next.get("min_players").toString()));
         g.setMaxPlayers((next.get("max_players") == null) ? 1000 : Integer.parseInt(next.get("max_players").toString()));
@@ -210,8 +216,14 @@ public class GameDBManager {
         g.setExpansion((next.get("expansion") == null) ? "" : next.get("expansion").toString());
         g.setNumVotes((next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString()));
         g.setAvgRating((next.get("avg_rating") == null) ? 0.0: Double.parseDouble(next.get("avg_rating").toString()));
-        g.setNumReviews((next.get("num_reviews") == null) ? 0 :Integer.parseInt(next.get("num_reviews").toString()));
-        g.setComplexity((next.get("complexity") == null) ? 0.0 :Double.parseDouble(next.get("complexity").toString()));
+        g.setNumReviews((next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString()));
+        g.setComplexity((next.get("complexity") == null) ? 0.0 : Double.parseDouble(next.get("complexity").toString()));
+
+        g.setRules("Regole: \n" + "-minimum age: " + g.getMinAge() + "\n -maximum age: " +
+                ((next.get("max_age") == null) ? 99 : g.getMaxAge() ) + "\n" +
+                "-minimum time: " + g.getMinTime() + "\n -maximum time: " + g.getMaxTime() +
+                "\n -complexity: " + g.getComplexity());
+
         if (unwindCategory){
             g.setCategory1(next.get("category")==null? "": next.get("category").toString());
             g.setCategory2("");
