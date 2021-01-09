@@ -1,11 +1,13 @@
 package org.openjfx.Entities;
 
+import java.util.List;
+
 public class InfoGame {
     private String name;
     private int year;
     private String category1;
     private String category2;
-    private String publisher;
+    private List<String> publisher;
     private String url;
     private String imageUrl;
     private String rules;
@@ -19,13 +21,14 @@ public class InfoGame {
     private double avgRating;
     private String alternativeName;
     private String description;
-    private double price;
+    private String price;
     private boolean cooperative;
-    private String family;
-    private String expansion;
+    private List<String> family;
+    private List<String> expansion;
     private int numVotes;
     private double complexity;
-    private String languageDependency;
+    private int languageDependency;
+    List<String> listCategory;
 
     //Non so se servono per ora le lascio qua
     //private List<InfoReview> reviews;
@@ -37,6 +40,10 @@ public class InfoGame {
         this.name = name;
         this.category1 = category1;
         this.category2 = category2;
+    }
+
+    public List<String> getListCategory() {
+        return listCategory;
     }
 
     public double getAvgRating() {
@@ -83,7 +90,7 @@ public class InfoGame {
         return name;
     }
 
-    public String getPublisher() {
+    public List<String> getPublisher() {
         return publisher;
     }
 
@@ -107,7 +114,7 @@ public class InfoGame {
         return cooperative;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
@@ -127,16 +134,24 @@ public class InfoGame {
         return description;
     }
 
-    public String getExpansion() {
+    public List<String> getExpansion() {
         return expansion;
     }
 
-    public String getFamily() {
+    public List<String> getFamily() {
         return family;
     }
 
-    public String getLanguageDependency() {
+    public int getLanguageDependency() {
         return languageDependency;
+    }
+
+    public void setLanguageDependency(int languageDependency) {
+        this.languageDependency = languageDependency;
+    }
+
+    public void setListCategory(List<String> listCategory) {
+        this.listCategory = listCategory;
     }
 
     public void setAlternativeName(String alternativeName) {
@@ -155,21 +170,18 @@ public class InfoGame {
         this.description = description;
     }
 
-    public void setExpansion(String expansion) {
+    public void setExpansion(List<String> expansion) {
         this.expansion = expansion;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public void setFamily(String family) {
+    public void setFamily(List<String> family) {
         this.family = family;
     }
 
-    public void setLanguageDependency(String languageDependency) {
-        this.languageDependency = languageDependency;
-    }
 
     public void setNumVotes(int numVotes) {
         this.numVotes = numVotes;
@@ -223,7 +235,7 @@ public class InfoGame {
         this.numReviews = numReviews;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher(List<String> publisher) {
         this.publisher = publisher;
     }
 

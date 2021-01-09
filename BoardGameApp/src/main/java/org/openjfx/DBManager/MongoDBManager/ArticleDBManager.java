@@ -194,8 +194,10 @@ public class ArticleDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
 
             while (cursor.hasNext()) {
+                Document next = cursor.next();
                 //System.out.println(next.toJson());
-                ret = Integer.parseInt(cursor.next().get("num_comments").toString());
+                Document articles = (Document) next.get("articles");
+                ret = Integer.parseInt(articles.get("num_comments").toString());
 
             }
         }
@@ -212,8 +214,10 @@ public class ArticleDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
 
             while (cursor.hasNext()) {
+                Document next = cursor.next();
                 //System.out.println(next.toJson());
-                ret = Integer.parseInt(cursor.next().get("num_like").toString());
+                Document articles = (Document) next.get("articles");
+                ret = Integer.parseInt(articles.get("num_like").toString());
 
             }
         }
@@ -230,8 +234,10 @@ public class ArticleDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
 
             while (cursor.hasNext()) {
+                Document next = cursor.next();
                 //System.out.println(next.toJson());
-                ret = Integer.parseInt(cursor.next().get("num_dislike").toString());
+                Document articles = (Document) next.get("articles");
+                ret = Integer.parseInt(articles.get("num_dislike").toString());
 
             }
         }
