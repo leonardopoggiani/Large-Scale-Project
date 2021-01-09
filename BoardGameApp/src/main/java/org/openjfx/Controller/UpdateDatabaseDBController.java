@@ -33,7 +33,22 @@ public class UpdateDatabaseDBController {
 
         int ret = 0;
         ret = UpdateDatabaseDBManager.addLike(like);
-        if(ret){
+        if(ret > 0){
+            if (ret == 1){
+                if(like.getType().equals("like")){
+                    org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumLike(-1, like.getAuthorArt(), like.getTitleArt());
+                }else {
+                    org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumDislike(-1, like.getAuthorArt(), like.getTitleArt());
+
+                }
+            }else {
+                if(like.getType().equals("like")){
+                    org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumLike(1, like.getAuthorArt(), like.getTitleArt());
+                }else {
+                    org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumDislike(1, like.getAuthorArt(), like.getTitleArt());
+
+                }
+            }
 
         }
 
@@ -86,7 +101,7 @@ public class UpdateDatabaseDBController {
         Boolean ret = false;
         ret  = UpdateDatabaseDBManager.deleteReview(rev);
         if(ret){
-            org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(-11, rev.getGame());
+            org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(-1, rev.getGame());
         }
         return ret;
     }

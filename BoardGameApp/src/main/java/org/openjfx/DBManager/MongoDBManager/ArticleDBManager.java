@@ -143,10 +143,11 @@ public class ArticleDBManager {
 
     }
 
-    public static void updateNumLike(int num_like, String author, String title){
+    public static void updateNumLike(int inc, String author, String title){
+        int tot = getNumLikes(author, title) + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
         Document updateLike = new Document();
-        updateLike.append("articles.$.num_like", num_like);
+        updateLike.append("articles.$.num_like", tot);
         Document update = new Document();
         update.append("$set", updateLike);
         Document query = new Document();
@@ -156,7 +157,8 @@ public class ArticleDBManager {
 
     }
 
-    public static void updateNumDislike(int tot, String author, String title){
+    public static void updateNumDislike(int inc, String author, String title){
+        int tot = getNumLikes(author, title) + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
         Document updateLike = new Document();
         updateLike.append("articles.$.num_dislike", tot);
