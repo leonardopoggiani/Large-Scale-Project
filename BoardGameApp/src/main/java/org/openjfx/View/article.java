@@ -61,7 +61,7 @@ public class article {
                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + i);
                timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
 
-               if(infoComments.get(i).getAuthor().equals(login.getLoggedUser())){
+               if(infoComments.get(i).getAuthor().equals(login.getLoggedUser()) || isUserModerator()){
                    // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
                    Button delete = (Button) App.getScene().lookup("#button" + i);
                    delete.setDisable(false);
@@ -72,6 +72,10 @@ public class article {
            setSuggestedArticles();
            giàCaricato = 1;
        }
+    }
+
+    private boolean isUserModerator() {
+        return true;
     }
 
     @FXML

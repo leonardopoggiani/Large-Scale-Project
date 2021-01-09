@@ -53,7 +53,7 @@
                             <Icon content="EMPTY" />
                         </graphic>
                     </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToFriends" text="Friends">
+                  <BottomNavigationButton onMouseClicked="#goToFriends" text="Users">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>

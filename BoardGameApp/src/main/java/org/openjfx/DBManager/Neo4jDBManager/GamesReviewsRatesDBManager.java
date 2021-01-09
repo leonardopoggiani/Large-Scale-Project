@@ -143,7 +143,7 @@ public class GamesReviewsRatesDBManager {
         }
     }
 
-    //Funzione che fa la media delle valutazioni ad un determinato gioco
+    // Funzione che fa la media delle valutazioni ad un determinato gioco
 
     public static int transactionAvgRates(Transaction tx, String name) {
 
@@ -154,8 +154,10 @@ public class GamesReviewsRatesDBManager {
 
         if (result.hasNext()) {
             Record record = result.next();
-            avgRates = record.get("avgRates").asInt();
 
+            System.out.println(record.get("avgRates"));
+            if(record.get("avgRates").equals("NULL"))
+                avgRates = record.get("avgRates").asInt();
         }
         return avgRates;
     }

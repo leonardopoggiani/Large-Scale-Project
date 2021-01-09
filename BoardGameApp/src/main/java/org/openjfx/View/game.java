@@ -66,6 +66,17 @@ public class game {
             vote.setText(String.valueOf(currentGame.getAvgRating()));
             ProgressBar votes = (ProgressBar) App.getScene().lookup("#votes1");
             votes.setProgress(currentGame.getAvgRating()/10);
+            System.out.println(" Progress " + currentGame.getAvgRating());
+            if (currentGame.getAvgRating() <= 5) {
+                votes.setStyle("-fx-background-color: red");
+                votes.setStyle("-fx-accent: red");
+            } else if( (currentGame.getAvgRating() > 5) && (currentGame.getAvgRating() < 8) ){
+                votes.setStyle("-fx-background-color: blue");
+                votes.setStyle("-fx-accent: blue");
+            } else if( (currentGame.getAvgRating() >= 8) ){
+                votes.setStyle("-fx-background-color: green");
+                votes.setStyle("-fx-accent: green");
+            }
 
             TextArea rule = (TextArea) App.getScene().lookup("#rules");
             System.out.println("Regole" + currentGame.getRules());

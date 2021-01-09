@@ -209,8 +209,8 @@ public class GameDBManager {
         g.setMaxPlayers((next.get("max_players") == null) ? 1000 : Integer.parseInt(next.get("max_players").toString()));
         g.setMinAge((next.get("min_age") == null) ? 3 :Integer.parseInt(next.get("min_age").toString()));
         g.setMaxAge((next.get("max_age") == null) ? 99 : Integer.parseInt(next.get("max_age").toString()));
-        g.setMinTime((next.get("min_time") == null) ? "" :next.get("min_time").toString());
-        g.setMaxTime((next.get("max_time") == null) ? "" : next.get("max_time").toString());
+        g.setMinTime((next.get("min_time") == null) ? "Non riportato" :next.get("min_time").toString());
+        g.setMaxTime((next.get("max_time") == null) ? "Non riportarto" : next.get("max_time").toString());
         g.setCooperative(next.get("cooperative") != null && Boolean.parseBoolean(next.get("cooperative").toString()));
         g.setFamily((next.get("family") == null) ? "" : next.get("family").toString());
         g.setExpansion((next.get("expansion") == null) ? "" : next.get("expansion").toString());
