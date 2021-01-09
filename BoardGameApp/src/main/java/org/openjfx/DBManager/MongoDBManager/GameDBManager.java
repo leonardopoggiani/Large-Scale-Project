@@ -209,20 +209,21 @@ public class GameDBManager {
         g.setMaxPlayers((next.get("max_players") == null) ? 1000 : Integer.parseInt(next.get("max_players").toString()));
         g.setMinAge((next.get("min_age") == null) ? 3 :Integer.parseInt(next.get("min_age").toString()));
         g.setMaxAge((next.get("max_age") == null) ? 99 : Integer.parseInt(next.get("max_age").toString()));
-        g.setMinTime((next.get("min_time") == null) ? "Non riportato" :next.get("min_time").toString());
-        g.setMaxTime((next.get("max_time") == null) ? "Non riportarto" : next.get("max_time").toString());
+        g.setMinTime((next.get("min_time") == null) ? "There's no limit!" :next.get("min_time").toString());
+        g.setMaxTime((next.get("max_time") == null) ? "There's no limit!" : next.get("max_time").toString());
         g.setCooperative(next.get("cooperative") != null && Boolean.parseBoolean(next.get("cooperative").toString()));
-        g.setFamily((next.get("family") == null) ? "" : next.get("family").toString());
-        g.setExpansion((next.get("expansion") == null) ? "" : next.get("expansion").toString());
+        g.setFamily((next.get("family") == null) ? "No family related" : next.get("family").toString());
+        g.setExpansion((next.get("expansion") == null) ? "No expansion" : next.get("expansion").toString());
         g.setNumVotes((next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString()));
         g.setAvgRating((next.get("avg_rating") == null) ? 0.0: Double.parseDouble(next.get("avg_rating").toString()));
         g.setNumReviews((next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString()));
         g.setComplexity((next.get("complexity") == null) ? 0.0 : Double.parseDouble(next.get("complexity").toString()));
 
-        g.setRules("Regole: \n" + "-minimum age: " + g.getMinAge() + "\n -maximum age: " +
-                ((next.get("max_age") == null) ? 99 : g.getMaxAge() ) + "\n" +
+        g.setRules("Regole: \n" + "-minimum age: " + g.getMinAge() + "\n -maximum age: " + g.getMaxAge() + "\n" +
                 "-minimum time: " + g.getMinTime() + "\n -maximum time: " + g.getMaxTime() +
-                "\n -complexity: " + g.getComplexity());
+                "\n -complexity: " + g.getComplexity() + "\n -minimum players: " + g.getMinPlayers() +
+                "\n -cooperative: " + ((g.isCooperative()) ? "Yes! Play all togheter!" : "No, all against all!") +
+                "\n -family and expansion: " + g.getFamily() + ", " + g.getExpansion());
 
         if (unwindCategory){
             g.setCategory1(next.get("category")==null? "": next.get("category").toString());

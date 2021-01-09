@@ -16,6 +16,7 @@ import org.openjfx.Controller.UpdateDatabaseDBController;
 import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoComment;
 import org.openjfx.Entities.InfoLike;
+import org.openjfx.Entities.InfoReview;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -157,19 +158,27 @@ public class article {
         UpdateDatabaseDBController update = new UpdateDatabaseDBController();
         InfoComment comment = new InfoComment(articlecomment.getText(),login.getLoggedUser(),new Timestamp(System.currentTimeMillis()), homePage.getAuthor(),homePage.getTitolo());
         update.Neo4jAddComment(comment);
-        TextArea nuovo = (TextArea) App.getScene().lookup("#comment1");
-        nuovo.setText(comment.getText());
 
-        TextField author = (TextField) App.getScene().lookup("#author1");
-        author.setText(comment.getAuthor());
+        for( int i = 0; i < 3; i++) {
+            TextArea comment_i = (TextArea) App.getScene().lookup("#comment" + (i + 1));
+            if(comment_i.getText().equals("")) {
+                comment_i.setText(comment.getText());
 
-        TextField timestamp = (TextField) App.getScene().lookup("#timestamp1");
-        timestamp.setText(String.valueOf(comment.getTimestamp()));
+                TextField author = (TextField) App.getScene().lookup("#author" + (i + 1));
+                author.setText(comment.getAuthor());
 
-        Button delete1 = (Button) App.getScene().lookup("#delete1");
-        delete1.setVisible(true);
+                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
+                timestamp.setText(String.valueOf(comment.getTimestamp()));
+
+                Button delete1 = (Button) App.getScene().lookup("#delete" + (i + 1));
+                delete1.setVisible(true);
+
+                break;
+            }
+        }
 
         articlecomment.setText("");
+
     }
 
     @FXML
@@ -214,35 +223,40 @@ public class article {
 
     @FXML
     void deleteComment(MouseEvent event) throws IOException {
-        Button target = (Button) event.getSource();
-
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+
+        Button target = (Button) event.getSource();
+        String id = target.getId();
+
+        Text titolo = (Text) App.getScene().lookup("#titolo");
+        Text autore = (Text) App.getScene().lookup("#author");
+
         String comment = "";
         String author = "";
         String timestamp = "";
-        Text titolo = (Text) App.getScene().lookup("#titolo");
-        Text autore = (Text) App.getScene().lookup("#author");
+
         String title = titolo.getText();
         author = autore.getText();
-        System.out.println(titolo + ", " + author);
         TextArea commentField = null;
         TextField authorField = null;
         TextField timestampField = null;
 
-        System.out.println(target.getId());
-
-        if(target.getId().equals("delete1")){
-            commentField = (TextArea) App.getScene().lookup("#comment1");
-            authorField = (TextField) App.getScene().lookup("#author1");
-            timestampField = (TextField) App.getScene().lookup("#timestamp1");
-        } else if (target.getId().equals("delete2")){
-            commentField = (TextArea) App.getScene().lookup("#comment2");
-            authorField = (TextField) App.getScene().lookup("#author2");
-            timestampField = (TextField) App.getScene().lookup("#timestamp2");
-        } else if (target.getId().equals("delete3")){
-            commentField = (TextArea) App.getScene().lookup("#comment3");
-            authorField = (TextField) App.getScene().lookup("#author3");
-            timestampField = (TextField) App.getScene().lookup("#timestamp3");
+        switch (id) {
+            case "delete1" -> {
+                commentField = (TextArea) App.getScene().lookup("#comment1");
+                authorField = (TextField) App.getScene().lookup("#author1");
+                timestampField = (TextField) App.getScene().lookup("#timestamp1");
+            }
+            case "delete2" -> {
+                commentField = (TextArea) App.getScene().lookup("#comment2");
+                authorField = (TextField) App.getScene().lookup("#author2");
+                timestampField = (TextField) App.getScene().lookup("#timestamp2");
+            }
+            case "delete3" -> {
+                commentField = (TextArea) App.getScene().lookup("#comment3");
+                authorField = (TextField) App.getScene().lookup("#author3");
+                timestampField = (TextField) App.getScene().lookup("#timestamp3");
+            }
         }
 
         InfoComment infocomment = new InfoComment(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), autore.getText(),titolo.getText());
