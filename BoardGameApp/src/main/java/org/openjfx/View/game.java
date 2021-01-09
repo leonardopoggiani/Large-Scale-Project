@@ -178,7 +178,7 @@ public class game {
         System.out.println("Voto: " + voti.getValue());
 
         InfoRate rate = new InfoRate(login.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
-        controller.Neo4jAddRate(rate);
+        controller.Neo4jAddRating(rate);
         System.out.println(rate);
 
         GamesReviewsRatesDBController rating = new GamesReviewsRatesDBController();

@@ -20,7 +20,7 @@ public class GamesReviewsRatesDBManager {
      * @return Lista delle reviews ad un gioco
      */
 
-    public static List<InfoReview> searchListReviews(String name)
+    public static List<InfoReview> searchListReviews(final String name)
     {
         try(Session session=driver.session())
         {
@@ -83,7 +83,7 @@ public class GamesReviewsRatesDBManager {
      * @return Numero delle reviews ad un gioco
      */
 
-    public static int countReviews(String name)
+    public static int countReviews(final String name)
     {
         try(Session session=driver.session())
         {
@@ -126,7 +126,7 @@ public class GamesReviewsRatesDBManager {
      * @return Numero dei rates ad un gioco
      */
 
-    public static int countRatings(String name)
+    public static int countRatings(final String name)
     {
         try(Session session=driver.session())
         {
@@ -169,7 +169,7 @@ public class GamesReviewsRatesDBManager {
      * @return Ratings medio di un gioco
      */
 
-    public static Double avgRatings(String name)
+    public static Double avgRatings(final String name)
     {
         try(Session session=driver.session())
         {

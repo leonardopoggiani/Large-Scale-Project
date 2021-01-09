@@ -19,7 +19,7 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
      * @param username
      * @return Lista degli articoli suggeriti
      */
-    public static List<Article> searchSuggestedArticles(String username)
+    public static List<Article> searchSuggestedArticles(final String username)
     {
         try(Session session=driver.session())
         {
