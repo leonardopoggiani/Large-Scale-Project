@@ -107,7 +107,6 @@ public class game {
                     }
                 }
             }
-
             giàCaricato = 1;
         }
     }
@@ -121,16 +120,28 @@ public class game {
         InfoReview toAdd = new InfoReview(review.getText(), title.getText(), login.getLoggedUser(), new Timestamp(System.currentTimeMillis()));
         controller.Neo4jAddReview(toAdd);
 
-        TextField reviewList = (TextField) App.getScene().lookup("#review1");
-        reviewList.setText(review.getText());
-        TextField autore = (TextField) App.getScene().lookup("#author1");
-        autore.setText(login.getLoggedUser());
-        TextField timestamp = (TextField) App.getScene().lookup("#timestamp1");
-        timestamp.setText(String.valueOf(new Timestamp(System.currentTimeMillis())));
-        Button bottone = (Button) App.getScene().lookup("#delete1");
-        bottone.setVisible(true);
-        bottone.setDisable(false);
+        for(int i = 0; i < 3; i++) {
+            TextField reviewList = (TextField) App.getScene().lookup("#review" + (i + 1));
 
+            if(reviewList.getText().equals("")) {
+
+                reviewList.setText(review.getText());
+                TextField autore = (TextField) App.getScene().lookup("#author" + (i + 1));
+                autore.setText(login.getLoggedUser());
+
+                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
+                timestamp.setText(String.valueOf(new Timestamp(System.currentTimeMillis())));
+
+                Button bottone = (Button) App.getScene().lookup("#delete" + (i + 1));
+                bottone.setVisible(true);
+                bottone.setDisable(false);
+
+                break;
+            }
+
+        }
+
+        review.setText("");
     }
 
     @FXML
@@ -147,43 +158,62 @@ public class game {
         TextField autore = null;
         TextField timestamp = null;
 
-        if (id.equals("delete1")) {
-            reviewDaCancellare = (TextField) App.getScene().lookup("#review1");
-            autore = (TextField) App.getScene().lookup("#author1");
-            timestamp = (TextField) App.getScene().lookup("#timestamp1");
-        } else if (id.equals("delete2")) {
-            reviewDaCancellare = (TextField) App.getScene().lookup("#review2");
-            autore = (TextField) App.getScene().lookup("#author2");
-            timestamp = (TextField) App.getScene().lookup("#timestamp2");
-        } else {
-            reviewDaCancellare = (TextField) App.getScene().lookup("#review3");
-            autore = (TextField) App.getScene().lookup("#author3");
-            timestamp = (TextField) App.getScene().lookup("#timestamp3");
+        switch (id) {
+            case "delete1" -> {
+                reviewDaCancellare = (TextField) App.getScene().lookup("#review1");
+                autore = (TextField) App.getScene().lookup("#author1");
+                timestamp = (TextField) App.getScene().lookup("#timestamp1");
+            }
+            case "delete2" -> {
+                reviewDaCancellare = (TextField) App.getScene().lookup("#review2");
+                autore = (TextField) App.getScene().lookup("#author2");
+                timestamp = (TextField) App.getScene().lookup("#timestamp2");
+            }
+            default -> {
+                reviewDaCancellare = (TextField) App.getScene().lookup("#review3");
+                autore = (TextField) App.getScene().lookup("#author3");
+                timestamp = (TextField) App.getScene().lookup("#timestamp3");
+            }
         }
 
         InfoReview review = new InfoReview(reviewDaCancellare.getText(), games.getGame(), autore.getText(), Timestamp.valueOf(timestamp.getText()));
 
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
         controller.Neo4jDeleteReview(review);
+
+        reviewDaCancellare.setText("");
+        autore.setText("");
+        timestamp.setText("");
+        deleteButton.setVisible(false);
     }
 
     @FXML
     void addVote() {
+        GamesReviewsRatesDBController rating = new GamesReviewsRatesDBController();
+        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+
         Slider voti = (Slider) App.getScene().lookup("#rate");
         Text game = (Text) App.getScene().lookup("#title");
         ProgressBar progress = (ProgressBar) App.getScene().lookup("#votes1");
         Text voting = (Text) App.getScene().lookup("#votes");
 
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+        double mediaPrecedente = 0.0;
+
         System.out.println("Voto: " + voti.getValue());
 
         InfoRate rate = new InfoRate(login.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
         controller.Neo4jAddRate(rate);
         System.out.println(rate);
 
-        GamesReviewsRatesDBController rating = new GamesReviewsRatesDBController();
-        double votoMedio = rating.neo4jAvgRates(game.getText());
-        progress.setProgress(votoMedio);
-        voting.setText(String.valueOf(Math.round(votoMedio)));
+        if(Integer.parseInt(voting.getText()) != 0){
+            mediaPrecedente = Double.parseDouble(voting.getText());
+        }
+
+        if(mediaPrecedente != 0.0) {
+            double votoMedio = rating.neo4jAvgRates(game.getText());
+            double votiPrecendenti = rating.neo4jCountRates(game.getText());
+            progress.setProgress(votoMedio);
+            voting.setText(String.valueOf(Math.round(votoMedio)));
+        }
     }
 }

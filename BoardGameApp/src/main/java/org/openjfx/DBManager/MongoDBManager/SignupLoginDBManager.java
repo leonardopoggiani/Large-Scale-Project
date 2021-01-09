@@ -14,7 +14,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class SignupLoginDBManager extends MongoDBManager {
     public static void signup(User u){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Document doc = new Document("username", u.getUsername()).append("name", u.getName()).append("surname", u.getSurname())
                 .append("age", u.getAge()).append("registered", u.getRegistered()).append("last_login", u.getLastLogin())
                 .append("country", u.getCountry()).append("role", u.getRole()).append("updated", u.getUpdated());
