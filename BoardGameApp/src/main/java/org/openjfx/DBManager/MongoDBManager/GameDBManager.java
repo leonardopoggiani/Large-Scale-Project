@@ -159,17 +159,26 @@ public class GameDBManager {
 
     }
 
-    public static void updateAvgRating(double avg, String game){
+    public static void updateRating(double rate, String game){
+        int votes = getNumVotes(game);
+        double avg = getAvgRating(game);
+        double newAvg = (avg*votes + rate)/(votes+1);
+        updateAvgRating(newAvg, game);
+        updateNumVotes(votes+1, game);
+
+    }
+
+    private static void updateAvgRating (double avg,  String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Document updateAvg = new Document();
         updateAvg.append("avg_rating", avg);
         Document update = new Document();
         update.append("$set", updateAvg);
         collection.updateOne(eq("name", game), update);
-
     }
 
-    public static void updateNumReviews(int tot, String game){
+    public static void updateNumReviews(int inc, String game){
+        int tot = getNumReviews(game) + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Document reviews = new Document();
         reviews.append("num_reviews", tot);
@@ -179,13 +188,62 @@ public class GameDBManager {
 
     }
 
-    public static void updateNumVotes(int tot, String game){
+    public static int getNumReviews(String game){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        Bson projection = project(fields( excludeId(), include("name, num_reviews")));
+        Bson match =  match(eq("name",game));
+        int ret = 0;
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(cursor.next().toJson());
+                ret = Integer.parseInt(cursor.next().get("num_reviews").toString());
+            }
+        }
+
+        return ret;
+    }
+
+    private static void updateNumVotes(int tot, String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Document votes = new Document();
         votes.append("num_votes", tot);
         Document update = new Document();
         update.append("$set", votes);
         collection.updateOne(eq("name", game), update);
+    }
+
+    public static double getAvgRating(String game){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        Bson projection = project(fields( excludeId(), include("name, avg_rating")));
+        Bson match =  match(eq("name",game));
+        double ret = 0.0;
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(cursor.next().toJson());
+                ret = Double.parseDouble(cursor.next().get("avg_rating").toString());
+            }
+        }
+
+        return ret;
+    }
+
+    public static int getNumVotes (String game){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        Bson projection = project(fields( excludeId(), include("name, num_votes")));
+        Bson match =  match(eq("name",game));
+        int ret = 0;
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(cursor.next().toJson());
+                ret = Integer.parseInt(cursor.next().get("num_votes").toString());
+            }
+        }
+
+        return ret;
+
     }
 
     private static InfoGame fillInfoGameFields (Document next, boolean unwindCategory){
