@@ -4,6 +4,7 @@ import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Lists;
 import com.google.common.graph.Graph;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +26,8 @@ import org.openjfx.Entities.InfoGame;
 import java.io.IOException;
 import java.security.Key;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -122,20 +125,19 @@ public class homePage {
         titolo = null;
         Text testo = new Text();
 
-        if(event.getTarget().getClass() != testo.getClass()) {
-            AnchorPane articolo = (AnchorPane) event.getTarget();
-            String idArticle = articolo.getId();
-            System.out.println("ID " + "#author" + idArticle);
-            System.out.println("ID " + "#timestamp" + idArticle);
+        AnchorPane articolo = (AnchorPane) event.getSource();
+        String idArticle = articolo.getId();
+        System.out.println("ID " + "#author" + idArticle);
+        System.out.println("ID " + "#timestamp" + idArticle);
 
-            Text a = (Text) App.getScene().lookup("#author" + idArticle);
-            Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
-            autore = a.getText();
-            timestamp = t.getText();
-            TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
-            titolo = tx.getText();
-            App.setRoot("article");
-        }
+        Text a = (Text) App.getScene().lookup("#author" + idArticle);
+        Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
+        autore = a.getText();
+        timestamp = t.getText();
+        TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
+        titolo = tx.getText();
+        App.setRoot("article");
+
     }
 
     @FXML
@@ -150,6 +152,7 @@ public class homePage {
     @FXML
     void filterResearch () throws IOException {
         ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
+
         ComboBox gioco = (ComboBox) App.getScene().lookup("#gioco");
         AutoCompleteTextField autore = (AutoCompleteTextField) App.getScene().lookup("#author");
         DatePicker data = (DatePicker) App.getScene().lookup("#data");
@@ -158,9 +161,9 @@ public class homePage {
         String game = (String) gioco.getSelectionModel().getSelectedItem();
         String nome = autore.getText();
 
-        List<Article> filteredGames0 = null;
-        List<Article> filteredGames1 = null;
-        List<Article> filteredGames2 = null;
+        List<Article> filteredGames0 = Lists.newArrayList();
+        List<Article> filteredGames1 = Lists.newArrayList();
+        List<Article> filteredGames2 =Lists.newArrayList();
 
         if(game != null) {
             filteredGames0 = controller.filterByGame(game);
@@ -174,12 +177,33 @@ public class homePage {
             filteredGames2 = controller.filterByInfluencer(nome);
         }
 
-        if(filteredGames0 != null && filteredGames1 != null && filteredGames2 != null) {
-            if( filteredGames0.size() + filteredGames1.size() + filteredGames2.size() < 6 ) {
-                // gli articoli filtrati non riempiono la homepage
+        filteredGames0.addAll(filteredGames1);
+        filteredGames0.addAll(filteredGames2);
+
+        List<Article> filteringResult = new ArrayList<Article>(new HashSet<Article>(filteredGames0));
+        showFilteringResult(filteringResult);
+    }
+
+    private void showFilteringResult(List<Article> filteringResult) {
+        logger.info("show filtering result");
+        if (filteringResult != null) {
+            System.out.println("Lunghezza lista " + filteringResult.size());
+
+            for (int i = 0; i < filteringResult.size() && i < 6; i++) {
+                logger.info("mostro");
+                Article g = (Article) filteringResult.get(i);
+                TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
+                Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
+                Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
+                Text stats = (Text) App.getScene().lookup("#stats" + (i + 1));
+
+                articolo.setText(g.getTitle());
+                author.setText(g.getAuthor());
+                // timestamp.setText(String.valueOf(g.getTimestamp()));
+
+                System.out.println("Articolo " + g.getTitle() + ", " + g.getAuthor());
             }
         }
-
     }
 
     public static String getAuthor() {

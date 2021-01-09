@@ -13,11 +13,18 @@ import static org.openjfx.DBManager.Neo4jDBManager.Neo4jDBManager.driver;
 
 public class ListSuggGamesDBManager {
 
-    public static List<InfoGame> searchSuggestedGames(String username)
+    /**
+     * La funzione restituisce la lista dei giochi suggeriti nella sezione giochi di un utente
+     * in base alle sue categorie preferite
+     * @param username
+     * @return Lista degli articoli suggeriti
+     */
+
+    public static List<InfoGame> searchSuggestedGames(final String username)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<List<InfoGame>>()
+            return session.readTransaction(new TransactionWork<List<InfoGame>>()
             {
                 @Override
                 public List<InfoGame> execute(Transaction tx)
@@ -28,7 +35,13 @@ public class ListSuggGamesDBManager {
         }
     }
 
-
+    /**
+     * La funzione restituisce la lista dei giochi suggeriti nella sezione giochi di un utente
+     * in base alle sue categorie preferite
+     * @param tx
+     * @param username
+     * @return Lista degli articoli suggeriti
+     */
     private static List<InfoGame> transactionSearchSuggestedGames(Transaction tx, String username)
     {
         List<InfoGame> infoGames = new ArrayList<>();

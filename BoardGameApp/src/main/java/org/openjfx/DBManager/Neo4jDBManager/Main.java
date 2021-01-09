@@ -3,6 +3,7 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.openjfx.Controller.ArticlesCommentsLikesDBController;
 import org.openjfx.Controller.GamesReviewsRatesDBController;
 import org.openjfx.Controller.UpdateDatabaseDBController;
+import org.openjfx.Controller.FindSuggestUsersDBController;
 
 public class Main {
 
@@ -202,6 +203,9 @@ public class Main {
 
         Timestamp ret = gp.neo4jTimestampLastPost("Gruppo Mio2", "sara");
         System.out.println(ret.toString());*/
+
+        FindSuggestUsersDBController fs = new FindSuggestUsersDBController();
+        System.out.println(fs.neo4jListUsersFriends("sara"));
         Neo4jDBManager.close();
 
 

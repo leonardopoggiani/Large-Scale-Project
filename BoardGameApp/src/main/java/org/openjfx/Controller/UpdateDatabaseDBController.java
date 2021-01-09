@@ -1,7 +1,5 @@
 package org.openjfx.Controller;
 
-import org.openjfx.DBManager.Neo4jDBManager.ArticlesCommentsLikesDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.UpdateDatabaseDBManager;
 import org.openjfx.Entities.*;
 
@@ -83,10 +81,10 @@ public class UpdateDatabaseDBController {
     }
 
     //Add rate se non esiste già un voto fatto dalla stessa persona sullo stesso gioco
-    public Boolean Neo4jAddRate(InfoRate newRate) {
+    public Boolean Neo4jAddRating(InfoRate newRate) {
 
         Boolean ret = false;
-        ret = UpdateDatabaseDBManager.addRate(newRate);
+        ret = UpdateDatabaseDBManager.addRating(newRate);
         if (ret){
             org.openjfx.DBManager.MongoDBManager.GameDBManager.updateRating(newRate.getVote(), newRate.getGame());
         }
