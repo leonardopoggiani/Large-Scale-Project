@@ -57,14 +57,14 @@ public class article {
            for(int i = 0; i < infoComments.size() && i < 3; i++){
                TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
                commento.setText(infoComments.get(i).getText());
-               TextField autore = (TextField) App.getScene().lookup("#author" + i);
+               TextField autore = (TextField) App.getScene().lookup("#author" + (i + 1));
                autore.setText(infoComments.get(i).getAuthor());
-               TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + i);
+               TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
                timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
 
-               if(infoComments.get(i).getAuthor().equals(login.getLoggedUser()) || isUserModerator()){
+               if(infoComments.get(i).getAuthor().equals(login.getLoggedUser())){
                    // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
-                   Button delete = (Button) App.getScene().lookup("#button" + i);
+                   Button delete = (Button) App.getScene().lookup("#button" + (i + 1));
                    delete.setDisable(false);
                    delete.setVisible(true);
                }
