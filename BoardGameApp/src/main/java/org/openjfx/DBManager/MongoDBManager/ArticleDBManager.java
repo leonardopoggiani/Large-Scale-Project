@@ -169,7 +169,8 @@ public class ArticleDBManager {
 
     }
 
-    public static void updateNumComments(int tot, String author, String title){
+    public static void updateNumComments(int inc , String author, String title){
+        int tot = getNumComments(author, title) + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
         Document updateLike = new Document();
         updateLike.append("articles.$.num_comments", tot);
@@ -179,6 +180,60 @@ public class ArticleDBManager {
         query.append("username", author);
         query.append("articles.title", title);
         collection.updateOne(query, update);
+    }
+
+    public static int getNumComments(String author, String title){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        Bson unwind = unwind("$articles");
+        Bson projection = project(fields( excludeId(), include("username", "articles")));
+        Bson match =  match(and(eq("articles.title",title), eq("username", author)));
+        int ret = 0;
+
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(next.toJson());
+                ret = Integer.parseInt(cursor.next().get("num_comments").toString());
+
+            }
+        }
+        return ret;
+    }
+
+    private static int getNumLikes(String author, String title){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        Bson unwind = unwind("$articles");
+        Bson projection = project(fields( excludeId(), include("username", "articles")));
+        Bson match =  match(and(eq("articles.title",title), eq("username", author)));
+        int ret = 0;
+
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(next.toJson());
+                ret = Integer.parseInt(cursor.next().get("num_like").toString());
+
+            }
+        }
+        return ret;
+    }
+
+    private static int getNumDislikes(String author, String title){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        Bson unwind = unwind("$articles");
+        Bson projection = project(fields( excludeId(), include("username", "articles")));
+        Bson match =  match(and(eq("articles.title",title), eq("username", author)));
+        int ret = 0;
+
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(next.toJson());
+                ret = Integer.parseInt(cursor.next().get("num_dislike").toString());
+
+            }
+        }
+        return ret;
     }
 
     private static Article fillArticleFields (Document next){

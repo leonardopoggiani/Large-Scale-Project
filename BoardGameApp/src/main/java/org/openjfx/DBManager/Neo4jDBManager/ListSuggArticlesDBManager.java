@@ -12,11 +12,18 @@ import java.util.List;
 
 public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
-    public static List<Article> searchSuggestedArticles(String username)
+    /** La funzione restituisce la lista degli articoli suggeriti nella home di un utente
+     * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
+     * in base alle sue categorie preferite, ma solo 4
+     * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
+     * @param username
+     * @return Lista degli articoli suggeriti
+     */
+    public static List<Article> searchSuggestedArticles(final String username)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<List>()
+            return session.readTransaction(new TransactionWork<List>()
             {
                 @Override
                 public List<Article> execute(Transaction tx)
@@ -27,17 +34,44 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
         }
     }
 
-
+    /**
+     * La funzione restituisce la lista degli articoli suggeriti nella home di un utente
+     * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
+     * in base alle sue categorie preferite, ma solo 4
+     * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
+     * @param tx
+     * @param username
+     * @return Lista degli articoli suggeriti
+     */
     private static List<Article> transactionSearchSuggestedArticles(Transaction tx, String username)
     {
         List<Article> articles = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
+        Boolean findInflu = false;
         parameters.put("username", username);
-        Result result=tx.run("MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
+        parameters.put("type", "follow");
+        parameters.put("role", "influencer");
+        String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW{type:$type}]->(u2:User{role:$role})" +
+                "RETURN f";
+        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW{type:$type}]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article)" +
+                "RETURN a, i, p ORDER BY p.timestamp";
+
+        String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
                 "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
                 "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN a,i,p ORDER BY p.timestamp", parameters);
+                "RETURN a,i,p ORDER BY p.timestamp LIMIT 4";
 
+        Result result=tx.run(searchInfluencers, parameters);
+        if(!result.hasNext())
+        {
+            result = tx.run(nienteAmici, parameters);
+            System.out.println("Non ho trovato Influencers");
+        }
+        else
+        {
+            result = tx.run(conAmici, parameters);
+            System.out.println("Ho trovato Influencers");
+        }
         while(result.hasNext())
         {
             Record record = result.next();
@@ -67,20 +101,10 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
 
             }
-            //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
-
 
             articles.add(article);
         }
         return articles;
-       /* Article a1 = new Article("Ottimo articolo","Leonardo Poggiani",new Timestamp(System.currentTimeMillis()));
-        Article a2 = new Article("Bell'articolo","Lorenzo Poggiani",new Timestamp(System.currentTimeMillis()));
-        Article a3 = new Article("Un articolo","Marco Poggiani",new Timestamp(System.currentTimeMillis()));
-        Article a4 = new Article("Altro articolo","Gaia Anastasi",new Timestamp(System.currentTimeMillis()));
-        Article a5 = new Article("Davvero un altro articolo?","Clarissa Polidori",new Timestamp(System.currentTimeMillis()));
-        Article a6 = new Article("L'articolo","Francesca Tonioni",new Timestamp(System.currentTimeMillis()));
 
-        ArrayList<Article> list = Lists.newArrayList(a1,a2,a3,a4,a5,a6);
-        return list;*/
     }
 }

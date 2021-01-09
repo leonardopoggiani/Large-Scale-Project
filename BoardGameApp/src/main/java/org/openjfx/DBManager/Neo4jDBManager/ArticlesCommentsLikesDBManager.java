@@ -12,11 +12,18 @@ import java.util.List;
 
 public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
 
+    /**
+     * La funzione cerca la lista di tutti i commenti ad un articolo
+     * @param author
+     * @param title
+     * @return Lista dei commenti all'articolo
+     */
+
     public static List<InfoComment> searchListComments(String title, String author)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<List<InfoComment>>()
+            return session.readTransaction(new TransactionWork<List<InfoComment>>()
             {
                 @Override
                 public List<InfoComment> execute(Transaction tx)
@@ -27,6 +34,12 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
         }
     }
 
+    /**
+     * @param tx
+     * @param author
+     * @param title
+     * @return Lista dei commenti all'articolo
+     */
     public static List<InfoComment> transactionListComments(Transaction tx, String title, String author) {
 
         List<InfoComment> infoComments = new ArrayList<>();
@@ -64,12 +77,20 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
     }
 
 
+    /**
+     * La funzione conta il numero di like or dislike ad un articolo
+     * @param title
+     * @param author
+     * @param type
+     * @return Numero dei like, se type=like
+     * @return Numero di dislike se type= dislike
 
+     */
     public static int countLikes(String title, String author, String type)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<Integer>()
+            return session.readTransaction(new TransactionWork<Integer>()
             {
                 @Override
                 public Integer execute(Transaction tx)
@@ -80,8 +101,16 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
         }
     }
 
-    //Funzione che conta i like o i dislike in base al parametro type
-    //Prende titolo dell'articolo, autore e tipo
+    /**
+     * La funzione conta il numero di like or dislike ad un articolo
+     * @param tx
+     * @param title
+     * @param author
+     * @param type
+     * @return Numero dei like, se type=like
+     * @return Numero di dislike se type= dislike
+
+     */
 
     public static int transactionCountLikes(Transaction tx, String title, String author, String type) {
 
@@ -100,11 +129,18 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
         return numberLike;
     }
 
+    /**
+     * La funzione conta il numero di commenti ad un articolo
+     * @param title
+     * @param author
+     * @return Numero dei commenti ad un articolo
+     */
+
     public static int countComments(String title, String author)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<Integer>()
+            return session.readTransaction(new TransactionWork<Integer>()
             {
                 @Override
                 public Integer execute(Transaction tx)
@@ -115,8 +151,13 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
         }
     }
 
-    //Funzione che conta i like o i dislike in base al parametro type
-    //Prende titolo dell'articolo, autore e tipo
+    /**
+     * La funzione conta il numero di commenti ad un articolo
+     * @param tx
+     * @param title
+     * @param author
+     * @return Numero dei commenti ad un articolo
+     */
 
     public static int transactionCountLikes(Transaction tx, String title, String author) {
 
