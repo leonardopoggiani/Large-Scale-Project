@@ -190,7 +190,7 @@ public class GameDBManager {
 
     public static int getNumReviews(String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
-        Bson projection = project(fields( excludeId(), include("name, num_reviews")));
+        Bson projection = project(fields( excludeId(), include("name", "num_reviews")));
         Bson match =  match(eq("name",game));
         int ret = 0;
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
@@ -215,7 +215,7 @@ public class GameDBManager {
 
     public static double getAvgRating(String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
-        Bson projection = project(fields( excludeId(), include("name, avg_rating")));
+        Bson projection = project(fields( excludeId(), include("name", "avg_rating")));
         Bson match =  match(eq("name",game));
         double ret = 0.0;
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
@@ -231,7 +231,7 @@ public class GameDBManager {
 
     public static int getNumVotes (String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
-        Bson projection = project(fields( excludeId(), include("name, num_votes")));
+        Bson projection = project(fields( excludeId(), include("name", "num_votes")));
         Bson match =  match(eq("name",game));
         int ret = 0;
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
@@ -253,16 +253,18 @@ public class GameDBManager {
         g.setYear((next.get("year") == null) ? 0 :Integer.parseInt(next.get("year").toString()));
 
         g.setDescription((next.get("description") == null) ? "" :(next.get("description").toString()));
-        System.out.println("Descrizione " + g.getDescription());
 
-        g.setPublisher((next.get("publisher") == null) ? "" :next.get("publisher").toString());
+        List<String> publisher = (List<String>) next.get("publisher");
+        g.setPublisher(publisher);
         g.setUrl((next.get("url") == null) ? "" : next.get("url").toString());
 
         // gli url delle immagini vengono attraverso un array, prendo la prima immagini
-        List<String> image_url = (List<String>) next.getList("image_url", String.class);
+        List<String> image_url = (List<String>) next.get("image_url");
         g.setImageUrl((next.get("image_url") == null) ? "" : image_url.get(0).toString());
+        g.setLanguageDependency((next.get("language_dependency")==null)? 0: Integer.parseInt(next.get("language_dependency").toString()));
 
-        //g.setPrice((next.get("list_price") == null) ? 0.0 : Double.parseDouble(next.get("list_price").toString()));
+
+        g.setPrice((next.get("list_price") == null) ? "Not specified" :(next.get("list_price").toString()));
         g.setMinPlayers((next.get("min_players") == null) ? 1 :Integer.parseInt(next.get("min_players").toString()));
         g.setMaxPlayers((next.get("max_players") == null) ? 1000 : Integer.parseInt(next.get("max_players").toString()));
         g.setMinAge((next.get("min_age") == null) ? 3 :Integer.parseInt(next.get("min_age").toString()));
@@ -270,8 +272,10 @@ public class GameDBManager {
         g.setMinTime((next.get("min_time") == null) ? "There's no limit!" :next.get("min_time").toString());
         g.setMaxTime((next.get("max_time") == null) ? "There's no limit!" : next.get("max_time").toString());
         g.setCooperative(next.get("cooperative") != null && Boolean.parseBoolean(next.get("cooperative").toString()));
-        g.setFamily((next.get("family") == null) ? "No family related" : next.get("family").toString());
-        g.setExpansion((next.get("expansion") == null) ? "No expansion" : next.get("expansion").toString());
+        List<String> family = (List<String>) next.get("family");
+        g.setFamily(family);
+        List<String> expansion = (List<String>) next.get("expansion");
+        g.setExpansion(expansion);
         g.setNumVotes((next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString()));
         g.setAvgRating((next.get("avg_rating") == null) ? 0.0: Double.parseDouble(next.get("avg_rating").toString()));
         g.setNumReviews((next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString()));
@@ -290,18 +294,8 @@ public class GameDBManager {
         }
         else {
             List<String> list = (List<String>) next.get("category");
-            g.setCategory1("");
-            g.setCategory2("");
-            if(list == null){
-                g.setCategory1("");
-                g.setCategory2("");
-            }else{
-                for (int i = 0; i < list.size(); i++) {
-                    if (i == 0) {
-                        g.setCategory1((list.get(i)));
-                    } else g.setCategory2((list.get(i)));
-                }
-            }
+            System.out.println(list);
+            g.setListCategory(list);
 
         }
 

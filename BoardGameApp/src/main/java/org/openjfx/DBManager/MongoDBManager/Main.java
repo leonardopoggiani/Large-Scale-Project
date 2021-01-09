@@ -11,15 +11,15 @@ public class Main {
         System.out.println("Connesso");
 
         //signup
-        User u = new User("gaia2", "gaia", "anastasi", 22, "italy"); //Da definire
+        //User u = new User("gaia2", "gaia", "anastasi", 22, "italy");
         //SignupLoginDBManager.signup(u);
 
         //update login
         //SignupLoginDBManager.updateLogin("gaia2");
 
         //Read game
-        /*InfoGame g = org.openjfx.DBManager.MongoDBManager.GameDBManager.readGame("Monopoli");
-        System.out.println(g.getAvgRating() + " " + g.getMaxAge() + " " + g.getMinAge() + " " +g.getMinPlayers() + " " +
+        //InfoGame g = org.openjfx.DBManager.MongoDBManager.GameDBManager.readGame("Monopoli");
+        /*System.out.println(g.getAvgRating() + " " + g.getMaxAge() + " " + g.getMinAge() + " " +g.getMinPlayers() + " " +
         g.getMaxPlayers() + " " +g.getNumReviews() + " " + g.getYear() + " " + g.getCategory1() + " " +g.getCategory2() + " " + g.getImageUrl() +g.getMaxTime()
         +" " +g.getMinTime() +" " +g.getName() + " " + g.getUrl() + " " + g.getComplexity() + " " + g.getNumVotes() + " " + g.getAlternativeName() + " " + g.getFamily() + " " + g.isCooperative());
 */
@@ -28,8 +28,8 @@ public class Main {
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame("Cluedo");
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate("2020-12-29");
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("comments");
-        org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(4, "gaia1", "Giudizio su Azul" );
-        //System.out.println(list);
+        org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(-1, "gaia1", "Giudizio su Azul" );
+       // System.out.println(list);
 
 
         //Filter game
@@ -42,7 +42,7 @@ public class Main {
         //System.out.println(list);
 
 
-        //org.openjfx.DBManager.MongoDBManager.GameDBManager.updateAvgRating(4.5, "Monopoli");
+        org.openjfx.DBManager.MongoDBManager.GameDBManager.updateRating(7, "Monopoli");
         //org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(10, "Monopoli");
         //org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumVotes(10, "Monopoli");
 
