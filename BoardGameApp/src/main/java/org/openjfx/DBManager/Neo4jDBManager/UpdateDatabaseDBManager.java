@@ -44,12 +44,13 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
         return false;
     }
 
-    public static Boolean addLike(InfoLike like) {
+
+    public static Integer addLike(InfoLike like) {
         try (Session session = driver.session()) {
             boolean res;
-            return session.writeTransaction(new TransactionWork<Boolean>() {
+            return session.writeTransaction(new TransactionWork<Integer>() {
                 @Override
-                public Boolean execute(Transaction tx) {
+                public Integer execute(Transaction tx) {
                     return transactionAddLike(tx, like);
                 }
             });
@@ -58,7 +59,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
         }
     }
 
-    private static Boolean transactionAddLike(Transaction tx, InfoLike like) {
+    private static Integer transactionAddLike(Transaction tx, InfoLike like) {
 
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("authorLike", like.getAuthor());
@@ -75,7 +76,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
             Result result1 = tx.run("MATCH (a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) delete l"
                     , parameters);
             System.out.println("Ho eliminato");
-            return true;
+            return 1;
 
         } else {
 
@@ -85,9 +86,9 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
                     , parameters);
             if (result.hasNext()) {
                 System.out.println("Ho aggiunto");
-                return true;
+                return 2;
             }
-            return false;
+            return 0;
         }
 
 

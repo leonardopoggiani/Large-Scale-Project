@@ -12,8 +12,9 @@ import java.util.List;
 
 public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
-    /**
-     * La funzione restituisce la lista degli articoli suggeriti nella home di un utente
+    /** La funzione restituisce la lista degli articoli suggeriti nella home di un utente
+     * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
+     * in base alle sue categorie preferite, ma solo 4
      * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
      * @param username
      * @return Lista degli articoli suggeriti
@@ -35,6 +36,8 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
     /**
      * La funzione restituisce la lista degli articoli suggeriti nella home di un utente
+     * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
+     * in base alle sue categorie preferite, ma solo 4
      * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
      * @param tx
      * @param username
@@ -56,7 +59,7 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
         String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
                 "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
                 "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN a,i,p ORDER BY p.timestamp";
+                "RETURN a,i,p ORDER BY p.timestamp LIMIT 4";
 
         Result result=tx.run(searchInfluencers, parameters);
         if(!result.hasNext())

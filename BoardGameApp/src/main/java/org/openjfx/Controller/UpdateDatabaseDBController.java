@@ -27,9 +27,9 @@ public class UpdateDatabaseDBController {
     }
 
 
-    public Boolean Neo4jAddLike(InfoLike like) {
+    public int Neo4jAddLike(InfoLike like) {
 
-        Boolean ret = false;
+        int ret = 0;
         ret = UpdateDatabaseDBManager.addLike(like);
         int tot = ArticlesCommentsLikesDBManager.countLikes(like.getTitleArt(), like.getAuthorArt(), like.getType());
         org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(tot, like.getAuthorArt(), like.getTitleArt());

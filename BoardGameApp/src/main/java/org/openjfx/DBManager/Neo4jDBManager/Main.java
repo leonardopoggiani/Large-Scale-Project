@@ -74,7 +74,7 @@ public class Main {
         like.setTimestamp(ts);
         like.setAuthorArt("Clarissa1");
         like.setTitleArt("Mio articolo bello");
-        Boolean retLike;
+        int retLike;
 
 
 
