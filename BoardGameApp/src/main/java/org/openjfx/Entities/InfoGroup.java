@@ -9,6 +9,7 @@ public class InfoGroup {
     private String admin;
     private String description;
     private String game;
+    private Timestamp lastPost;
     //Non so se serve
     private List<User> members;
 
@@ -48,6 +49,10 @@ public class InfoGroup {
         return game;
     }
 
+    public Timestamp getLastPost() {
+        return lastPost;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -73,6 +78,10 @@ public class InfoGroup {
         this.game = game;
     }
 
+    public void setLastPost(Timestamp lastPost) {
+        this.lastPost = lastPost;
+    }
+
     @Override
     public String toString() {
         return "InfoGroup{" +
@@ -81,6 +90,7 @@ public class InfoGroup {
                 ", admin='" + admin + '\'' +
                 ", description='" + description + '\'' +
                 ", game='" + game + '\'' +
+                ", lastPost=" + lastPost +
                 ", members=" + members +
                 '}';
     }

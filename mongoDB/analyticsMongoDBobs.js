@@ -1,6 +1,7 @@
 //#ANALYTICs
 
-//# Show the game with the most number of rate for each year (pagina delle statistiche sui giochi o suggerimenti per i giochi)
+//Per decidere se eliminarlo
+//# Show the game with less number of rate for each year (pagina delle statistiche sui giochi o suggerimenti per i giochi)
 db.Games.aggregate([
 	{$match: 
 		{"num_votes": { "$exists": true, "$ne": "" }}
@@ -60,6 +61,9 @@ db.Games.aggregate([
 	{$sort:{_id:1}}
 ])
 
+
+//Se ipoteticamente uno non specifica le sue categorie preferite allora mostro i giochi con le categorie + popolari
+//Diagramma a torta forse, sul numero di giochi, 5 e altre
 //4) informazioni su una particolare categoria di giochi (schermata statistiche sui giochi)
 
 db.boardgame.aggregate(
@@ -78,8 +82,10 @@ db.boardgame.aggregate(
     ]
 )
 
+//Un'altra simile per la torta con solo i totalGames
+
 // ---- sul graphDB ----
-//5) Giochi che hanno più gruppi che parlano di loro (statistiche sui giochi oppure suggerimenti su gruppi)
+//5) Giochi che hanno più gruppi che parlano di loro (statistiche sui giochi)
 db.boardgame.aggregate(
     {$unwind: "$groups"}, 
     {$group: 
@@ -93,7 +99,7 @@ db.boardgame.aggregate(
 
 // --------
 
-// 6) Distribuzione dei commenti su gruppi per Autore (ad esempio nella pagina del profilo personale oppure per mostrare persona più attiva)
+/*// 6) Distribuzione dei post su gruppi per Autore (Per mostrare persona più attiva)
 db.boardgame.aggregate(
     {$unwind: "$groups"},
     {$unwind: "$groups.posts"},
@@ -103,11 +109,17 @@ db.boardgame.aggregate(
     }
 )
 
-// 6.bis) Autore di più commenti in ogni gruppo
+// 6.bis) Autore di più posts in ogni gruppo
+*/
 
+//GraphDB 
+//Sui gruppi di cui un utente, passato, è admin, ordinarli per timestamp dell'ultimo post e ritornarli
+//Dividere la query che restituisce i gruppi in due.
+//Fare anche la delete group
 
 // ---- sul graphDB ----
-// 7) Persona che modera più gruppi ( ad esempio nel profilo personale, potrebbe essere interessante vedere di quanti gruppi si è admin per poter proporre admin/moderatori)
+//Nella pagina delle statistiche dell'admin
+// 7) Persona che modera più gruppi
 db.boardgame.aggregate(
     {$unwind: "$groups"},
     {$group: 
@@ -119,8 +131,9 @@ db.boardgame.aggregate(
 )
 
 // -------------
-
-// numero di giocatori per paese
+//Pagina delle statistiche dell'admin
+//Numero di giocatori per paese
+//Per esempio sulle prime 5/6 e altre
 db.users.aggregate( 
     {$match: {country: {$ne: null} } }, 
     {$group: 

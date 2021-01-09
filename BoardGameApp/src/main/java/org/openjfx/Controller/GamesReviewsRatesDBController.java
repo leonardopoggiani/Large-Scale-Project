@@ -1,15 +1,11 @@
 package org.openjfx.Controller;
 
-import org.bson.Document;
 import org.openjfx.DBManager.MongoDBManager.GameDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggGamesDBManager;
-import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoGame;
-import org.openjfx.Entities.InfoRate;
 import org.openjfx.Entities.InfoReview;
 
-import java.lang.annotation.Documented;
 import java.util.List;
 
 public class GamesReviewsRatesDBController {
@@ -65,9 +61,9 @@ public class GamesReviewsRatesDBController {
 
     }
 
-    public float neo4jAvgRates(String name) {
+    public double neo4jAvgRates(String name) {
 
-        float avgRates = 0;
+        double avgRates = 0;
         avgRates = GamesReviewsRatesDBManager.avgRates(name);
 
         System.out.println(avgRates);

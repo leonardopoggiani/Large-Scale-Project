@@ -174,8 +174,33 @@ public class Main {
         ud.Neo4jAddGroup(group);
 
         GroupsPostsDBController gp = new GroupsPostsDBController();
-        gp.neo4jShowUsersGroups("Gaia5");
+        System.out.println("Gruppi di cui sei admin: ");
+        gp.neo4jShowUsersGroups("sara", "admin");
+        System.out.println("Gruppi di cui sei solo membro: ");
+        gp.neo4jShowUsersGroups("sara", "member");
+
+
+        System.out.println("Membri del gruppo: ");
+        gp.neo4jShowGroupsMembers("Gruppo Mio2", "sara");
+        gp.neo4jCountGroupMembers("Gruppo Mio2", "sara");
+
+        System.out.println("Aggiungo membro!");
+        Boolean retAddMember = false;
+        retAddMember = ud.Neo4jAddGroupMember("Gaia4", "Gruppo Mio2", "sara");
+        if(retAddMember)
+        {
+            System.out.println("Aggiunto membro!");
+            gp.neo4jShowGroupsMembers("Gruppo Mio2", "sara");
+        }
+
+        else
+            System.out.println("Membro già presente!");
+
+        Timestamp ret = gp.neo4jTimestampLastPost("Gruppo Mio2", "sara");
+        System.out.println(ret.toString());
         Neo4jDBManager.close();
+
+
 
 
 

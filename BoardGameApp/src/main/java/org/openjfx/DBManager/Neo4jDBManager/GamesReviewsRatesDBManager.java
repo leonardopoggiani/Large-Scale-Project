@@ -128,14 +128,14 @@ public class GamesReviewsRatesDBManager {
         return numberRates;
     }
 
-    public static float avgRates(String name)
+    public static Double avgRates(String name)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<Integer>()
+            return session.writeTransaction(new TransactionWork<Double>()
             {
                 @Override
-                public Integer execute(Transaction tx)
+                public Double execute(Transaction tx)
                 {
                     return transactionAvgRates(tx, name);
                 }
@@ -145,9 +145,9 @@ public class GamesReviewsRatesDBManager {
 
     // Funzione che fa la media delle valutazioni ad un determinato gioco
 
-    public static int transactionAvgRates(Transaction tx, String name) {
+    public static Double transactionAvgRates(Transaction tx, String name) {
 
-        int avgRates = 0;
+        Double avgRates = 0.0;
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) return avg(r.vote) AS avgRates", parameters);
@@ -155,9 +155,8 @@ public class GamesReviewsRatesDBManager {
         if (result.hasNext()) {
             Record record = result.next();
 
-            System.out.println(record.get("avgRates"));
-            if(record.get("avgRates").equals("NULL"))
-                avgRates = record.get("avgRates").asInt();
+            if(!record.get("avgRates").equals("NULL"))
+                avgRates = record.get("avgRates").asDouble();
         }
         return avgRates;
     }

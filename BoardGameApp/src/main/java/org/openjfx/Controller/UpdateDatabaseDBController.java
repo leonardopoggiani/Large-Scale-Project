@@ -90,4 +90,21 @@ public class UpdateDatabaseDBController {
     }
 
 
+    public Boolean Neo4jDeleteGroup(InfoGroup group) {
+
+        Boolean ret = false;
+        ret  = UpdateDatabaseDBManager.deleteGroup(group);
+        return ret;
+    }
+
+    public Boolean Neo4jAddGroupMember(String username, String name, String admin) {
+
+        Boolean ret = false;
+        ret  = UpdateDatabaseDBManager.addGroupMember(username, name, admin);
+
+        return ret;
+    }
+
+
+
 }
