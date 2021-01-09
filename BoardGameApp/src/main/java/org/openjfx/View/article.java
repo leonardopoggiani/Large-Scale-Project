@@ -48,11 +48,12 @@ public class article {
            like.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"like")));
            unlike.setText(String.valueOf(article.neo4jCountLikes(homePage.getTitolo(),homePage.getAuthor(),"dislike")));
            System.out.println("testo" + a.getText());
+
            body.setText(a.getText());
 
            List<InfoComment> infoComments = null;
            infoComments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
-           System.out.println("Numero di commenti " + infoComments.size());
+           System.out.println("Numero di commenti " + infoComments.size() + ", autore:" + homePage.getAuthor() + ", titolo: " + homePage.getTitolo());
 
            for(int i = 0; i < infoComments.size() && i < 3; i++){
                TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));

@@ -15,6 +15,7 @@ module org.openjfx {
 
     opens org.openjfx.View to javafx.fxml;
     opens org.openjfx to javafx.fxml;
+    opens org.openjfx.Entities to javafx.fxml;
 
     exports org.openjfx;
 }

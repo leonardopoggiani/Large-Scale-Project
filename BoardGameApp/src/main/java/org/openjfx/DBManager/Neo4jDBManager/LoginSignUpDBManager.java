@@ -22,7 +22,6 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      */
      public static int registerUser(final String username, final String password, final String category1, final String category2, final int age, final String role)
      {
-
          try(Session session = driver.session())
          {
              return session.writeTransaction(new TransactionWork<Integer>()
@@ -120,18 +119,17 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      */
     private static String matchUser(Transaction tx,String username,String password) {
         HashMap<String, Object> parameters = new HashMap<>();
-        String role = null;
+        String role = "NA";
         parameters.put("username", username);
         parameters.put("password", password);
         Result result = tx.run("MATCH(u:User) WHERE u.username=$username AND u.password = $password RETURN u", parameters);
         role = getRole(result);
 
         return role;
-
     }
 
     private static String getRole(Result result) {
-        String role = null;
+        String role = "NA";
         while (result.hasNext()) {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();

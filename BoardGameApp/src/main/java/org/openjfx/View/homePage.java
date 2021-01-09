@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -153,12 +154,12 @@ public class homePage {
     void filterResearch () throws IOException {
         ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
 
-        ComboBox gioco = (ComboBox) App.getScene().lookup("#gioco");
+        TextField gioco = (TextField) App.getScene().lookup("#game");
         AutoCompleteTextField autore = (AutoCompleteTextField) App.getScene().lookup("#author");
         DatePicker data = (DatePicker) App.getScene().lookup("#data");
 
         LocalDate valoreData = data.getValue();
-        String game = (String) gioco.getSelectionModel().getSelectedItem();
+        String game = gioco.getText();
         String nome = autore.getText();
 
         List<Article> filteredGames0 = Lists.newArrayList();
