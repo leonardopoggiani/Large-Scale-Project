@@ -1,35 +1,26 @@
 Group
--Id
 -name
--timestamp
 -Description
 -admin
 
 //Da article o da group VERSO game
 REFERRED
--Id
 
 Game
--Id
 -Name
 -Category
 
 User
--Name
--Id
+-Username
 -Category_1
 -Category_2
 -Role: influencer, normalUser
 
 Article
--Name
--Id
--Timestamp
+-Title
 
 BE_PART
--Id
 -timestamp
-//-Admin: si o no (non più per ora)
 
 LIKE
 -id
@@ -37,24 +28,21 @@ LIKE
 
 
 FOLLOW
+-timestamp
 -tipo: friend, follow
 
 -PUBLISHED
--id
 -timestamp
 
 -COMMENTED
--id
 -timestamp
 -text
 
 -REVIEWED
--id
 -timestamp
 -text
 
 -RATED
--id
 -timestamp
 -value
 
