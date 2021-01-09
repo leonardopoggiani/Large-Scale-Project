@@ -63,9 +63,9 @@ public class UpdateDatabaseDBController {
 
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addRate(newRate);
-        int tot = GamesReviewsRatesDBManager.countRates(newRate.getGame());
+        int tot = GamesReviewsRatesDBManager.countRatings(newRate.getGame());
         org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumVotes(tot, newRate.getGame());
-        double avg_rate = GamesReviewsRatesDBManager.avgRates(newRate.getGame());
+        double avg_rate = GamesReviewsRatesDBManager.avgRatings(newRate.getGame());
         org.openjfx.DBManager.MongoDBManager.GameDBManager.updateAvgRating(avg_rate, newRate.getGame());
 
         return ret;

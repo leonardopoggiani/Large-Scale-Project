@@ -1,11 +1,8 @@
 package org.openjfx.DBManager.Neo4jDBManager;
 
+import org.openjfx.Controller.ArticlesCommentsLikesDBController;
 import org.openjfx.Controller.GamesReviewsRatesDBController;
-import org.openjfx.Controller.GroupsPostsDBController;
 import org.openjfx.Controller.UpdateDatabaseDBController;
-import org.openjfx.Entities.InfoGroup;
-
-import java.sql.Timestamp;
 
 public class Main {
 
@@ -14,6 +11,15 @@ public class Main {
         GamesReviewsRatesDBController gr = new GamesReviewsRatesDBController();
 
         UpdateDatabaseDBController ud = new UpdateDatabaseDBController();
+
+        ArticlesCommentsLikesDBController la = new ArticlesCommentsLikesDBController();
+
+
+        la.neo4jListSuggestedArticles("Gaia5");
+        System.out.println("---------------------------");
+
+        la.neo4jListSuggestedArticles("sara");
+        System.out.println("---------------------------");
         /*
         LoginSignUpDBController cont = new LoginSignUpDBController();
         Article a = new Article();
@@ -22,7 +28,7 @@ public class Main {
         int quantiLike = 0;
         int quantiDislike = 0;
         int quantiComments = 0;
-        ArticlesCommentsLikesDBController la = new ArticlesCommentsLikesDBController();
+
         User user = new User("Gaia4", "ciaociao", "Strategic", "Cards InfoGame", 28, "normalUser" );
 
         cont.neo4jRegisterUserController(user);
@@ -31,8 +37,6 @@ public class Main {
         System.out.println("---------------------------");
 
 
-        la.neo4jListSuggestedArticles("Gaia5");
-        System.out.println("---------------------------");
 
         la.neo4jListArticlesComment("Mio articolo bello", "Clarissa1");
         System.out.println("---------------------------");
@@ -162,7 +166,7 @@ public class Main {
         rev2.setText("Gioco di merda");
         Timestamp tsrev2 = Timestamp.valueOf("2021-01-02 17:38:12.893");
         rev2.setTimestamp(tsrev2);
-        ud.Neo4jDeleteReview(rev2);*/
+        ud.Neo4jDeleteReview(rev2);
 
         InfoGroup group = new InfoGroup();
         group.setAdmin("Gaia5");
@@ -197,7 +201,7 @@ public class Main {
             System.out.println("Membro già presente!");
 
         Timestamp ret = gp.neo4jTimestampLastPost("Gruppo Mio2", "sara");
-        System.out.println(ret.toString());
+        System.out.println(ret.toString());*/
         Neo4jDBManager.close();
 
 

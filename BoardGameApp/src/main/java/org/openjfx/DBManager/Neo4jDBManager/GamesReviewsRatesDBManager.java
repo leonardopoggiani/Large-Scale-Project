@@ -14,11 +14,17 @@ import static org.openjfx.DBManager.Neo4jDBManager.Neo4jDBManager.driver;
 
 public class GamesReviewsRatesDBManager {
 
+    /**
+     * La funzione restituisce la lista delle reviews ad un gioco
+     * @param name
+     * @return Lista delle reviews ad un gioco
+     */
+
     public static List<InfoReview> searchListReviews(String name)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<List<InfoReview>>()
+            return session.readTransaction(new TransactionWork<List<InfoReview>>()
             {
                 @Override
                 public List<InfoReview> execute(Transaction tx)
@@ -28,6 +34,13 @@ public class GamesReviewsRatesDBManager {
             });
         }
     }
+
+    /**
+     * La funzione restituisce la lista delle reviews ad un gioco
+     * @param tx
+     * @param name
+     * @return Lista delle reviews ad un gioco
+     */
 
     public static List<InfoReview> transactionListReviews(Transaction tx, String name) {
 
@@ -64,11 +77,17 @@ public class GamesReviewsRatesDBManager {
         return infoReviews;
     }
 
+    /**
+     * La funzione conta le reviews ad un gioco
+     * @param name
+     * @return Numero delle reviews ad un gioco
+     */
+
     public static int countReviews(String name)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<Integer>()
+            return session.readTransaction(new TransactionWork<Integer>()
             {
                 @Override
                 public Integer execute(Transaction tx)
@@ -79,7 +98,12 @@ public class GamesReviewsRatesDBManager {
         }
     }
 
-    //Funzione che conta le reviews ad un determinato gioco
+    /**
+     * La funzione conta le reviews ad un gioco
+     * @param tx
+     * @param name
+     * @return Numero delle reviews ad un gioco
+     */
 
     public static int transactionCountReviews(Transaction tx, String name) {
 
@@ -96,24 +120,35 @@ public class GamesReviewsRatesDBManager {
         return numberReviews;
     }
 
-    public static int countRates(String name)
+    /**
+     * La funzione conta i rates ad un gioco
+     * @param name
+     * @return Numero dei rates ad un gioco
+     */
+
+    public static int countRatings(String name)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<Integer>()
+            return session.readTransaction(new TransactionWork<Integer>()
             {
                 @Override
                 public Integer execute(Transaction tx)
                 {
-                    return transactionCountRates(tx, name);
+                    return transactionCountRatings(tx, name);
                 }
             });
         }
     }
 
-    //Funzione che conta i rates ad un determinato gioco
+    /**
+     * La funzione conta i ratings ad un gioco
+     * @param tx
+     * @param name
+     * @return Numero dei ratings ad un gioco
+     */
 
-    public static int transactionCountRates(Transaction tx, String name) {
+    public static int transactionCountRatings(Transaction tx, String name) {
 
         int numberRates = 0;
         HashMap<String, Object> parameters = new HashMap<>();
@@ -128,24 +163,35 @@ public class GamesReviewsRatesDBManager {
         return numberRates;
     }
 
-    public static Double avgRates(String name)
+    /**
+     * La funzione calcola il rating medio di un gioco
+     * @param name
+     * @return Ratings medio di un gioco
+     */
+
+    public static Double avgRatings(String name)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<Double>()
+            return session.readTransaction(new TransactionWork<Double>()
             {
                 @Override
                 public Double execute(Transaction tx)
                 {
-                    return transactionAvgRates(tx, name);
+                    return transactionAvgRatings(tx, name);
                 }
             });
         }
     }
 
-    // Funzione che fa la media delle valutazioni ad un determinato gioco
+    /**
+     * La funzione calcola il rating medio di un gioco
+     * @param tx
+     * @param name
+     * @return Ratings medio di un gioco
+     */
 
-    public static Double transactionAvgRates(Transaction tx, String name) {
+    public static Double transactionAvgRatings(Transaction tx, String name) {
 
         Double avgRates = 0.0;
         HashMap<String, Object> parameters = new HashMap<>();

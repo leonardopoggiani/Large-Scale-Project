@@ -50,10 +50,10 @@ public class GamesReviewsRatesDBController {
 
     }
 
-    public int neo4jCountRates(String name) {
+    public int neo4jCountRatings(String name) {
 
         int quantiRates = 0;
-        quantiRates = GamesReviewsRatesDBManager.countRates(name);
+        quantiRates = GamesReviewsRatesDBManager.countRatings(name);
 
         System.out.println(quantiRates);
 
@@ -61,10 +61,10 @@ public class GamesReviewsRatesDBController {
 
     }
 
-    public double neo4jAvgRates(String name) {
+    public double neo4jAvgRatings(String name) {
 
         double avgRates = 0;
-        avgRates = GamesReviewsRatesDBManager.avgRates(name);
+        avgRates = GamesReviewsRatesDBManager.avgRatings(name);
 
         System.out.println(avgRates);
 

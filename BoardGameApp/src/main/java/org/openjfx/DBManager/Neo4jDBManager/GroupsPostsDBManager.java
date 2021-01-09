@@ -16,11 +16,18 @@ import static org.openjfx.DBManager.Neo4jDBManager.Neo4jDBManager.driver;
 public class GroupsPostsDBManager {
 
 
+    /**
+     * La funzione restituisce la lista dei gruppi di un utente è membro
+     * @param username
+     * @param type
+     * @return Lista dei gruppi di cui un utente è membro senza essere admin se type = member
+     * @return  Lista dei gruppi di cui un utente è membro e admin se type = admin
+     */
     public static List<InfoGroup> showUsersGroups(String username, String type)
     {
         try(Session session=driver.session())
         {
-            return session.writeTransaction(new TransactionWork<List>()
+            return session.readTransaction(new TransactionWork<List>()
             {
                 @Override
                 public List<InfoGroup> execute(Transaction tx)
@@ -31,7 +38,14 @@ public class GroupsPostsDBManager {
         }
     }
 
-
+    /**
+     * La funzione restituisce la lista dei gruppi di un utente è membro
+     * @param tx
+     * @param username
+     * @param type
+     * @return Lista dei gruppi di cui un utente è membro senza essere admin se type = member
+     * @return  Lista dei gruppi di cui un utente è membro e admin se type = admin
+     */
     private static List<InfoGroup> transactionShowUsersGroups(Transaction tx, String username, String type) {
         List<InfoGroup> groups = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();

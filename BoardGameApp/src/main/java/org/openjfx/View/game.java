@@ -182,7 +182,7 @@ public class game {
         System.out.println(rate);
 
         GamesReviewsRatesDBController rating = new GamesReviewsRatesDBController();
-        double votoMedio = rating.neo4jAvgRates(game.getText());
+        double votoMedio = rating.neo4jAvgRatings(game.getText());
         progress.setProgress(votoMedio);
         voting.setText(String.valueOf(Math.round(votoMedio)));
     }
