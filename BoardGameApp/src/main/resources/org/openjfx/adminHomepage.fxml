@@ -5,6 +5,7 @@
 <?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
 <?import com.gluonhq.charm.glisten.control.Icon?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.SplitPane?>
@@ -56,6 +57,7 @@
             <Text layoutX="287.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1)" />
             <Text layoutX="287.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2)" />
             <Text layoutX="287.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3)" />
+            <PieChart layoutX="226.0" layoutY="203.0" prefHeight="135.0" prefWidth="257.0" title="Distribution per category" />
          </children>
       </AnchorPane>
    </items>

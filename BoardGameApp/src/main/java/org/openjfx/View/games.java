@@ -26,7 +26,10 @@ public class games {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
     int giàCaricato = -1;
-    ObservableList<String> ordinamenti = FXCollections.observableArrayList( "Number of reviews", "Number of ratings", "Average ratings");
+
+    ObservableList<String> ordinamenti = FXCollections.observableArrayList(
+            "Number of reviews", "Number of ratings", "Average ratings", "None");
+
     ObservableList<String> categorie = FXCollections.observableArrayList(
             "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
@@ -41,7 +44,8 @@ public class games {
             "Spies/Secret Agents:1081","Deduction:1039","Murder/Mystery:1040",
             "Aviation/Flight:2650","Modern Warfare:1069","Territory Building:1086",
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
-            "Exploration:1020","Word-game:1025","Video Game Theme:1101");
+            "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
+
     private static String game;
 
     @FXML
