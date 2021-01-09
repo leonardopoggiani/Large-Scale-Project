@@ -119,7 +119,9 @@ public class games {
 
     @FXML
     void filterResearch () throws IOException {
+        // filtra i risultati in base alle impostazioni passate
         GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+
         ComboBox categoria = (ComboBox) App.getScene().lookup("#category");
         Slider players = (Slider) App.getScene().lookup("#players");
         Text numplayers = (Text) App.getScene().lookup("#numplayers");
@@ -139,8 +141,8 @@ public class games {
         if(categoria.getSelectionModel().getSelectedItem() != null) {
             // filtraggio per categoria, crea una lista con tutti i giochi appartenenti alla categoria data
             int index1 = categoria.getSelectionModel().getSelectedIndex();
-            String categoria1 = categorie.get(index1);
-            filteredGames0 = controller.filterByCategory(categoria1);
+            filtraPerCategoria = categorie.get(index1);
+            filteredGames0 = controller.filterByCategory(filtraPerCategoria);
         }
 
         if(!data.getText().equals("")) {
@@ -157,10 +159,8 @@ public class games {
             filteredGames2 = controller.filterByPlayers(filtraGiocatori);
         }
 
-        System.out.println("BEFORE Dimensione 1: " + filteredGames0.size() + ", dimensione 2:" + filteredGames1.size() + " , dimensione3 " + filteredGames2.size());
         filteredGames0.addAll(filteredGames1);
         filteredGames0.addAll(filteredGames2);
-        System.out.println("AFTER Dimensione 1: " + filteredGames0.size() + ", dimensione 2:" + filteredGames1.size() + " , dimensione3 " + filteredGames2.size());
 
         if(order.getSelectionModel().getSelectedItem() != null) {
 
