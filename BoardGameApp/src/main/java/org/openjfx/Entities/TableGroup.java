@@ -8,21 +8,21 @@ public class TableGroup {
     SimpleStringProperty groupName;
     SimpleStringProperty timestamp;
     SimpleStringProperty admin;
-    SimpleStringProperty gameReferred;
+    SimpleStringProperty game;
 
     public TableGroup(String name, Timestamp time, String admin, String game){
         this.groupName = new SimpleStringProperty(name);
         this.timestamp = new SimpleStringProperty(String.valueOf(time));
         this.admin = new SimpleStringProperty(admin);
-        this.gameReferred = new SimpleStringProperty(game);
+        this.game = new SimpleStringProperty(game);
     }
 
     public String getGroupName() {
         return groupName.get();
     }
 
-    public String getGameReferred() {
-        return gameReferred.get();
+    public String getGame() {
+        return game.get();
     }
 
     public String getAdmin() {
@@ -32,4 +32,9 @@ public class TableGroup {
     public String getTimestamp() {
         return timestamp.get();
     }
+
+    public String toString(){
+        return getGroupName() + " | " + getAdmin() + " | " + getTimestamp() + " | " + getGame();
+    }
+
 }
