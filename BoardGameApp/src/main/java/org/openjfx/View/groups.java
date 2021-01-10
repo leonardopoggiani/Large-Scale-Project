@@ -9,17 +9,25 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.openjfx.App;
+import org.openjfx.Controller.GroupsPostsDBController;
 import org.openjfx.Controller.UpdateDatabaseDBController;
 import org.openjfx.Entities.InfoGroup;
 import org.openjfx.Entities.TableGroup;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.List;
 
 public class groups {
 
     int giaCaricato = -1;
+    private TableView<TableGroup> tableAdmin;
+    private TableView<TableGroup> tableMembro;
+    private final ObservableList<TableGroup> gruppiAdmin = FXCollections.observableArrayList();
+    private ObservableList<TableGroup> gruppiMembro = FXCollections.observableArrayList();
+    private TableColumn groupName;
+    private TableColumn timestampCreation;
+    private TableColumn admin;
+    private TableColumn gameReferred;
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -49,14 +57,24 @@ public class groups {
     @FXML
     void setGroups() throws IOException {
         if(giaCaricato == -1) {
-            TableView<InfoGroup> table = (TableView<InfoGroup>) App.getScene().lookup("#table");
-            table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-            TableColumn groupName = new TableColumn("groupName");
-            TableColumn timestampCreation = new TableColumn("timestamp");
-            TableColumn admin = new TableColumn("admin");
-            TableColumn gameReferred = new TableColumn("game");
+             tableAdmin = (TableView<TableGroup>) App.getScene().lookup("#table");
+             tableAdmin.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+             tableMembro = (TableView<TableGroup>) App.getScene().lookup("#table2");
+             tableMembro.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-            table.getColumns().addAll(groupName, timestampCreation, admin, gameReferred);
+             groupName = new TableColumn("Name");
+             timestampCreation = new TableColumn("Timestamp");
+             admin = new TableColumn("Admin");
+             gameReferred = new TableColumn("Game");
+
+            groupName.setCellValueFactory(new PropertyValueFactory<>("groupName"));
+            timestampCreation.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
+            admin.setCellValueFactory(new PropertyValueFactory<>("admin"));
+            gameReferred.setCellValueFactory(new PropertyValueFactory<>("gameReferred"));
+
+            tableAdmin.getColumns().addAll(groupName, timestampCreation, admin, gameReferred);
+            tableMembro.getColumns().addAll(groupName, timestampCreation, admin, gameReferred);
+
             giaCaricato = 1;
         }
     }
@@ -73,32 +91,33 @@ public class groups {
         String game = tf2.getText();
         String description = tf3.getText();
 
+        if(groupname.equals("")){
+            tf.setStyle("-fx-background-color: #ff0000; -fx-font-size: 12;");
+            return;
+        }
+
+        if(game.equals("")) {
+            tf2.setStyle("-fx-background-color: #ff0000; -fx-font-size: 12;");
+            return;
+        }
+
+        if(description.equals("")){
+            description = "No description provided";
+        }
+
         tf.setText("");
         tf2.setText("");
         tf3.setText("");
 
         InfoGroup group = new InfoGroup(groupname, new Timestamp(System.currentTimeMillis()), login.getLoggedUser(), description, game);
-
+        System.out.println(group);
         controller.Neo4jAddGroup(group);
 
-        ObservableList<InfoGroup> values = FXCollections.observableArrayList();
-        values.add(group);
+        TableGroup tableGroup = new TableGroup(group.getName(),group.getTimestamp(),group.getAdmin(),group.getGame());
+        System.out.println(tableGroup);
 
-        TableView<InfoGroup> table = (TableView<InfoGroup>) App.getScene().lookup("#table");
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        System.out.println(group);
-        TableColumn groupName = new TableColumn("groupName");
-        TableColumn timestampCreation = new TableColumn("timestamp");
-        TableColumn admin = new TableColumn("admin");
-        TableColumn gameReferred = new TableColumn("game");
-
-        groupName.setCellValueFactory(param -> new ReadOnlyStringWrapper(group.getName()));
-        timestampCreation.setCellValueFactory(param -> new ReadOnlyStringWrapper(String.valueOf(group.getTimestamp())));
-        admin.setCellValueFactory(param -> new ReadOnlyStringWrapper(group.getAdmin()));
-        gameReferred.setCellValueFactory(param -> new ReadOnlyStringWrapper(group.getGame()));
-
-        table.getColumns().addAll(groupName, timestampCreation, admin, gameReferred);
-        table.setItems(values);
+        gruppiAdmin.add(tableGroup);
+        tableAdmin.setItems(gruppiAdmin);
     }
     
 }

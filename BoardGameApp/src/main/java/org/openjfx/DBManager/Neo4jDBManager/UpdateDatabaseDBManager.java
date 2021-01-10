@@ -353,7 +353,6 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
             System.out.println("Già hai creato un gruppo con questo nome, cambialo!");
             return false;
         } else {
-            System.out.println("Sto creando un gruppo!");
 
             Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game})" +
                             "CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)"

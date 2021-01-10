@@ -1,5 +1,6 @@
 package org.openjfx.Controller;
 
+import org.openjfx.DBManager.MongoDBManager.GameDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.UpdateDatabaseDBManager;
 import org.openjfx.Entities.*;
 
@@ -86,10 +87,8 @@ public class UpdateDatabaseDBController {
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addRating(newRate);
         if (ret){
-            org.openjfx.DBManager.MongoDBManager.GameDBManager.updateRating(newRate.getVote(), newRate.getGame());
+            GameDBManager.updateRating(newRate.getVote(), newRate.getGame());
         }
-
-
         return ret;
     }
 
@@ -128,6 +127,8 @@ public class UpdateDatabaseDBController {
         return ret;
     }
 
-
+    public double MongoDBgetAvgRating(String game){
+        return GameDBManager.getAvgRating(game);
+    }
 
 }
