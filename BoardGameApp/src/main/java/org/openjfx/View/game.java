@@ -100,17 +100,17 @@ public class game {
 
         if(reviews.size() != 0) {
             for (int i = 0; i < reviews.size() || i < 3; i++) {
-                TextField review = (TextField) App.getScene().lookup("#review" + i);
+                TextField review = (TextField) App.getScene().lookup("#review" + (i + 1));
                 review.setText(reviews.get(i).getText());
 
-                TextField author = (TextField) App.getScene().lookup("#author" + i);
+                TextField author = (TextField) App.getScene().lookup("#author" + (i + 1));
                 author.setText(reviews.get(i).getAuthor());
 
-                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + i);
+                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
                 timestamp.setText(String.valueOf(reviews.get(i).getTimestamp()));
 
                 if (reviews.get(i).getAuthor().equals(login.getLoggedUser())) {
-                    Button delete = (Button) App.getScene().lookup("#delete" + i);
+                    Button delete = (Button) App.getScene().lookup("#delete" + (i + 1));
                     delete.setDisable(false);
                     delete.setVisible(true);
                 }
