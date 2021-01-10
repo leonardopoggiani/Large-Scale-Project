@@ -86,29 +86,35 @@ public class game {
             System.out.println("Descrizione" + currentGame.getDescription());
             description.setText(currentGame.getDescription());
 
-            List<InfoReview> reviews = controller.neo4jListGamesReviews(game);
-            System.out.println("Numero di review: " + reviews.size());
-
-            if(reviews.size() != 0) {
-                for (int i = 0; i < reviews.size() || i < 3; i++) {
-                    TextField review = (TextField) App.getScene().lookup("#review" + i);
-                    review.setText(reviews.get(i).getText());
-
-                    TextField author = (TextField) App.getScene().lookup("#author" + i);
-                    author.setText(reviews.get(i).getAuthor());
-
-                    TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + i);
-                    timestamp.setText(String.valueOf(reviews.get(i).getTimestamp()));
-
-                    if (reviews.get(i).getAuthor().equals(login.getLoggedUser())) {
-                        Button delete = (Button) App.getScene().lookup("#delete" + i);
-                        delete.setDisable(false);
-                        delete.setVisible(true);
-                    }
-                }
-            }
+            setReviews(game);
 
             giàCaricato = 1;
+        }
+    }
+
+    private void setReviews(String game) {
+        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+
+        List<InfoReview> reviews = controller.neo4jListGamesReviews(game);
+        System.out.println("Numero di review: " + reviews.size());
+
+        if(reviews.size() != 0) {
+            for (int i = 0; i < reviews.size() || i < 3; i++) {
+                TextField review = (TextField) App.getScene().lookup("#review" + (i + 1));
+                review.setText(reviews.get(i).getText());
+
+                TextField author = (TextField) App.getScene().lookup("#author" + (i + 1));
+                author.setText(reviews.get(i).getAuthor());
+
+                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
+                timestamp.setText(String.valueOf(reviews.get(i).getTimestamp()));
+
+                if (reviews.get(i).getAuthor().equals(login.getLoggedUser())) {
+                    Button delete = (Button) App.getScene().lookup("#delete" + (i + 1));
+                    delete.setDisable(false);
+                    delete.setVisible(true);
+                }
+            }
         }
     }
 
@@ -165,6 +171,8 @@ public class game {
 
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
         controller.Neo4jDeleteReview(review);
+
+        setReviews(games.getGame());
     }
 
     @FXML
@@ -178,6 +186,8 @@ public class game {
 
         InfoRate rate = new InfoRate(login.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
         boolean ret = controller.Neo4jAddRating(rate);
+
+        System.out.println("Aggiungo rate " + ret);
 
         if(ret) {
             double votoMedio = controller.MongoDBgetAvgRating(rate.getGame());

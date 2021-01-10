@@ -30,6 +30,7 @@ public class article {
 
        if(giàCaricato == -1) {
            ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
+
            Article a = article.mongoDBshowArticle(homePage.getTitolo(),homePage.getAuthor());
 
            Text titolo = (Text) App.getScene().lookup("#titolo");
@@ -48,29 +49,35 @@ public class article {
 
            body.setText(a.getText());
 
-           List<InfoComment> infoComments = null;
-           infoComments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
-           System.out.println("Numero di commenti " + infoComments.size() + ", autore:" + homePage.getAuthor() + ", titolo: " + homePage.getTitolo());
-
-           for(int i = 0; i < infoComments.size() && i < 3; i++){
-               TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
-               commento.setText(infoComments.get(i).getText());
-               TextField autore = (TextField) App.getScene().lookup("#author" + (i + 1));
-               autore.setText(infoComments.get(i).getAuthor());
-               TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
-               timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
-
-               if(infoComments.get(i).getAuthor().equals(login.getLoggedUser())){
-                   // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
-                   Button delete = (Button) App.getScene().lookup("#delete" + (i + 1));
-                   delete.setDisable(false);
-                   delete.setVisible(true);
-               }
-           }
+           setComments();
 
            setSuggestedArticles();
            giàCaricato = 1;
        }
+    }
+
+    private void setComments() {
+        ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
+
+        List<InfoComment> infoComments = null;
+        infoComments = article.neo4jListArticlesComment(homePage.getTitolo(),homePage.getAuthor());
+        System.out.println("Numero di commenti " + infoComments.size() + ", autore:" + homePage.getAuthor() + ", titolo: " + homePage.getTitolo());
+
+        for(int i = 0; i < infoComments.size() && i < 3; i++){
+            TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
+            commento.setText(infoComments.get(i).getText());
+            TextField autore = (TextField) App.getScene().lookup("#author" + (i + 1));
+            autore.setText(infoComments.get(i).getAuthor());
+            TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
+            timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
+
+            if(infoComments.get(i).getAuthor().equals(login.getLoggedUser())){
+                // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
+                Button delete = (Button) App.getScene().lookup("#delete" + (i + 1));
+                delete.setDisable(false);
+                delete.setVisible(true);
+            }
+        }
     }
 
     private boolean isUserModerator() {
@@ -270,5 +277,7 @@ public class article {
         } else {
             logger.info("Non c'erano commenti da cancellare");
         }
+
+        setComments();
     }
 }

@@ -197,7 +197,7 @@ public class ArticleDBManager {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
                 Document articles = (Document) next.get("articles");
-                ret = Integer.parseInt(articles.get("num_comments").toString());
+                ret = (next.get("num_comments") == null) ? 0 :Integer.parseInt(articles.get("num_comments").toString());
 
             }
         }
@@ -217,7 +217,7 @@ public class ArticleDBManager {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
                 Document articles = (Document) next.get("articles");
-                ret = Integer.parseInt(articles.get("num_like").toString());
+                ret = (next.get("num_like") == null) ? 0 :Integer.parseInt(articles.get("num_like").toString());
 
             }
         }
@@ -237,7 +237,7 @@ public class ArticleDBManager {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
                 Document articles = (Document) next.get("articles");
-                ret = Integer.parseInt(articles.get("num_dislike").toString());
+                ret = (next.get("num_dislike") == null) ? 0 :Integer.parseInt(articles.get("num_dislike").toString());
 
             }
         }

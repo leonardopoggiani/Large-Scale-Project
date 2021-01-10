@@ -10,7 +10,7 @@ public class MongoDBManager {
 
     //public static void createConnection(){
         static MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        static MongoDatabase database = mongoClient.getDatabase("project");
+        static MongoDatabase database = mongoClient.getDatabase("Project");
         //static MongoDatabase database = mongoClient.getDatabase("boardgamesApp");
     //}
 

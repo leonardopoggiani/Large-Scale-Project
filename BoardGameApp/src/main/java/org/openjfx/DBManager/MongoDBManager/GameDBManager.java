@@ -1,18 +1,22 @@
 package org.openjfx.DBManager.MongoDBManager;
 
+import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.openjfx.Entities.InfoGame;
+import org.openjfx.Entities.*;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.ascending;
 import static com.mongodb.client.model.Sorts.descending;
 
 public class GameDBManager {
@@ -194,7 +198,8 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                ret = Integer.parseInt(cursor.next().get("num_reviews").toString());
+                Document next = cursor.next();
+                ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(cursor.next().get("num_reviews").toString());
             }
         }
 
@@ -219,7 +224,8 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                ret = Double.parseDouble(cursor.next().get("avg_rating").toString());
+                Document next = cursor.next();
+                ret = (next.get("avg_rating") == null) ? 0.0 : Double.parseDouble(cursor.next().get("avg_rating").toString());
             }
         }
 
@@ -234,8 +240,9 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
-                //ret = Integer.parseInt(cursor.next().get("num_votes").toString());
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                ret = (next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString());
             }
         }
 
