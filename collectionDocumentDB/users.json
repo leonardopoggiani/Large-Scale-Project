@@ -1,25 +1,42 @@
 
 {
-    "username": "",
-    "name": "",
-    "surname": "",
-    "age": "",
+    "username": "Clarissa1",
+    "name": "Clarissa",
+    "surname": "Polidori",
+    "age": "22",
     "registered": 2014, 
-    "last_login": "2020-11-30T00:00:00+0000",
-    "country": "",
+    "last_login": "2021-01-09 11:43:24.337",
+    "country": "Italy",
 
-    // solo se serve ovviamente
     "articles": 
     [
         {
-            "title": "",
-            "body": "",
-            "timestamp": "",
-            "author": "",
-            "games": ["",""],
-            "num_comments": "",
-            "num_like": "",
-            "num_dislike": ""
+            "title": "Mio articolo bello",
+            "body": "bla bla bla",
+            "timestamp": "2021-01-09 11:43:24.337",
+            "games": ["Spirit Island"],
+            "num_likes": null,
+            "num_dislikes": null,
+            "num_comments": null
+        },
+        {
+            "title": "Nuovo articolo6",
+            "body": "bla bla",
+            "timestamp": "2021-01-09 11:43:24.337",
+            "games": ["Spirit Island"],
+            "num_likes": null,
+            "num_dislikes": null,
+            "num_comments": null
         }
     ] 
+}
+
+{
+    "username": "Gaia5",
+    "name": "Gaia",
+    "surname": "Anastasi",
+    "age": "22",
+    "registered": 2014, 
+    "last_login": "2021-01-09 11:43:24.337",
+    "country": "Italy"
 }

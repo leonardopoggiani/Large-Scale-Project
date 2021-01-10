@@ -3,7 +3,9 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.openjfx.Controller.ArticlesCommentsLikesDBController;
 import org.openjfx.Controller.GamesReviewsRatesDBController;
 import org.openjfx.Controller.UpdateDatabaseDBController;
-import org.openjfx.Controller.FindSuggestUsersDBController;
+import org.openjfx.Entities.InfoRate;
+
+import java.sql.Timestamp;
 
 public class Main {
 
@@ -127,7 +129,7 @@ public class Main {
         System.out.println("Reviews dopo: " + quanteRev);
 
 
-
+        */
         InfoRate ra = new InfoRate();
 
         ra.setAuthor("Gaia4");
@@ -137,7 +139,7 @@ public class Main {
         ra.setGame("Spirit Island");
         Boolean ret;
 
-        ret = ud.Neo4jAddRate(ra);
+        ret = ud.Neo4jAddRating(ra);
 
         if(ret)
         {
@@ -146,7 +148,7 @@ public class Main {
         else
             System.out.println("Già ha votato questo gioco " + ra.getAuthor() + "!!!");
 
-
+        /*
         System.out.println("Rates prima: " + quantiRat);
 
         quantiRat = gr.neo4jCountRates("Spirit Island");
@@ -202,10 +204,10 @@ public class Main {
             System.out.println("Membro già presente!");
 
         Timestamp ret = gp.neo4jTimestampLastPost("Gruppo Mio2", "sara");
-        System.out.println(ret.toString());*/
+        System.out.println(ret.toString());
 
         FindSuggestUsersDBController fs = new FindSuggestUsersDBController();
-        System.out.println(fs.neo4jListUsersFriends("sara"));
+        System.out.println(fs.neo4jListUsersFriends("sara"));*/
         Neo4jDBManager.close();
 
 

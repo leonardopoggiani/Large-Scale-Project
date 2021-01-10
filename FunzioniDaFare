@@ -1,0 +1,14 @@
+AddArticle (influencer)
+DeleteArticle (influencer)
+AddGame (admin)
+deleteGame (admin)
+ModifyProfile (tutti)
+promoteToInfluencer(moderator)
+
+ListFriends
+ListInfluencers
+Suggested Friends
+Suggested Influencers
+
+VarieAnalytics
+
