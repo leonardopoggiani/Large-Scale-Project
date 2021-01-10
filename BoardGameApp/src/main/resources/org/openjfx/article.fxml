@@ -89,7 +89,7 @@
                   <Font name="System Italic" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="author" layoutX="554.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="autorearticolo" layoutX="554.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <Button fx:id="delete1" cancelButton="true" layoutX="526.0" layoutY="309.0" mnemonicParsing="false" onMouseClicked="#deleteComment" text="delete1" visible="false" />
             <Button fx:id="delete2" cancelButton="true" layoutX="526.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#deleteComment" text="delete2" visible="false" />
             <Button fx:id="delete3" cancelButton="true" layoutX="526.0" layoutY="416.0" mnemonicParsing="false" onMouseClicked="#deleteComment" text="delete3" visible="false" />
@@ -101,7 +101,7 @@
             <TextField fx:id="timestamp3" editable="false" layoutX="351.0" layoutY="416.0" prefHeight="26.0" prefWidth="154.0" promptText="timestamp3" />
             <Text layoutX="464.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Written by" />
             <Text layoutX="462.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Published on" />
-            <Text fx:id="data" layoutX="565.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="dataarticolo" layoutX="565.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
          </children>
       </AnchorPane>
    </content>
