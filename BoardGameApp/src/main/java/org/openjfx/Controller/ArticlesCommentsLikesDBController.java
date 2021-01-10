@@ -1,11 +1,10 @@
 package org.openjfx.Controller;
 
-import org.bson.Document;
 import org.openjfx.DBManager.MongoDBManager.ArticleDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ArticlesCommentsLikesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggArticlesDBManager;
-import org.openjfx.Entities.Article;
-import org.openjfx.Entities.InfoComment;
+import org.openjfx.Entities.ArticleBean;
+import org.openjfx.Entities.CommentBean;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -13,14 +12,9 @@ import java.util.logging.Logger;
 public class ArticlesCommentsLikesDBController {
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
-    public ArticlesCommentsLikesDBController() {
-        //LoginSignUpDBManager.InitializeDriver();
-        //MongoDBManager.createConnection();
-    }
+    public List<ArticleBean> neo4jListSuggestedArticles(String username) {
 
-    public List<Article> neo4jListSuggestedArticles(String username) {
-
-        List<Article> articles ;
+        List<ArticleBean> articles ;
         articles = ListSuggArticlesDBManager.searchSuggestedArticles(username);
 
         if(articles.isEmpty())
@@ -28,9 +22,9 @@ public class ArticlesCommentsLikesDBController {
             System.err.println("Niente!");
         }
         else {
-            for(int i=0;i<articles.size();i++){
-                System.out.println(articles.get(i).toString());
-                Article a = articles.get(i);
+            for (ArticleBean article : articles) {
+                System.out.println(article.toString());
+                ArticleBean a = article;
 
                 /*for(int j=0;j<articles.get(i).getComments().size();j++){
                     System.out.println(articles.get(i).getComments().get(j).toString());
@@ -43,9 +37,9 @@ public class ArticlesCommentsLikesDBController {
     }
 
     // tutti i commenti di un articolo
-    public List<InfoComment> neo4jListArticlesComment(String title, String author) {
+    public List<CommentBean> neo4jListArticlesComment(String title, String author) {
 
-        List<InfoComment> infoComments;
+        List<CommentBean> infoComments;
         infoComments = ArticlesCommentsLikesDBManager.searchListComments(title, author);
 
         if(infoComments.isEmpty())
@@ -65,9 +59,9 @@ public class ArticlesCommentsLikesDBController {
 
     //Restituisce un articolo intero con testo da mongoDB
 
-    public Article mongoDBshowArticle(String title, String author) {
+    public ArticleBean mongoDBshowArticle(String title, String author) {
 
-        Article article = new Article();
+        ArticleBean article;
         article = ArticleDBManager.readArticle(author, title);
 
         //System.out.println(article.toString());
@@ -98,33 +92,33 @@ public class ArticlesCommentsLikesDBController {
 
     }
 
-    public List<Article> filterByInfluencer(String influencer){
-        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByInfluencer(influencer);
+    public List<ArticleBean> filterByInfluencer(String influencer){
+        List<ArticleBean> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByInfluencer(influencer);
         return list;
     }
 
-    public List<Article> filterByGame(String game){
-        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame(game);
+    public List<ArticleBean> filterByGame(String game){
+        List<ArticleBean> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame(game);
         return list;
     }
 
-    public List<Article> filterByDate(String date){
-        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate(date);
+    public List<ArticleBean> filterByDate(String date){
+        List<ArticleBean> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate(date);
         return list;
     }
 
-    public List<Article> orderByLikes (){
-        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("like");
+    public List<ArticleBean> orderByLikes (){
+        List<ArticleBean> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("like");
         return list;
     }
 
-    public List<Article> orderByDislikes (){
-        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("dislike");
+    public List<ArticleBean> orderByDislikes (){
+        List<ArticleBean> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("dislike");
         return list;
     }
 
-    public List<Article> orderByComments (){
-        List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("comments");
+    public List<ArticleBean> orderByComments (){
+        List<ArticleBean> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("comments");
         return list;
     }
 }

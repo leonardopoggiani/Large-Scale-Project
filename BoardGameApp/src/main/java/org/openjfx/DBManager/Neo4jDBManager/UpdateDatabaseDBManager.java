@@ -18,7 +18,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    public static Boolean addComment(final InfoComment newComm) {
+    public static Boolean addComment(final CommentBean newComm) {
         try (Session session = driver.session()) {
             boolean res;
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -40,7 +40,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return true se ha aggiunto con successo
      * @return false altrimenti
      */
-    private static Boolean transactionAddComment(Transaction tx, InfoComment newComm) {
+    private static Boolean transactionAddComment(Transaction tx, CommentBean newComm) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("authorComm", newComm.getAuthor());
         parameters.put("text", newComm.getText());
@@ -66,7 +66,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return 0 altrimenti
      */
 
-    public static Integer addLike(final InfoLike like) {
+    public static Integer addLike(final LikeBean like) {
         try (Session session = driver.session()) {
             boolean res;
             return session.writeTransaction(new TransactionWork<Integer>() {
@@ -88,7 +88,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return 1 se ha eliminato un like(dislike)
      * @return 0 altrimenti
      */
-    private static Integer transactionAddLike(Transaction tx, InfoLike like) {
+    private static Integer transactionAddLike(Transaction tx, LikeBean like) {
 
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("authorLike", like.getAuthor());
@@ -129,7 +129,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return true se ha eliminato correttamente il commento
      * @return false altrimenti
      */
-    public static Boolean deleteComment(final InfoComment delComm) {
+    public static Boolean deleteComment(final CommentBean delComm) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -152,7 +152,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    private static Boolean transactionDeleteComment(Transaction tx, InfoComment delComm) {
+    private static Boolean transactionDeleteComment(Transaction tx, CommentBean delComm) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("authorComm", delComm.getAuthor());
         parameters.put("timestamp", delComm.getTimestamp().toString());
@@ -173,7 +173,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return true se ha aggiunto correttamente la review
      * @return false altrimenti
      */
-    public static Boolean addReview(final InfoReview newRev) {
+    public static Boolean addReview(final ReviewBean newRev) {
         try (Session session = driver.session()) {
             boolean res;
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -195,7 +195,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    private static Boolean transactionAddReview(Transaction tx, InfoReview newRev) {
+    private static Boolean transactionAddReview(Transaction tx, ReviewBean newRev) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", newRev.getAuthor());
         parameters.put("text", newRev.getText());
@@ -220,7 +220,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
     * @return false altrimenti
     */
 
-    public static Boolean deleteReview(final InfoReview delRev) {
+    public static Boolean deleteReview(final ReviewBean delRev) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -243,7 +243,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    private static Boolean transactionDeleteRev(Transaction tx, InfoReview delRev) {
+    private static Boolean transactionDeleteRev(Transaction tx, ReviewBean delRev) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", delRev.getAuthor());
         parameters.put("timestamp", delRev.getTimestamp().toString());
@@ -263,7 +263,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return true se ha aggiunto correttamente il rating
      * @return false altrimenti
      */
-    public static Boolean addRating(final InfoRate newRate) {
+    public static Boolean addRating(final RateBean newRate) {
         try (Session session = driver.session()) {
             boolean res;
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -285,7 +285,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    private static Boolean transactionAddRating(Transaction tx, InfoRate newRate) {
+    private static Boolean transactionAddRating(Transaction tx, RateBean newRate) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", newRate.getAuthor());
         parameters.put("vote", newRate.getVote());
@@ -315,7 +315,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    public static Boolean addGroup(final InfoGroup newGroup) {
+    public static Boolean addGroup(final GroupBean newGroup) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -337,7 +337,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return true se ha creato correttamente il gruppo
      * @return false altrimenti
      */
-    private static Boolean transactionAddGroup(Transaction tx, InfoGroup group) {
+    private static Boolean transactionAddGroup(Transaction tx, GroupBean group) {
 
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("admin", group.getAdmin());
@@ -375,7 +375,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    public static Boolean deleteGroup(final InfoGroup delGroup) {
+    public static Boolean deleteGroup(final GroupBean delGroup) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -399,7 +399,7 @@ public class UpdateDatabaseDBManager extends Neo4jDBManager {
      */
 
 
-    private static Boolean transactionDeleteGroup(Transaction tx, InfoGroup delGroup) {
+    private static Boolean transactionDeleteGroup(Transaction tx, GroupBean delGroup) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("admin", delGroup.getAdmin());
         parameters.put("name", delGroup.getName());

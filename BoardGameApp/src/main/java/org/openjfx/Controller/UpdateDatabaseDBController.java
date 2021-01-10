@@ -15,7 +15,7 @@ public class UpdateDatabaseDBController {
         //MongoDBManager.createConnection();
     }
 
-    public Boolean Neo4jAddComment(InfoComment newComm) {
+    public Boolean Neo4jAddComment(CommentBean newComm) {
 
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addComment(newComm);
@@ -28,7 +28,7 @@ public class UpdateDatabaseDBController {
     }
 
 
-    public int Neo4jAddLike(InfoLike like) {
+    public int Neo4jAddLike(LikeBean like) {
 
         int ret = 0;
         ret = UpdateDatabaseDBManager.addLike(like);
@@ -56,7 +56,7 @@ public class UpdateDatabaseDBController {
 
     }
 
-    public Boolean Neo4jDeleteComment(InfoComment comm) {
+    public Boolean Neo4jDeleteComment(CommentBean comm) {
 
        Boolean ret = false;
         ret  = UpdateDatabaseDBManager.deleteComment(comm);
@@ -68,7 +68,7 @@ public class UpdateDatabaseDBController {
 
     }
 
-    public Boolean Neo4jAddReview(InfoReview newRev) {
+    public Boolean Neo4jAddReview(ReviewBean newRev) {
 
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addReview(newRev);
@@ -82,7 +82,7 @@ public class UpdateDatabaseDBController {
     }
 
     //Add rate se non esiste già un voto fatto dalla stessa persona sullo stesso gioco
-    public Boolean Neo4jAddRating(InfoRate newRate) {
+    public Boolean Neo4jAddRating(RateBean newRate) {
 
         Boolean ret = false;
         ret = UpdateDatabaseDBManager.addRating(newRate);
@@ -93,7 +93,7 @@ public class UpdateDatabaseDBController {
     }
 
 
-    public Boolean Neo4jDeleteReview(InfoReview rev) {
+    public Boolean Neo4jDeleteReview(ReviewBean rev) {
 
         Boolean ret = false;
         ret  = UpdateDatabaseDBManager.deleteReview(rev);
@@ -103,7 +103,7 @@ public class UpdateDatabaseDBController {
         return ret;
     }
 
-    public Boolean Neo4jAddGroup(InfoGroup newGroup) {
+    public Boolean Neo4jAddGroup(GroupBean newGroup) {
 
         Boolean ret = false;
         ret  = UpdateDatabaseDBManager.addGroup(newGroup);
@@ -112,7 +112,7 @@ public class UpdateDatabaseDBController {
     }
 
 
-    public Boolean Neo4jDeleteGroup(InfoGroup group) {
+    public Boolean Neo4jDeleteGroup(GroupBean group) {
 
         Boolean ret = false;
         ret  = UpdateDatabaseDBManager.deleteGroup(group);

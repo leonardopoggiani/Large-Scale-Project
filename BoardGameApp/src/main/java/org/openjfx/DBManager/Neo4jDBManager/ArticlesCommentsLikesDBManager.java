@@ -3,7 +3,7 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
-import org.openjfx.Entities.InfoComment;
+import org.openjfx.Entities.CommentBean;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -19,14 +19,14 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
      * @return Lista dei commenti all'articolo
      */
 
-    public static List<InfoComment> searchListComments(String title, String author)
+    public static List<CommentBean> searchListComments(String title, String author)
     {
         try(Session session=driver.session())
         {
-            return session.readTransaction(new TransactionWork<List<InfoComment>>()
+            return session.readTransaction(new TransactionWork<List<CommentBean>>()
             {
                 @Override
-                public List<InfoComment> execute(Transaction tx)
+                public List<CommentBean> execute(Transaction tx)
                 {
                     return transactionListComments(tx, title, author);
                 }
@@ -40,9 +40,9 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
      * @param title
      * @return Lista dei commenti all'articolo
      */
-    public static List<InfoComment> transactionListComments(Transaction tx, String title, String author) {
+    public static List<CommentBean> transactionListComments(Transaction tx, String title, String author) {
 
-        List<InfoComment> infoComments = new ArrayList<>();
+        List<CommentBean> infoComments = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", author);
         parameters.put("title", title);
@@ -51,7 +51,7 @@ public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
         while (result.hasNext()) {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
-            InfoComment infoComment = new InfoComment();
+            CommentBean infoComment = new CommentBean();
             for (Pair<String, Value> nameValue : values) {
                 if ("c".equals(nameValue.key())) {
                     Value value = nameValue.value();

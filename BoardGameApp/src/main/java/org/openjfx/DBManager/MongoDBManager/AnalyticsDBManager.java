@@ -1,14 +1,12 @@
 package org.openjfx.DBManager.MongoDBManager;
 
-import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Accumulators;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
 
-import org.openjfx.Entities.InfoGame;
+import org.openjfx.Entities.GameBean;
 
 import java.util.*;
 
@@ -18,12 +16,11 @@ import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Sorts.ascending;
 import static com.mongodb.client.model.Sorts.descending;
-import static org.openjfx.DBManager.MongoDBManager.GameDBManager.fillInfoGameFields;
 
 
 public class AnalyticsDBManager {
-    public static List<InfoGame> showLeastRatedGames (String mode, String value){
-        List<InfoGame> ret = new ArrayList<InfoGame>();
+    public static List<GameBean> showLeastRatedGames (String mode, String value){
+        List<GameBean> ret = new ArrayList<GameBean>();
 
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson unwind = null;
@@ -49,7 +46,7 @@ public class AnalyticsDBManager {
             limit = limit(10);
 
         }
-        InfoGame g = new InfoGame();
+        GameBean g = new GameBean();
 
         try{
             MongoCursor<Document> cursor;

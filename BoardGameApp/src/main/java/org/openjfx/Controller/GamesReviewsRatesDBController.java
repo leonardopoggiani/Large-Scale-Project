@@ -3,8 +3,8 @@ package org.openjfx.Controller;
 import org.openjfx.DBManager.MongoDBManager.GameDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.ListSuggGamesDBManager;
-import org.openjfx.Entities.InfoGame;
-import org.openjfx.Entities.InfoReview;
+import org.openjfx.Entities.GameBean;
+import org.openjfx.Entities.ReviewBean;
 
 import java.util.List;
 
@@ -14,9 +14,9 @@ public class GamesReviewsRatesDBController {
         //MongoDBManager.createConnection();
     }
 
-    public List<InfoGame> neo4jListSuggestedGames(String username) {
+    public List<GameBean> neo4jListSuggestedGames(String username) {
 
-        List<InfoGame> games ;
+        List<GameBean> games ;
         games = ListSuggGamesDBManager.searchSuggestedGames(username);
 
         if(games.isEmpty())
@@ -75,9 +75,9 @@ public class GamesReviewsRatesDBController {
 
     // tutte le reviews di un gioco
 
-    public List<InfoReview> neo4jListGamesReviews(String name) {
+    public List<ReviewBean> neo4jListGamesReviews(String name) {
 
-        List<InfoReview> infoReviews;
+        List<ReviewBean> infoReviews;
         infoReviews = GamesReviewsRatesDBManager.searchListReviews(name);
 
         if(infoReviews.isEmpty())
@@ -95,43 +95,43 @@ public class GamesReviewsRatesDBController {
 
     }
 
-    public InfoGame showGame (String game){
-        InfoGame g = GameDBManager.readGame(game);
+    public GameBean showGame (String game){
+        GameBean g = GameDBManager.readGame(game);
         return g;
     }
 
-    public List<InfoGame> filterByName (String game){
-        List<InfoGame> list = GameDBManager.filterByName(game);
+    public List<GameBean> filterByName (String game){
+        List<GameBean> list = GameDBManager.filterByName(game);
         return list;
     }
 
-    public List<InfoGame> filterByCategory(String category){
-        List<InfoGame> list = GameDBManager.filterByCategory(category);
+    public List<GameBean> filterByCategory(String category){
+        List<GameBean> list = GameDBManager.filterByCategory(category);
         return list;
     }
 
-    public List<InfoGame> filterByPlayers(int players){
-        List<InfoGame> list = GameDBManager.filterByPlayers(players);
+    public List<GameBean> filterByPlayers(int players){
+        List<GameBean> list = GameDBManager.filterByPlayers(players);
         return list;
     }
 
-    public List<InfoGame> filterByYear(int year){
-        List<InfoGame> list = GameDBManager.filterByYear(year);
+    public List<GameBean> filterByYear(int year){
+        List<GameBean> list = GameDBManager.filterByYear(year);
         return list;
     }
 
-    public List<InfoGame> orderByAvgRating(){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("avgRating");
+    public List<GameBean> orderByAvgRating(){
+        List<GameBean> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("avgRating");
         return list;
     }
 
-    public List<InfoGame> orderByNumReviews(){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("reviews");
+    public List<GameBean> orderByNumReviews(){
+        List<GameBean> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("reviews");
         return list;
     }
 
-    public List<InfoGame> orderByNumVotes(){
-        List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("numVotes");
+    public List<GameBean> orderByNumVotes(){
+        List<GameBean> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("numVotes");
         return list;
     }
 

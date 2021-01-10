@@ -1,7 +1,7 @@
 package org.openjfx.Controller;
 import org.openjfx.DBManager.MongoDBManager.SignupLoginDBManager;
 import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
-import org.openjfx.Entities.User;
+import org.openjfx.Entities.UserBean;
 
 import java.util.logging.Logger;
 
@@ -14,7 +14,7 @@ public class LoginSignUpDBController {
         //MongoDBManager.createConnection();
     }
 
-    public void neo4jRegisterUserController(User user) {
+    public void neo4jRegisterUserController(UserBean user) {
 
         // varie cose che aggiustano la roba
         int registration;

@@ -3,7 +3,7 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
-import org.openjfx.Entities.InfoReview;
+import org.openjfx.Entities.ReviewBean;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -20,14 +20,14 @@ public class GamesReviewsRatesDBManager {
      * @return Lista delle reviews ad un gioco
      */
 
-    public static List<InfoReview> searchListReviews(final String name)
+    public static List<ReviewBean> searchListReviews(final String name)
     {
         try(Session session=driver.session())
         {
-            return session.readTransaction(new TransactionWork<List<InfoReview>>()
+            return session.readTransaction(new TransactionWork<List<ReviewBean>>()
             {
                 @Override
-                public List<InfoReview> execute(Transaction tx)
+                public List<ReviewBean> execute(Transaction tx)
                 {
                     return transactionListReviews(tx, name);
                 }
@@ -42,9 +42,9 @@ public class GamesReviewsRatesDBManager {
      * @return Lista delle reviews ad un gioco
      */
 
-    public static List<InfoReview> transactionListReviews(Transaction tx, String name) {
+    public static List<ReviewBean> transactionListReviews(Transaction tx, String name) {
 
-        List<InfoReview> infoReviews = new ArrayList<>();
+        List<ReviewBean> infoReviews = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         Result result = tx.run("MATCH (u:User)-[r:REVIEWED]->(g:Game) WHERE g.name=$name return r,u,g", parameters);
@@ -52,7 +52,7 @@ public class GamesReviewsRatesDBManager {
         while (result.hasNext()) {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
-            InfoReview infoReview = new InfoReview();
+            ReviewBean infoReview = new ReviewBean();
             for (Pair<String, Value> nameValue : values) {
                 if ("r".equals(nameValue.key())) {
                     Value value = nameValue.value();

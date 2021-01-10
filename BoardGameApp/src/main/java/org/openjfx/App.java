@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.util.concurrent.TimeUnit;
 import java.util.logging.*;
 
 import java.io.IOException;
@@ -24,7 +23,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         logger.info("Applicazione partita");
 
-        scene = new Scene(loadFXML("login"));
+        scene = new Scene(loadFXML("LoginPageView"));
         stage.setScene(scene);
         stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
         stage.setTitle("BoardgameApp");

@@ -5,8 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.openjfx.Entities.Article;
-import org.openjfx.Entities.InfoGame;
+import org.openjfx.Entities.ArticleBean;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -22,14 +21,14 @@ import static com.mongodb.client.model.Sorts.descending;
 
 public class ArticleDBManager {
 
-    public static Article readArticle(String user, String title){
+    public static ArticleBean readArticle(String user, String title){
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
 
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
         Bson match =  match(and(eq("username",user), eq("articles.title", title)));
 
-        Article a = new Article();
+        ArticleBean a = new ArticleBean();
 
        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()){
             while(cursor.hasNext()){
@@ -44,8 +43,8 @@ public class ArticleDBManager {
 
     }
 
-    public static List<Article> filterByInfluencer(String influencer){
-        List<Article> ret = new ArrayList<Article>();
+    public static List<ArticleBean> filterByInfluencer(String influencer){
+        List<ArticleBean> ret = new ArrayList<ArticleBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
 
         Bson unwind = unwind("$articles");
@@ -57,7 +56,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = (Document)cursor.next();
                 //System.out.println(next.toJson());
-                Article a = fillArticleFields(next);
+                ArticleBean a = fillArticleFields(next);
                 ret.add(a);
             }
         }
@@ -65,8 +64,8 @@ public class ArticleDBManager {
         return ret;
     }
 
-    public static List<Article> filterByGame(String game){
-        List<Article> ret = new ArrayList<Article>();
+    public static List<ArticleBean> filterByGame(String game){
+        List<ArticleBean> ret = new ArrayList<ArticleBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
 
         Bson unwind = unwind("$articles");
@@ -80,7 +79,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = (Document) cursor.next();
                 //System.out.println(next.toJson());
-                Article a = fillArticleFields(next);
+                ArticleBean a = fillArticleFields(next);
                 ret.add(a);
             }
         }
@@ -88,8 +87,8 @@ public class ArticleDBManager {
         return ret;
     }
 
-    public static List<Article> filterByDate(String date){
-        List<Article> ret = new ArrayList<Article>();
+    public static List<ArticleBean> filterByDate(String date){
+        List<ArticleBean> ret = new ArrayList<ArticleBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
 
         Bson unwind = unwind("$articles");
@@ -101,7 +100,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                Article a = fillArticleFields(next);
+                ArticleBean a = fillArticleFields(next);
                 ret.add(a);
 
             }
@@ -110,8 +109,8 @@ public class ArticleDBManager {
         return ret;
     }
 
-    public static List<Article> orderBy (String mode){
-        List<Article> ret = new ArrayList<Article>();
+    public static List<ArticleBean> orderBy (String mode){
+        List<ArticleBean> ret = new ArrayList<ArticleBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
 
         Bson unwind = unwind("$articles");
@@ -134,7 +133,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 System.out.println(next.toJson());
-                Article g = fillArticleFields(next);
+                ArticleBean g = fillArticleFields(next);
                 ret.add(g);
             }
         }
@@ -244,8 +243,8 @@ public class ArticleDBManager {
         return ret;
     }
 
-    private static Article fillArticleFields (Document next){
-        Article a = new Article ();
+    private static ArticleBean fillArticleFields (Document next){
+        ArticleBean a = new ArticleBean();
         a.setAuthor(next.get("username").toString());
         Document article = (Document)next.get("articles");
         a.setTitle(article.get("title").toString());

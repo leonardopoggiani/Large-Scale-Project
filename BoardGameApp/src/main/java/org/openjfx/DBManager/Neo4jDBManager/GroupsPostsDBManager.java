@@ -4,7 +4,7 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
-import org.openjfx.Entities.InfoGroup;
+import org.openjfx.Entities.GroupBean;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -23,14 +23,14 @@ public class GroupsPostsDBManager {
      * @return Lista dei gruppi di cui un utente è membro senza essere admin se type = member
      * @return  Lista dei gruppi di cui un utente è membro e admin se type = admin
      */
-    public static List<InfoGroup> showUsersGroups( final String username, final String type)
+    public static List<GroupBean> showUsersGroups(final String username, final String type)
     {
         try(Session session=driver.session())
         {
             return session.readTransaction(new TransactionWork<List>()
             {
                 @Override
-                public List<InfoGroup> execute(Transaction tx)
+                public List<GroupBean> execute(Transaction tx)
                 {
                     return transactionShowUsersGroups(tx, username, type);
                 }
@@ -46,8 +46,8 @@ public class GroupsPostsDBManager {
      * @return Lista dei gruppi di cui un utente è membro senza essere admin se type = member
      * @return  Lista dei gruppi di cui un utente è membro e admin se type = admin
      */
-    private static List<InfoGroup> transactionShowUsersGroups(Transaction tx, String username, String type) {
-        List<InfoGroup> groups = new ArrayList<>();
+    private static List<GroupBean> transactionShowUsersGroups(Transaction tx, String username, String type) {
+        List<GroupBean> groups = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("username", username);
         Result result = null;
@@ -65,7 +65,7 @@ public class GroupsPostsDBManager {
         while (result.hasNext()) {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
-            InfoGroup group = new InfoGroup();
+            GroupBean group = new GroupBean();
             for (Pair<String, Value> nameValue : values) {
                 if ("ga".equals(nameValue.key())) {
                     Value value = nameValue.value();
@@ -133,7 +133,7 @@ public class GroupsPostsDBManager {
         {
             Record record = result1.next();
             List<Pair<String, Value>> values = record.fields();
-            InfoGroup group= new InfoGroup();
+            GroupBean group= new GroupBean();
             for (Pair<String,Value> nameValue: values) {
                 if ("u".equals(nameValue.key())) {
                     Value value = nameValue.value();
@@ -179,7 +179,7 @@ public class GroupsPostsDBManager {
         {
             Record record = result1.next();
             List<Pair<String, Value>> values = record.fields();
-            InfoGroup group= new InfoGroup();
+            GroupBean group= new GroupBean();
             for (Pair<String,Value> nameValue: values) {
                     Value value = nameValue.value();
                     String timestamp = value.get("timestamp").asString();

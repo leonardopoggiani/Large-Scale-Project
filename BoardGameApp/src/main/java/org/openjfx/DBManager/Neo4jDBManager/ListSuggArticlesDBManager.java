@@ -3,7 +3,7 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
-import org.openjfx.Entities.Article;
+import org.openjfx.Entities.ArticleBean;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -19,14 +19,14 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
      * @param username
      * @return Lista degli articoli suggeriti
      */
-    public static List<Article> searchSuggestedArticles(final String username)
+    public static List<ArticleBean> searchSuggestedArticles(final String username)
     {
         try(Session session=driver.session())
         {
             return session.readTransaction(new TransactionWork<List>()
             {
                 @Override
-                public List<Article> execute(Transaction tx)
+                public List<ArticleBean> execute(Transaction tx)
                 {
                     return transactionSearchSuggestedArticles(tx, username);
                 }
@@ -43,9 +43,9 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
      * @param username
      * @return Lista degli articoli suggeriti
      */
-    private static List<Article> transactionSearchSuggestedArticles(Transaction tx, String username)
+    private static List<ArticleBean> transactionSearchSuggestedArticles(Transaction tx, String username)
     {
-        List<Article> articles = new ArrayList<>();
+        List<ArticleBean> articles = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         Boolean findInflu = false;
         parameters.put("username", username);
@@ -76,7 +76,7 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
         {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
-            Article article=new Article();
+            ArticleBean article = new ArticleBean();
             String author = "";
             String title = "";
             for (Pair<String,Value> nameValue: values) {

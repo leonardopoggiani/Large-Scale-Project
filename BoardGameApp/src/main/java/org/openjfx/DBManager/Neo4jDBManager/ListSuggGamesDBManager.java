@@ -3,7 +3,7 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
-import org.openjfx.Entities.InfoGame;
+import org.openjfx.Entities.GameBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,14 +20,14 @@ public class ListSuggGamesDBManager {
      * @return Lista degli articoli suggeriti
      */
 
-    public static List<InfoGame> searchSuggestedGames(final String username)
+    public static List<GameBean> searchSuggestedGames(final String username)
     {
         try(Session session=driver.session())
         {
-            return session.readTransaction(new TransactionWork<List<InfoGame>>()
+            return session.readTransaction(new TransactionWork<List<GameBean>>()
             {
                 @Override
-                public List<InfoGame> execute(Transaction tx)
+                public List<GameBean> execute(Transaction tx)
                 {
                     return transactionSearchSuggestedGames(tx, username);
                 }
@@ -42,9 +42,9 @@ public class ListSuggGamesDBManager {
      * @param username
      * @return Lista degli articoli suggeriti
      */
-    private static List<InfoGame> transactionSearchSuggestedGames(Transaction tx, String username)
+    private static List<GameBean> transactionSearchSuggestedGames(Transaction tx, String username)
     {
-        List<InfoGame> infoGames = new ArrayList<>();
+        List<GameBean> infoGames = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username", username);
         Result result=tx.run("MATCH (g:Game),(u:User)" +
@@ -56,7 +56,7 @@ public class ListSuggGamesDBManager {
         {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
-            InfoGame infoGame =new InfoGame();
+            GameBean infoGame =new GameBean();
             String name ="";
             for (Pair<String,Value> nameValue: values) {
                 if ("g".equals(nameValue.key())) {

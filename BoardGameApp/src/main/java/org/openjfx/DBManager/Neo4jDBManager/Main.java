@@ -3,7 +3,7 @@ package org.openjfx.DBManager.Neo4jDBManager;
 import org.openjfx.Controller.ArticlesCommentsLikesDBController;
 import org.openjfx.Controller.GamesReviewsRatesDBController;
 import org.openjfx.Controller.UpdateDatabaseDBController;
-import org.openjfx.Entities.InfoRate;
+import org.openjfx.Entities.RateBean;
 
 import java.sql.Timestamp;
 
@@ -130,7 +130,7 @@ public class Main {
 
 
         */
-        InfoRate ra = new InfoRate();
+        RateBean ra = new RateBean();
 
         ra.setAuthor("Gaia4");
         ra.setVote(8);

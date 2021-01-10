@@ -1,16 +1,13 @@
 package org.openjfx.DBManager.MongoDBManager;
 
-import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.openjfx.Entities.*;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import static com.mongodb.client.model.Aggregates.*;
@@ -20,13 +17,13 @@ import static com.mongodb.client.model.Sorts.ascending;
 import static com.mongodb.client.model.Sorts.descending;
 
 public class GameDBManager {
-    public static InfoGame readGame(String game){
+    public static GameBean readGame(String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = project(fields( excludeId()));
         Bson match =  match(eq("name",game));
 
-        InfoGame g = new InfoGame();
+        GameBean g = new GameBean();
 
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(match,projection)).iterator()){
 
@@ -43,8 +40,8 @@ public class GameDBManager {
 
     }
 
-    public static List<InfoGame> filterByName(String game){
-        List<InfoGame> ret = new ArrayList<InfoGame>();
+    public static List<GameBean> filterByName(String game){
+        List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
 
@@ -56,7 +53,7 @@ public class GameDBManager {
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                InfoGame g = fillInfoGameFields(next, false);
+                GameBean g = fillInfoGameFields(next, false);
                 ret.add(g);
             }
         }
@@ -64,8 +61,8 @@ public class GameDBManager {
         return ret;
     }
 
-    public static List<InfoGame> filterByCategory(String category){
-        List<InfoGame> ret = new ArrayList<InfoGame>();
+    public static List<GameBean> filterByCategory(String category){
+        List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson unwind = unwind("$category");
@@ -77,7 +74,7 @@ public class GameDBManager {
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
-                InfoGame g = fillInfoGameFields(next, true);
+                GameBean g = fillInfoGameFields(next, true);
                 ret.add(g);
             }
         }
@@ -85,8 +82,8 @@ public class GameDBManager {
         return ret;
     }
 
-    public static List<InfoGame> filterByPlayers(int players){
-        List<InfoGame> ret = new ArrayList<InfoGame>();
+    public static List<GameBean> filterByPlayers(int players){
+        List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = project(fields( excludeId()));
@@ -97,7 +94,7 @@ public class GameDBManager {
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
-                InfoGame g = fillInfoGameFields(next, false);
+                GameBean g = fillInfoGameFields(next, false);
                 ret.add(g);
             }
         }
@@ -105,8 +102,8 @@ public class GameDBManager {
         return ret;
     }
 
-    public static List<InfoGame> filterByYear(int year){
-        List<InfoGame> ret = new ArrayList<InfoGame>();
+    public static List<GameBean> filterByYear(int year){
+        List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = project(fields( excludeId()));
@@ -117,7 +114,7 @@ public class GameDBManager {
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
-                InfoGame g = fillInfoGameFields(next, false);
+                GameBean g = fillInfoGameFields(next, false);
                 ret.add(g);
             }
         }
@@ -125,8 +122,8 @@ public class GameDBManager {
         return ret;
     }
 
-    public static List<InfoGame> orderBy (String mode){
-        List<InfoGame> ret = new ArrayList<InfoGame>();
+    public static List<GameBean> orderBy (String mode){
+        List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = project(fields( excludeId()));
@@ -149,7 +146,7 @@ public class GameDBManager {
                 //System.out.println(cursor.next().toJson());
 
                 Document next = cursor.next();
-                InfoGame g = fillInfoGameFields(next, false);
+                GameBean g = fillInfoGameFields(next, false);
                 System.out.println(next.toJson());
                 ret.add(g);
             }
@@ -250,8 +247,8 @@ public class GameDBManager {
 
     }
 
-    protected static InfoGame fillInfoGameFields(Document next, boolean unwindCategory){
-        InfoGame g = new InfoGame();
+    protected static GameBean fillInfoGameFields(Document next, boolean unwindCategory){
+        GameBean g = new GameBean();
         g.setName((next.get("name") == null) ? "" :next.get("name").toString());
         g.setAlternativeName((next.get("alt_name") == null) ? "" :next.get("alt_name").toString());
         g.setYear((next.get("year") == null) ? 0 :Integer.parseInt(next.get("year").toString()));

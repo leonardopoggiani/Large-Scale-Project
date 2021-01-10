@@ -1,7 +1,7 @@
 package org.openjfx.Controller;
 
 import org.openjfx.DBManager.Neo4jDBManager.GroupsPostsDBManager;
-import org.openjfx.Entities.InfoGroup;
+import org.openjfx.Entities.GroupBean;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -10,9 +10,9 @@ public class GroupsPostsDBController {
 
     public GroupsPostsDBController(){};
 
-    public List<InfoGroup> neo4jShowUsersGroups(String username, String type) {
+    public List<GroupBean> neo4jShowUsersGroups(String username, String type) {
 
-        List<InfoGroup> groups ;
+        List<GroupBean> groups ;
         groups = GroupsPostsDBManager.showUsersGroups(username, type);
 
         if(groups.isEmpty())

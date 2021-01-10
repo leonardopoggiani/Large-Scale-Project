@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.Avatar?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
+<?import com.gluonhq.charm.glisten.control.Icon?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.HomepageUsers">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
+         <children>
+            <Button layoutX="42.0" layoutY="91.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
+            <Avatar layoutX="87.0" layoutY="24.0" />
+            <Line endX="100.0" layoutX="105.0" layoutY="144.0" startX="-100.0" />
+            <Text layoutX="49.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
+            <Button cancelButton="true" layoutX="76.0" layoutY="423.0" mnemonicParsing="false" text="Logout" />
+            <Button cancelButton="true" layoutX="76.0" layoutY="374.0" mnemonicParsing="false" text="Search" />
+            <CheckBox layoutX="51.0" layoutY="187.0" mnemonicParsing="false" text="Your friends" />
+            <CheckBox layoutX="51.0" layoutY="220.0" mnemonicParsing="false" text="Suggested friends" />
+            <CheckBox layoutX="51.0" layoutY="251.0" mnemonicParsing="false" text="Following influencer" />
+            <CheckBox layoutX="51.0" layoutY="287.0" mnemonicParsing="false" text="Suggested influencer" />
+         </children>
+      </AnchorPane>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="492.0">
+         <children>
+            <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
+            <BottomNavigation layoutX="51.0" layoutY="6.0">
+               <actionItems>
+                  <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
+                     <graphic>
+                        <Icon content="EMPTY" onMouseClicked="#returnToHomepage" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToGames" text="Games">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToGroups" text="Groups">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToFriends" text="Users">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+               </actionItems>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </BottomNavigation>
+            <Text layoutX="180.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your friends" />
+            <Text layoutX="164.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested friends" />
+            <Text layoutX="140.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Following influencers" />
+            <Text layoutX="151.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested influencers" />
+            <Avatar layoutX="33.0" layoutY="118.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="145.0" layoutY="118.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="264.0" layoutY="118.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="378.0" layoutY="118.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="41.0" layoutY="238.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="153.0" layoutY="238.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="272.0" layoutY="238.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="386.0" layoutY="238.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="26.0" layoutY="363.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="138.0" layoutY="363.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="257.0" layoutY="363.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="371.0" layoutY="363.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="40.0" layoutY="478.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="152.0" layoutY="478.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="271.0" layoutY="478.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Avatar layoutX="385.0" layoutY="478.0">
+               <image>
+                  <Image url="@../../img/favicon.png" />
+               </image>
+            </Avatar>
+            <Text layoutX="40.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="149.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="266.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="383.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="41.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="150.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="267.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="384.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="27.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="136.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="253.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="370.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="41.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="151.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="267.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text layoutX="384.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Button layoutX="25.0" layoutY="154.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="133.0" layoutY="154.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="251.0" layoutY="158.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="368.0" layoutY="158.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="34.0" layoutY="274.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="142.0" layoutY="274.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="260.0" layoutY="278.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="377.0" layoutY="278.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="18.0" layoutY="399.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="126.0" layoutY="399.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="244.0" layoutY="403.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="361.0" layoutY="403.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="25.0" layoutY="514.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="133.0" layoutY="514.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="251.0" layoutY="518.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="368.0" layoutY="518.0" mnemonicParsing="false" text="Button" />
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>
