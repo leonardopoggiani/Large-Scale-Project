@@ -198,7 +198,8 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                ret = Integer.parseInt(cursor.next().get("num_reviews").toString());
+                Document next = cursor.next();
+                ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(cursor.next().get("num_reviews").toString());
             }
         }
 
@@ -223,7 +224,8 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                ret = Double.parseDouble(cursor.next().get("avg_rating").toString());
+                Document next = cursor.next();
+                ret = (next.get("avg_rating") == null) ? 0.0 : Double.parseDouble(cursor.next().get("avg_rating").toString());
             }
         }
 
@@ -239,7 +241,8 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
-                ret = Integer.parseInt(cursor.next().get("num_votes").toString());
+                Document next = cursor.next();
+                ret = (next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString());
             }
         }
 

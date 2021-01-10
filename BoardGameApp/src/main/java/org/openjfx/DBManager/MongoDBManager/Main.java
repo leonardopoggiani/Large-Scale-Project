@@ -28,7 +28,7 @@ public class Main {
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame("Cluedo");
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate("2020-12-29");
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("comments");
-        org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(-1, "gaia1", "Giudizio su Azul" );
+        //org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(-1, "gaia1", "Giudizio su Azul" );
        // System.out.println(list);
 
 
