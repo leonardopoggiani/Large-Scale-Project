@@ -1,12 +1,10 @@
 package org.openjfx.View;
 
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -16,7 +14,6 @@ import org.openjfx.Controller.UpdateDatabaseDBController;
 import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoComment;
 import org.openjfx.Entities.InfoLike;
-import org.openjfx.Entities.InfoReview;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -65,7 +62,7 @@ public class article {
 
                if(infoComments.get(i).getAuthor().equals(login.getLoggedUser())){
                    // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
-                   Button delete = (Button) App.getScene().lookup("#button" + (i + 1));
+                   Button delete = (Button) App.getScene().lookup("#delete" + (i + 1));
                    delete.setDisable(false);
                    delete.setVisible(true);
                }
@@ -191,7 +188,7 @@ public class article {
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 Article a = list.get(i);
-                if(a.getTitle().equals(titolo.getText())) {
+                if(!a.getTitle().equals(titolo.getText())) {
 
                     TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
                     Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
