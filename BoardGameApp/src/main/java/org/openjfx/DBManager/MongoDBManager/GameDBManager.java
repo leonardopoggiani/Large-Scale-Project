@@ -159,13 +159,13 @@ public class GameDBManager {
 
     }
 
-    public static void updateRating(double rate, String game){
+    public static double updateRating(double rate, String game){
         int votes = getNumVotes(game);
         double avg = getAvgRating(game);
         double newAvg = (avg*votes + rate)/(votes+1);
         updateAvgRating(newAvg, game);
         updateNumVotes(votes+1, game);
-
+        return getAvgRating(game);
     }
 
     private static void updateAvgRating (double avg,  String game){
@@ -175,6 +175,7 @@ public class GameDBManager {
         Document update = new Document();
         update.append("$set", updateAvg);
         collection.updateOne(eq("name", game), update);
+
     }
 
     public static void updateNumReviews(int inc, String game){

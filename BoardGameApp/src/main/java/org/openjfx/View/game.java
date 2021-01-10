@@ -63,17 +63,17 @@ public class game {
             title.setText(currentGame.getName());
 
             Text vote = (Text) App.getScene().lookup("#votes");
-            vote.setText(String.valueOf(currentGame.getAvgRating()));
+            vote.setText(String.valueOf(Math.round(currentGame.getAvgRating())));
             ProgressBar votes = (ProgressBar) App.getScene().lookup("#votes1");
             votes.setProgress(currentGame.getAvgRating()/10);
             System.out.println(" Progress " + currentGame.getAvgRating());
             if (currentGame.getAvgRating() <= 5) {
                 votes.setStyle("-fx-background-color: red");
                 votes.setStyle("-fx-accent: red");
-            } else if( (currentGame.getAvgRating() > 5) && (currentGame.getAvgRating() < 8) ){
+            } else if( (currentGame.getAvgRating() > 5) && (currentGame.getAvgRating() < 7) ){
                 votes.setStyle("-fx-background-color: blue");
                 votes.setStyle("-fx-accent: blue");
-            } else if( (currentGame.getAvgRating() >= 8) ){
+            } else if( (currentGame.getAvgRating() >= 7) ){
                 votes.setStyle("-fx-background-color: green");
                 votes.setStyle("-fx-accent: green");
             }
@@ -175,15 +175,16 @@ public class game {
         Text voting = (Text) App.getScene().lookup("#votes");
 
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
-        System.out.println("Voto: " + voti.getValue());
 
         InfoRate rate = new InfoRate(login.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
-        controller.Neo4jAddRating(rate);
-        System.out.println(rate);
+        boolean ret = controller.Neo4jAddRating(rate);
 
-        GamesReviewsRatesDBController rating = new GamesReviewsRatesDBController();
-        double votoMedio = rating.neo4jAvgRatings(game.getText());
-        progress.setProgress(votoMedio);
-        voting.setText(String.valueOf(Math.round(votoMedio)));
+        if(ret) {
+            double votoMedio = controller.MongoDBgetAvgRating(rate.getGame());
+            System.out.println("Voto: " + votoMedio);
+            progress.setProgress(votoMedio / 10);
+            voting.setText(String.valueOf(Math.round(votoMedio)));
+        }
+
     }
 }

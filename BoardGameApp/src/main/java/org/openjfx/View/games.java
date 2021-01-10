@@ -168,27 +168,32 @@ public class games {
 
         if(order.getSelectionModel().getSelectedItem() != null) {
 
-            int index1 = categoria.getSelectionModel().getSelectedIndex();
+            int index1 = order.getSelectionModel().getSelectedIndex();
             String ordering = ordinamenti.get(index1);
 
             System.out.println("Ordinamento " + ordering);
 
-            if (ordering.equals("Average ratings")) {
-                logger.info("Ordino per rating");
-                sortedList = controller.orderByAvgRating();
-            } else if (ordering.equals("Number of reviews")) {
-                logger.info("Ordino per reviews");
-                sortedList = controller.orderByNumReviews();
-            } else if (ordering.equals("Number of ratings")) {
-                logger.info("Ordino per votes");
-                sortedList = controller.orderByNumVotes();
-            } else {
-                logger.info("Non ordino");
-            }
+            if(!ordering.equals("None")){
+                if (ordering.equals("Average ratings")) {
+                    logger.info("Ordino per rating");
+                    sortedList = controller.orderByAvgRating();
+                } else if (ordering.equals("Number of reviews")) {
+                    logger.info("Ordino per reviews");
+                    sortedList = controller.orderByNumReviews();
+                } else if (ordering.equals("Number of ratings")) {
+                    logger.info("Ordino per votes");
+                    sortedList = controller.orderByNumVotes();
+                } else {
+                    logger.info("Non ordino");
+                }
 
-            sortedList.addAll(filteredGames0);
-            List<InfoGame> filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(sortedList));
-            showFilteringResult(filteringResult);
+                /*if(filteredGames0.size() != 0){
+                    sortedList.retainAll(filteredGames0);
+                    System.out.println(sortedList);
+                }*/
+                List<InfoGame> filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(sortedList));
+                showFilteringResult(filteringResult);
+            }
         } else {
             List<InfoGame> filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(filteredGames0));
             showFilteringResult(filteringResult);
@@ -208,12 +213,12 @@ public class games {
 
                 gioco.setText(g.getName());
 
-                if(!g.getCategory1().equals("null")) {
+                if(g.getCategory1() == null || !g.getCategory1().equals("null")) {
                     category1.setText(g.getCategory1());
                 } else {
                     category1.setText("");
                 }
-                if(!g.getCategory2().equals("null")) {
+                if(g.getCategory1() == null || !g.getCategory2().equals("null")) {
                     category2.setText(g.getCategory2());
                 } else {
                     category2.setText("");

@@ -56,7 +56,6 @@ public class groups {
 
     @FXML
     void setGroups() throws IOException {
-        GroupsPostsDBController controller = new GroupsPostsDBController();
         if(giaCaricato == -1) {
              tableAdmin = (TableView<TableGroup>) App.getScene().lookup("#table");
              tableAdmin.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -92,6 +91,20 @@ public class groups {
         String game = tf2.getText();
         String description = tf3.getText();
 
+        if(groupname.equals("")){
+            tf.setStyle("-fx-background-color: #ff0000; -fx-font-size: 12;");
+            return;
+        }
+
+        if(game.equals("")) {
+            tf2.setStyle("-fx-background-color: #ff0000; -fx-font-size: 12;");
+            return;
+        }
+
+        if(description.equals("")){
+            description = "No description provided";
+        }
+
         tf.setText("");
         tf2.setText("");
         tf3.setText("");
@@ -101,6 +114,8 @@ public class groups {
         controller.Neo4jAddGroup(group);
 
         TableGroup tableGroup = new TableGroup(group.getName(),group.getTimestamp(),group.getAdmin(),group.getGame());
+        System.out.println(tableGroup);
+
         gruppiAdmin.add(tableGroup);
         tableAdmin.setItems(gruppiAdmin);
     }
