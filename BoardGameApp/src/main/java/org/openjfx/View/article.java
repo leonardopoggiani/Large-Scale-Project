@@ -65,7 +65,7 @@ public class article {
 
                if(infoComments.get(i).getAuthor().equals(login.getLoggedUser())){
                    // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
-                   Button delete = (Button) App.getScene().lookup("#button" + (i + 1));
+                   Button delete = (Button) App.getScene().lookup("#delete" + (i + 1));
                    delete.setDisable(false);
                    delete.setVisible(true);
                }
@@ -190,8 +190,10 @@ public class article {
 
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
+
                 Article a = list.get(i);
-                if(a.getTitle().equals(titolo.getText())) {
+
+                if(!a.getTitle().equals(titolo.getText())) {
 
                     TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
                     Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));

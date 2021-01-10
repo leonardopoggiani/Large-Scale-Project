@@ -15,9 +15,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#setGroups" prefHeight="607.0" prefWidth="721.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.groups">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#setGroups" prefHeight="800.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.groups">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="607.0" prefWidth="727.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="688.0" prefWidth="1107.0">
          <children>
             <Button layoutX="23.0" layoutY="89.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
             <Avatar layoutX="69.0" layoutY="39.0" />
@@ -26,27 +26,27 @@
             <Button cancelButton="true" layoutX="72.0" layoutY="376.0" mnemonicParsing="false" text="Logout" />
             <Button cancelButton="true" layoutX="72.0" layoutY="289.0" mnemonicParsing="false" text="Search" />
             <ComboBox layoutX="114.0" layoutY="227.0" prefHeight="28.0" prefWidth="90.0" />
-            <Text layoutX="361.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
-            <Text layoutX="395.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your groups">
+            <Text layoutX="701.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
+            <Text layoutX="385.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you created">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
             <TableView fx:id="table" layoutX="263.0" layoutY="105.0" prefHeight="200.0" prefWidth="380.0" />
-            <Text layoutX="382.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new group">
+            <Text layoutX="756.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new group">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <TextField fx:id="groupname" layoutX="426.0" layoutY="358.0" promptText="Group name" />
-            <TextField fx:id="referredgame" layoutX="426.0" layoutY="392.0" promptText="Game name" />
-            <Text layoutX="345.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group name" />
+            <TextField fx:id="groupname" layoutX="776.0" layoutY="76.0" promptText="Group name" />
+            <TextField fx:id="referredgame" layoutX="776.0" layoutY="126.0" promptText="Game name" />
+            <Text layoutX="683.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group name" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game" wrappingWidth="35.084632873535156" />
-            <Button layoutX="426.0" layoutY="487.0" mnemonicParsing="false" onMouseClicked="#createGroup" text="Create" />
-            <TextField fx:id="description" layoutX="426.0" layoutY="425.0" promptText="Description (optional)" />
-            <Text layoutX="343.0" layoutY="442.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="72.68880462646484" />
+            <Button layoutX="799.0" layoutY="239.0" mnemonicParsing="false" onMouseClicked="#createGroup" text="Create" />
+            <TextField fx:id="description" layoutX="776.0" layoutY="183.0" promptText="Description (optional)" />
+            <Text layoutX="683.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="72.68880462646484" />
             <Text layoutX="51.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
-            <Line endX="-37.60002136230469" endY="685.199951171875" layoutX="259.0" layoutY="26.0" startX="-37.60002136230469" startY="-27.0" />
+            <Line endX="-37.60005187988281" endY="838.5999755859375" layoutX="259.0" layoutY="26.0" startX="-37.60002136230469" startY="-27.0" />
             <Line endX="-47.10002136230469" endY="114.39996337890625" layoutX="269.0" layoutY="36.0" startX="-269.0" startY="114.39996337890625" />
             <BottomNavigation layoutX="290.0">
                <actionItems>
@@ -75,6 +75,12 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
+            <TableView fx:id="table2" layoutX="263.0" layoutY="383.0" prefHeight="200.0" prefWidth="380.0" />
+            <Text layoutX="336.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you're member of">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
          </children></AnchorPane>
   </content>
 </ScrollPane>

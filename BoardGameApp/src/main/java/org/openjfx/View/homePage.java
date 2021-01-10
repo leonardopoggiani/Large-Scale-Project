@@ -142,15 +142,6 @@ public class homePage {
     }
 
     @FXML
-    void caricaCategorie() throws IOException {
-        logger.info("Carico le categorie");
-        Scene scene = App.getScene(); // recupero la scena della signup
-        ComboBox cat1 = (ComboBox) scene.lookup("#gioco");
-
-        cat1.setItems(categorie);
-    }
-
-    @FXML
     void filterResearch () throws IOException {
         ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
 
