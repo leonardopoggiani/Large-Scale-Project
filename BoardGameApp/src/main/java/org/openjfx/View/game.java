@@ -48,14 +48,12 @@ public class game {
         if (giàCaricato == -1) {
             ImageView image = (ImageView) App.getScene().lookup("#image");
             String game = games.getGame();
-            logger.info("Carico " + game);
             GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
 
             InfoGame currentGame = controller.showGame(game);
             System.out.println(currentGame);
 
             if( (currentGame.getImageUrl() != null) && !(currentGame.getImageUrl().equals("")) ) {
-                System.out.println("Immagine " + currentGame.getImageUrl());
                 image.setImage(new Image(currentGame.getImageUrl()));
             }
 
@@ -79,11 +77,9 @@ public class game {
             }
 
             TextArea rule = (TextArea) App.getScene().lookup("#rules");
-            System.out.println("Regole" + currentGame.getRules());
             rule.setText(currentGame.getRules());
 
             TextArea description = (TextArea) App.getScene().lookup("#description");
-            System.out.println("Descrizione" + currentGame.getDescription());
             description.setText(currentGame.getDescription());
 
             setReviews(game);
@@ -99,7 +95,7 @@ public class game {
         System.out.println("Numero di review: " + reviews.size());
 
         if(reviews.size() != 0) {
-            for (int i = 0; i < reviews.size() || i < 3; i++) {
+            for (int i = 0; i < reviews.size() && i < 3; i++) {
                 TextField review = (TextField) App.getScene().lookup("#review" + (i + 1));
                 review.setText(reviews.get(i).getText());
 

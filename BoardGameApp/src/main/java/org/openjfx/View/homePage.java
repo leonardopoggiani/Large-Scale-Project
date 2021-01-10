@@ -128,8 +128,6 @@ public class homePage {
 
         AnchorPane articolo = (AnchorPane) event.getSource();
         String idArticle = articolo.getId();
-        System.out.println("ID " + "#author" + idArticle);
-        System.out.println("ID " + "#timestamp" + idArticle);
 
         Text a = (Text) App.getScene().lookup("#author" + idArticle);
         Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
@@ -192,8 +190,6 @@ public class homePage {
                 articolo.setText(g.getTitle());
                 author.setText(g.getAuthor());
                 // timestamp.setText(String.valueOf(g.getTimestamp()));
-
-                System.out.println("Articolo " + g.getTitle() + ", " + g.getAuthor());
             }
         }
     }
