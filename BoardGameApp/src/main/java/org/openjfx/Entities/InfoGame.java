@@ -182,7 +182,6 @@ public class InfoGame {
         this.family = family;
     }
 
-
     public void setNumVotes(int numVotes) {
         this.numVotes = numVotes;
     }
@@ -257,6 +256,7 @@ public class InfoGame {
                 "name='" + name + '\'' +
                 ", category1='" + category1 + '\'' +
                 ", category2='" + category2 + '\'' +
+                ", avg_rating='" + avgRating + '\'' +
                 '}';
     }
 }

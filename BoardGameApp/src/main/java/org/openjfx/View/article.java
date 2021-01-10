@@ -38,10 +38,10 @@ public class article {
 
            Text titolo = (Text) App.getScene().lookup("#titolo");
            TextArea body = (TextArea) App.getScene().lookup("#articlebody");
-           Text author = (Text) App.getScene().lookup("#author");
+           Text author = (Text) App.getScene().lookup("#autorearticolo");
            Text like = (Text) App.getScene().lookup("#numberlike");
            Text unlike = (Text) App.getScene().lookup("#numberunlike");
-           Text date = (Text) App.getScene().lookup("#data");
+           Text date = (Text) App.getScene().lookup("#dataarticolo");
 
            date.setText(homePage.getTimestamp());
            author.setText(homePage.getAuthor());
@@ -197,18 +197,21 @@ public class article {
 
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-
                 Article a = list.get(i);
 
                 if(!a.getTitle().equals(titolo.getText())) {
+                    for (int j = 0; j < 3; j++) {
 
-                    TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
-                    Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
-                    Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
+                        TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (j + 1));
+                        Text author = (Text) App.getScene().lookup("#authorarticle" + (j + 1));
+                        Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (j + 1));
 
-                    articolo.setText(a.getTitle());
-                    author.setText(a.getAuthor());
-                    timestamp.setText(String.valueOf(a.getTimestamp()));
+                        if(articolo.getText().equals("Article" + (j + 1))) {
+                            articolo.setText(a.getTitle());
+                            author.setText(a.getAuthor());
+                            timestamp.setText(String.valueOf(a.getTimestamp()));
+                        }
+                    }
                 }
             }
         }

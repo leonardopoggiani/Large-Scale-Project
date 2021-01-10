@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="721.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.games">
+<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="846.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.View.games">
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
@@ -83,7 +83,7 @@
                      </cursor></AnchorPane>
               </content>
             </TitledPane>
-            <TitledPane fx:id="fullgame2" animated="false" layoutX="225.0" layoutY="87.0" prefHeight="109.0" prefWidth="202.0" text="game2">
+            <TitledPane fx:id="fullgame2" animated="false" layoutX="326.0" layoutY="87.0" prefHeight="109.0" prefWidth="202.0" text="game2">
                <content>
                   <AnchorPane fx:id="game2" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToGame" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -107,7 +107,7 @@
                      </cursor></AnchorPane>
                </content>
             </TitledPane>
-            <TitledPane fx:id="fullgame4" animated="false" layoutX="225.0" layoutY="205.0" prefHeight="109.0" prefWidth="202.0" text="game4">
+            <TitledPane fx:id="fullgame4" animated="false" layoutX="325.0" layoutY="205.0" prefHeight="109.0" prefWidth="202.0" text="game4">
                <content>
                   <AnchorPane fx:id="game4" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToGame" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -131,7 +131,7 @@
                      </cursor></AnchorPane>
                </content>
             </TitledPane>
-            <TitledPane fx:id="fullgame6" animated="false" layoutX="225.0" layoutY="322.0" prefHeight="109.0" prefWidth="202.0" text="game6">
+            <TitledPane fx:id="fullgame6" animated="false" layoutX="325.0" layoutY="322.0" prefHeight="109.0" prefWidth="202.0" text="game6">
                <content>
                   <AnchorPane fx:id="game6" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToGame" prefHeight="180.0" prefWidth="200.0">
                      <children>

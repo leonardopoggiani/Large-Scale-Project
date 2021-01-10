@@ -107,10 +107,15 @@ public class homePage {
                     int numLikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"like");
                     int numUnlikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"dislike");
 
-                    articolo.setText(a.getTitle());
+                    if(articolo == null) {
+                        logger.severe("Articolo null, errore grave, log:");
+                        logger.severe(articolo + " || " + "fullarticle" + (i+1) + " || articolo " + a );
+                    } else
+                        articolo.setText(a.getTitle());
+
                     author.setText(a.getAuthor());
                     timestamp.setText(String.valueOf(a.getTimestamp()));
-                    stats.setText("Number of comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+                    stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
                 }
             }
 
