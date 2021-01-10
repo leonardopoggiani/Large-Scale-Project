@@ -203,65 +203,56 @@ public class games {
             int index1 = categoria.getSelectionModel().getSelectedIndex();
             filtraPerCategoria = categorie.get(index1);
             filteredGames = controller.filterByCategory(filtraPerCategoria);
-        }
-
-        if(data.isVisible() && !data.getText().equals("")) {
+        } else if(data.isVisible() && !data.getText().equals("")) {
             if (Integer.parseInt(data.getText()) > 1900 || Integer.parseInt(data.getText()) < 2022) {
                 // filtraggio per anno
                 filtraPerAnno = Integer.parseInt(data.getText());
                 filteredGames = controller.filterByYear(filtraPerAnno);
             }
-        }
-
-        if (players.isVisible() && (players.getValue() > 0 || players.getValue() <= 16) ){
+        } else if (players.isVisible() && (players.getValue() > 0 || players.getValue() <= 16) ){
             // filtraggio per numero di giocatori
             filtraGiocatori = (int) players.getValue();
             filteredGames = controller.filterByPlayers(filtraGiocatori);
         }
 
+        // rimuovo i doppioni
         filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(filteredGames));
+        System.out.println("Risultati: \n" + filteringResult);
         // in filteredGames a questo punto c'e la lista dei giochi filtrati, se voglio ordinarli entro nell'if
 
-        if(filteredGames.size() == 0 && order.getSelectionModel().getSelectedItem() != null) {
-            // qui ci entro solo se non ho selezionato nessun filtro e quindi applico l'ordinamento a tutti i giochi
+        if(order.getSelectionModel().getSelectedItem() != null) {
+            logger.info("Voglio ordinare i risultati");
             int index1 = order.getSelectionModel().getSelectedIndex();
             String ordering = ordinamenti.get(index1);
 
             System.out.println("Ordinamento " + ordering);
 
-            if(!ordering.equals("None")){
-                switch (ordering) {
-                    case "Average ratings" -> {
-                        logger.info("Ordino per rating");
-                        sortedList = controller.orderByAvgRating();
+            if(filteredGames.size() == 0 ) {
+                // qui ci entro solo se non ho selezionato nessun filtro e quindi applico l'ordinamento a tutti i giochi
+                if(!ordering.equals("None")){
+                    switch (ordering) {
+                        case "Average ratings" -> {
+                            logger.info("Ordino per rating");
+                            sortedList = controller.orderByAvgRating();
+                        }
+                        case "Number of reviews" -> {
+                            logger.info("Ordino per reviews");
+                            sortedList = controller.orderByNumReviews();
+                        }
+                        case "Number of ratings" -> {
+                            logger.info("Ordino per votes");
+                            sortedList = controller.orderByNumVotes();
+                        }
+                        default -> logger.info("Non ordino");
                     }
-                    case "Number of reviews" -> {
-                        logger.info("Ordino per reviews");
-                        sortedList = controller.orderByNumReviews();
-                    }
-                    case "Number of ratings" -> {
-                        logger.info("Ordino per votes");
-                        sortedList = controller.orderByNumVotes();
-                    }
-                    default -> logger.info("Non ordino");
-                }
 
-                 filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(sortedList));
-                showFilteringResult(filteringResult);
+                     filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(sortedList));
+                }
+            } else {
+                filteringResult = orderingResult(filteredGames, ordering);
             }
         }
 
-        if(filteredGames.size() != 0 && order.getSelectionModel().getSelectedItem() != null){
-            // ho applicato dei filtri e voglio ordinare le cose filtrate
-            int index1 = order.getSelectionModel().getSelectedIndex();
-            String ordering = ordinamenti.get(index1);
-
-            System.out.println("Ordinamento con filtri" + ordering);
-
-            filteringResult = orderingResult(filteredGames,ordering);
-        }
-
-        filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(filteredGames));
         showFilteringResult(filteringResult);
     }
 
@@ -292,21 +283,21 @@ public class games {
     static class averageRatingComparator implements Comparator<InfoGame> {
         @Override
         public int compare(InfoGame a, InfoGame b) {
-            return Double.compare(a.getAvgRating(), b.getAvgRating());
+            return Double.compare(b.getAvgRating(), a.getAvgRating());
         }
     }
 
     static class numberOfReviewsComparator implements Comparator<InfoGame> {
         @Override
         public int compare(InfoGame a, InfoGame b) {
-            return Integer.compare(a.getNumReviews(), b.getNumReviews());
+            return Integer.compare(b.getNumReviews(), a.getNumReviews());
         }
     }
 
     static class numberOfRatingsComparator implements Comparator<InfoGame> {
         @Override
         public int compare(InfoGame a, InfoGame b) {
-            return Integer.compare(a.getNumVotes(), b.getNumVotes());
+            return Integer.compare(b.getNumVotes(), a.getNumVotes());
         }
     }
 
