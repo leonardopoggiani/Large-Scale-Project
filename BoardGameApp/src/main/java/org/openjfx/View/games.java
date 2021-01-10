@@ -1,6 +1,5 @@
 package org.openjfx.View;
 
-import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.google.common.collect.Lists;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,15 +9,11 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import org.bson.Document;
 import org.openjfx.App;
-import org.openjfx.Controller.ArticlesCommentsLikesDBController;
 import org.openjfx.Controller.GamesReviewsRatesDBController;
-import org.openjfx.Entities.Article;
 import org.openjfx.Entities.InfoGame;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -45,6 +40,11 @@ public class games {
             "Aviation/Flight:2650","Modern Warfare:1069","Territory Building:1086",
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
             "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
+
+    ObservableList<String> filters = FXCollections.observableArrayList(
+            "Category", "Number of players", "Release year", "None");
+
+    List<InfoGame> mostrati = Lists.newArrayList();
 
     private static String game;
 
@@ -122,6 +122,63 @@ public class games {
     }
 
     @FXML
+    void showFilters () throws IOException {
+        logger.info("Carico i filtri");
+        Scene scene = App.getScene(); // recupero la scena della signup
+        ComboBox filtri = (ComboBox) scene.lookup("#filter");
+
+        filtri.setItems(filters);
+
+    }
+
+    @FXML
+    void setFilters() {
+        Scene scene = App.getScene(); // recupero la scena della signup
+        Slider players = (Slider) scene.lookup("#players");
+        Text numPlayers = (Text) scene.lookup("#numplayers");
+        ComboBox categorie = (ComboBox) scene.lookup("#category");
+        TextField releseaYear = (TextField) scene.lookup("#year");
+        ComboBox filtri = (ComboBox) scene.lookup("#filter");
+
+        if(filtri.getSelectionModel().getSelectedItem() != null){
+            String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
+            if(!filtroSelezionato.equals("None")){
+                switch(filtroSelezionato){
+                    case "Category":
+                        categorie.setVisible(true);
+                        players.setVisible(false);
+                        numPlayers.setVisible(false);
+                        releseaYear.setVisible(false);
+                        break;
+                    case "Number of players":
+                        categorie.setVisible(false);
+                        players.setVisible(true);
+                        numPlayers.setVisible(true);
+                        releseaYear.setVisible(false);
+                        break;
+                    case "Release year":
+                        categorie.setVisible(false);
+                        players.setVisible(false);
+                        numPlayers.setVisible(false);
+                        releseaYear.setVisible(true);
+                        break;
+                    default:
+                        categorie.setVisible(false);
+                        players.setVisible(false);
+                        numPlayers.setVisible(false);
+                        releseaYear.setVisible(false);
+                        break;
+                }
+            } else {
+                categorie.setVisible(false);
+                players.setVisible(false);
+                numPlayers.setVisible(false);
+                releseaYear.setVisible(false);
+            }
+        }
+    }
+
+    @FXML
     void filterResearch () throws IOException {
         // filtra i risultati in base alle impostazioni passate
         GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
@@ -137,36 +194,35 @@ public class games {
         int filtraPerAnno = 0;
         String ordina = "";
 
-        List<InfoGame> filteredGames0 = Lists.newArrayList();
-        List<InfoGame> filteredGames1 = Lists.newArrayList();
-        List<InfoGame> filteredGames2 = Lists.newArrayList();
+        List<InfoGame> filteredGames = Lists.newArrayList();
         List<InfoGame> sortedList = Lists.newArrayList();
 
         if(categoria.getSelectionModel().getSelectedItem() != null) {
             // filtraggio per categoria, crea una lista con tutti i giochi appartenenti alla categoria data
             int index1 = categoria.getSelectionModel().getSelectedIndex();
             filtraPerCategoria = categorie.get(index1);
-            filteredGames0 = controller.filterByCategory(filtraPerCategoria);
+            filteredGames = controller.filterByCategory(filtraPerCategoria);
         }
 
         if(!data.getText().equals("")) {
             if (Integer.parseInt(data.getText()) > 1900 || Integer.parseInt(data.getText()) < 2022) {
                 // filtraggio per anno
                 filtraPerAnno = Integer.parseInt(data.getText());
-                filteredGames1 = controller.filterByYear(filtraPerAnno);
+                filteredGames = controller.filterByYear(filtraPerAnno);
             }
         }
 
         if (players.getValue() > 0 || players.getValue() <= 16) {
             // filtraggio per numero di giocatori
             filtraGiocatori = (int) players.getValue();
-            filteredGames2 = controller.filterByPlayers(filtraGiocatori);
+            filteredGames = controller.filterByPlayers(filtraGiocatori);
         }
 
-        filteredGames0.addAll(filteredGames1);
-        filteredGames0.addAll(filteredGames2);
+        List<InfoGame> filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(sortedList));
+        showFilteringResult(filteringResult);
+        // in filteredGames a questo punto c'e la lista dei giochi filtrati, se voglio ordinarli entro nell'if
 
-        if(order.getSelectionModel().getSelectedItem() != null) {
+        /*if(filteredGames.size() == 0 && order.getSelectionModel().getSelectedItem() != null) {
 
             int index1 = order.getSelectionModel().getSelectedIndex();
             String ordering = ordinamenti.get(index1);
@@ -187,18 +243,12 @@ public class games {
                     logger.info("Non ordino");
                 }
 
-                /*if(filteredGames0.size() != 0){
-                    sortedList.retainAll(filteredGames0);
-                    System.out.println(sortedList);
-                }*/
                 List<InfoGame> filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(sortedList));
                 showFilteringResult(filteringResult);
             }
-        } else {
-            List<InfoGame> filteringResult = new ArrayList<InfoGame>(new HashSet<InfoGame>(filteredGames0));
-            showFilteringResult(filteringResult);
-        }
+        } */
     }
+
 
     private void showFilteringResult(List<InfoGame> filteringResult) {
         logger.info("show filtering result");
