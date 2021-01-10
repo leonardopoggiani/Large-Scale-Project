@@ -42,10 +42,13 @@ public class Main {
         //System.out.println(list);
 
 
-        org.openjfx.DBManager.MongoDBManager.GameDBManager.updateRating(7, "Spirit Island");
+        //org.openjfx.DBManager.MongoDBManager.GameDBManager.updateRating(7, "Monopoli");
         //org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(10, "Monopoli");
         //org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumVotes(10, "Monopoli");
 
+        //ANALYTICS
+        //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersFromCountry("italy");
+        org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLeastRatedGames("year", "1960");
 
         MongoDBManager.close();
 
