@@ -199,7 +199,7 @@ public class GameDBManager {
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
-                ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(cursor.next().get("num_reviews").toString());
+                ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString());
             }
         }
 
@@ -225,7 +225,7 @@ public class GameDBManager {
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
-                ret = (next.get("avg_rating") == null) ? 0.0 : Double.parseDouble(cursor.next().get("avg_rating").toString());
+                ret = (next.get("avg_rating") == null) ? 0.0 : Double.parseDouble(next.get("avg_rating").toString());
             }
         }
 
@@ -250,7 +250,7 @@ public class GameDBManager {
 
     }
 
-    private static InfoGame fillInfoGameFields (Document next, boolean unwindCategory){
+    protected static InfoGame fillInfoGameFields(Document next, boolean unwindCategory){
         InfoGame g = new InfoGame();
         g.setName((next.get("name") == null) ? "" :next.get("name").toString());
         g.setAlternativeName((next.get("alt_name") == null) ? "" :next.get("alt_name").toString());
