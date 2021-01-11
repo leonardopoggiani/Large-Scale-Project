@@ -1,8 +1,9 @@
 package org.openjfx.Controller;
 
 import org.openjfx.DBManager.MongoDBManager.GameDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.GamesReviewsRatesDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.ListSuggGamesDBManager;
+import org.openjfx.DBManager.Neo4jDBManager.GamesDBManager;
+import org.openjfx.DBManager.Neo4jDBManager.RatingsDBManager;
+import org.openjfx.DBManager.Neo4jDBManager.ReviewsDBManager;
 import org.openjfx.Entities.GameBean;
 import org.openjfx.Entities.ReviewBean;
 
@@ -17,7 +18,7 @@ public class GamesReviewsRatesDBController {
     public List<GameBean> neo4jListSuggestedGames(String username) {
 
         List<GameBean> games ;
-        games = ListSuggGamesDBManager.searchSuggestedGames(username);
+        games = GamesDBManager.searchSuggestedGames(username);
 
         if(games.isEmpty())
         {
@@ -41,7 +42,7 @@ public class GamesReviewsRatesDBController {
     public int neo4jCountReviews(String name) {
 
         int quanteReviews = 0;
-        quanteReviews = GamesReviewsRatesDBManager.countReviews(name);
+        quanteReviews = ReviewsDBManager.countReviews(name);
 
 
         System.out.println(quanteReviews);
@@ -53,7 +54,7 @@ public class GamesReviewsRatesDBController {
     public int neo4jCountRatings(String name) {
 
         int quantiRates = 0;
-        quantiRates = GamesReviewsRatesDBManager.countRatings(name);
+        quantiRates = RatingsDBManager.countRatings(name);
 
         System.out.println(quantiRates);
 
@@ -64,7 +65,7 @@ public class GamesReviewsRatesDBController {
     public double neo4jAvgRatings(String name) {
 
         double avgRates = 0;
-        avgRates = GamesReviewsRatesDBManager.avgRatings(name);
+        avgRates = RatingsDBManager.avgRatings(name);
 
         System.out.println(avgRates);
 
@@ -78,7 +79,7 @@ public class GamesReviewsRatesDBController {
     public List<ReviewBean> neo4jListGamesReviews(String name) {
 
         List<ReviewBean> infoReviews;
-        infoReviews = GamesReviewsRatesDBManager.searchListReviews(name);
+        infoReviews = ReviewsDBManager.searchListReviews(name);
 
         if(infoReviews.isEmpty())
         {
