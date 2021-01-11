@@ -49,17 +49,16 @@ public class ArticlesDBManager extends Neo4jDBManager {
         HashMap<String,Object> parameters = new HashMap<>();
         Boolean findInflu = false;
         parameters.put("username", username);
-        parameters.put("type", "follow");
         parameters.put("role", "influencer");
-        String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW{type:$type}]->(u2:User{role:$role})" +
+        String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:$role})" +
                 "RETURN f";
-        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW{type:$type}]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article)" +
+        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article)" +
                 "RETURN a, i, p ORDER BY p.timestamp";
 
         String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
                 "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
                 "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN a,i,p ORDER BY p.timestamp LIMIT 4";
+                "RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 4";
 
         Result result=tx.run(searchInfluencers, parameters);
         if(!result.hasNext())
