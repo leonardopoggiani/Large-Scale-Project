@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ArticlePageView {
@@ -39,6 +40,7 @@ public class ArticlePageView {
            ArticleBean a = cache.getDataIfPresent(HomepageArticles.getTitolo());
 
            if(a == null || a.getTitle() == null) {
+               logger.log(Level.WARNING, "Recupero da db");
                a = article.mongoDBshowArticle(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
            }
 
