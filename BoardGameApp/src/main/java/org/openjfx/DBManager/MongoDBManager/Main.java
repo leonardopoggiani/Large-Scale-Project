@@ -48,7 +48,9 @@ public class Main {
 
         //ANALYTICS
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersFromCountry("italy");
-        org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLeastRatedGames("year", "1960");
+        //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLeastRatedGames("year", "1960");
+        //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getCategoryInfo("Play Card");
+        //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLessRecentLoggedUsers();
 
         MongoDBManager.close();
 

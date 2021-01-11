@@ -254,7 +254,7 @@ public class ArticleDBManager {
         return a;
     }
 
-    private static Timestamp convertStringToTimestamp(String time){
+    protected static Timestamp convertStringToTimestamp(String time){
         Timestamp timestamp = null;
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
