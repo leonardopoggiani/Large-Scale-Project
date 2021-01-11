@@ -9,7 +9,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 
 
-import org.openjfx.Entities.*;
+import it.unipi.dii.LSMDB.project.group5.bean.*;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Sorts.*;
-import static org.openjfx.DBManager.MongoDBManager.UserDBManager.*;
+import static it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.UserDBManager.*;
 
 
 public class AnalyticsDBManager {
@@ -178,6 +178,7 @@ public class AnalyticsDBManager {
     }
 
     public static List<ActivityBean> getActivitiesStatisticsTotal (){
+        //DA RIVEDERE BENE!
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
         List<ActivityBean> ret = new ArrayList<ActivityBean>();
         BasicDBList pipeline = new BasicDBList();

@@ -1,5 +1,10 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 
+import org.bson.Document;
+import it.unipi.dii.LSMDB.project.group5.bean.*;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.*;
+
+import java.util.*;
 
 public class Main {
     public static void main (String[] args){
@@ -48,7 +53,7 @@ public class Main {
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getCategoryInfo("Play Card");
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLessRecentLoggedUsers();
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersForAge();
-        org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getActivitiesStatisticsTotal();
+        AnalyticsDBManager.getActivitiesStatisticsTotal();
 
         MongoDBManager.close();
 

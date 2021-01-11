@@ -5,7 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
+import it.unipi.dii.LSMDB.project.group5.bean.*;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -254,7 +254,7 @@ public class ArticleDBManager {
         return a;
     }
 
-    private static Timestamp convertStringToTimestamp(String time){
+    protected static Timestamp convertStringToTimestamp(String time){
         Timestamp timestamp = null;
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

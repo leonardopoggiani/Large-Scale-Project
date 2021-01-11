@@ -1,5 +1,5 @@
 package it.unipi.dii.LSMDB.project.group5.controller;
-import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.SignupLoginDBManager;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.UserDBManager;
 import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.LoginSignUpDBManager;
 
@@ -32,7 +32,7 @@ public class LoginSignUpDBController {
         }
         else {
             System.out.println("Utente creato!");
-            SignupLoginDBManager.signup(user);
+            UserDBManager.signup(user);
         }
     }
 
@@ -46,7 +46,7 @@ public class LoginSignUpDBController {
         if(roleLogin != "NA")
         {
             System.out.println("Login effettuato con successo! Role: " + roleLogin);
-            SignupLoginDBManager.updateLogin(username);
+            UserDBManager.updateLogin(username);
             logOk = roleLogin;
         }
         else {
