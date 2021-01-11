@@ -72,9 +72,9 @@
               <content>
                 <AnchorPane fx:id="completo1" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="78.0" prefWidth="208.0">
                      <children>
-                        <Text fx:id="authorcompleto1" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
-                        <Text fx:id="timestampcompleto1" layoutX="14.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
-                        <Text fx:id="stats1" layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
+                        <Text fx:id="authorcompleto1" layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
+                        <Text fx:id="timestampcompleto1" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="statscompleto1" layoutX="14.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -85,9 +85,9 @@
                <content>
                   <AnchorPane fx:id="completo2" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
-                        <Text fx:id="authorarticle2" layoutX="2.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="timestamparticle2" layoutX="2.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="stats2" layoutX="11.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Text fx:id="authorcompleto2" layoutX="10.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
+                        <Text fx:id="timestampcompleto2" layoutX="10.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="statscompleto2" layoutX="11.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -98,9 +98,9 @@
                <content>
                   <AnchorPane fx:id="completo3" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
-                        <Text fx:id="authorarticle3" layoutX="18.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="timestamparticle3" layoutX="18.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="stats3" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Text fx:id="authorcompleto3" layoutX="13.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
+                        <Text fx:id="timestampcompleto3" layoutX="13.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="statscompleto3" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -111,9 +111,9 @@
                <content>
                   <AnchorPane fx:id="completo4" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
-                        <Text fx:id="authorarticle4" layoutX="18.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="timestamparticle4" layoutX="18.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="stats4" layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Text fx:id="authorcompleto4" layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
+                        <Text fx:id="timestampcompleto4" layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="statscompleto4" layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -124,9 +124,9 @@
                <content>
                   <AnchorPane fx:id="completo5" minHeight="0.0" minWidth="0.0" onMouseClicked="#goToArticle" prefHeight="77.0" prefWidth="200.0">
                      <children>
-                        <Text fx:id="authorarticle5" layoutX="12.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="timestamparticle5" layoutX="12.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="stats5" layoutX="9.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Text fx:id="authorcompleto5" layoutX="8.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
+                        <Text fx:id="timestampcompleto5" layoutX="8.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="statscompleto5" layoutX="9.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -140,6 +140,9 @@
                         <Text fx:id="authorarticle6" layoutX="19.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="timestamparticle6" layoutX="19.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="stats6" layoutX="14.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Text fx:id="authorcompleto6" layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
+                        <Text fx:id="timestampcompleto6" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="statscompleto6" layoutX="14.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />

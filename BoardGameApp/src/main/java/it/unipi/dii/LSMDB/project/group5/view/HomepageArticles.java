@@ -89,20 +89,14 @@ public class HomepageArticles {
                 for (int i = 0; i < list.size() && i < 6; i++) {
                     ArticleBean a = list.get(i);
                     TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
-                    Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
-                    Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
-                    Text stats = (Text) App.getScene().lookup("#stats" + (i + 1));
+                    Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
+                    Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
+                    Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
                     int numComments = home.neo4jCountComments(a.getTitle(),a.getAuthor());
                     int numLikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"like");
                     int numUnlikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"dislike");
 
-                    if(articolo == null) {
-                        logger.severe("Articolo null, errore grave, log:");
-                        logger.severe(articolo + " || " + "fullarticle" + (i+1) + " || articolo " + a );
-                    } else {
-                        articolo.setText(a.getTitle());
-                    }
-
+                    articolo.setText(a.getTitle());
                     author.setText(a.getAuthor());
                     timestamp.setText(String.valueOf(a.getTimestamp()));
                     stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);

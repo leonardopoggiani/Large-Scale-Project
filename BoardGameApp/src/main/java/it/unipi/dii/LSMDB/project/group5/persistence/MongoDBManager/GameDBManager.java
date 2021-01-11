@@ -284,6 +284,7 @@ public class GameDBManager {
         g.setRules("Regole: \n" + "-minimum age: " + g.getMinAge() + "\n -maximum age: " + g.getMaxAge() + "\n" +
                 "-minimum time: " + g.getMinTime() + "\n -maximum time: " + g.getMaxTime() +
                 "\n -complexity: " + g.getComplexity() + "\n -minimum players: " + g.getMinPlayers() +
+                "\n -maximum players: " + g.getMaxPlayers() +
                 "\n -cooperative: " + ((g.isCooperative()) ? "Yes! Play all togheter!" : "No, all against all!") +
                 "\n -family and expansion: " + g.getFamily() + ", " + g.getExpansion());
 

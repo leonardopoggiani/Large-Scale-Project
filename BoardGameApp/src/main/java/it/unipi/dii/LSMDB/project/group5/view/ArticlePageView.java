@@ -48,8 +48,8 @@ public class ArticlePageView {
            body.setText(a.getText());
 
            setComments();
+           setSuggestedArticlesBelow();
 
-           setSuggestedArticles();
            giàCaricato = 1;
        }
     }
@@ -183,7 +183,7 @@ public class ArticlePageView {
     }
 
     @FXML
-    void setSuggestedArticles() throws IOException {
+    void setSuggestedArticlesBelow() throws IOException {
         ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
         List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
         Text titolo = (Text) App.getScene().lookup("#titolo");
@@ -191,16 +191,17 @@ public class ArticlePageView {
         if (list != null) {
             for (ArticleBean a : list) {
                 if (!a.getTitle().equals(titolo.getText())) {
-                    for (int j = 0; j < 3; j++) {
+                    for (int j = 0; j < list.size() && j < 3; j++) {
 
                         TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (j + 1));
                         Text author = (Text) App.getScene().lookup("#authorarticle" + (j + 1));
                         Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (j + 1));
 
-                        if (articolo.getText().equals("Article" + (j + 1))) {
+                        if (articolo.getText().equals("article" + (j + 1))) {
                             articolo.setText(a.getTitle());
                             author.setText(a.getAuthor());
                             timestamp.setText(String.valueOf(a.getTimestamp()));
+                            break;
                         }
                     }
                 }

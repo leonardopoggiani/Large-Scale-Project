@@ -34,14 +34,6 @@ public class ArticlesCommentsLikesDBController {
             }
 
         }
-        List<CommentBean> commenti = Lists.newArrayList();
-        commenti.add(new CommentBean("A comment","leonardo",new Timestamp(System.currentTimeMillis()),"leonardo", "Un articolo mediocre"));
-        commenti.add(new CommentBean("A comment","Gaia5",new Timestamp(System.currentTimeMillis()),"leonardo", "Un articolo mediocre"));
-        ArticleBean a = new ArticleBean("Un articolo mediocre","leonardo",new Timestamp(System.currentTimeMillis()), commenti);
-        ArticleBean b = new ArticleBean("Un altro articolo mediocre","leonardo",new Timestamp(System.currentTimeMillis()),null);
-
-        articles.add(a);
-        articles.add(b);
 
         return articles;
 
