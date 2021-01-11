@@ -1,38 +1,36 @@
 //DA SCEGLIERE UNA DELLE DUE
 
-//1.1)[schermata amici se non hai amici] suggest users according to categories 
-// ( va a guardare se c'è almeno una categoria in comune, ritorna lista utenti, divisione tra suggeriti 
-//  *best match* (con tutte e due in comune) [1.1] ) 
+//Se hai già più di 5 amici
+//PERSONE CHE SONO AMICHE DEI TUOI AMICI MA CHE TU NON SEGUI ANCORA
+MATCH (me:User{username:"Gaia5"})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]-(me), (tizio:User{role:"normalUser"})
+WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (tizio)-[:FOLLOW]->(friend) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username="Gaia5"
+RETURN tizio
 
-MATCH (ub:User),(ua:User)
-WHERE ub.id="fd545635" AND NOT EXISTS ((ub)-[:FOLLOW]->(ua))
-AND NOT EXISTS((ua)-[:FOLLOW]->(ub)) AND
-((ub.category_1=ua.category_1 or ub.category_1=ua.category_2) AND
-(ub.category_2=ua.category_1 or ub.category_2=ua.category_2))
-RETURN ua
+
 
 //1)[schermata amici se non hai amici] suggest users according to categories ( va a guardare se c'è almeno una categoria in comune,
 // ritorna lista utenti, divisione tra suggeriti (una in comune) [1] e *best match* (con tutte e due in comune) ) 
-MATCH (ub:User),(ua:User)
-WHERE ub.id="fd545635" AND NOT EXISTS ((ub)-[:FOLLOW]->(ua))
-AND NOT EXISTS((ua)-[:FOLLOW]->(ub)) AND
-(ub.category_1=ua.category_1 or ub.category_1=ua.category_2
-or ub.category_2=ua.category_1 or ub.category_2=ua.category_2)
+MATCH (ub:User{username:"Gaia5"}),(ua:User)
+WHERE (ub.category_1=ua.category_1 or ub.category_1=ua.category_2)
+or (ub.category_2=ua.category_1 or ub.category_2=ua.category_2)
 RETURN ua
 
 //DA MODIFICARE ENTRAMBE
 
 //2.1) retrieve list of users' groups (NON È ADMIN)
-MATCH (u:User)-[b:BE_PART]->(gr:Group)
-WHERE u.id='asdfg'
-RETURN gr
+MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game) 
+WHERE NOT (gr.admin=$username)
+RETURN u,b,gr,ga ORDER BY b.timestamp
 
-//DA MODIFICARE
+
 
 //2) retrieve list of users' groups (Admin)
-MATCH (u:User)-[b:BE_PART]->(gr:Group)
-WHERE u.id='asdfg' and b.admin="si"
-RETURN gr
+MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{admin:$username})-[r:REFERRED]->(ga:Game)
+RETURN u,b,gr,ga ORDER BY b.timestamp
+
+//Timestamp last post on a group
+MATCH (gr:Group{name:$name, admin:$admin})<-[p:POST]-(u:User)
+RETURN p ORDER BY p.timestamp DESC LIMIT 1 
 
 
 
@@ -90,4 +88,7 @@ ORDER BY p.timestamp
         }
     }
 )*/
+
+//Influencer con più followers o con + articoli scritti!!
+
 

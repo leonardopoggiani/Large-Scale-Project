@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GroupsPostsDBManager {
+public class GroupsPostsDBManager extends Neo4jDBManager {
 
 
     /**
@@ -23,7 +23,7 @@ public class GroupsPostsDBManager {
      */
     public static List<GroupBean> showUsersGroups(final String username, final String type)
     {
-        try(Session session= Neo4jDBManager.driver.session())
+        try(Session session=driver.session())
         {
             return session.readTransaction(new TransactionWork<List>()
             {
@@ -101,9 +101,16 @@ public class GroupsPostsDBManager {
         return groups;
 
     }
+
+    /**
+     * La funzione restituisce tutti i membri di un gruppo
+     * @param name
+     * @param admin
+     * @return ritorna la lista degli utenti membri di un gruppo
+     */
     public static List<String> showGroupsMembers(final String name, final String admin)
     {
-        try(Session session= Neo4jDBManager.driver.session())
+        try(Session session=driver.session())
         {
             return session.writeTransaction(new TransactionWork<List>()
             {
@@ -116,6 +123,14 @@ public class GroupsPostsDBManager {
         }
     }
 
+
+    /**
+     * La funzione restituisce tutti i membri di un gruppo
+     * @param tx
+     * @param name
+     * @param admin
+     * @return ritorna la lista degli utenti membri di un gruppo
+     */
     private static List<String> transactionShowGroupsMembers(Transaction tx, String name, String admin)
     {
         List<String> members = new ArrayList<>();
@@ -148,9 +163,15 @@ public class GroupsPostsDBManager {
 
     }
 
+    /**
+     * La funzione restituisce il timestamp dell'ultimo post pubblicato sul gruppo
+     * @param name
+     * @param admin
+     * @return ritorna il timestamp dell'ultimo post
+     */
     public static Timestamp timestampLastPost(final String name, final String admin)
     {
-        try(Session session= Neo4jDBManager.driver.session())
+        try(Session session=driver.session())
         {
             return session.writeTransaction(new TransactionWork<Timestamp>()
             {
@@ -163,6 +184,14 @@ public class GroupsPostsDBManager {
         }
     }
 
+
+    /**
+     * La funzione restituisce il timestamp dell'ultimo post pubblicato sul gruppo
+     * @param tx
+     * @param name
+     * @param admin
+     * @return ritorna il timestamp dell'ultimo post
+     */
     private static Timestamp transactionTimestampLastPost(Transaction tx, String name, String admin)
     {
 
@@ -192,9 +221,15 @@ public class GroupsPostsDBManager {
 
 
 
+    /**
+     * La funzione restituisce il numero di membri di un gruppo
+     * @param name
+     * @param admin
+     * @return ritorna il numero di membri
+     */
     public static int countGroupsMembers(final String name, final String admin)
     {
-        try(Session session= Neo4jDBManager.driver.session())
+        try(Session session=driver.session())
         {
             return session.writeTransaction(new TransactionWork<Integer>()
             {
@@ -207,7 +242,13 @@ public class GroupsPostsDBManager {
         }
     }
 
-    //Funzione che conta i rates ad un determinato gioco
+    /**
+     * La funzione restituisce il numero di membri di un gruppo
+     * @param tx
+     * @param name
+     * @param admin
+     * @return ritorna il numero di membri
+     */
 
     public static int transactionCountGroupsMembers(Transaction tx, String name, String admin) {
 
@@ -223,6 +264,174 @@ public class GroupsPostsDBManager {
 
         }
         return numMembers;
+    }
+
+    /**
+     * La funzione crea un nuovo gruppo
+     * @param newGroup
+     * @return true se ha creato correttamente il gruppo
+     * @return false altrimenti
+     */
+
+    public static Boolean addGroup(final GroupBean newGroup) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionAddGroup(tx, newGroup);
+                }
+            });
+
+
+        }
+    }
+
+
+    /**
+     * La funzione crea un nuovo gruppo
+     * @param tx
+     * @param group
+     * @return true se ha creato correttamente il gruppo
+     * @return false altrimenti
+     */
+    private static Boolean transactionAddGroup(Transaction tx, GroupBean group) {
+
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("admin", group.getAdmin());
+        parameters.put("game", group.getGame());
+        parameters.put("timestamp", group.getTimestamp().toString());
+        parameters.put("desc", group.getDescription());
+        parameters.put("name", group.getName());
+
+        Result result0 = tx.run("MATCH (u:User {username:$admin})-[b:BE_PART]->(g:Group{name:$name, admin:$admin}) return g"
+                , parameters);
+
+        if (result0.hasNext()) {
+            System.out.println("Già hai creato un gruppo con questo nome, cambialo!");
+            return false;
+        } else {
+
+            Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game})" +
+                            "CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)"
+                    , parameters);
+
+            if (result.hasNext()) {
+                System.out.println("Ho aggiunto il nuovo gruppo");
+                return true;
+            }
+            return false;
+        }
+
+
+    }
+
+    /**
+     * La funzione elimina un gruppo
+     * @param delGroup
+     * @return true se ha eliminato correttamente il gruppo
+     * @return false altrimenti
+     */
+
+    public static Boolean deleteGroup(final GroupBean delGroup) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionDeleteGroup(tx, delGroup);
+                }
+            });
+
+
+        }
+    }
+
+
+    /**
+     * La funzione elimina un gruppo
+     * @param tx
+     * @param delGroup
+     * @return true se ha eliminato correttamente il gruppo
+     * @return false altrimenti
+     */
+
+
+    private static Boolean transactionDeleteGroup(Transaction tx, GroupBean delGroup) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("admin", delGroup.getAdmin());
+        parameters.put("name", delGroup.getName());
+
+        Result result = tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
+                        "WHERE gr.name=$name and  gr.admin=$admin" +
+                        "DELETE b,gr,r"
+                , parameters);
+
+        return true;
+    }
+
+    /**
+     * La funzione aggiunge un membro ad un gruppo
+     * @param username
+     * @param name
+     * @param admin
+     * @return true se ha aggiunto correttamente il membro
+     * @return false se l'utente era già membro del gruppo
+     */
+
+
+    public static Boolean addGroupMember(final String username, final String name, final String admin) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionAddGroupMember(tx, username, name, admin);
+                }
+            });
+
+
+        }
+    }
+
+
+    /**
+     * La funzione aggiunge un membro ad un gruppo
+     * @param tx
+     * @param username
+     * @param name
+     * @param admin
+     * @return true se ha aggiunto correttamente il membro
+     * @return false se l'utente era già membro del gruppo
+     */
+
+    private static Boolean transactionAddGroupMember(Transaction tx, String username, String name, String admin) {
+
+        HashMap<String, Object> parameters = new HashMap<>();
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        parameters.put("admin", admin);
+        parameters.put("name", name);
+        parameters.put("username", username);
+        parameters.put("timestamp", ts.toString());
+
+        Result result0 = tx.run("MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{name:$name, admin:$admin})" +
+                        "RETURN b"
+                , parameters);
+        if (result0.hasNext()) {
+            //System.out.println("Utente già membro del gruppo!");
+            return false;
+        } else {
+            Result result = tx.run("MATCH (u:User{username:$username}),(gr:Group{name:$name, admin:$admin})" +
+                            "CREATE (u)-[b:BE_PART {timestamp:$timestamp}]->(gr)" +
+                            "RETURN b"
+                    , parameters);
+            if (result.hasNext()) {
+                System.out.println("Ho aggiunto il nuovo gruppo");
+                return true;
+            }
+            return false;
+        }
+
     }
 
 }

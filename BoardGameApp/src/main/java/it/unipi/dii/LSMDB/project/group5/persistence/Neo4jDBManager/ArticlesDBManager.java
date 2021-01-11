@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListSuggArticlesDBManager extends Neo4jDBManager {
+public class ArticlesDBManager extends Neo4jDBManager {
 
     /** La funzione restituisce la lista degli articoli suggeriti nella home di un utente
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
      * in base alle sue categorie preferite, ma solo 4
      * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
-     * @param username
+     * @param username username utente
      * @return Lista degli articoli suggeriti
      */
     public static List<ArticleBean> searchSuggestedArticles(final String username)
@@ -39,8 +39,8 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
      * in base alle sue categorie preferite, ma solo 4
      * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
-     * @param tx
-     * @param username
+     * @param tx transaction
+     * @param username username utente
      * @return Lista degli articoli suggeriti
      */
     private static List<ArticleBean> transactionSearchSuggestedArticles(Transaction tx, String username)
@@ -49,17 +49,16 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
         HashMap<String,Object> parameters = new HashMap<>();
         Boolean findInflu = false;
         parameters.put("username", username);
-        parameters.put("type", "follow");
         parameters.put("role", "influencer");
-        String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW{type:$type}]->(u2:User{role:$role})" +
+        String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:$role})" +
                 "RETURN f";
-        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW{type:$type}]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article)" +
+        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article)" +
                 "RETURN a, i, p ORDER BY p.timestamp";
 
         String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
                 "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
                 "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN a,i,p ORDER BY p.timestamp LIMIT 4";
+                "RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 4";
 
         Result result=tx.run(searchInfluencers, parameters);
         if(!result.hasNext())
@@ -77,8 +76,8 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
             ArticleBean article = new ArticleBean();
-            String author = "";
-            String title = "";
+            String author;
+            String title;
             for (Pair<String,Value> nameValue: values) {
                 if ("a".equals(nameValue.key())) {
                     Value value = nameValue.value();
@@ -101,7 +100,7 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
 
             }
-
+            System.out.println(article.toString());
             articles.add(article);
         }
         /*
@@ -122,4 +121,102 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
         return articles;
 
     }
+
+
+    /**
+     * La funzione aggiunge un nuovo articolo
+     * @param newArt
+     * @return true se ha aggiunto con successo
+     * @return false altrimenti
+     */
+
+    public static Boolean addArticle(final ArticleBean newArt) {
+        try (Session session = driver.session()) {
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionAddArticle(tx, newArt);
+                }
+            });
+
+
+        }
+    }
+
+
+    /**
+     * La funzione aggiunge un nuovo articolo
+     * @param tx transaction
+     * @param newArt articolo
+     * @return true se ha aggiunto con successo
+     * @return false altrimenti
+     */
+
+    private static Boolean transactionAddArticle(Transaction tx, ArticleBean newArt) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("author", newArt.getAuthor());
+        parameters.put("timestamp", newArt.getTimestamp().toString());
+        parameters.put("title", newArt.getTitle());
+        parameters.put("game", newArt.getGame());
+        String checkArticle = "MATCH (a:Article{name:$title})<-[p:PUBLISHED]-(u:User{username:$author})" +
+                "RETURN a";
+        Result result = tx.run(checkArticle, parameters);
+        if (result.hasNext()) {
+            return false;
+        }
+
+        result = tx.run("MATCH(u:User {username:$author}), (g:Game{name:$game})" +
+                        "CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})-[r:REFERRED]->(g) " +
+                        "return a"
+                , parameters);
+        if (result.hasNext()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * La funzione elimina un articolo
+     * @param author autore articolo
+     * @param title titol articolo
+     * @return true se ha eliminato correttamente l'articolo
+     * @return false altrimenti
+     */
+
+    public static Boolean deleteArticle(final String author, final String title) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionDeleteArticle(tx, author, title);
+                }
+            });
+
+
+        }
+    }
+
+
+    /**
+     * La funzione elimina un articolo
+     * @param tx transaction
+     * @param author autore articolo
+     * @param title titolo articolo
+     * @return true se ha eliminato correttamente l'articolo
+     * @return false altrimenti
+     */
+
+    private static Boolean transactionDeleteArticle(Transaction tx, String author, String title) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("author", author);
+        parameters.put("title", title);
+
+        Result result = tx.run("MATCH (ua:User {username:$author})-[p:PUBLISHED]->(a:Article{name:$title})-[r:REFERRED]-(g:Game) " +
+                        "DELETE p,a,r "
+                , parameters);
+
+        return true;
+    }
+
 }

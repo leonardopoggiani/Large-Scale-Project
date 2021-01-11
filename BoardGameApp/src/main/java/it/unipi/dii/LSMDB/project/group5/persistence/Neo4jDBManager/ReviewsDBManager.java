@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GamesReviewsRatesDBManager {
+
+public class ReviewsDBManager extends Neo4jDBManager {
 
     /**
      * La funzione restituisce la lista delle reviews ad un gioco
@@ -20,7 +21,7 @@ public class GamesReviewsRatesDBManager {
 
     public static List<ReviewBean> searchListReviews(final String name)
     {
-        try(Session session= Neo4jDBManager.driver.session())
+        try(Session session=driver.session())
         {
             return session.readTransaction(new TransactionWork<List<ReviewBean>>()
             {
@@ -83,7 +84,7 @@ public class GamesReviewsRatesDBManager {
 
     public static int countReviews(final String name)
     {
-        try(Session session= Neo4jDBManager.driver.session())
+        try(Session session=driver.session())
         {
             return session.readTransaction(new TransactionWork<Integer>()
             {
@@ -119,89 +120,93 @@ public class GamesReviewsRatesDBManager {
     }
 
     /**
-     * La funzione conta i rates ad un gioco
-     * @param name
-     * @return Numero dei rates ad un gioco
+     * La funzione aggiunge una review ad un gioco
+     * @param newRev
+     * @return true se ha aggiunto correttamente la review
+     * @return false altrimenti
      */
-
-    public static int countRatings(final String name)
-    {
-        try(Session session= Neo4jDBManager.driver.session())
-        {
-            return session.readTransaction(new TransactionWork<Integer>()
-            {
+    public static Boolean addReview(final ReviewBean newRev) {
+        try (Session session = driver.session()) {
+            boolean res;
+            return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
-                public Integer execute(Transaction tx)
-                {
-                    return transactionCountRatings(tx, name);
+                public Boolean execute(Transaction tx) {
+                    return transactionAddReview(tx, newRev);
                 }
             });
+
+
         }
     }
 
     /**
-     * La funzione conta i ratings ad un gioco
+     * La funzione aggiunge una review ad un gioco
      * @param tx
-     * @param name
-     * @return Numero dei ratings ad un gioco
+     * @param newRev
+     * @return true se ha aggiunto correttamente la review
+     * @return false altrimenti
      */
 
-    public static int transactionCountRatings(Transaction tx, String name) {
-
-        int numberRates = 0;
+    private static Boolean transactionAddReview(Transaction tx, ReviewBean newRev) {
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("name", name);
-        Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) return count(distinct r) AS quantiRates", parameters);
+        parameters.put("author", newRev.getAuthor());
+        parameters.put("text", newRev.getText());
+        parameters.put("timestamp", newRev.getTimestamp().toString());
+        parameters.put("game", newRev.getGame());
 
+
+        Result result = tx.run("MATCH(u:User {username:$author}),(g:Game{name:$game}) " +
+                        "CREATE (u)-[r:REVIEWED{timestamp:$timestamp, text:$text}]->(g) " +
+                        "return r"
+                , parameters);
         if (result.hasNext()) {
-            Record record = result.next();
-            numberRates = record.get("quantiRates").asInt();
-
+            return true;
         }
-        return numberRates;
+        return false;
     }
 
     /**
-     * La funzione calcola il rating medio di un gioco
-     * @param name
-     * @return Ratings medio di un gioco
+     * La funzione elimina una review ad un gioco
+     * @param delRev
+     * @return true se ha eliminato correttamente la review
+     * @return false altrimenti
      */
 
-    public static Double avgRatings(final String name)
-    {
-        try(Session session= Neo4jDBManager.driver.session())
-        {
-            return session.readTransaction(new TransactionWork<Double>()
-            {
+    public static Boolean deleteReview(final ReviewBean delRev) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
-                public Double execute(Transaction tx)
-                {
-                    return transactionAvgRatings(tx, name);
+                public Boolean execute(Transaction tx) {
+                    return transactionDeleteRev(tx, delRev);
                 }
             });
+
+
         }
     }
+
 
     /**
-     * La funzione calcola il rating medio di un gioco
+     * La funzione elimina una review ad un gioco
      * @param tx
-     * @param name
-     * @return Ratings medio di un gioco
+     * @param delRev
+     * @return true se ha eliminato correttamente la review
+     * @return false altrimenti
      */
 
-    public static Double transactionAvgRatings(Transaction tx, String name) {
-
-        Double avgRates = 0.0;
+    private static Boolean transactionDeleteRev(Transaction tx, ReviewBean delRev) {
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("name", name);
-        Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) return avg(r.vote) AS avgRates", parameters);
+        parameters.put("author", delRev.getAuthor());
+        parameters.put("timestamp", delRev.getTimestamp().toString());
+        parameters.put("game", delRev.getGame());
 
-        if (result.hasNext()) {
-            Record record = result.next();
+        Result result = tx.run("MATCH (ua:User {username:$author})-[r:REVIEWED {timestamp:$timestamp}]->(g:Game{name:$game}) " +
+                        "DELETE r return r"
+                , parameters);
 
-            if(!record.get("avgRates").equals("NULL"))
-                avgRates = record.get("avgRates").asDouble();
-        }
-        return avgRates;
+
+        return true;
     }
+
 }

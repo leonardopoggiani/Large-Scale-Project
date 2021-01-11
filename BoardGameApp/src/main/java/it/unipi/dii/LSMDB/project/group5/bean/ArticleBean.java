@@ -14,16 +14,18 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     private String author;
     private Timestamp timestamp;
     private String text;
+    private String game;
 
     List<CommentBean> infoComments;
 
     public ArticleBean() {}
 
-    public ArticleBean(String title, String author, Timestamp timestamp, List<CommentBean> infoComments) {
+    public ArticleBean(String title, String author, Timestamp timestamp, String game) {
         this.title = title;
         this.author = author;
         this.timestamp = timestamp;
         this.infoComments = infoComments;
+        this.game = game;
     }
 
 
@@ -41,6 +43,10 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
 
     public String getText(){return text;}
 
+    public String getGame() {
+        return game;
+    }
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -56,6 +62,10 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     public void setText (String text){ this.text = text;}
     public void setComments(List<CommentBean> infoComments) {
         this.infoComments = infoComments;
+    }
+
+    public void setGame(String game) {
+        this.game = game;
     }
 
     public List<CommentBean> getComments() {

@@ -1,9 +1,9 @@
 package it.unipi.dii.LSMDB.project.group5.bean;
 
+import java.sql.Timestamp;
 import java.text.*;
 import java.util.Calendar;
 import java.util.Date;
-
 public class UserBean {
 
     private String username;
@@ -14,9 +14,8 @@ public class UserBean {
     private String role;
     private int registered;
     private String country;
-    private Date lastLogin;
-    private Date updated;
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private Timestamp lastLogin;
+    private Timestamp updated;
     private String name;
     private String surname;
     //Da concludere per mongoDB
@@ -32,8 +31,8 @@ public class UserBean {
         this.age = 18;
         this.registered = Calendar.getInstance().get(Calendar.YEAR);
         this.country = null;
-        this.lastLogin = Calendar.getInstance().getTime();
-        this.updated = Calendar.getInstance().getTime();
+        this.lastLogin = new Timestamp(System.currentTimeMillis());
+        this.updated = new Timestamp(System.currentTimeMillis());
     }
 
     public UserBean(String username, String password, String category1, String category2, int age, String role) {
@@ -87,10 +86,58 @@ public class UserBean {
 
     public int getRegistered(){return registered;}
 
-    public String getLastLogin(){return dateFormat.format(lastLogin);}
+    public Timestamp getLastLogin(){return lastLogin;}
 
     public String getCountry(){return country;}
 
-    public String getUpdated(){return dateFormat.format(updated);}
+    public Timestamp getUpdated(){return updated;}
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategory2(String category2) {
+        this.category2 = category2;
+    }
+
+    public void setCategory1(String category1) {
+        this.category1 = category1;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setLastLogin(Timestamp lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRegistered(int registered) {
+        this.registered = registered;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
 }
