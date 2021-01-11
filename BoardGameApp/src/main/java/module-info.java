@@ -12,10 +12,11 @@ module org.openjfx {
     requires jdk.net;
     requires com.google.common;
     requires java.sql;
+    requires com.github.benmanes.caffeine;
 
-    opens org.openjfx.View to javafx.fxml;
-    opens org.openjfx to javafx.fxml;
-    opens org.openjfx.Entities to javafx.base;
+    opens it.unipi.dii.LSMDB.project.group5.view to javafx.fxml;
+    opens it.unipi.dii.LSMDB.project.group5 to javafx.fxml;
+    opens it.unipi.dii.LSMDB.project.group5.bean to javafx.base;
 
-    exports org.openjfx;
+    exports it.unipi.dii.LSMDB.project.group5;
 }
