@@ -1,25 +1,23 @@
 package org.openjfx.DBManager.MongoDBManager;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
 
-import org.openjfx.Entities.CategoryBean;
-import org.openjfx.Entities.GameBean;
-import org.openjfx.Entities.UserBean;
+import org.openjfx.Entities.*;
 
 import java.util.*;
 
-import static com.mongodb.client.model.Accumulators.avg;
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
-import static com.mongodb.client.model.Sorts.ascending;
-import static com.mongodb.client.model.Sorts.descending;
-import static org.openjfx.DBManager.MongoDBManager.UserDBManager.fillUserFields;
+import static com.mongodb.client.model.Sorts.*;
+import static org.openjfx.DBManager.MongoDBManager.UserDBManager.*;
 
 
 public class AnalyticsDBManager {
@@ -80,19 +78,23 @@ public class AnalyticsDBManager {
         return ret;
     }
 
-    public static int getUsersFromCountry (String country){
+    public static List<CountryBean> getUsersFromCountry (){
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
         Bson projection = project(fields(excludeId(), computed("country", "$_id"), include("count")));
         Bson group = group("$country", sum("count", 1L));
+        Bson match = match(and(ne("country", null), ne("country", "")));
 
-        Bson match =  match(eq("country",country));
-        int ret = 0;
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, group, projection)).iterator()) {
+       List<CountryBean> ret = new ArrayList<CountryBean>();
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( group, projection)).iterator()) {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
-                ret = (next.get("count")==null) ? 0: Integer.parseInt(next.get("count").toString());
+                CountryBean a = new CountryBean();
+                a.setCountry(next.get("age").toString());
+                a.setNumUser((next.get("count") == null) ? 0 : Integer.parseInt(next.get("count").toString()));
+                ret.add(a);
+
 
             }
         }
@@ -115,7 +117,7 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2)).iterator()) {
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
+                System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 ret.setAvgRatingTot(next.get("avgRatingTot")==null ? 0.0 : Double.parseDouble(next.get("avgRatingTot").toString()));
                 ret.setName(category);
@@ -147,8 +149,55 @@ public class AnalyticsDBManager {
 
             }
         }
+
         return ret;
     }
 
-    
+    public static List<AgeBean> getUsersForAge (){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        Bson projection = project(fields(excludeId(), computed("age", "$_id"), include("count")));
+        Bson group = group("$age", sum("count", 1L));
+        Bson match = match(and(ne("age", null), ne("age", "")));
+
+        List<AgeBean> ret = new ArrayList<AgeBean>();
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, group, projection)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                AgeBean a = new AgeBean();
+                a.setAge(Integer.parseInt(next.get("age").toString()));
+                a.setNumUser((next.get("count") == null) ? 0 : Integer.parseInt(next.get("count").toString()));
+                ret.add(a);
+
+
+            }
+        }
+        return ret;
+    }
+
+    public static List<ActivityBean> getActivitiesStatisticsTotal (){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        List<ActivityBean> ret = new ArrayList<ActivityBean>();
+        BasicDBList pipeline = new BasicDBList();
+
+        Bson projection = project(fields(excludeId(), computed("date", "$_id"), include("count")));
+        Bson group = new Document("$group", new Document ("_id", new Document("month" ,new Document("$month", "$last_login"))
+            .append("day", new Document ("$dayOfMonth", "$last_login"))
+                .append("year", new Document ("$year", "$last_login")))
+        .append("count", new Document("$sum", 1L)));
+
+
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(group, projection)).iterator()) {
+
+            while (cursor.hasNext()) {
+                System.out.println(cursor.next().toJson());
+
+
+
+            }
+        }
+        return ret;
+
+    }
 }

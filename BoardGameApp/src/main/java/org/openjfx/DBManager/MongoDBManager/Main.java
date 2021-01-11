@@ -51,6 +51,8 @@ public class Main {
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLeastRatedGames("year", "1960");
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getCategoryInfo("Play Card");
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLessRecentLoggedUsers();
+        //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersForAge();
+        org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getActivitiesStatisticsTotal();
 
         MongoDBManager.close();
 
