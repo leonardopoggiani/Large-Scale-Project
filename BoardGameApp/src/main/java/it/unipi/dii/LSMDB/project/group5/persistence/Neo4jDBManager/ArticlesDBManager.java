@@ -16,7 +16,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
      * in base alle sue categorie preferite, ma solo 4
      * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
-     * @param username
+     * @param username username utente
      * @return Lista degli articoli suggeriti
      */
     public static List<ArticleBean> searchSuggestedArticles(final String username)
@@ -39,8 +39,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
      * in base alle sue categorie preferite, ma solo 4
      * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
-     * @param tx
-     * @param username
+     * @param tx transaction
+     * @param username username utente
      * @return Lista degli articoli suggeriti
      */
     private static List<ArticleBean> transactionSearchSuggestedArticles(Transaction tx, String username)
@@ -76,8 +76,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
             Record record = result.next();
             List<Pair<String, Value>> values = record.fields();
             ArticleBean article = new ArticleBean();
-            String author = "";
-            String title = "";
+            String author;
+            String title;
             for (Pair<String,Value> nameValue: values) {
                 if ("a".equals(nameValue.key())) {
                     Value value = nameValue.value();
@@ -131,8 +131,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
     /**
      * La funzione aggiunge un nuovo articolo
-     * @param tx
-     * @param newArt
+     * @param tx transaction
+     * @param newArt articolo
      * @return true se ha aggiunto con successo
      * @return false altrimenti
      */
@@ -162,8 +162,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
     /**
      * La funzione elimina un articolo
-     * @param author
-     * @param title
+     * @param author autore articolo
+     * @param title titol articolo
      * @return true se ha eliminato correttamente l'articolo
      * @return false altrimenti
      */
@@ -185,9 +185,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
     /**
      * La funzione elimina un articolo
-     * @param tx
-     * @param author
-     * @param title
+     * @param tx transaction
+     * @param author autore articolo
+     * @param title titolo articolo
      * @return true se ha eliminato correttamente l'articolo
      * @return false altrimenti
      */

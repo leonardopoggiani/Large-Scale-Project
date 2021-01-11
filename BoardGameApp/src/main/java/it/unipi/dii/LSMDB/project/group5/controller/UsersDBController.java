@@ -14,9 +14,9 @@ public class UsersDBController {
         return  friends;
     }
 
-    public  List<String> neo4jListSuggestingFollowing(String username)
+    public  List<String> neo4jListSuggestingFollowing(String username, String type)
     {
-        List<String> suggestedFollowing = UsersDBManager.listSuggestedFollowing(username);
+        List<String> suggestedFollowing = UsersDBManager.listSuggestedFollowing(username, type);
         return  suggestedFollowing;
     }
 }

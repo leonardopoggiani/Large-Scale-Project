@@ -120,7 +120,7 @@ public class UsersDBManager extends Neo4jDBManager{
      * @param username
      * @return Lista degli username dei following suggeriti
      */
-    public static List<String> listSuggestedFollowing(final String username)
+    public static List<String> listSuggestedFollowing(final String username, final String role)
     {
         try(Session session=driver.session())
         {
@@ -129,7 +129,7 @@ public class UsersDBManager extends Neo4jDBManager{
                 @Override
                 public List<String> execute(Transaction tx)
                 {
-                    return transactionListSuggestedFollowing(tx, username);
+                    return transactionListSuggestedFollowing(tx, username, role);
                 }
             });
         }
@@ -143,18 +143,30 @@ public class UsersDBManager extends Neo4jDBManager{
      * @param username
      * @return Lista degli username dei following suggeriti
      */
-    private static List<String> transactionListSuggestedFollowing(Transaction tx, String username)
+    private static List<String> transactionListSuggestedFollowing(Transaction tx, String username, String role)
     {
         List<String> suggestion = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
 
         parameters.put("username", username);
-        String searchFriends = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:\"normalUser\"})\n" +
+        parameters.put("role", role);
+
+
+        String searchFriends = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
                 "WHERE (u2)-[:FOLLOW]->(u)" +
                 "RETURN count(u2) AS quantiAmici";
-        String searchForFriends = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]-(me), (tizio:User{role:\"normalUser\"})" +
+
+        String searchForFriendsInflu = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
+                "WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
+
+        String searchForArticlesFollowersInflu = "MATCH (u:User)-[f:FOLLOW]->(u2:User{role:$role})-[p:PUBLISHED]->(a:Article)" +
+                "RETURN u2.username AS suggestion ,COUNT(f) AS quantiFollowers, COUNT(p) AS quantiArticoli" +
+                "ORDER BY quantiFollowers DESC, quantiArticoli DESC" +
+                "LIMIT 4";
+
+        String searchForFriendsNormal = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
                 "WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (tizio)-[:FOLLOW]->(friend) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
-        String searchForCategory = "MATCH (ub:User{username:$username}),(ua:User)" +
+        String searchForCategoryNormal = "MATCH (ub:User{username:$username}),(ua:User{role:$role})" +
                 "WHERE (ub.category1=ua.category1 or ub.category1=ua.category2)" +
                 "or (ub.category2=ua.category1 or ub.category2=ua.category2)" +
                 "AND NOT(ua.username=$username)" +
@@ -165,11 +177,33 @@ public class UsersDBManager extends Neo4jDBManager{
         System.out.println(quantiAmici);
         if(quantiAmici > 0)
         {
-            result = tx.run(searchForFriends, parameters);
+
+            if(role.equals("normalUser"))
+            {
+                result = tx.run(searchForFriendsNormal, parameters);
+                System.out.println("uso searchForFriendsNormal ");
+            }
+            else
+            {
+                result = tx.run(searchForFriendsInflu, parameters);
+                System.out.println("uso searchForFriendsInflu ");
+            }
+
         }
         else
         {
-            result = tx.run(searchForCategory, parameters);
+            if(role.equals("normalUser"))
+            {
+                result = tx.run(searchForArticlesFollowersInflu, parameters);
+                System.out.println("uso searchForArticlesFollowersInflu ");
+            }
+            else
+            {
+                result = tx.run(searchForCategoryNormal, parameters);
+                System.out.println("uso searchForCategoryNormal ");
+            }
+
+
         }
 
         while(result.hasNext())

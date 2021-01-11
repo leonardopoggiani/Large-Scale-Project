@@ -25,10 +25,10 @@ public class Main {
         String titleDel = "Nuovo articolo2";
         la.deleteArticle(authorDel, titleDel);*/
 
-        //List<String> suggestions = uDB.neo4jListSuggestingFollowing("Clarissa1");
-        List<String> listUsers = uDB.neo4jListUsers("Gaia5", "followersOnly");
-        //System.out.println(suggestions);
-        System.out.println(listUsers);
+        List<String> suggestions = uDB.neo4jListSuggestingFollowing("Gaia5","normalUser");
+        //List<String> listUsers = uDB.neo4jListUsers("Gaia5", "followersOnly");
+        System.out.println(suggestions);
+        //System.out.println(listUsers);
 
 
 

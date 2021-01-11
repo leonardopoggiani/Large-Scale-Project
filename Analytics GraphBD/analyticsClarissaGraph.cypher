@@ -89,3 +89,6 @@ ORDER BY p.timestamp
     }
 )*/
 
+//Influencer con più followers o con + articoli scritti!!
+
+
