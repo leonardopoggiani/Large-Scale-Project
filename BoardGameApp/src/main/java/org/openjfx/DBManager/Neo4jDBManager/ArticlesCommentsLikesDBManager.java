@@ -1,4 +1,5 @@
 package org.openjfx.DBManager.Neo4jDBManager;
+// package dii.unipi.it.LSMDB.project.group5.BoardgameNet
 
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;

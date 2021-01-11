@@ -234,7 +234,7 @@ public class ArticlePageView {
         String id = target.getId();
 
         Text titolo = (Text) App.getScene().lookup("#titolo");
-        Text autore = (Text) App.getScene().lookup("#author");
+        Text autore = (Text) App.getScene().lookup("#autorearticolo");
 
         TextArea commentField = null;
         TextField authorField = null;

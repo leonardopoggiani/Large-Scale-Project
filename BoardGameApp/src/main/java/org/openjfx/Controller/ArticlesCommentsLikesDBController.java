@@ -103,8 +103,7 @@ public class ArticlesCommentsLikesDBController {
     }
 
     public List<ArticleBean> filterByDate(String date){
-        List<ArticleBean> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate(date);
-        return list;
+        return ArticleDBManager.filterByDate(date);
     }
 
     public List<ArticleBean> orderByLikes (){

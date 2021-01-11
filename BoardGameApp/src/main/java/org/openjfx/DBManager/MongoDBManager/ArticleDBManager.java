@@ -22,7 +22,7 @@ import static com.mongodb.client.model.Sorts.descending;
 public class ArticleDBManager {
 
     public static ArticleBean readArticle(String user, String title){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
@@ -45,7 +45,7 @@ public class ArticleDBManager {
 
     public static List<ArticleBean> filterByInfluencer(String influencer){
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
@@ -66,7 +66,7 @@ public class ArticleDBManager {
 
     public static List<ArticleBean> filterByGame(String game){
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
         Bson unwind = unwind("$articles");
         Bson unwind1 = unwind("$articles.games");
@@ -89,7 +89,7 @@ public class ArticleDBManager {
 
     public static List<ArticleBean> filterByDate(String date){
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
@@ -111,7 +111,7 @@ public class ArticleDBManager {
 
     public static List<ArticleBean> orderBy (String mode){
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username","articles")));
@@ -144,7 +144,7 @@ public class ArticleDBManager {
 
     public static void updateNumLike(int inc, String author, String title){
         int tot = getNumLikes(author, title) + inc;
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Document updateLike = new Document();
         updateLike.append("articles.$.num_like", tot);
         Document update = new Document();
@@ -158,7 +158,7 @@ public class ArticleDBManager {
 
     public static void updateNumDislike(int inc, String author, String title){
         int tot = getNumLikes(author, title) + inc;
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Document updateLike = new Document();
         updateLike.append("articles.$.num_dislike", tot);
         Document update = new Document();
@@ -172,7 +172,7 @@ public class ArticleDBManager {
 
     public static void updateNumComments(int inc , String author, String title){
         int tot = getNumComments(author, title) + inc;
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Document updateLike = new Document();
         updateLike.append("articles.$.num_comments", tot);
         Document update = new Document();
@@ -184,7 +184,7 @@ public class ArticleDBManager {
     }
 
     public static int getNumComments(String author, String title){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
         Bson match =  match(and(eq("articles.title",title), eq("username", author)));
@@ -204,7 +204,7 @@ public class ArticleDBManager {
     }
 
     private static int getNumLikes(String author, String title){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
         Bson match =  match(and(eq("articles.title",title), eq("username", author)));
@@ -224,7 +224,7 @@ public class ArticleDBManager {
     }
 
     private static int getNumDislikes(String author, String title){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
         Bson match =  match(and(eq("articles.title",title), eq("username", author)));

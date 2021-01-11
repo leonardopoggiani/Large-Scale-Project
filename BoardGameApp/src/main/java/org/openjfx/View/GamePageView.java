@@ -133,7 +133,7 @@ public class GamePageView {
         Button bottone = (Button) App.getScene().lookup("#delete1");
         bottone.setVisible(true);
         bottone.setDisable(false);
-
+        review.setText("");
     }
 
     @FXML
