@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.Avatar?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
+<?import com.gluonhq.charm.glisten.control.Icon?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Line?>
+
+<SplitPane dividerPositions="0.28484848484848485" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#setSuggestedArticles" prefHeight="557.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageArticles">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
+         <children>
+            <Button layoutX="42.0" layoutY="91.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
+            <Avatar layoutX="88.0" layoutY="25.0" />
+            <Line endX="156.0" layoutX="105.0" layoutY="144.0" startX="-100.0" />
+            <Button cancelButton="true" layoutX="76.0" layoutY="423.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
+         </children>
+      </AnchorPane>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="562.0">
+         <children>
+            <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
+            <BottomNavigation layoutX="51.0" layoutY="6.0" prefHeight="66.0" prefWidth="339.0">
+               <actionItems>
+                  <BottomNavigationButton onMouseClicked="#returnToStatistics" selected="true" text="Statistics">
+                     <graphic>
+                        <Icon content="EMPTY" onMouseClicked="#returnToHomepage" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminGames" text="Games">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminUsers" text="Users">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+               </actionItems>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </BottomNavigation>
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>

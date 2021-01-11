@@ -128,7 +128,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.1</version>
                 <configuration>
-                    <mainClass>org.openjfx.App</mainClass>
+                    <mainClass>it.unipi.dii.LSMDB.project.group5.App</mainClass>
                 </configuration>
             </plugin>
 
@@ -137,7 +137,7 @@
                 <artifactId>client-maven-plugin</artifactId>
                 <version>0.1.35</version>
                 <configuration>
-                    <mainClass>org.openjfx.App</mainClass>
+                    <mainClass>it.unipi.dii.LSMDB.project.group5.App</mainClass>
                 </configuration>
             </plugin>
 

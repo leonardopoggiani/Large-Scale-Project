@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CssDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/resources/org/openjfx/style.css" dialect="CLASSIC" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/style.css" dialect="CLASSIC" />
   </component>
 </project>
