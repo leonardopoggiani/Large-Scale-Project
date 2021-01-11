@@ -1,11 +1,10 @@
-package org.openjfx.Controller;
+package it.unipi.dii.LSMDB.project.group5.controller;
 
-import org.openjfx.DBManager.MongoDBManager.GameDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.GamesDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.RatingsDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.ReviewsDBManager;
-import org.openjfx.Entities.GameBean;
-import org.openjfx.Entities.ReviewBean;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.GameDBManager;
+import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
+import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
+import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.GamesReviewsRatesDBManager;
+import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.ListSuggGamesDBManager;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class GamesReviewsRatesDBController {
     public List<GameBean> neo4jListSuggestedGames(String username) {
 
         List<GameBean> games ;
-        games = GamesDBManager.searchSuggestedGames(username);
+        games = ListSuggGamesDBManager.searchSuggestedGames(username);
 
         if(games.isEmpty())
         {
@@ -42,7 +41,7 @@ public class GamesReviewsRatesDBController {
     public int neo4jCountReviews(String name) {
 
         int quanteReviews = 0;
-        quanteReviews = ReviewsDBManager.countReviews(name);
+        quanteReviews = GamesReviewsRatesDBManager.countReviews(name);
 
 
         System.out.println(quanteReviews);
@@ -54,7 +53,7 @@ public class GamesReviewsRatesDBController {
     public int neo4jCountRatings(String name) {
 
         int quantiRates = 0;
-        quantiRates = RatingsDBManager.countRatings(name);
+        quantiRates = GamesReviewsRatesDBManager.countRatings(name);
 
         System.out.println(quantiRates);
 
@@ -65,7 +64,7 @@ public class GamesReviewsRatesDBController {
     public double neo4jAvgRatings(String name) {
 
         double avgRates = 0;
-        avgRates = RatingsDBManager.avgRatings(name);
+        avgRates = GamesReviewsRatesDBManager.avgRatings(name);
 
         System.out.println(avgRates);
 
@@ -79,7 +78,7 @@ public class GamesReviewsRatesDBController {
     public List<ReviewBean> neo4jListGamesReviews(String name) {
 
         List<ReviewBean> infoReviews;
-        infoReviews = ReviewsDBManager.searchListReviews(name);
+        infoReviews = GamesReviewsRatesDBManager.searchListReviews(name);
 
         if(infoReviews.isEmpty())
         {
@@ -122,17 +121,17 @@ public class GamesReviewsRatesDBController {
     }
 
     public List<GameBean> orderByAvgRating(){
-        List<GameBean> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("avgRating");
+        List<GameBean> list = GameDBManager.orderBy("avgRating");
         return list;
     }
 
     public List<GameBean> orderByNumReviews(){
-        List<GameBean> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("reviews");
+        List<GameBean> list = GameDBManager.orderBy("reviews");
         return list;
     }
 
     public List<GameBean> orderByNumVotes(){
-        List<GameBean> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("numVotes");
+        List<GameBean> list = GameDBManager.orderBy("numVotes");
         return list;
     }
 

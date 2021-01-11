@@ -1,15 +1,9 @@
-<<<<<<< HEAD:BoardGameApp/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/Neo4jDBManager/ArticlesCommentsLikesDBManager.java
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 // package dii.unipi.it.LSMDB.project.group5.BoardgameNet
 
 import it.unipi.dii.LSMDB.project.group5.bean.CommentBean;
 import org.neo4j.driver.Record;
-=======
-package org.openjfx.DBManager.Neo4jDBManager;
-
->>>>>>> 9e20df63b2c595d303ab41229111dd77b567ad4b:BoardGameApp/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/Neo4jDBManager/CommentsDBManager.java
 import org.neo4j.driver.*;
-import org.neo4j.driver.Record;
 import org.neo4j.driver.util.Pair;
 
 import java.sql.Timestamp;
@@ -17,9 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.openjfx.DBManager.Neo4jDBManager.Neo4jDBManager.driver;
-
-public class CommentsDBManager {
+public class ArticlesCommentsLikesDBManager extends Neo4jDBManager{
 
     /**
      * La funzione cerca la lista di tutti i commenti ad un articolo
@@ -30,7 +22,6 @@ public class CommentsDBManager {
 
     public static List<CommentBean> searchListComments(String title, String author)
     {
-
         try(Session session=driver.session())
         {
             return session.readTransaction(new TransactionWork<List<CommentBean>>()
@@ -86,6 +77,59 @@ public class CommentsDBManager {
         return infoComments;
     }
 
+
+    /**
+     * La funzione conta il numero di like or dislike ad un articolo
+     * @param title
+     * @param author
+     * @param type
+     * @return Numero dei like, se type=like
+     * @return Numero di dislike se type= dislike
+
+     */
+    public static int countLikes(String title, String author, String type)
+    {
+        try(Session session=driver.session())
+        {
+            return session.readTransaction(new TransactionWork<Integer>()
+            {
+                @Override
+                public Integer execute(Transaction tx)
+                {
+                    return transactionCountLikes(tx, title, author, type);
+                }
+            });
+        }
+    }
+
+    /**
+     * La funzione conta il numero di like or dislike ad un articolo
+     * @param tx
+     * @param title
+     * @param author
+     * @param type
+     * @return Numero dei like, se type=like
+     * @return Numero di dislike se type= dislike
+
+     */
+
+    public static int transactionCountLikes(Transaction tx, String title, String author, String type) {
+
+        int numberLike = 0;
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("type", type);
+        parameters.put("author", author);
+        parameters.put("title", title);
+        Result result = tx.run("MATCH (ul:User)-[l:LIKED{type:$type}]->(a),(i:User)-[p:PUBLISHED]->(a) WHERE a.name=$title AND i.username=$author return count(distinct l) AS quantiLike", parameters);
+
+        if (result.hasNext()) {
+            Record record = result.next();
+            numberLike = record.get("quantiLike").asInt();
+
+            }
+        return numberLike;
+    }
+
     /**
      * La funzione conta il numero di commenti ad un articolo
      * @param title
@@ -131,94 +175,4 @@ public class CommentsDBManager {
         }
         return numberComments;
     }
-
-    /**
-     * La funzione aggiunge un commento ad un articolo
-     * @param newComm
-     * @return true se ha aggiunto con successo
-     * @return false altrimenti
-     */
-
-    public static Boolean addComment(final CommentBean newComm) {
-        try (Session session = driver.session()) {
-            boolean res;
-            return session.writeTransaction(new TransactionWork<Boolean>() {
-                @Override
-                public Boolean execute(Transaction tx) {
-                    return transactionAddComment(tx, newComm);
-                }
-            });
-
-
-        }
-    }
-
-
-    /**
-     * La funzione aggiunge un commento ad un articolo
-     * @param tx
-     * @param newComm
-     * @return true se ha aggiunto con successo
-     * @return false altrimenti
-     */
-    private static Boolean transactionAddComment(Transaction tx, CommentBean newComm) {
-        HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("authorComm", newComm.getAuthor());
-        parameters.put("text", newComm.getText());
-        parameters.put("timestamp", newComm.getTimestamp().toString());
-        parameters.put("authorArt", newComm.getAuthorArt());
-        parameters.put("title", newComm.getTitleArt());
-
-        Result result = tx.run("MATCH(u:User {username:$authorComm}),(ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title}) " +
-                        "CREATE (u)-[c:COMMENTED{timestamp:$timestamp, text:$text}]->(a) " +
-                        "return c"
-                , parameters);
-        if (result.hasNext()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * La funzione elimina un commento ad un articolo
-     * @param delComm
-     * @return true se ha eliminato correttamente il commento
-     * @return false altrimenti
-     */
-    public static Boolean deleteComment(final CommentBean delComm) {
-        try (Session session = driver.session()) {
-
-            return session.writeTransaction(new TransactionWork<Boolean>() {
-                @Override
-                public Boolean execute(Transaction tx) {
-                    return transactionDeleteComment(tx, delComm);
-                }
-            });
-
-
-        }
-    }
-
-
-    /**
-     * La funzione elimina un commento ad un articolo
-     * @param tx
-     * @param delComm
-     * @return true se ha eliminato correttamente il commento
-     * @return false altrimenti
-     */
-
-    private static Boolean transactionDeleteComment(Transaction tx, CommentBean delComm) {
-        HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("authorComm", delComm.getAuthor());
-        parameters.put("timestamp", delComm.getTimestamp().toString());
-        parameters.put("title", delComm.getTitleArt());
-
-        Result result = tx.run("MATCH (ua:User {username:$authorComm})-[c:COMMENTED {timestamp:$timestamp}]->(a:Article{name:$title}) " +
-                        "DELETE c return c"
-                , parameters);
-
-        return true;
-    }
-
 }

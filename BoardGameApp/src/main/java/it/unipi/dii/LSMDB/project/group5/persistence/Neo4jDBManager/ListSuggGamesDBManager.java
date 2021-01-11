@@ -9,13 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-<<<<<<< HEAD:BoardGameApp/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/Neo4jDBManager/ListSuggGamesDBManager.java
 public class ListSuggGamesDBManager {
-=======
-import static org.openjfx.DBManager.Neo4jDBManager.Neo4jDBManager.driver;
-
-public class GamesDBManager {
->>>>>>> 9e20df63b2c595d303ab41229111dd77b567ad4b:BoardGameApp/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/Neo4jDBManager/GamesDBManager.java
 
     /**
      * La funzione restituisce la lista dei giochi suggeriti nella sezione giochi di un utente

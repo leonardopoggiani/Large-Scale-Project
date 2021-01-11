@@ -17,7 +17,7 @@ public class ArticlesCommentsLikesDBController {
     public List<ArticleBean> neo4jListSuggestedArticles(String username) {
 
         List<ArticleBean> articles ;
-        articles = ArticlesDBManager.searchSuggestedArticles(username);
+        articles = ListSuggArticlesDBManager.searchSuggestedArticles(username);
 
         if(articles.isEmpty())
         {
@@ -43,7 +43,7 @@ public class ArticlesCommentsLikesDBController {
     public List<CommentBean> neo4jListArticlesComment(String title, String author) {
 
         List<CommentBean> infoComments;
-        infoComments = CommentsDBManager.searchListComments(title, author);
+        infoComments = ArticlesCommentsLikesDBManager.searchListComments(title, author);
 
         if(infoComments.isEmpty())
         {
@@ -76,7 +76,7 @@ public class ArticlesCommentsLikesDBController {
     public int neo4jCountLikes(String title, String author, String type) {
 
         int quantiLike = 0;
-        quantiLike = LikesDBManager.countLikes(title, author, type);
+        quantiLike = ArticlesCommentsLikesDBManager.countLikes(title, author, type);
 
         System.out.println(quantiLike);
 
@@ -87,7 +87,7 @@ public class ArticlesCommentsLikesDBController {
     public int neo4jCountComments(String title, String author) {
 
         int quantiComments = 0;
-        quantiComments = CommentsDBManager.countComments(title, author);
+        quantiComments = ArticlesCommentsLikesDBManager.countComments(title, author);
 
         System.out.println(quantiComments);
 
@@ -122,13 +122,5 @@ public class ArticlesCommentsLikesDBController {
     public List<ArticleBean> orderByComments (){
         List<ArticleBean> list = ArticleDBManager.orderBy("comments");
         return list;
-    }
-
-    public Boolean addArticle(ArticleBean a)
-    {
-        Boolean ret = false;
-        ret = ArticlesDBManager.addArticle(a);
-        System.out.println(ret);
-        return  ret;
     }
 }

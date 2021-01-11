@@ -1,8 +1,9 @@
-package org.openjfx.Controller;
+package it.unipi.dii.LSMDB.project.group5.controller;
 
-import org.openjfx.DBManager.MongoDBManager.GameDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.*;
-import org.openjfx.Entities.*;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.ArticleDBManager;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.GameDBManager;
+import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.UpdateDatabaseDBManager;
+import it.unipi.dii.LSMDB.project.group5.bean.*;
 
 import java.util.logging.Logger;
 
@@ -18,9 +19,9 @@ public class UpdateDatabaseDBController {
     public Boolean Neo4jAddComment(CommentBean newComm) {
 
         Boolean ret = false;
-        ret = CommentsDBManager.addComment(newComm);
+        ret = UpdateDatabaseDBManager.addComment(newComm);
         if (ret){
-            org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(1, newComm.getAuthorArt(), newComm.getTitleArt());
+            ArticleDBManager.updateNumComments(1, newComm.getAuthorArt(), newComm.getTitleArt());
 
         }
         return ret;
@@ -31,20 +32,20 @@ public class UpdateDatabaseDBController {
     public int Neo4jAddLike(LikeBean like) {
 
         int ret = 0;
-        ret = LikesDBManager.addLike(like);
+        ret = UpdateDatabaseDBManager.addLike(like);
         if(ret > 0){
             if (ret == 1){
                 if(like.getType().equals("like")){
-                    org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumLike(-1, like.getAuthorArt(), like.getTitleArt());
+                    ArticleDBManager.updateNumLike(-1, like.getAuthorArt(), like.getTitleArt());
                 }else {
-                    org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumDislike(-1, like.getAuthorArt(), like.getTitleArt());
+                    ArticleDBManager.updateNumDislike(-1, like.getAuthorArt(), like.getTitleArt());
 
                 }
             }else {
                 if(like.getType().equals("like")){
-                    org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumLike(1, like.getAuthorArt(), like.getTitleArt());
+                    ArticleDBManager.updateNumLike(1, like.getAuthorArt(), like.getTitleArt());
                 }else {
-                    org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumDislike(1, like.getAuthorArt(), like.getTitleArt());
+                    ArticleDBManager.updateNumDislike(1, like.getAuthorArt(), like.getTitleArt());
 
                 }
             }
@@ -59,9 +60,9 @@ public class UpdateDatabaseDBController {
     public Boolean Neo4jDeleteComment(CommentBean comm) {
 
        Boolean ret = false;
-        ret  = CommentsDBManager.deleteComment(comm);
+        ret  = UpdateDatabaseDBManager.deleteComment(comm);
         if (ret){
-            org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(-1, comm.getAuthorArt(), comm.getTitleArt());
+            ArticleDBManager.updateNumComments(-1, comm.getAuthorArt(), comm.getTitleArt());
 
         }
         return ret;
@@ -71,9 +72,9 @@ public class UpdateDatabaseDBController {
     public Boolean Neo4jAddReview(ReviewBean newRev) {
 
         Boolean ret = false;
-        ret = ReviewsDBManager.addReview(newRev);
+        ret = UpdateDatabaseDBManager.addReview(newRev);
         if(ret){
-            org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(1, newRev.getGame());
+            GameDBManager.updateNumReviews(1, newRev.getGame());
         }
 
 
@@ -85,7 +86,7 @@ public class UpdateDatabaseDBController {
     public Boolean Neo4jAddRating(RateBean newRate) {
 
         Boolean ret = false;
-        ret = RatingsDBManager.addRating(newRate);
+        ret = UpdateDatabaseDBManager.addRating(newRate);
         if (ret){
             GameDBManager.updateRating(newRate.getVote(), newRate.getGame());
         }
@@ -96,9 +97,9 @@ public class UpdateDatabaseDBController {
     public Boolean Neo4jDeleteReview(ReviewBean rev) {
 
         Boolean ret = false;
-        ret  = ReviewsDBManager.deleteReview(rev);
+        ret  = UpdateDatabaseDBManager.deleteReview(rev);
         if(ret){
-            org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumReviews(-1, rev.getGame());
+            GameDBManager.updateNumReviews(-1, rev.getGame());
         }
         return ret;
     }
@@ -106,7 +107,7 @@ public class UpdateDatabaseDBController {
     public Boolean Neo4jAddGroup(GroupBean newGroup) {
 
         Boolean ret = false;
-        ret  = GroupsPostsDBManager.addGroup(newGroup);
+        ret  = UpdateDatabaseDBManager.addGroup(newGroup);
 
         return ret;
     }
@@ -115,14 +116,14 @@ public class UpdateDatabaseDBController {
     public Boolean Neo4jDeleteGroup(GroupBean group) {
 
         Boolean ret = false;
-        ret  = GroupsPostsDBManager.deleteGroup(group);
+        ret  = UpdateDatabaseDBManager.deleteGroup(group);
         return ret;
     }
 
     public Boolean Neo4jAddGroupMember(String username, String name, String admin) {
 
         Boolean ret = false;
-        ret  = GroupsPostsDBManager.addGroupMember(username, name, admin);
+        ret  = UpdateDatabaseDBManager.addGroupMember(username, name, admin);
 
         return ret;
     }

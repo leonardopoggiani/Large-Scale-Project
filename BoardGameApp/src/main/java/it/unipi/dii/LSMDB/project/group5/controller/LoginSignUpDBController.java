@@ -1,7 +1,7 @@
-package org.openjfx.Controller;
-import org.openjfx.DBManager.MongoDBManager.UserDBManager;
-import org.openjfx.DBManager.Neo4jDBManager.LoginSignUpDBManager;
-import org.openjfx.Entities.UserBean;
+package it.unipi.dii.LSMDB.project.group5.controller;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.SignupLoginDBManager;
+import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
+import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.LoginSignUpDBManager;
 
 import java.util.logging.Logger;
 
@@ -32,7 +32,7 @@ public class LoginSignUpDBController {
         }
         else {
             System.out.println("Utente creato!");
-            UserDBManager.signup(user);
+            SignupLoginDBManager.signup(user);
         }
     }
 
@@ -46,7 +46,7 @@ public class LoginSignUpDBController {
         if(roleLogin != "NA")
         {
             System.out.println("Login effettuato con successo! Role: " + roleLogin);
-            UserDBManager.updateLogin(username);
+            SignupLoginDBManager.updateLogin(username);
             logOk = roleLogin;
         }
         else {

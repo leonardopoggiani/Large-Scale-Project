@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class UsersDBManager extends Neo4jDBManager{
+public class FindSuggestUsersDBManager extends Neo4jDBManager{
 
     /** La funzione restituisce la lista degli amici di un utente
      * @param username
@@ -43,7 +43,7 @@ public class UsersDBManager extends Neo4jDBManager{
         parameters.put("admin", "admin");
         parameters.put("type", "friend");
         parameters.put("role", "normalUser");
-        String searchFriends = "MATCH (u:User{username:$username})<-[f:FOLLOW]->(u2:User{role:$role})" +
+        String searchFriends = "MATCH (u:User{username:$username})<-[f:FOLLOW{type:$type}]->(u2:User{role:$role})" +
                 "RETURN u2.username as friend";
 
         Result result=tx.run(searchFriends, parameters);
