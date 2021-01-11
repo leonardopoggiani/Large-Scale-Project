@@ -4,7 +4,6 @@ import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
 import org.openjfx.Entities.ArticleBean;
-import org.openjfx.Entities.CommentBean;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -132,7 +131,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
 
     /**
-     * La funzione aggiunge un commento ad un articolo
+     * La funzione aggiunge un nuovo articolo
      * @param tx
      * @param newArt
      * @return true se ha aggiunto con successo
@@ -163,43 +162,44 @@ public class ArticlesDBManager extends Neo4jDBManager {
     }
 
     /**
-     * La funzione elimina un commento ad un articolo
-     * @param delComm
-     * @return true se ha eliminato correttamente il commento
+     * La funzione elimina un articolo
+     * @param author
+     * @param title
+     * @return true se ha eliminato correttamente l'articolo
      * @return false altrimenti
      */
-    /*
-    public static Boolean deleteComment(final CommentBean delComm) {
+
+    public static Boolean deleteArticle(final String author, final String title) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    return transactionDeleteComment(tx, delComm);
+                    return transactionDeleteArticle(tx, author, title);
                 }
             });
 
 
         }
     }
-    */
+
 
     /**
-     * La funzione elimina un commento ad un articolo
+     * La funzione elimina un articolo
      * @param tx
-     * @param delComm
-     * @return true se ha eliminato correttamente il commento
+     * @param author
+     * @param title
+     * @return true se ha eliminato correttamente l'articolo
      * @return false altrimenti
      */
 
-    private static Boolean transactionDeleteComment(Transaction tx, CommentBean delComm) {
+    private static Boolean transactionDeleteArticle(Transaction tx, String author, String title) {
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("authorComm", delComm.getAuthor());
-        parameters.put("timestamp", delComm.getTimestamp().toString());
-        parameters.put("title", delComm.getTitleArt());
+        parameters.put("author", author);
+        parameters.put("title", title);
 
-        Result result = tx.run("MATCH (ua:User {username:$authorComm})-[c:COMMENTED {timestamp:$timestamp}]->(a:Article{name:$title}) " +
-                        "DELETE c return c"
+        Result result = tx.run("MATCH (ua:User {username:$author})-[p:PUBLISHED]->(a:Article{name:$title})-[r:REFERRED]-(g:Game) " +
+                        "DELETE p,a,r "
                 , parameters);
 
         return true;

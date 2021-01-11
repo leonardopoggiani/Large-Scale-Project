@@ -103,6 +103,13 @@ public class GroupsPostsDBManager {
         return groups;
 
     }
+
+    /**
+     * La funzione restituisce tutti i membri di un gruppo
+     * @param name
+     * @param admin
+     * @return ritorna la lista degli utenti membri di un gruppo
+     */
     public static List<String> showGroupsMembers(final String name, final String admin)
     {
         try(Session session=driver.session())
@@ -118,6 +125,14 @@ public class GroupsPostsDBManager {
         }
     }
 
+
+    /**
+     * La funzione restituisce tutti i membri di un gruppo
+     * @param tx
+     * @param name
+     * @param admin
+     * @return ritorna la lista degli utenti membri di un gruppo
+     */
     private static List<String> transactionShowGroupsMembers(Transaction tx, String name, String admin)
     {
         List<String> members = new ArrayList<>();
@@ -150,6 +165,12 @@ public class GroupsPostsDBManager {
 
     }
 
+    /**
+     * La funzione restituisce il timestamp dell'ultimo post pubblicato sul gruppo
+     * @param name
+     * @param admin
+     * @return ritorna il timestamp dell'ultimo post
+     */
     public static Timestamp timestampLastPost(final String name, final String admin)
     {
         try(Session session=driver.session())
@@ -165,6 +186,14 @@ public class GroupsPostsDBManager {
         }
     }
 
+
+    /**
+     * La funzione restituisce il timestamp dell'ultimo post pubblicato sul gruppo
+     * @param tx
+     * @param name
+     * @param admin
+     * @return ritorna il timestamp dell'ultimo post
+     */
     private static Timestamp transactionTimestampLastPost(Transaction tx, String name, String admin)
     {
 
@@ -194,6 +223,12 @@ public class GroupsPostsDBManager {
 
 
 
+    /**
+     * La funzione restituisce il numero di membri di un gruppo
+     * @param name
+     * @param admin
+     * @return ritorna il numero di membri
+     */
     public static int countGroupsMembers(final String name, final String admin)
     {
         try(Session session=driver.session())
@@ -209,7 +244,13 @@ public class GroupsPostsDBManager {
         }
     }
 
-    //Funzione che conta i rates ad un determinato gioco
+    /**
+     * La funzione restituisce il numero di membri di un gruppo
+     * @param tx
+     * @param name
+     * @param admin
+     * @return ritorna il numero di membri
+     */
 
     public static int transactionCountGroupsMembers(Transaction tx, String name, String admin) {
 

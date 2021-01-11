@@ -124,8 +124,18 @@ public class ArticlesCommentsLikesDBController {
 
     public Boolean addArticle(ArticleBean a)
     {
+        //ADD MONGODB
         Boolean ret = false;
         ret = ArticlesDBManager.addArticle(a);
+        System.out.println(ret);
+        return  ret;
+    }
+
+    public Boolean deleteArticle(String author, String title)
+    {
+        //DELETE MONGODB
+        Boolean ret = false;
+        ret = ArticlesDBManager.deleteArticle(author, title);
         System.out.println(ret);
         return  ret;
     }
