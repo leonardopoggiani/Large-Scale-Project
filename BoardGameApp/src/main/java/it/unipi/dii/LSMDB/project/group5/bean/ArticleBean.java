@@ -1,7 +1,5 @@
 package it.unipi.dii.LSMDB.project.group5.bean;
 
-
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
