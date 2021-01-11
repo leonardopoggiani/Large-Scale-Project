@@ -1,8 +1,12 @@
 package it.unipi.dii.LSMDB.project.group5.view;
+import java.util.concurrent.*;
+
 
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
+import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,12 +21,15 @@ import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBContr
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HomepageArticles {
+
+    ArticlesCache cache = ArticlesCache.getInstance();
+    private static HashMap<String,String> savedArticles = Maps.newHashMap();
+    private static List<String> savedTitles = Lists.newArrayList();
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
     ObservableList<String> categorie = FXCollections.observableArrayList(
@@ -79,31 +86,69 @@ public class HomepageArticles {
     }
 
     @FXML
-    void setSuggestedArticles() throws IOException {
+    void setSuggestedArticles() throws IOException, ExecutionException {
+        ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
+
         if(giàCaricato == -1) {
-            ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
-            List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
+            List<String> titoli = Lists.newArrayList(savedArticles.values());
+            if (titoli.isEmpty()) {
+                // non ho salvato i titoli degli articoli da mostrare
+                logger.info("cache vuota");
+                List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
 
-            if (list != null) {
-                System.out.println("Lunghezza lista " + list.size());
-                for (int i = 0; i < list.size() && i < 6; i++) {
-                    ArticleBean a = list.get(i);
-                    TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
-                    Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
-                    Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
-                    Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
-                    int numComments = home.neo4jCountComments(a.getTitle(),a.getAuthor());
-                    int numLikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"like");
-                    int numUnlikes = home.neo4jCountLikes(a.getTitle(),a.getAuthor(),"dislike");
+                if (list != null) {
+                    System.out.println("Lunghezza lista " + list.size());
+                    for (int i = 0; i < list.size() && i < 6; i++) {
+                        ArticleBean a = list.get(i);
+                        // salvo i titoli degli articoli mostrati su homepage
+                        savedTitles.add(a.getTitle());
+                        savedArticles.put(a.getTitle(),a.getAuthor());
+                        System.out.println(savedArticles);
 
-                    articolo.setText(a.getTitle());
-                    author.setText(a.getAuthor());
-                    timestamp.setText(String.valueOf(a.getTimestamp()));
-                    stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+                        TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
+                        Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
+                        Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
+                        Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
+                        int numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
+                        int numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
+                        int numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
+
+                        articolo.setText(a.getTitle());
+                        author.setText(a.getAuthor());
+                        timestamp.setText(String.valueOf(a.getTimestamp()));
+                        stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+                    }
                 }
-            }
 
-            giàCaricato = 1;
+                giàCaricato = 1;
+            } else {
+                int i = 0;
+                for (String titolo : savedTitles) {
+                    if(i < savedTitles.size() && i < 6) {
+                        String autore = savedArticles.get(titolo);
+                        cache.setAuthor(autore);
+                        ArticleBean a = cache.getDataIfPresent(titolo);
+                        if(a != null && a.getTitle() != null) {
+                            TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
+                            Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
+                            Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
+                            Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
+                            int numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
+                            int numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
+                            int numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
+
+                            articolo.setText(a.getTitle());
+                            author.setText(a.getAuthor());
+                            timestamp.setText(String.valueOf(a.getTimestamp()));
+                            stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+                            i++;
+                        }
+                    }
+                }
+
+                giàCaricato = 1;
+
+            }
         }
     }
 
