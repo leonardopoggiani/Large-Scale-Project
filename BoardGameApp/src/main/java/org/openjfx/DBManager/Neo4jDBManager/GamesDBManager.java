@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.openjfx.DBManager.Neo4jDBManager.Neo4jDBManager.driver;
 
-public class ListSuggGamesDBManager {
+public class GamesDBManager {
 
     /**
      * La funzione restituisce la lista dei giochi suggeriti nella sezione giochi di un utente

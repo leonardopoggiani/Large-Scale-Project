@@ -3,7 +3,6 @@ package org.openjfx.View;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -15,9 +14,7 @@ import org.openjfx.Entities.GroupBean;
 import org.openjfx.Entities.TableGroupBean;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Timestamp;
-import java.util.ResourceBundle;
 
 public class HomepageGroups {
 
@@ -38,6 +35,9 @@ public class HomepageGroups {
 
     @FXML
     public TableColumn<TableGroupBean, String> timestamp;
+
+    @FXML
+    public TableColumn<TableGroupBean, String> action;
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -71,13 +71,10 @@ public class HomepageGroups {
 
             tableAdmin = (TableView<TableGroupBean>) App.getScene().lookup("#admintable");
 
-            //make sure the property value factory should be exactly same as the e.g getStudentId from your model class
-            tableAdmin = (TableView<TableGroupBean>) App.getScene().lookup("#table");
             name.setCellValueFactory(new PropertyValueFactory<>("groupName"));
             admin.setCellValueFactory(new PropertyValueFactory<>("admin"));
             game.setCellValueFactory(new PropertyValueFactory<>("game"));
             timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
-            //add your data to the table here.
             tableAdmin.setItems(gruppiAdmin);
 
             /*

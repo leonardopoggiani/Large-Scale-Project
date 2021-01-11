@@ -4,13 +4,14 @@ import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
 import org.openjfx.Entities.ArticleBean;
+import org.openjfx.Entities.CommentBean;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListSuggArticlesDBManager extends Neo4jDBManager {
+public class ArticlesDBManager extends Neo4jDBManager {
 
     /** La funzione restituisce la lista degli articoli suggeriti nella home di un utente
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
@@ -101,10 +102,107 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
 
             }
-
+            System.out.println(article.toString());
             articles.add(article);
         }
         return articles;
 
     }
+
+
+    /**
+     * La funzione aggiunge un nuovo articolo
+     * @param newArt
+     * @return true se ha aggiunto con successo
+     * @return false altrimenti
+     */
+
+    public static Boolean addArticle(final ArticleBean newArt) {
+        try (Session session = driver.session()) {
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionAddArticle(tx, newArt);
+                }
+            });
+
+
+        }
+    }
+
+
+    /**
+     * La funzione aggiunge un commento ad un articolo
+     * @param tx
+     * @param newArt
+     * @return true se ha aggiunto con successo
+     * @return false altrimenti
+     */
+
+    private static Boolean transactionAddArticle(Transaction tx, ArticleBean newArt) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("author", newArt.getAuthor());
+        parameters.put("timestamp", newArt.getTimestamp().toString());
+        parameters.put("title", newArt.getTitle());
+        parameters.put("game", newArt.getGame());
+        String checkArticle = "MATCH (a:Article{name:$title})<-[p:PUBLISHED]-(u:User{username:$author})" +
+                "RETURN a";
+        Result result = tx.run(checkArticle, parameters);
+        if (result.hasNext()) {
+            return false;
+        }
+
+        result = tx.run("MATCH(u:User {username:$author}), (g:Game{name:$game})" +
+                        "CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})-[r:REFERRED]->(g) " +
+                        "return a"
+                , parameters);
+        if (result.hasNext()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * La funzione elimina un commento ad un articolo
+     * @param delComm
+     * @return true se ha eliminato correttamente il commento
+     * @return false altrimenti
+     */
+    /*
+    public static Boolean deleteComment(final CommentBean delComm) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionDeleteComment(tx, delComm);
+                }
+            });
+
+
+        }
+    }
+    */
+
+    /**
+     * La funzione elimina un commento ad un articolo
+     * @param tx
+     * @param delComm
+     * @return true se ha eliminato correttamente il commento
+     * @return false altrimenti
+     */
+
+    private static Boolean transactionDeleteComment(Transaction tx, CommentBean delComm) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("authorComm", delComm.getAuthor());
+        parameters.put("timestamp", delComm.getTimestamp().toString());
+        parameters.put("title", delComm.getTitleArt());
+
+        Result result = tx.run("MATCH (ua:User {username:$authorComm})-[c:COMMENTED {timestamp:$timestamp}]->(a:Article{name:$title}) " +
+                        "DELETE c return c"
+                , parameters);
+
+        return true;
+    }
+
 }

@@ -141,6 +141,9 @@
                      </cursor></AnchorPane>
                </content>
             </TitledPane>
+            <Button layoutX="363.0" layoutY="6.0" mnemonicParsing="false" text="Statistics" />
+            <Button layoutX="291.0" layoutY="477.0" mnemonicParsing="false" text="Button" />
+            <Text layoutX="192.0" layoutY="495.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Write article" />
          </children></AnchorPane>
   </items>
 </SplitPane>
