@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListSuggGamesDBManager {
+
+public class GamesDBManager extends Neo4jDBManager{
 
     /**
      * La funzione restituisce la lista dei giochi suggeriti nella sezione giochi di un utente
@@ -20,7 +21,7 @@ public class ListSuggGamesDBManager {
 
     public static List<GameBean> searchSuggestedGames(final String username)
     {
-        try(Session session= Neo4jDBManager.driver.session())
+        try(Session session=driver.session())
         {
             return session.readTransaction(new TransactionWork<List<GameBean>>()
             {

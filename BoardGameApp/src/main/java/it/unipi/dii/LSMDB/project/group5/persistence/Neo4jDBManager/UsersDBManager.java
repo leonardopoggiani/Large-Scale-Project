@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FindSuggestUsersDBManager extends Neo4jDBManager{
+public class UsersDBManager extends Neo4jDBManager{
 
     /** La funzione restituisce la lista dei followers, o following o friends in base al parametro type
      * @param type (following, followers, friends)

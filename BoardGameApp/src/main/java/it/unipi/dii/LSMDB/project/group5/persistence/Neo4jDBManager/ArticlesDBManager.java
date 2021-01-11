@@ -4,14 +4,13 @@ import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
-import org.openjfx.Entities.ArticleBean;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListSuggArticlesDBManager extends Neo4jDBManager {
+public class ArticlesDBManager extends Neo4jDBManager {
 
     /** La funzione restituisce la lista degli articoli suggeriti nella home di un utente
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
@@ -102,7 +101,7 @@ public class ListSuggArticlesDBManager extends Neo4jDBManager {
 
 
             }
-
+            System.out.println(article.toString());
             articles.add(article);
         }
         return articles;
