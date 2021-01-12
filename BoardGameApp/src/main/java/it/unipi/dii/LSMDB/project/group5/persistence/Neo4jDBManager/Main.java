@@ -1,12 +1,9 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.UsersDBController;
-
-import java.util.List;
 
 public class Main {
 
@@ -28,12 +25,14 @@ public class Main {
         String authorDel = "Clarissa1";
         String titleDel = "Nuovo articolo2";
         la.deleteArticle(authorDel, titleDel);*/
-        List<ArticleBean> suggArticles = artCon.neo4jListSuggestedArticles("Gaia5");
-        List<String> suggestions = uDB.neo4jListSuggestingFollowing("Gaia5","normalUser");
+        //List<ArticleBean> suggArticles = artCon.neo4jListSuggestedArticles("Gaia5");
+        //List<String> suggestions = uDB.neo4jListSuggestingFollowing("Gaia5","normalUser");
         //List<String> listUsers = uDB.neo4jListUsers("Gaia5", "followersOnly");
-        System.out.println(suggArticles);
-        System.out.println(suggestions);
+        //System.out.println(suggArticles);
+        //System.out.println(suggestions);
         //System.out.println(listUsers);
+
+        uDB.neo4jAddRemoveFollow("Gaia5", "Leonardo1", "add");
 
 
 

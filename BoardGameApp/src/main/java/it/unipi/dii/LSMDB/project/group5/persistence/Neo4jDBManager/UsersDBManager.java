@@ -3,6 +3,7 @@ package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -249,4 +250,110 @@ public class UsersDBManager extends Neo4jDBManager{
 
         return quanti;
     }
+
+    /**
+     * La funzione aggiunge un commento ad un articolo
+     * @param username1
+     * @param username2
+     * @return true se ha aggiunto o rimosso con successo
+     * @return false altrimenti
+     */
+
+    public static Boolean addRemoveFollow(final String username1, final String username2, final String type) {
+        try (Session session = driver.session()) {
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    if(type.equals("add"))
+                        return transactionAddFollow(tx, username1, username2);
+                    else
+                        return transactionRemoveFollow(tx, username1, username2);
+                }
+            });
+
+
+        }
+    }
+
+
+    /**
+     * La funzione aggiunge un follow tra due utenti
+     * @param tx
+     * @param username1
+     * @param username2
+     * @return true se ha aggiunto con successo
+     * @return false altrimenti
+     */
+    private static Boolean transactionAddFollow(Transaction tx, String username1, String username2) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        Timestamp current = new Timestamp(System.currentTimeMillis());
+        parameters.put("username1", username1);
+        parameters.put("username2", username2);
+        parameters.put("timestamp", current.toString());
+        boolean existsFollow = transactionExistsFollow(tx,username1,username2);
+        if(!existsFollow)
+        {
+            System.out.println("Non esiste aggiungo!");
+        }
+        Result result = tx.run("MATCH(u1:User {username:$username1}),(u2:User {username:$username2})" +
+                        "CREATE (u1)-[f:FOLLOW{timestamp:$timestamp}]->(u2) " +
+                        "return f"
+                , parameters);
+        if (result.hasNext()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * La funzione aggiunge un follow tra due utenti
+     * @param tx
+     * @param username1
+     * @param username2
+     * @return true se ha eliminato con successo
+     * @return false altrimenti
+     */
+
+    private static Boolean transactionRemoveFollow(Transaction tx, String username1, String username2) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        Timestamp current = new Timestamp(System.currentTimeMillis());
+        parameters.put("username1", username1);
+        parameters.put("username2", username2);
+        parameters.put("timestamp", current.toString());
+        boolean existsFollow = transactionExistsFollow(tx,username1,username2);
+        if(existsFollow)
+        {
+            System.out.println("Esiste elimino!");
+        }
+        Result result = tx.run("MATCH(u1:User {username:$username1})-[f:FOLLOW]->(u2:User {username:$username2})" +
+                        "DELETE f RETURN f"
+                , parameters);
+        if (result.hasNext()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * La funzione controlla se esiste o no un follow tra due utenti
+     * @param tx
+     * @param username1
+     * @param username2
+     * @return true se esiste
+     * @return false altrimenti
+     */
+    private static Boolean transactionExistsFollow(Transaction tx, String username1, String username2) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("username1", username1);
+        parameters.put("username2", username2);
+
+        Result result = tx.run("MATCH (u:User{username:$username1})-[f:FOLLOW]->(u:User{username:$username2})" +
+                "RETURN f",parameters);
+
+        if (result.hasNext()) {
+            return true;
+        }
+        return false;
+    }
+
 }

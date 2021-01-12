@@ -19,4 +19,9 @@ public class UsersDBController {
         List<String> suggestedFollowing = UsersDBManager.listSuggestedFollowing(username, type);
         return  suggestedFollowing;
     }
+
+    public  Boolean neo4jAddRemoveFollow(String username1, String username2, String type)
+    {
+        return  UsersDBManager.addRemoveFollow(username1,username2,type);
+    }
 }
