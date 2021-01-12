@@ -32,7 +32,7 @@ public class Main {
         //System.out.println(suggestions);
         //System.out.println(listUsers);
 
-        uDB.neo4jAddRemoveFollow("Gaia5", "Leonardo1", "add");
+        uDB.neo4jAddRemoveFollow("Gaia5", "Leonardo1", "remove");
 
 
 

@@ -235,6 +235,7 @@ public class UsersDBManager extends Neo4jDBManager{
 
         String countInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:\"influencer\"})" +
                 "RETURN count(u2) AS quanti";
+
         if(type.equals("influencer"))
         {
             result = tx.run(countInfluencers, parameters);
@@ -294,15 +295,14 @@ public class UsersDBManager extends Neo4jDBManager{
         if(!existsFollow)
         {
             System.out.println("Non esiste aggiungo!");
+            tx.run("MATCH(u1:User {username:$username1}),(u2:User {username:$username2})" +
+                            "CREATE (u1)-[f:FOLLOW{timestamp:$timestamp}]->(u2) " +
+                            "return f"
+                    , parameters);
+
         }
-        Result result = tx.run("MATCH(u1:User {username:$username1}),(u2:User {username:$username2})" +
-                        "CREATE (u1)-[f:FOLLOW{timestamp:$timestamp}]->(u2) " +
-                        "return f"
-                , parameters);
-        if (result.hasNext()) {
-            return true;
-        }
-        return false;
+
+        return true;
     }
 
     /**
@@ -324,14 +324,14 @@ public class UsersDBManager extends Neo4jDBManager{
         if(existsFollow)
         {
             System.out.println("Esiste elimino!");
+            tx.run("MATCH(u1:User {username:$username1})-[f:FOLLOW]->(u2:User {username:$username2})" +
+                            "DELETE f RETURN f"
+                    , parameters);
+            //System.out.println("Ho eliminato!");
+            return true;
         }
-        Result result = tx.run("MATCH(u1:User {username:$username1})-[f:FOLLOW]->(u2:User {username:$username2})" +
-                        "DELETE f RETURN f"
-                , parameters);
-        if (result.hasNext()) {
-            return false;
-        }
-        return true;
+        //System.out.println("Non posso eliminare!");
+        return false;
     }
 
     /**
@@ -347,7 +347,7 @@ public class UsersDBManager extends Neo4jDBManager{
         parameters.put("username1", username1);
         parameters.put("username2", username2);
 
-        Result result = tx.run("MATCH (u:User{username:$username1})-[f:FOLLOW]->(u:User{username:$username2})" +
+        Result result = tx.run("MATCH (u:User{username:$username1})-[f:FOLLOW]->(u2:User{username:$username2})" +
                 "RETURN f",parameters);
 
         if (result.hasNext()) {
