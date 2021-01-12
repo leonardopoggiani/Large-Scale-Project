@@ -35,6 +35,7 @@ public class GameDBManager {
             cursor.close();
         }
 
+        System.out.println("Gioco da mostrare " + g);
         return g;
 
     }
@@ -292,12 +293,10 @@ public class GameDBManager {
             g.setCategory1(next.get("category")==null? "": next.get("category").toString());
             g.setCategory2("");
 
-        }
-        else {
+        } else {
             List<String> list = (List<String>) next.get("category");
             System.out.println(list);
             g.setListCategory(list);
-
         }
 
         return g;

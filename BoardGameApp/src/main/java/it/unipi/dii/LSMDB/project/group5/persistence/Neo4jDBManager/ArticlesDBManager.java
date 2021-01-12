@@ -103,7 +103,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
             System.out.println(article.toString());
             articles.add(article);
         }
-        /*
+
         ArticleBean a = new ArticleBean("Un articolo","leonardo",new Timestamp(System.currentTimeMillis()),null);
         ArticleBean b = new ArticleBean("Ammazza che articolone","leonardo",new Timestamp(System.currentTimeMillis()),null);
         ArticleBean c = new ArticleBean("Non c'entra niente","francesca",new Timestamp(System.currentTimeMillis()),null);
@@ -116,7 +116,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
         articles.add(c);
         articles.add(d);
         articles.add(e);
-        articles.add(f);*/
+        articles.add(f);
 
         return articles;
 

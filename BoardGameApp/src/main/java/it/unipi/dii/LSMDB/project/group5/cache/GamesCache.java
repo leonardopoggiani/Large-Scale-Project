@@ -46,7 +46,6 @@ public class GamesCache {
 
     public GameBean getDataIfPresent(String name) throws ExecutionException {
         GameBean a = cache.get(name);
-
         if(a == null || a.getName() == null){
             cache.put(name,cercaGiochi(name));
         }

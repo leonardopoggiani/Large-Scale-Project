@@ -1,15 +1,15 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
-import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
 import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -111,21 +111,16 @@ public class HomepageGames {
                     if(g != null && g.getName() != null){
                         if(i < savedGames.size() && i < 6) {
                             TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
-                            Text category1 = (Text) App.getScene().lookup("#category1" + (i + 1));
-                            Text category2 = (Text) App.getScene().lookup("#category2" + (i + 1));
 
                             gioco.setText(g.getName());
 
-                            if (g.getCategory1() != null && !g.getCategory1().equals("null")) {
-                                category1.setText(g.getCategory1());
-                            } else {
-                                category1.setText("");
-                            }
-                            if (g.getCategory2() != null && !g.getCategory2().equals("null")) {
-                                category2.setText(g.getCategory2());
-                            } else {
-                                category2.setText("");
-                            }
+                            Text ratings = (Text) App.getScene().lookup("#rating" + (i + 1));
+                            Text number = (Text) App.getScene().lookup("#number" + (i + 1));
+
+
+                            gioco.setText(g.getName());
+                            ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
+                            number.setText(String.valueOf(Math.round(g.getNumVotes())));
 
                             i++;
                         }
@@ -316,24 +311,18 @@ public class HomepageGames {
         if (games != null) {
             System.out.println("Lunghezza lista " + games.size());
             for (int i = 0; i < games.size() && i < 6; i++) {
-                GameBean g = (GameBean) games.get(i);
+                GameBean g = games.get(i);
                 savedGames.add(g.getName());
+                System.out.println("Add " + g);
                 TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
-                Text category1 = (Text) App.getScene().lookup("#category1" + (i + 1));
-                Text category2 = (Text) App.getScene().lookup("#category2" + (i + 1));
+                Text ratings = (Text) App.getScene().lookup("#rating" + (i + 1));
+                Text number = (Text) App.getScene().lookup("#number" + (i + 1));
+
 
                 gioco.setText(g.getName());
+                ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
+                number.setText(String.valueOf(Math.round(g.getNumVotes())));
 
-                if(g.getCategory1() != null && !g.getCategory1().equals("null")) {
-                    category1.setText(g.getCategory1());
-                } else {
-                    category1.setText("");
-                }
-                if(g.getCategory1() == null && !g.getCategory2().equals("null")) {
-                    category2.setText(g.getCategory2());
-                } else {
-                    category2.setText("");
-                }
             }
         }
     }

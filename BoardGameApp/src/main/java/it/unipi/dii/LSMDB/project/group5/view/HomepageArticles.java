@@ -1,7 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 import java.util.concurrent.*;
 
-
 import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -22,7 +21,6 @@ import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBContr
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HomepageArticles {
@@ -103,7 +101,6 @@ public class HomepageArticles {
                         // salvo i titoli degli articoli mostrati su homepage
                         savedTitles.add(a.getTitle());
                         savedArticles.put(a.getTitle(),a.getAuthor());
-                        System.out.println(savedArticles);
 
                         TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
                         Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
@@ -136,6 +133,8 @@ public class HomepageArticles {
                             int numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
                             int numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
                             int numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
+
+                            System.out.println("#articolocompleto" + (i + 1) + " ," + articolo);
 
                             articolo.setText(a.getTitle());
                             author.setText(a.getAuthor());

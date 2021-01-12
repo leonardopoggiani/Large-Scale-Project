@@ -94,6 +94,17 @@ public class GamePageView {
             TextArea description = (TextArea) App.getScene().lookup("#description");
             description.setText(currentGame.getDescription());
 
+            Text categories = (Text) App.getScene().lookup("#categories");
+            String cat = "";
+            if(currentGame.getListCategory() != null) {
+                for (int i = 0; i < currentGame.getListCategory().size(); i++) {
+                    cat += currentGame.getListCategory().get(i);
+                    cat += ", ";
+                }
+            }
+
+            categories.setText(cat);
+
             setReviews(game);
 
             giàCaricato = 1;
