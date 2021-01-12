@@ -37,7 +37,6 @@ public class GameDBManager {
             cursor.close();
 
         }
-
         return g;
 
     }
@@ -59,7 +58,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-
         return ret;
     }
 
@@ -81,7 +79,6 @@ public class GameDBManager {
                 ret.add(g);*/
             }
         }
-
         return ret;
     }
 
@@ -100,7 +97,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-
         return ret;
     }
 
@@ -120,7 +116,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-
         return ret;
     }
 
@@ -152,7 +147,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-
         return ret;
 
     }
@@ -221,7 +215,6 @@ public class GameDBManager {
                 ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString());
             }
         }
-
         return ret;
     }
 
@@ -257,7 +250,6 @@ public class GameDBManager {
             }
         }
 
-
         return ret;
     }
 
@@ -273,7 +265,6 @@ public class GameDBManager {
                 ret = true;
             }
         }
-
         return ret;
     }
     
@@ -290,7 +281,6 @@ public class GameDBManager {
                 ret = (next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString());
             }
         }
-
         return ret;
 
     }

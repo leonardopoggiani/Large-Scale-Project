@@ -1,0 +1,71 @@
+package it.unipi.dii.LSMDB.project.group5.view;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
+
+import java.time.LocalDateTime;
+
+public class PostsView extends Pane{
+    private TextArea postArea;
+    private String pokemonName;
+
+    ScrollPanePosts postsPresentScrollPane;
+
+    public PostsView(int x, int y, int width, int height, String pokemonName) {
+        setPrefSize(width, height);
+        relocate(x, y);
+        setStyle("-fx-background-color: #eaeaea;");
+
+        this.pokemonName = pokemonName;
+
+        displayPostsPresent();
+
+    }
+
+    public void displayPostsPresent() {
+        postsPresentScrollPane = new ScrollPanePosts(15, 15, 400, 365, pokemonName);
+
+        getChildren().add(postsPresentScrollPane);
+    }
+
+    private void displayTextArea() {
+        postArea = new TextArea();
+        postArea.setPrefSize(400, 50);
+        postArea.relocate(15, 400);
+        postArea.setWrapText(true);
+
+        getChildren().add(postArea);
+    }
+
+    private void displayButtonPost() {
+        Button postButton = new Button("POST");
+        postButton.relocate(363, 463);
+        postButton.setStyle("-fx-background-color: white; -fx-border-color: black;");
+        postButton.setOnAction(e -> post());
+
+        getChildren().add(postButton);
+    }
+
+    private void post() {
+        if(postArea.getText().equals(""))
+            return;
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        // PUBLISH POST ON NEO4J
+        /*PostManager postManagerFactory =  PostManagerFactory.buildManager();
+        try {
+            postManagerFactory.insertPost(
+                    new Post(CurrentUI.getUser().getUsername(),
+                            postArea.getText(),
+                            localDateTime,
+                            pokemonName));
+
+            getChildren().remove(postsPresentScrollPane);
+            displayPostsPresent();
+        } catch (DuplicatePostException e) {
+            e.printStackTrace();
+        }*/
+    }
+}

@@ -12,7 +12,6 @@ import java.io.IOException;
 
 public class LoginResultView {
 
-
     @FXML
     void goToHomepage() throws IOException {
         App.setRoot("HomepageArticles");

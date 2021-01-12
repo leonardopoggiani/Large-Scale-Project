@@ -337,17 +337,24 @@ public class HomepageArticles {
         if (filteringResult != null) {
             System.out.println("Lunghezza lista " + filteringResult.size());
 
-            for (int i = 0; i < filteringResult.size() && i < 6; i++) {
-                ArticleBean g = filteringResult.get(i);
+            for (int i = 0; i < 6; i++) {
                 TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
                 Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
                 Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
                 Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
 
-                articolo.setText(g.getTitle());
-                author.setText(g.getAuthor());
-                timestamp.setText(String.valueOf(g.getTimestamp()));
-                stats.setText("Comments: " + g.getNumberComments() + ", likes:" + g.getNumberLikes() + ", unlikes: " + g.getNumberDislike());
+                if(i < filteringResult.size()) {
+                    ArticleBean g = filteringResult.get(i);
+                    articolo.setText(g.getTitle());
+                    author.setText(g.getAuthor());
+                    timestamp.setText(String.valueOf(g.getTimestamp()));
+                    stats.setText("Comments: " + g.getNumberComments() + ", likes:" + g.getNumberLikes() + ", unlikes: " + g.getNumberDislike());
+                } else {
+                    articolo.setText("");
+                    author.setText("");
+                    timestamp.setText("");
+                    stats.setText("");
+                }
             }
         }
     }

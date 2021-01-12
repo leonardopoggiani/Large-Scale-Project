@@ -4,6 +4,7 @@ import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -14,7 +15,10 @@ import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import it.unipi.dii.LSMDB.project.group5.bean.TableGroupBean;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class HomepageGroups {
 
@@ -37,7 +41,7 @@ public class HomepageGroups {
     public TableColumn<TableGroupBean, String> timestamp;
 
     @FXML
-    public TableColumn<TableGroupBean, String> action;
+    public TableColumn<TableGroupBean, Integer> members;
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -70,49 +74,41 @@ public class HomepageGroups {
         if(giaCaricato == -1) {
 
             tableAdmin = (TableView<TableGroupBean>) App.getScene().lookup("#admintable");
+            tableAdmin.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+            tableMembro = (TableView<TableGroupBean>) App.getScene().lookup("#table2");
+            tableMembro.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
             name.setCellValueFactory(new PropertyValueFactory<>("groupName"));
             admin.setCellValueFactory(new PropertyValueFactory<>("admin"));
             game.setCellValueFactory(new PropertyValueFactory<>("game"));
             timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
-            tableAdmin.setItems(gruppiAdmin);
+            members.setCellValueFactory(new PropertyValueFactory<>("members"));
 
-            /*
-             List<InfoGroup> gruppiDiCuiSonoAdmin = controller.neo4jShowUsersGroups(login.getLoggedUser(),"admin");
-             List<InfoGroup> gruppiDiCuiSonoMembro = controller.neo4jShowUsersGroups(login.getLoggedUser(),"member");
-             tableAdmin = (TableView<TableGroup>) App.getScene().lookup("#table");
-             tableAdmin.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-             tableMembro = (TableView<TableGroup>) App.getScene().lookup("#table2");
-             tableMembro.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+             List<GroupBean> gruppiDiCuiSonoAdmin = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"admin");
+             List<GroupBean> gruppiDiCuiSonoMembro = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"member");
 
-             groupName = new TableColumn("Name");
-             timestampCreation = new TableColumn<>("Timestamp");
+             name = new TableColumn("Name");
+             timestamp = new TableColumn<>("Timestamp");
              admin = new TableColumn<>("Admin");
-             gameReferred = new TableColumn<>("Game");
-
-            groupName.setCellValueFactory(new PropertyValueFactory<>("groupName"));
-            timestampCreation.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
-            admin.setCellValueFactory(new PropertyValueFactory<>("admin"));
-            gameReferred.setCellValueFactory(new PropertyValueFactory<>("gameReferred"));
-
-            tableAdmin.getColumns().addAll(groupName, timestampCreation, admin, gameReferred);
-            tableMembro.getColumns().addAll(groupName, timestampCreation, admin, gameReferred);
+             game = new TableColumn<>("Game");
+             members = new TableColumn<>("Members");
 
             for(int i = 0; i < gruppiDiCuiSonoAdmin.size(); i++){
-                InfoGroup g = gruppiDiCuiSonoAdmin.get(i);
-                TableGroup tableGroup = new TableGroup(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame());
+                GroupBean g = gruppiDiCuiSonoAdmin.get(i);
+                TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
                 gruppiAdmin.add(tableGroup);
             }
 
             for(int i = 0; i < gruppiDiCuiSonoMembro.size(); i++){
-                InfoGroup g = gruppiDiCuiSonoMembro.get(i);
-                TableGroup tableGroup = new TableGroup(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame());
+                GroupBean g = gruppiDiCuiSonoMembro.get(i);
+                TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
                 gruppiMembro.add(tableGroup);
             }
 
             tableAdmin.setItems(gruppiAdmin);
             tableMembro.setItems(gruppiMembro);
-            */
+
             giaCaricato = 1;
         }
     }
@@ -120,6 +116,7 @@ public class HomepageGroups {
     @FXML
     void createGroup() throws IOException {
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+        GroupsPostsDBController membersNumber = new GroupsPostsDBController();
 
         TextField tf = (TextField) App.getScene().lookup("#groupname");
         TextField tf2 = (TextField) App.getScene().lookup("#referredgame");
@@ -151,7 +148,7 @@ public class HomepageGroups {
         boolean ret = controller.Neo4jAddGroup(group);
 
         //if(ret) {
-            TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame());
+            TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.neo4jCountGroupMembers(group.getName(),group.getAdmin()));
             System.out.println(tableGroup);
             gruppiAdmin.add(tableGroup);
             tableAdmin.setItems(gruppiAdmin);

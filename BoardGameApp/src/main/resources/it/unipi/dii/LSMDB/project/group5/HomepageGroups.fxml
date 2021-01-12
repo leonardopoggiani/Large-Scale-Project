@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.Avatar?>
 <?import com.gluonhq.charm.glisten.control.BottomNavigation?>
 <?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
 <?import com.gluonhq.charm.glisten.control.Icon?>
@@ -11,40 +10,41 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#setGroups" prefHeight="800.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGroups">
+<ScrollPane onMouseMoved="#setGroups" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: green;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGroups">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="688.0" prefWidth="1107.0">
+    <AnchorPane id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="796.0" minWidth="1212.0" prefHeight="796.0" prefWidth="1212.0" stylesheets="@style.css">
          <children>
             <Button layoutX="23.0" layoutY="89.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
-            <Avatar layoutX="69.0" layoutY="39.0" />
             <Line endX="100.0" startX="-100.0" />
             <Text layoutX="44.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
             <Button cancelButton="true" layoutX="72.0" layoutY="376.0" mnemonicParsing="false" text="Logout" />
             <Button cancelButton="true" layoutX="72.0" layoutY="289.0" mnemonicParsing="false" text="Search" />
             <ComboBox layoutX="114.0" layoutY="227.0" prefHeight="28.0" prefWidth="90.0" />
-            <Text layoutX="701.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
+            <Text layoutX="822.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
             <Text layoutX="357.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you created">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text layoutX="756.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new group">
+            <Text layoutX="877.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new group">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <TextField fx:id="groupname" layoutX="776.0" layoutY="76.0" promptText="Group name" />
-            <TextField fx:id="referredgame" layoutX="776.0" layoutY="126.0" promptText="Game name" />
-            <Text layoutX="683.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group name" />
+            <TextField fx:id="groupname" layoutX="897.0" layoutY="120.0" promptText="Group name" />
+            <TextField fx:id="referredgame" layoutX="897.0" layoutY="170.0" promptText="Game name" />
+            <Text layoutX="804.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group name" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game" wrappingWidth="35.084632873535156" />
-            <Button layoutX="799.0" layoutY="239.0" mnemonicParsing="false" onMouseClicked="#createGroup" text="Create" />
-            <TextField fx:id="description" layoutX="776.0" layoutY="183.0" promptText="Description (optional)" />
-            <Text layoutX="683.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="72.68880462646484" />
+            <Button layoutX="920.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#createGroup" text="Create" />
+            <TextField fx:id="description" layoutX="897.0" layoutY="227.0" promptText="Description (optional)" />
+            <Text layoutX="796.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="88.68880462646484" />
             <Text layoutX="51.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
             <Line endX="-37.60005187988281" endY="838.5999755859375" layoutX="259.0" layoutY="26.0" startX="-37.60002136230469" startY="-27.0" />
             <Line endX="-47.10002136230469" endY="114.39996337890625" layoutX="269.0" layoutY="36.0" startX="-269.0" startY="114.39996337890625" />
@@ -81,14 +81,21 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <TableView fx:id="admintable" layoutX="258.0" layoutY="104.0" prefHeight="200.0" prefWidth="384.0">
+            <TableView fx:id="admintable" layoutX="258.0" layoutY="104.0" prefHeight="200.0" prefWidth="471.0">
               <columns>
                 <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
                 <TableColumn fx:id="admin" prefWidth="75.0" text="Admin" />
                   <TableColumn fx:id="timestamp" prefWidth="75.0" text="Timestamp" />
                   <TableColumn fx:id="game" prefWidth="75.0" text="Game" />
+                  <TableColumn fx:id="members" prefWidth="75.0" text="Members" />
+                  <TableColumn fx:id="game11" prefWidth="110.0" text="Add member" />
               </columns>
             </TableView>
+            <ImageView fitHeight="50.0" fitWidth="101.0" layoutX="61.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avatar.png" />
+               </image>
+            </ImageView>
          </children></AnchorPane>
   </content>
 </ScrollPane>
