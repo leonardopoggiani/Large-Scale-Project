@@ -58,7 +58,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
         String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
                 "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
                 "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 4";
+                "RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 6";
 
         Result result;
         quantiInflu = UsersDBManager.transactionCountUsers(tx,username,"influencer");
@@ -101,6 +101,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
 
             }
+
+            System.out.println("NELLA DBMANAGER");
             System.out.println(article.toString());
             articles.add(article);
         }
