@@ -159,10 +159,13 @@
                </content>
             </TitledPane>
             <Text layoutX="170.0" layoutY="495.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Write article" />
-            <ImageView fitHeight="32.0" fitWidth="43.0" layoutX="270.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="addarticle" fitHeight="32.0" fitWidth="43.0" layoutX="270.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../img/add.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
          </children></AnchorPane>
   </items>

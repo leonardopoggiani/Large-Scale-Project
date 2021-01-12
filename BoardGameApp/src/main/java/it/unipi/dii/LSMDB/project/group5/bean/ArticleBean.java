@@ -21,7 +21,6 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     public ArticleBean() {}
 
     public ArticleBean(String title, String author, Timestamp timestamp, String game) {
-        this.title = title;
         this.author = author;
         this.timestamp = timestamp;
         this.infoComments = infoComments;
