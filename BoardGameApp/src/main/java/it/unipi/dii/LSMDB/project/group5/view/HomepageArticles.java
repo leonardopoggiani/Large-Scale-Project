@@ -100,6 +100,14 @@ public class HomepageArticles {
     }
 
     @FXML
+    void showOrdering () throws IOException {
+        Scene scene = App.getScene(); // recupero la scena della signup
+        ComboBox order = (ComboBox) scene.lookup("#order");
+
+        order.setItems(ordinamenti);
+    }
+
+    @FXML
     void setFilters() {
         Scene scene = App.getScene(); // recupero la scena della signup
         TextField game = (TextField) scene.lookup("#game");
@@ -109,6 +117,7 @@ public class HomepageArticles {
 
         if(filtri.getSelectionModel().getSelectedItem() != null){
             String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
+            System.out.println(filtroSelezionato);
             if(!filtroSelezionato.equals("None")){
                 switch(filtroSelezionato){
                     case "Game":
@@ -121,7 +130,7 @@ public class HomepageArticles {
                         author.setVisible(true);
                         data.setVisible(false);
                         break;
-                    case "Release date":
+                    case "Release Date":
                         game.setVisible(false);
                         author.setVisible(false);
                         data.setVisible(true);
@@ -188,16 +197,11 @@ public class HomepageArticles {
                             Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
                             Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
                             Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
-                            int numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
-                            int numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
-                            int numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
-
-                            System.out.println("#articolocompleto" + (i + 1) + " ," + articolo);
 
                             articolo.setText(a.getTitle());
                             author.setText(a.getAuthor());
                             timestamp.setText(String.valueOf(a.getTimestamp()));
-                            stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+                            stats.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
                             i++;
                         }
                     }
@@ -230,7 +234,7 @@ public class HomepageArticles {
         ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
 
         TextField gioco = (TextField) App.getScene().lookup("#game");
-        AutoCompleteTextField autore = (AutoCompleteTextField) App.getScene().lookup("#author");
+        TextField autore = (TextField) App.getScene().lookup("#author");
         DatePicker data = (DatePicker) App.getScene().lookup("#data");
         ComboBox order = (ComboBox) App.getScene().lookup("#order");
 
@@ -330,23 +334,28 @@ public class HomepageArticles {
     }
 
     private void showFilteringResult(List<ArticleBean> filteringResult) {
-        logger.info("show filtering result");
         if (filteringResult != null) {
             System.out.println("Lunghezza lista " + filteringResult.size());
 
             for (int i = 0; i < filteringResult.size() && i < 6; i++) {
-                logger.info("mostro");
-                ArticleBean g = (ArticleBean) filteringResult.get(i);
-                TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (i + 1));
-                Text author = (Text) App.getScene().lookup("#authorarticle" + (i + 1));
-                Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (i + 1));
-                Text stats = (Text) App.getScene().lookup("#stats" + (i + 1));
+                ArticleBean g = filteringResult.get(i);
+                TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
+                Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
+                Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
+                Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
 
                 articolo.setText(g.getTitle());
                 author.setText(g.getAuthor());
-                // timestamp.setText(String.valueOf(g.getTimestamp()));
+                timestamp.setText(String.valueOf(g.getTimestamp()));
+                stats.setText("Comments: " + g.getNumberComments() + ", likes:" + g.getNumberLikes() + ", unlikes: " + g.getNumberDislike());
             }
         }
+    }
+
+    @FXML
+    void addArticle () throws IOException {
+        App.setRoot("AddArticle");
+
     }
 
     public static String getAuthor() {

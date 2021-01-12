@@ -113,6 +113,7 @@ public class GamePageView {
                     cat += ", ";
                 }
             }
+            publisher.setText(pub);
 
             Text urlText = (Text) App.getScene().lookup("#url");
             String url = currentGame.getUrl();

@@ -276,12 +276,13 @@ public class ArticleDBManager {
         a.setAuthor(next.get("username").toString());
         Document article = (Document)next.get("articles");
         a.setTitle(article.get("title").toString());
+        System.out.println("Titolo " + article.get("title").toString());
         Timestamp t = convertStringToTimestamp(article.get("timestamp").toString());
         a.setTimestamp(t);
         a.setText(article.get("body").toString());
-        a.setNumComments(next.get("num_comments")==null ? 0: Integer.parseInt(next.get("num_comments").toString()));
-        a.setNumLikes(next.get("num_like")==null ? 0: Integer.parseInt(next.get("num_like").toString()));
-        a.setNumDislikes(next.get("num_dislike")==null ? 0: Integer.parseInt(next.get("num_dislike").toString()));
+        a.setNumberComments(next.get("num_comments")==null ? 0: Integer.parseInt(next.get("num_comments").toString()));
+        a.setNumberLikes(next.get("num_like")==null ? 0: Integer.parseInt(next.get("num_like").toString()));
+        a.setNumberDislikes(next.get("num_dislike")==null ? 0: Integer.parseInt(next.get("num_dislike").toString()));
         List<String> list = (List<String>) next.get("games");
         a.setListGame(list);
         return a;
@@ -300,12 +301,12 @@ public class ArticleDBManager {
     }
 
     public static boolean addArticle (ArticleBean a){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson match = (eq("username", a.getAuthor()));
         List<String> games = a.getListGame();
 
-        Document doc = new Document("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
-                .append("num_likes", a.getNumLikes()).append("num_dislikes", a.getNumDislikes()).append("num_comments", a.getNumComments())
+        Document doc = new Document("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp())
+                .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
 
         Bson query = new Document("username", a.getAuthor());
