@@ -36,8 +36,8 @@ public class Main {
 
         //Filter game
         //List<GameBean> list = GameDBManager.filterByName("Monopoli");
-        List<GameBean> list = GameDBManager.filterByCategory("Economy");
-        System.out.println(list);
+        //boolean ret = GameDBManager.doesGameExists("Muse: Awakenings");
+
 
         //List<GameBean> list = GameDBManager.filterByPlayers(10);
         //List<GameBean> list = GameDBManager.filterByYear(1960);
