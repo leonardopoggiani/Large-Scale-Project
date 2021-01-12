@@ -203,7 +203,7 @@ public class ArticleDBManager {
         return ret;
     }
 
-    private static int getNumLikes(String author, String title){
+    public static int getNumLikes(String author, String title){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
@@ -223,7 +223,7 @@ public class ArticleDBManager {
         return ret;
     }
 
-    private static int getNumDislikes(String author, String title){
+    public static int getNumDislikes(String author, String title){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
@@ -265,5 +265,9 @@ public class ArticleDBManager {
         }
         return timestamp;
     }
+
+    /*public static boolean addArticle (ArticleBean a){
+
+    }*/
 }
 

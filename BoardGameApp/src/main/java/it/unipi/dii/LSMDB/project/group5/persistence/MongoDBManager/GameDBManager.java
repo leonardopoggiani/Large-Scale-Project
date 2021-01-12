@@ -19,20 +19,23 @@ public class GameDBManager {
     public static GameBean readGame(String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
-        Bson projection = project(fields( excludeId()));
-        Bson match =  match(eq("name",game));
+        Bson projection = (fields( excludeId()));
+        Bson match =  (eq("name",game));
 
         GameBean g = new GameBean();
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(match,projection)).iterator()){
 
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
-                // controlli su valori null
+
+                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 g = fillInfoGameFields(next,false);
 
+
             }
             cursor.close();
+
         }
 
         return g;
@@ -44,10 +47,10 @@ public class GameDBManager {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
 
-        Bson projection = project(fields( excludeId()));
-        Bson match =  match(eq("name",game));
+        Bson projection = (fields( excludeId()));
+        Bson match =  (eq("name",game));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(match, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).limit(6).iterator()){
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
@@ -67,8 +70,9 @@ public class GameDBManager {
         Bson unwind = unwind("$category");
         Bson projection = project(fields( excludeId()));
         Bson match =  match(eq("category",category));
+        Bson limit = limit(6);
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, match, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, match, projection, limit)).iterator()) {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -85,11 +89,10 @@ public class GameDBManager {
         List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
-        Bson projection = project(fields( excludeId()));
-        Bson match =  match(and(gte("max_players",players),lte("min_players", players)));
+        Bson projection = (fields( excludeId()));
+        Bson match =  (and(gte("max_players",players),lte("min_players", players)));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
-
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).limit(6).iterator()){
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
@@ -105,10 +108,10 @@ public class GameDBManager {
         List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
-        Bson projection = project(fields( excludeId()));
-        Bson match =  match(eq("year",year));
+        Bson projection = (fields( excludeId()));
+        Bson match =  (eq("year",year));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).limit(6).iterator()){
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -125,21 +128,20 @@ public class GameDBManager {
         List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
-        Bson projection = project(fields( excludeId()));
-        Bson limit = limit(10);
+        Bson projection = (fields( excludeId()));
         Bson sort = null;
         Bson match = null;
         if(mode.equals("reviews")){
-            match = match(and(ne("num_reviews", null), ne("num_reviews", "")));
-            sort = sort(descending("num_reviews"));
+            match = (and(ne("num_reviews", null), ne("num_reviews", "")));
+            sort = (descending("num_reviews"));
         } else if (mode.equals("numVotes")){
-            match = match(and(ne("num_votes", null), ne("num_votes", "")));
-            sort = sort(descending("num_votes"));
+            match = (and(ne("num_votes", null), ne("num_votes", "")));
+            sort = (descending("num_votes"));
         } else {
-            match = match(and(ne("avg_rating", null), ne("avg_rating", "")));
-            sort = sort(descending("avg_rating"));
+            match = (and(ne("avg_rating", null), ne("avg_rating", "")));
+            sort = (descending("avg_rating"));
         }
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, sort, limit, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).sort(sort).limit(6).iterator()){
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -187,10 +189,10 @@ public class GameDBManager {
 
     public static int getNumReviews(String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
-        Bson projection = project(fields( excludeId(), include("name", "num_reviews")));
-        Bson match =  match(eq("name",game));
+        Bson projection = (fields( excludeId(), include("name", "num_reviews")));
+        Bson match =  (eq("name",game));
         int ret = 0;
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -213,10 +215,10 @@ public class GameDBManager {
 
     public static double getAvgRating(String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
-        Bson projection = project(fields( excludeId(), include("name", "avg_rating")));
-        Bson match =  match(eq("name",game));
+        Bson projection = (fields( excludeId(), include("name", "avg_rating")));
+        Bson match =  (eq("name",game));
         double ret = 0.0;
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -230,10 +232,10 @@ public class GameDBManager {
 
     public static int getNumVotes (String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
-        Bson projection = project(fields( excludeId(), include("name", "num_votes")));
-        Bson match =  match(eq("name",game));
+        Bson projection = (fields( excludeId(), include("name", "num_votes")));
+        Bson match =  (eq("name",game));
         int ret = 0;
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -288,17 +290,18 @@ public class GameDBManager {
                 "\n -cooperative: " + ((g.isCooperative()) ? "Yes! Play all togheter!" : "No, all against all!") +
                 "\n -family and expansion: " + g.getFamily() + ", " + g.getExpansion());
 
-        if (unwindCategory){
+        List<String> list = (List<String>) next.get("category");
+        g.setListCategory(list);
+
+        /*if (unwindCategory){
             g.setCategory1(next.get("category")==null? "": next.get("category").toString());
             g.setCategory2("");
 
         }
         else {
-            List<String> list = (List<String>) next.get("category");
-            System.out.println(list);
-            g.setListCategory(list);
 
-        }
+
+        }*/
 
         return g;
     }
