@@ -23,11 +23,10 @@ public class UserDBManager extends MongoDBManager {
         
         try {
             collection.insertOne(doc);
-            MongoDBManager.dropCollection(collection);
             return true;
         }
         catch (Exception ex){
-            MongoDBManager.dropCollection(collection);
+
             return false;
         }
     }
@@ -42,11 +41,10 @@ public class UserDBManager extends MongoDBManager {
         update.append("$set", setLastLogin);
         try{
             collection.updateOne(eq("username", username), update);
-            MongoDBManager.dropCollection(collection);
+
             return true;
         }
         catch (Exception ex){
-            MongoDBManager.dropCollection(collection);
             return false;
         }
 
