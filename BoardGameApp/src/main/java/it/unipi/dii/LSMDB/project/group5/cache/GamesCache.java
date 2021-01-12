@@ -40,6 +40,10 @@ public class GamesCache {
                 });
     }
 
+    public void invalidaCache() {
+        cache.invalidateAll();
+    }
+
     private GameBean cercaGiochi(String name) {
         return controller.showGame(name);
     }

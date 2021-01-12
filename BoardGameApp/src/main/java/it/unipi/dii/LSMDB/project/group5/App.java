@@ -34,7 +34,7 @@ public class App extends Application {
             stage.setWidth(1200);
             stage.show();
         } else {
-            logger.log(Level.SEVERE, "Mongo db not starterd");
+           logger.log(Level.SEVERE, "Mongo db not starterd");
         }
     }
 

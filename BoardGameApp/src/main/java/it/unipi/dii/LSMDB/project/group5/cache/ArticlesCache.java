@@ -57,4 +57,7 @@ public class ArticlesCache {
     }
 
 
+    public void invalidaCache() {
+        cache.invalidateAll();
+    }
 }

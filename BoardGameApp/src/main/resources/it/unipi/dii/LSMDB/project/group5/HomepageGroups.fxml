@@ -81,7 +81,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <TableView fx:id="admintable" layoutX="258.0" layoutY="104.0" prefHeight="200.0" prefWidth="486.0">
+            <TableView fx:id="admintable" layoutX="258.0" layoutY="104.0" prefHeight="200.0" prefWidth="471.0">
               <columns>
                 <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
                 <TableColumn fx:id="admin" prefWidth="75.0" text="Admin" />

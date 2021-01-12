@@ -1,5 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
+import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
+import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -69,5 +71,10 @@ public class LoginPageView {
     }
 
     public static int getLogged() { return logged ; }
-    public static void logout() { logged = -1; }
+    public static void logout() { logged = -1;
+        GamesCache cache = GamesCache.getInstance();
+        cache.invalidaCache();
+        ArticlesCache cacheArticle = ArticlesCache.getInstance();
+        cacheArticle.invalidaCache();
+    }
 }
