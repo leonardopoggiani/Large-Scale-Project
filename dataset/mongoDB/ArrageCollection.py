@@ -11,7 +11,7 @@ def arrangeGames (file):
     df.drop(columns=['image_file', 'bgg_id', 'easiest_complexity', 'hardest_complexity', 'highest_language_dependency', 'integration',
     'language_dependency', 'lowest_language_dependency', 'luding_id', 'max_players_best', 'max_players_rec', 'mechanic', 'min_players_best',
     'min_players_rec', 'rank', 'video_url', 'worst_rating', 'scraped_at', 'stddev_rating', 'family', 'best_rating', 'external_link',
-    'game_type', 'review_url'], axis=1, inplace=True)
+    'game_type', 'review_url', '_id.$oid'], axis=1, inplace=True)
     df['num_reviews'] = 0
     df['rules_url'] = ""
     df['avg_rating'] = df['avg_rating'].map(lambda x: '{0:.1f}'.format(x)) 
