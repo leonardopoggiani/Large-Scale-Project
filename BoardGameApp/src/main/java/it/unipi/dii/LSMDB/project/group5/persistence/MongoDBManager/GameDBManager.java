@@ -162,7 +162,7 @@ public class GameDBManager {
             updateNumVotes(votes, game);
             return -1;
         }
-        return getAvgRating(game);
+        return -1;
     }
 
     private static boolean updateAvgRating (double avg,  String game){

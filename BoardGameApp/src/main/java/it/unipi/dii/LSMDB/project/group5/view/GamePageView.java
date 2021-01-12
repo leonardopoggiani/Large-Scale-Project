@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 
 public class GamePageView {
