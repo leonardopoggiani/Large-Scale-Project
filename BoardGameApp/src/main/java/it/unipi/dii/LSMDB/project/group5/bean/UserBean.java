@@ -1,10 +1,9 @@
 package it.unipi.dii.LSMDB.project.group5.bean;
 
 import java.sql.Timestamp;
-import java.text.*;
 import java.util.Calendar;
-import java.util.Date;
-public class UserBean {
+
+public class UserBean extends User{
 
     private String username;
     private String password;

@@ -38,6 +38,7 @@ public class GameDBManager {
 
         }
 
+        System.out.println("Gioco da mostrare " + g);
         return g;
 
     }
