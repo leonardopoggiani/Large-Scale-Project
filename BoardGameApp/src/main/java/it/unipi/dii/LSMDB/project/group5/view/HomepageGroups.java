@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class HomepageGroups implements Initializable {
+public class HomepageGroups {
 
     int giaCaricato = -1;
     private TableView<TableGroupBean> tableMembro;
@@ -155,12 +155,4 @@ public class HomepageGroups implements Initializable {
         //}
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            setGroups();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

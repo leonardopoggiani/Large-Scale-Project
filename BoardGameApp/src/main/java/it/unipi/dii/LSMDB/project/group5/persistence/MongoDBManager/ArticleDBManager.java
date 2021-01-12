@@ -40,7 +40,7 @@ public class ArticleDBManager {
             cursor.close();
        }
 
-       MongoDBManager.dropCollection(collection);
+
        return a;
 
     }
@@ -62,7 +62,7 @@ public class ArticleDBManager {
                 ret.add(a);
             }
         }
-        MongoDBManager.dropCollection(collection);
+
         return ret;
     }
 
@@ -85,7 +85,7 @@ public class ArticleDBManager {
                 ret.add(a);
             }
         }
-        MongoDBManager.dropCollection(collection);
+
         return ret;
     }
 
@@ -107,7 +107,7 @@ public class ArticleDBManager {
 
             }
         }
-        MongoDBManager.dropCollection(collection);
+
         return ret;
     }
 
@@ -139,7 +139,7 @@ public class ArticleDBManager {
                 ret.add(g);
             }
         }
-        MongoDBManager.dropCollection(collection);
+
         return ret;
 
     }
@@ -156,11 +156,11 @@ public class ArticleDBManager {
         query.append("articles.title", title);
         try{
             collection.updateOne(query, update);
-            MongoDBManager.dropCollection(collection);
+
             return true;
         }
         catch (Exception ex) {
-            MongoDBManager.dropCollection(collection);
+
             return false;
         }
 
@@ -178,11 +178,11 @@ public class ArticleDBManager {
         query.append("articles.title", title);
         try{
             collection.updateOne(query, update);
-            MongoDBManager.dropCollection(collection);
+
             return true;
         }
         catch (Exception ex) {
-            MongoDBManager.dropCollection(collection);
+
             return false;
         }
     }
@@ -199,11 +199,11 @@ public class ArticleDBManager {
         query.append("articles.title", title);
         try{
             collection.updateOne(query, update);
-            MongoDBManager.dropCollection(collection);
+
             return true;
         }
         catch (Exception ex) {
-            MongoDBManager.dropCollection(collection);
+
             return false;
         }
     }
@@ -225,7 +225,7 @@ public class ArticleDBManager {
 
             }
         }
-        MongoDBManager.dropCollection(collection);
+
         return ret;
     }
 
@@ -246,7 +246,7 @@ public class ArticleDBManager {
 
             }
         }
-        MongoDBManager.dropCollection(collection);
+
         return ret;
     }
 
@@ -267,7 +267,7 @@ public class ArticleDBManager {
 
             }
         }
-        MongoDBManager.dropCollection(collection);
+
         return ret;
     }
 
@@ -315,11 +315,11 @@ public class ArticleDBManager {
 
         try{
             collection.findOneAndUpdate(query, update);
-            MongoDBManager.dropCollection(collection);
+
             return true;
         }catch (Exception ex){
             System.out.println(ex.getMessage());
-            MongoDBManager.dropCollection(collection);
+
             return false;
         }
     }
