@@ -4,7 +4,6 @@ import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.bean.CommentBean;
 import it.unipi.dii.LSMDB.project.group5.bean.LikeBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
-import it.unipi.dii.LSMDB.project.group5.cache.HomepageArticle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;

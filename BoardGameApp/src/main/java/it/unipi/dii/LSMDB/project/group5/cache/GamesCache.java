@@ -3,11 +3,8 @@ package it.unipi.dii.LSMDB.project.group5.cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
-import it.unipi.dii.LSMDB.project.group5.view.LoginPageView;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;

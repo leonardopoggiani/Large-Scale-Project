@@ -3,9 +3,7 @@ package it.unipi.dii.LSMDB.project.group5.view;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.bean.RateBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
-import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
 import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
-import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -17,23 +15,17 @@ import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import javafx.scene.input.*;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+
 
 public class GamePageView {
+
     Logger logger = Logger.getLogger(this.getClass().getName());
     int giàCaricato = -1;
     GamesCache cache = GamesCache.getInstance();
@@ -62,6 +54,7 @@ public class GamePageView {
     void setGameFields() throws ExecutionException {
         // setto i campi del gioco
         if (giàCaricato == -1) {
+
             ImageView image = (ImageView) App.getScene().lookup("#image");
             String game = HomepageGames.getGame();
             GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
@@ -77,6 +70,9 @@ public class GamePageView {
 
             if( (currentGame.getImageUrl() != null) && !currentGame.getImageUrl().equals("") ) {
                 image.setImage(new Image(currentGame.getImageUrl()));
+            } else {
+                logger.info("immagine di default");
+                image.setImage(new Image("file:src/main/resources/img/defaultgioco.png"));
             }
 
             Text title = (Text) App.getScene().lookup("#title");
@@ -227,11 +223,8 @@ public class GamePageView {
         RateBean rate = new RateBean(LoginPageView.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
         boolean ret = controller.Neo4jAddRating(rate);
 
-        System.out.println("Aggiungo rate " + ret);
-
         if(ret) {
             double votoMedio = controller.MongoDBgetAvgRating(rate.getGame());
-            System.out.println("Voto: " + votoMedio);
             progress.setProgress(votoMedio / 10);
             voting.setText(String.valueOf(Math.round(votoMedio)));
         }
