@@ -1,10 +1,12 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
+import com.google.common.collect.Lists;
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -15,16 +17,19 @@ import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import it.unipi.dii.LSMDB.project.group5.bean.TableGroupBean;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class HomepageGroups {
 
     int giaCaricato = -1;
+    private static String currentGroup;
     private TableView<TableGroupBean> tableMembro;
     private TableView<TableGroupBean> tableAdmin;
+    ObservableList<String> nomiDeiGruppi = FXCollections.observableArrayList();
+    ObservableList<String> userActions = FXCollections.observableArrayList("Add post", "Leave group", "View posts");
+    ObservableList<String> adminActions = FXCollections.observableArrayList("Add post", "Delete group", "View posts", "Add member");
+
     private ObservableList<TableGroupBean> gruppiAdmin = FXCollections.observableArrayList();
     private ObservableList<TableGroupBean> gruppiMembro = FXCollections.observableArrayList();
 
@@ -72,6 +77,8 @@ public class HomepageGroups {
     void setGroups() throws IOException {
         GroupsPostsDBController controller = new GroupsPostsDBController();
         if(giaCaricato == -1) {
+            ComboBox gruppi = (ComboBox) App.getScene().lookup("#nomigruppi");
+            ComboBox azioni = (ComboBox) App.getScene().lookup("#action");
 
             tableAdmin = (TableView<TableGroupBean>) App.getScene().lookup("#admintable");
             tableAdmin.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -97,17 +104,22 @@ public class HomepageGroups {
             for(int i = 0; i < gruppiDiCuiSonoAdmin.size(); i++){
                 GroupBean g = gruppiDiCuiSonoAdmin.get(i);
                 TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
+                nomiDeiGruppi.add(g.getName());
                 gruppiAdmin.add(tableGroup);
             }
 
             for(int i = 0; i < gruppiDiCuiSonoMembro.size(); i++){
                 GroupBean g = gruppiDiCuiSonoMembro.get(i);
                 TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
+                nomiDeiGruppi.add(g.getName());
                 gruppiMembro.add(tableGroup);
             }
 
             tableAdmin.setItems(gruppiAdmin);
             tableMembro.setItems(gruppiMembro);
+
+            gruppi.setItems(nomiDeiGruppi);
+            azioni.setItems(adminActions);
 
             giaCaricato = 1;
         }
@@ -117,6 +129,9 @@ public class HomepageGroups {
     void createGroup() throws IOException {
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
         GroupsPostsDBController membersNumber = new GroupsPostsDBController();
+
+        ComboBox gruppi = (ComboBox) App.getScene().lookup("#nomigruppi");
+        ComboBox azioni = (ComboBox) App.getScene().lookup("#action");
 
         TextField tf = (TextField) App.getScene().lookup("#groupname");
         TextField tf2 = (TextField) App.getScene().lookup("#referredgame");
@@ -152,7 +167,41 @@ public class HomepageGroups {
             System.out.println(tableGroup);
             gruppiAdmin.add(tableGroup);
             tableAdmin.setItems(gruppiAdmin);
+            nomiDeiGruppi.add(group.getName());
+            azioni.setItems(adminActions);
+            gruppi.setItems(nomiDeiGruppi);
+
         //}
+    }
+
+    @FXML
+    void selectAction() throws IOException {
+        ComboBox gruppi = (ComboBox) App.getScene().lookup("#nomigruppi");
+        ComboBox azioni = (ComboBox) App.getScene().lookup("#action");
+
+        if(gruppi.getSelectionModel().getSelectedItem() != null) {
+            String gruppoSelezionato = nomiDeiGruppi.get(gruppi.getSelectionModel().getSelectedIndex());
+            switch (adminActions.get(azioni.getSelectionModel().getSelectedIndex())) {
+                case "Add post":
+                    break;
+                case "Add member":
+                    addMember(gruppoSelezionato);
+                    break;
+                case "Delete group":
+                    break;
+                case "View posts":
+                    break;
+            }
+        }
+    }
+
+    private void addMember(String gruppo) throws IOException {
+        currentGroup = gruppo;
+        App.setRoot("AddMember");
+    }
+
+    public static String getGroup() {
+        return currentGroup;
     }
 
 }

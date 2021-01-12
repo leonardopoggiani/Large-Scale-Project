@@ -1,6 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
+import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
@@ -73,6 +74,23 @@ public class    GamesDBManager extends Neo4jDBManager{
 
             infoGames.add(infoGame);
         }
+        /*
+        GameBean game1 = new GameBean("Un gioco", 8.5,120);
+        GameBean game2 = new GameBean("Un gioco bello", 5.5,120);
+        GameBean game3 = new GameBean("Un gioco brutto", 2.5,110);
+        GameBean game4 = new GameBean("Un gioco normale", 8.5,2);
+        GameBean game5 = new GameBean("Un gioco favoloso", 9.5,12);
+        GameBean game6 = new GameBean("Un gioco meraviglioso", 8.5,10);
+        GameBean game7 = new GameBean("Un gioco altro", 4.5,50);
+
+        infoGames.add(game1);
+        infoGames.add(game2);
+        infoGames.add(game3);
+        infoGames.add(game4);
+        infoGames.add(game5);
+        infoGames.add(game6);
+        infoGames.add(game7);*/
+
         return infoGames;
 
     }

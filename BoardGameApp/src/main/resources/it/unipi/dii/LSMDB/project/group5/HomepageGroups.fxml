@@ -87,7 +87,6 @@
                   <TableColumn fx:id="timestamp" prefWidth="75.0" text="Last message" />
                   <TableColumn fx:id="game" prefWidth="75.0" text="Game" />
                   <TableColumn fx:id="members" prefWidth="75.0" text="Members" />
-                  <TableColumn fx:id="game11" prefWidth="110.0" text="Add member" />
               </columns>
             </TableView>
             <ImageView fitHeight="50.0" fitWidth="101.0" layoutX="61.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -103,6 +102,9 @@
                   <TableColumn prefWidth="75.0" text="Members" />
               </columns>
             </TableView>
+            <ComboBox fx:id="nomigruppi" layoutX="381.0" layoutY="655.0" prefHeight="28.0" prefWidth="105.0" promptText="Name" />
+            <Text fill="#e8dcdc" layoutX="217.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do?" />
+            <ComboBox fx:id="action" layoutX="497.0" layoutY="655.0" onAction="#selectAction" prefHeight="28.0" prefWidth="106.0" promptText="Action" />
          </children></AnchorPane>
   </content>
 </ScrollPane>
