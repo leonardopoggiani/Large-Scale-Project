@@ -310,18 +310,23 @@ public class HomepageGames {
         logger.info("show filtering result");
         if (games != null) {
             System.out.println("Lunghezza lista " + games.size());
-            for (int i = 0; i < games.size() && i < 6; i++) {
-                GameBean g = games.get(i);
-                savedGames.add(g.getName());
-                System.out.println("Add " + g);
+            for (int i = 0; i < 6; i++) {
                 TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
                 Text ratings = (Text) App.getScene().lookup("#rating" + (i + 1));
                 Text number = (Text) App.getScene().lookup("#number" + (i + 1));
 
+                if(i < games.size()){
+                    GameBean g = games.get(i);
+                    savedGames.add(g.getName());
 
-                gioco.setText(g.getName());
-                ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
-                number.setText(String.valueOf(Math.round(g.getNumVotes())));
+                    gioco.setText(g.getName());
+                    ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
+                    number.setText(String.valueOf(Math.round(g.getNumVotes())));
+                } else {
+                    gioco.setText("");
+                    ratings.setText("");
+                    number.setText("");
+                }
 
             }
         }

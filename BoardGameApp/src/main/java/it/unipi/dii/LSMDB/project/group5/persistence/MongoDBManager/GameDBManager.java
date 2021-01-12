@@ -291,18 +291,17 @@ public class GameDBManager {
                 "\n -cooperative: " + ((g.isCooperative()) ? "Yes! Play all togheter!" : "No, all against all!") +
                 "\n -family and expansion: " + g.getFamily() + ", " + g.getExpansion());
 
-        List<String> list = (List<String>) next.get("category");
-        g.setListCategory(list);
 
-        /*if (unwindCategory){
+
+        if (unwindCategory){
             g.setCategory1(next.get("category")==null? "": next.get("category").toString());
             g.setCategory2("");
 
         }
         else {
-
-
-        }*/
+            List<String> list = (List<String>) next.get("category");
+            g.setListCategory(list);
+        }
 
         return g;
     }
