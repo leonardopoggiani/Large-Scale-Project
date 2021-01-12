@@ -19,15 +19,11 @@ public class GameBean {
     private String maxTime;
     private int numReviews;
     private double avgRating;
-    private String alternativeName;
     private String description;
-    private String price;
     private boolean cooperative;
-    private List<String> family;
     private List<String> expansion;
     private int numVotes;
     private double complexity;
-    private int languageDependency;
     List<String> listCategory;
 
     //Non so se servono per ora le lascio qua
@@ -113,20 +109,12 @@ public class GameBean {
         return cooperative;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
     public double getComplexity() {
         return complexity;
     }
 
     public int getNumVotes() {
         return numVotes;
-    }
-
-    public String getAlternativeName() {
-        return alternativeName;
     }
 
     public String getDescription() {
@@ -137,24 +125,8 @@ public class GameBean {
         return expansion;
     }
 
-    public List<String> getFamily() {
-        return family;
-    }
-
-    public int getLanguageDependency() {
-        return languageDependency;
-    }
-
-    public void setLanguageDependency(int languageDependency) {
-        this.languageDependency = languageDependency;
-    }
-
     public void setListCategory(List<String> listCategory) {
         this.listCategory = listCategory;
-    }
-
-    public void setAlternativeName(String alternativeName) {
-        this.alternativeName = alternativeName;
     }
 
     public void setComplexity(double complexity) {
@@ -171,14 +143,6 @@ public class GameBean {
 
     public void setExpansion(List<String> expansion) {
         this.expansion = expansion;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public void setFamily(List<String> family) {
-        this.family = family;
     }
 
     public void setNumVotes(int numVotes) {

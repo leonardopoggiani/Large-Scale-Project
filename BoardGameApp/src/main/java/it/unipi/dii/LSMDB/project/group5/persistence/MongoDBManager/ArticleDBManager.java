@@ -40,6 +40,7 @@ public class ArticleDBManager {
             cursor.close();
        }
 
+       MongoDBManager.dropCollection(collection);
        return a;
 
     }
@@ -61,7 +62,7 @@ public class ArticleDBManager {
                 ret.add(a);
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -84,7 +85,7 @@ public class ArticleDBManager {
                 ret.add(a);
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -106,7 +107,7 @@ public class ArticleDBManager {
 
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -138,12 +139,12 @@ public class ArticleDBManager {
                 ret.add(g);
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
 
     }
 
-    public static void updateNumLike(int inc, String author, String title){
+    public static boolean updateNumLike(int inc, String author, String title){
         int tot = getNumLikes(author, title) + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Document updateLike = new Document();
@@ -153,11 +154,19 @@ public class ArticleDBManager {
         Document query = new Document();
         query.append("username", author);
         query.append("articles.title", title);
-        collection.updateOne(query, update);
+        try{
+            collection.updateOne(query, update);
+            MongoDBManager.dropCollection(collection);
+            return true;
+        }
+        catch (Exception ex) {
+            MongoDBManager.dropCollection(collection);
+            return false;
+        }
 
     }
 
-    public static void updateNumDislike(int inc, String author, String title){
+    public static boolean updateNumDislike(int inc, String author, String title){
         int tot = getNumLikes(author, title) + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Document updateLike = new Document();
@@ -167,11 +176,18 @@ public class ArticleDBManager {
         Document query = new Document();
         query.append("username", author);
         query.append("articles.title", title);
-        collection.updateOne(query, update);
-
+        try{
+            collection.updateOne(query, update);
+            MongoDBManager.dropCollection(collection);
+            return true;
+        }
+        catch (Exception ex) {
+            MongoDBManager.dropCollection(collection);
+            return false;
+        }
     }
 
-    public static void updateNumComments(int inc , String author, String title){
+    public static boolean updateNumComments(int inc , String author, String title){
         int tot = getNumComments(author, title) + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Document updateLike = new Document();
@@ -181,7 +197,15 @@ public class ArticleDBManager {
         Document query = new Document();
         query.append("username", author);
         query.append("articles.title", title);
-        collection.updateOne(query, update);
+        try{
+            collection.updateOne(query, update);
+            MongoDBManager.dropCollection(collection);
+            return true;
+        }
+        catch (Exception ex) {
+            MongoDBManager.dropCollection(collection);
+            return false;
+        }
     }
 
     public static int getNumComments(String author, String title){
@@ -201,6 +225,7 @@ public class ArticleDBManager {
 
             }
         }
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -221,6 +246,7 @@ public class ArticleDBManager {
 
             }
         }
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -241,6 +267,7 @@ public class ArticleDBManager {
 
             }
         }
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -281,10 +308,18 @@ public class ArticleDBManager {
         Document doc = new Document("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp())
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
+
+        Bson query = new Document("username", a.getAuthor());
+        Bson update = new Document("$push", new Document("articles", doc));
+
+
         try{
-            collection.updateOne(match , doc);
+            collection.findOneAndUpdate(query, update);
+            MongoDBManager.dropCollection(collection);
             return true;
         }catch (Exception ex){
+            System.out.println(ex.getMessage());
+            MongoDBManager.dropCollection(collection);
             return false;
         }
     }
