@@ -154,19 +154,14 @@ public class GameDBManager {
     public static double updateRating(double rate, String game){
         int votes = getNumVotes(game);
         double avg = getAvgRating(game);
-        int numVotes = 0;
         double newAvg = (avg*votes + rate)/(votes+1);
         if(updateNumVotes(votes+1, game)){
-            if(updateAvgRating(newAvg, game)){
-                //updateNumVotes(votes, game);
-                return getAvgRating(game);
-            }
-            //return -1;
+            return -1;
         };
-       /* if(updateAvgRating(newAvg, game)){
+        if(updateAvgRating(newAvg, game)){
             updateNumVotes(votes, game);
             return -1;
-        }*/
+        }
         return -1;
     }
 

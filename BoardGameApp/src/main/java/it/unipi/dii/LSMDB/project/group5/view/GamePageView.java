@@ -5,6 +5,8 @@ import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.bean.RateBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
 import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
+import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,8 +20,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 
 public class GamePageView {
