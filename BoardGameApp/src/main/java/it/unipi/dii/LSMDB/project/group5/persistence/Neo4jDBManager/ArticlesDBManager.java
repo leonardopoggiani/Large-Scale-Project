@@ -47,11 +47,11 @@ public class ArticlesDBManager extends Neo4jDBManager {
     {
         List<ArticleBean> articles = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
-        Boolean findInflu = false;
+        int quantiInflu= 0;
         parameters.put("username", username);
         parameters.put("role", "influencer");
-        String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:$role})" +
-                "RETURN f";
+        /*String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:$role})" +
+                "RETURN f";*/
         String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article)" +
                 "RETURN a, i, p ORDER BY p.timestamp";
 
@@ -60,11 +60,12 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
                 "RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 4";
 
-        Result result=tx.run(searchInfluencers, parameters);
-        if(!result.hasNext())
+        Result result;
+        quantiInflu = UsersDBManager.transactionCountUsers(tx,username,"influencer");
+        if(quantiInflu < 3)
         {
             result = tx.run(nienteAmici, parameters);
-            System.out.println("Non ho trovato Influencers");
+            System.out.println("Pochi Influencer");
         }
         else
         {

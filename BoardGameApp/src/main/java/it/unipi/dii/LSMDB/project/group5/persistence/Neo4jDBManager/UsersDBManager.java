@@ -147,35 +147,33 @@ public class UsersDBManager extends Neo4jDBManager{
     {
         List<String> suggestion = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
-
+        Result result;
         parameters.put("username", username);
         parameters.put("role", role);
 
 
-        String searchFriends = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
+        /*String searchFriends = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
                 "WHERE (u2)-[:FOLLOW]->(u)" +
-                "RETURN count(u2) AS quantiAmici";
+                "RETURN count(u2) AS quantiAmici";*/
 
         String searchForFriendsInflu = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
                 "WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
 
         String searchForArticlesFollowersInflu = "MATCH (u:User)-[f:FOLLOW]->(u2:User{role:$role})-[p:PUBLISHED]->(a:Article)" +
-                "RETURN u2.username AS suggestion ,COUNT(f) AS quantiFollowers, COUNT(p) AS quantiArticoli" +
-                "ORDER BY quantiFollowers DESC, quantiArticoli DESC" +
-                "LIMIT 4";
+                "RETURN u2.username AS suggestion ,COUNT(f) AS quantiFollowers, COUNT(p) AS quantiArticoli ORDER BY quantiFollowers DESC, quantiArticoli DESC LIMIT 4";
 
         String searchForFriendsNormal = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
                 "WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (tizio)-[:FOLLOW]->(friend) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
+
         String searchForCategoryNormal = "MATCH (ub:User{username:$username}),(ua:User{role:$role})" +
                 "WHERE (ub.category1=ua.category1 or ub.category1=ua.category2)" +
                 "or (ub.category2=ua.category1 or ub.category2=ua.category2)" +
                 "AND NOT(ua.username=$username)" +
                 "RETURN ua.username AS suggestion";
 
-        Result result=tx.run(searchFriends, parameters);
-        int quantiAmici = result.next().get("quantiAmici").asInt();
+        int quantiAmici = transactionCountUsers(tx,username, "normalUser");
         System.out.println(quantiAmici);
-        if(quantiAmici > 0)
+        if(quantiAmici > 3)
         {
 
             if(role.equals("normalUser"))
@@ -213,5 +211,42 @@ public class UsersDBManager extends Neo4jDBManager{
         }
         return suggestion;
 
+    }
+
+    /** La funzione conta gli amici o gli influencer seguiti in base al parametro type
+     * La funzione viene utilizzata per il suggerimento degli articoli e per il suggerimento
+     * degli utenti.
+     * @param tx
+     * @param username
+     * @param type
+     * @return numero di amici o numero di influencer seguiti
+     */
+
+    public static int transactionCountUsers(Transaction tx, String username, String type) {
+
+        HashMap<String, Object> parameters = new HashMap<>();
+        Result result;
+        int quanti = 0;
+        parameters.put("username", username);
+        String countFriends ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
+                            "WHERE (u2)-[:FOLLOW]->(u)" +
+                            "RETURN count(u2) AS quanti";
+
+        String countInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:\"influencer\"})" +
+                "RETURN count(u2) AS quanti";
+        if(type.equals("influencer"))
+        {
+            result = tx.run(countInfluencers, parameters);
+        }
+        else
+        {
+            result = tx.run(countFriends, parameters);
+        }
+        while (result.hasNext()) {
+            Record record = result.next();
+            quanti = record.get("quanti").asInt();
+        }
+
+        return quanti;
     }
 }
