@@ -62,8 +62,8 @@ public class    GamesDBManager extends Neo4jDBManager{
                     Value value = nameValue.value();
                     name = value.get("name").asString();
                     infoGame.setName(name);
-                    infoGame.setCategory1(value.get("category1").asString());
-                    infoGame.setCategory2(value.get("category2").asString());
+                    infoGame.setAvgRating(RatingsDBManager.avgRatings(name));
+                    infoGame.setNumVotes(RatingsDBManager.countRatings(name));
 
                 }
 
@@ -73,6 +73,7 @@ public class    GamesDBManager extends Neo4jDBManager{
 
             infoGames.add(infoGame);
         }
+        System.out.println(infoGames);
         return infoGames;
 
     }
