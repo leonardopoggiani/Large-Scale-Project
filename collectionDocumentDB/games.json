@@ -1,6 +1,5 @@
 {
     "name":"Quizduell",
-    "alt_name":"",
     "year":"",
     "category":["Board"],
     "description":"",
@@ -8,7 +7,6 @@
     "url":"https://www.luding.org/cgi-bin/GameData.py/ENgameid/27035",
     "image_url":"['http://luding.org/luding/press/2014QuizduellDasSpiel.jpg']",
     "rules_url":"",
-    "list_price":"",
     "min_players":"2",
     "max_players":"6",
     "min_age":"12",
@@ -16,13 +14,11 @@
     "min_time":"",
     "max_time":"",
     "cooperative":"",
-    "family":"",
     "expansion":"",
     "num_votes":"", 
     "avg_rating":"", 
     "num_reviews": "",
     "complexity":"",
-    "language_dependency":"",
 
     "published_at":"",
     "updated_at":"",

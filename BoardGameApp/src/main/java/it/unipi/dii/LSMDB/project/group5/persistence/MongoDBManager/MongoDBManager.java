@@ -13,7 +13,7 @@ public class MongoDBManager {
     public static boolean createConnection(){
         try{
             mongoClient = MongoClients.create("mongodb://localhost:27017");
-            database = mongoClient.getDatabase("Project");
+            database = mongoClient.getDatabase("project");
             //database = mongoClient.getDatabase("boardgamesApp");
             return true;
         }
@@ -31,9 +31,7 @@ public class MongoDBManager {
         return collection;
     }
 
-    public static void dropCollection(MongoCollection<Document> collection){
-        collection.drop();
-    }
+    
 
     public static void close(){
         mongoClient.close();

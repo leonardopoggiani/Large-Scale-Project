@@ -27,6 +27,15 @@
             "num_likes": null,
             "num_dislikes": null,
             "num_comments": null
+        },
+        {
+            "title": "Nuovo articolo1",
+            "body": "bla",
+            "timestamp": "2021-01-09 11:43:24.337",
+            "games": ["Spirit Island","Risiko"],
+            "num_likes": null,
+            "num_dislikes": null,
+            "num_comments": null
         }
     ] 
 }

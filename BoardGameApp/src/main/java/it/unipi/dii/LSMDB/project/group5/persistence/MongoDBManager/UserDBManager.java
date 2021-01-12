@@ -23,16 +23,15 @@ public class UserDBManager extends MongoDBManager {
         
         try {
             collection.insertOne(doc);
-            //MongoDBManager.dropCollection(collection);
             return true;
         }
         catch (Exception ex){
-            //MongoDBManager.dropCollection(collection);
+
             return false;
         }
     }
 
-    public static boolean updateLogin(String username){
+    public static boolean updateLogin(String username) {
         System.out.println("Nella update login");
         MongoCollection<Document> collection = getCollection("Users");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -40,21 +39,17 @@ public class UserDBManager extends MongoDBManager {
         setLastLogin.append("last_login", dateFormat.format(Calendar.getInstance().getTime()));
         Document update = new Document();
         update.append("$set", setLastLogin);
-        try{
+        try {
             collection.updateOne(eq("username", username), update);
-            //MongoDBManager.dropCollection(collection);
+
             return true;
-        }
-        catch (Exception ex){
-            //MongoDBManager.dropCollection(collection);
+        } catch (Exception ex) {
             return false;
         }
-
     }
-	
-	 protected static UserBean fillUserFields (Document next){
+
+    protected static UserBean fillUserFields(Document next) {
         UserBean u = new UserBean();
-        u.setUsername((next.get("username") == null)? "":next.get("username").toString());
         u.setName((next.get("name")==null)?"": next.get("name").toString());
         u.setSurname((next.get("surname")==null)?"":next.get("surname").toString());
         u.setAge((next.get("age")==null) ? 18: Integer.parseInt(next.get("age").toString()));

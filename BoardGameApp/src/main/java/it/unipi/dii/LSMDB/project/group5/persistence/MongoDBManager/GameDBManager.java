@@ -37,7 +37,6 @@ public class GameDBManager {
             cursor.close();
 
         }
-        //MongoDBManager.dropCollection(collection);
         return g;
 
     }
@@ -59,7 +58,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-        //MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -81,7 +79,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-        //MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -100,7 +97,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-        //MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -120,7 +116,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-        //MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -152,7 +147,6 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-        //MongoDBManager.dropCollection(collection);
         return ret;
 
     }
@@ -179,11 +173,11 @@ public class GameDBManager {
         update.append("$set", updateAvg);
         try{
             collection.updateOne(eq("name", game), update);
-            //MongoDBManager.dropCollection(collection);
+
             return true;
         }
         catch (Exception ex){
-            //MongoDBManager.dropCollection(collection);
+
             return false;
         }
 
@@ -198,11 +192,11 @@ public class GameDBManager {
         update.append("$set", reviews);
         try{
             collection.updateOne(eq("name", game), update);
-            //MongoDBManager.dropCollection(collection);
+
             return true;
         }
         catch (Exception ex){
-            //MongoDBManager.dropCollection(collection);
+
             return false;
         }
 
@@ -221,7 +215,6 @@ public class GameDBManager {
                 ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString());
             }
         }
-        //MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -233,11 +226,11 @@ public class GameDBManager {
         update.append("$set", votes);
         try{
             collection.updateOne(eq("name", game), update);
-            //MongoDBManager.dropCollection(collection);
+
             return true;
         }
         catch (Exception ex){
-            //MongoDBManager.dropCollection(collection);
+
             return false;
         }
 
@@ -257,7 +250,6 @@ public class GameDBManager {
             }
         }
 
-        //MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -273,7 +265,6 @@ public class GameDBManager {
                 ret = true;
             }
         }
-        //MongoDBManager.dropCollection(collection);
         return ret;
     }
     
@@ -290,7 +281,6 @@ public class GameDBManager {
                 ret = (next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString());
             }
         }
-        //MongoDBManager.dropCollection(collection);
         return ret;
 
     }
