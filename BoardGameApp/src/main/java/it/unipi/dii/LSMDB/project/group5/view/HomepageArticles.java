@@ -5,13 +5,13 @@ import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
+import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -45,6 +45,13 @@ public class HomepageArticles {
             "Aviation/Flight:2650","Modern Warfare:1069","Territory Building:1086",
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
             "Exploration:1020","Word-game:1025","Video Game Theme:1101");
+
+    ObservableList<String> filters = FXCollections.observableArrayList(
+            "Game", "Author", "Release Date", "None");
+
+    ObservableList<String> ordinamenti = FXCollections.observableArrayList(
+            "Number of likes", "Number of dislikes", "Number of comments", "None");
+
 
     int giàCaricato = -1;
     private static String autore;
@@ -82,6 +89,57 @@ public class HomepageArticles {
         App.setRoot("LoginPageView");
         LoginPageView.logout();
     }
+
+    @FXML
+    void showFilters () throws IOException {
+        logger.info("Carico i filtri");
+        Scene scene = App.getScene(); // recupero la scena della signup
+        ComboBox filtri = (ComboBox) scene.lookup("#filter");
+
+        filtri.setItems(filters);
+    }
+
+    @FXML
+    void setFilters() {
+        Scene scene = App.getScene(); // recupero la scena della signup
+        TextField game = (TextField) scene.lookup("#game");
+        TextField author = (TextField) scene.lookup("#author");
+        DatePicker data = (DatePicker) scene.lookup("#data");
+        ComboBox filtri = (ComboBox) scene.lookup("#filter");
+
+        if(filtri.getSelectionModel().getSelectedItem() != null){
+            String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
+            if(!filtroSelezionato.equals("None")){
+                switch(filtroSelezionato){
+                    case "Game":
+                        game.setVisible(true);
+                        author.setVisible(false);
+                        data.setVisible(false);
+                        break;
+                    case "Author":
+                        game.setVisible(false);
+                        author.setVisible(true);
+                        data.setVisible(false);
+                        break;
+                    case "Release date":
+                        game.setVisible(false);
+                        author.setVisible(false);
+                        data.setVisible(true);
+                        break;
+                    default:
+                        game.setVisible(false);
+                        author.setVisible(false);
+                        data.setVisible(false);
+                        break;
+                }
+            } else {
+                game.setVisible(false);
+                author.setVisible(false);
+                data.setVisible(false);
+            }
+        }
+    }
+
 
     @FXML
     void setSuggestedArticles() throws IOException, ExecutionException {
@@ -174,32 +232,101 @@ public class HomepageArticles {
         TextField gioco = (TextField) App.getScene().lookup("#game");
         AutoCompleteTextField autore = (AutoCompleteTextField) App.getScene().lookup("#author");
         DatePicker data = (DatePicker) App.getScene().lookup("#data");
+        ComboBox order = (ComboBox) App.getScene().lookup("#order");
 
-        LocalDate valoreData = data.getValue();
-        String game = gioco.getText();
-        String nome = autore.getText();
+        List<ArticleBean> filteredArticles = Lists.newArrayList();
+        List<ArticleBean> sortedList = Lists.newArrayList();
 
-        List<ArticleBean> filteredGames0 = Lists.newArrayList();
-        List<ArticleBean> filteredGames1 = Lists.newArrayList();
-        List<ArticleBean> filteredGames2 =Lists.newArrayList();
 
-        if(game != null) {
-            filteredGames0 = controller.filterByGame(game);
+        if(gioco.isVisible() && !gioco.getText().equals("")) {
+            // filtraggio per gioco
+            filteredArticles = controller.filterByGame(gioco.getText());
+        } else if(autore.isVisible() && !autore.getText().equals("")) {
+            // filtraggio per autore
+            filteredArticles = controller.filterByInfluencer(autore.getText());
+        } else if (data.isVisible() && !(data.getValue() == null)){
+            // filtraggio per data
+            filteredArticles = controller.filterByDate(String.valueOf(data.getValue()));
         }
 
-        if(valoreData != null){
-            filteredGames1 = controller.filterByDate(String.valueOf(valoreData));
+        List<ArticleBean> filteringResult = new ArrayList<ArticleBean>(new HashSet<ArticleBean>(filteredArticles));
+
+        if(order.getSelectionModel().getSelectedItem() != null) {
+            logger.info("Voglio ordinare i risultati");
+            int index1 = order.getSelectionModel().getSelectedIndex();
+            String ordering = ordinamenti.get(index1);
+
+            if(filteredArticles.isEmpty()) {
+                // qui ci entro solo se non ho selezionato nessun filtro e quindi applico l'ordinamento a tutti i giochi
+                if(!ordering.equals("None")){
+                    switch (ordering) {
+                        case "Number of likes" -> {
+                            logger.info("Ordino per likes");
+                            sortedList = controller.orderByLikes();
+                        }
+                        case "Number of dislikes" -> {
+                            logger.info("Ordino per dislikes");
+                            sortedList = controller.orderByDislikes();
+                        }
+                        case "Number of comments" -> {
+                            logger.info("Ordino per comments");
+                            sortedList = controller.orderByComments();
+                        }
+                        default -> logger.info("Non ordino");
+                    }
+                    filteringResult = new ArrayList<ArticleBean>(new HashSet<ArticleBean>(sortedList));
+                }
+            } else {
+                filteringResult = orderingResult(filteredArticles, ordering);
+            }
+
         }
 
-        if(nome != null) {
-            filteredGames2 = controller.filterByInfluencer(nome);
-        }
-
-        filteredGames0.addAll(filteredGames1);
-        filteredGames0.addAll(filteredGames2);
-
-        List<ArticleBean> filteringResult = new ArrayList<ArticleBean>(new HashSet<ArticleBean>(filteredGames0));
         showFilteringResult(filteringResult);
+    }
+
+    private List<ArticleBean> orderingResult(List<ArticleBean> target, String mode) {
+
+        if(!mode.equals("None")){
+            switch (mode) {
+                case "Average ratings" -> {
+                    logger.info("Ordino per like");
+                    target.sort(new HomepageArticles.NumberOfLikeComparator());
+                }
+                case "Number of reviews" -> {
+                    logger.info("Ordino per dislike");
+                    target.sort(new HomepageArticles.NumberOfDislikeComparator());
+                }
+                case "Number of ratings" -> {
+                    logger.info("Ordino per comments");
+                    target.sort(new HomepageArticles.NumberOfComments());
+                }
+                default -> logger.info("Non ordino");
+            }
+        }
+
+        return target;
+    }
+
+    static class NumberOfLikeComparator implements Comparator<ArticleBean> {
+        @Override
+        public int compare(ArticleBean a, ArticleBean b) {
+            return Double.compare(b.getNumberLikes(), a.getNumberLikes());
+        }
+    }
+
+    static class NumberOfDislikeComparator implements Comparator<ArticleBean> {
+        @Override
+        public int compare(ArticleBean a, ArticleBean b) {
+            return Integer.compare(b.getNumberDislike(), a.getNumberDislike());
+        }
+    }
+
+    static class NumberOfComments implements Comparator<ArticleBean> {
+        @Override
+        public int compare(ArticleBean a, ArticleBean b) {
+            return Integer.compare(b.getNumberComments(), a.getNumberComments());
+        }
     }
 
     private void showFilteringResult(List<ArticleBean> filteringResult) {

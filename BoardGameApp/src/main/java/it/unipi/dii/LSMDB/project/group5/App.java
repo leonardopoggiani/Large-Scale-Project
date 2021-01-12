@@ -1,6 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -45,6 +46,15 @@ public class App extends Application {
 
     public static Scene getScene(){
         return scene;
+    }
+
+    @Override
+    public void stop() {
+        // MongoDriver md = MongoDriver.getInstance();
+        // Neo4jDriver nd = Neo4jDriver.getInstance();
+        // md.close();
+        // nd.close();
+        Platform.exit();
     }
 
 }

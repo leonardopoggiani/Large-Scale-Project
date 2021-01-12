@@ -105,6 +105,20 @@ public class GamePageView {
 
             categories.setText(cat);
 
+            Text publisher = (Text) App.getScene().lookup("#publisher");
+            String pub = "";
+            if(currentGame.getPublisher() != null) {
+                for (int i = 0; i < currentGame.getPublisher().size(); i++) {
+                    cat += currentGame.getPublisher().get(i);
+                    cat += ", ";
+                }
+            }
+
+            Text urlText = (Text) App.getScene().lookup("#url");
+            String url = currentGame.getUrl();
+
+            urlText.setText(url);
+
             setReviews(game);
 
             giàCaricato = 1;
