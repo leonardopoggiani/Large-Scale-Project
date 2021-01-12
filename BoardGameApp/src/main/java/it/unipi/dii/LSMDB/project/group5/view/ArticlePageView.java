@@ -1,10 +1,12 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
+import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.bean.CommentBean;
 import it.unipi.dii.LSMDB.project.group5.bean.LikeBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
-import it.unipi.dii.LSMDB.project.group5.cache.HomepageArticle;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -13,9 +15,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -69,7 +68,7 @@ public class ArticlePageView {
         ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
 
         List<CommentBean> infoComments = null;
-        infoComments = article.neo4jListArticlesComment(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
+        infoComments = article.neo4jListArticlesComment(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(), 3);
         System.out.println("Numero di commenti " + infoComments.size() + ", autore:" + HomepageArticles.getAuthor() + ", titolo: " + HomepageArticles.getTitolo());
 
         for(int i = 0; i < infoComments.size() && i < 3; i++){

@@ -76,10 +76,10 @@ public class GamesReviewsRatesDBController {
 
     // tutte le reviews di un gioco
 
-    public List<ReviewBean> neo4jListGamesReviews(String name) {
+    public List<ReviewBean> neo4jListGamesReviews(String name, int quante) {
 
         List<ReviewBean> infoReviews;
-        infoReviews = ReviewsDBManager.searchListReviews(name);
+        infoReviews = ReviewsDBManager.searchListReviews(name, quante);
 
         if(infoReviews.isEmpty())
         {

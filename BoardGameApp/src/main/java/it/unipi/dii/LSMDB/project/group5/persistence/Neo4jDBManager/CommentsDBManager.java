@@ -20,7 +20,7 @@ public class CommentsDBManager extends Neo4jDBManager {
      * @return Lista dei commenti all'articolo
      */
 
-    public static List<CommentBean> searchListComments(String title, String author)
+    public static List<CommentBean> searchListComments(String title, String author, int quanti)
     {
 
         try(Session session=driver.session())
@@ -30,7 +30,7 @@ public class CommentsDBManager extends Neo4jDBManager {
                 @Override
                 public List<CommentBean> execute(Transaction tx)
                 {
-                    return transactionListComments(tx, title, author);
+                    return transactionListComments(tx, title, author, quanti);
                 }
             });
         }
@@ -42,13 +42,14 @@ public class CommentsDBManager extends Neo4jDBManager {
      * @param title
      * @return Lista dei commenti all'articolo
      */
-    public static List<CommentBean> transactionListComments(Transaction tx, String title, String author) {
+    public static List<CommentBean> transactionListComments(Transaction tx, String title, String author, int quanti) {
 
         List<CommentBean> infoComments = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", author);
         parameters.put("title", title);
-        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User) WHERE au.username=$author AND a.name=$title RETURN c,u", parameters);
+        parameters.put("quanti", quanti);
+        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User) WHERE au.username=$author AND a.name=$title RETURN c,u  ORDER BY c.timestamp DESC LIMIT $quanti", parameters);
 
         while (result.hasNext()) {
             Record record = result.next();
