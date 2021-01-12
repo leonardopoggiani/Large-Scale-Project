@@ -75,7 +75,6 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <TableView fx:id="table2" layoutX="263.0" layoutY="383.0" prefHeight="200.0" prefWidth="380.0" />
             <Text layoutX="336.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you're member of">
                <font>
                   <Font size="18.0" />
@@ -85,10 +84,9 @@
               <columns>
                 <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
                 <TableColumn fx:id="admin" prefWidth="75.0" text="Admin" />
-                  <TableColumn fx:id="timestamp" prefWidth="75.0" text="Timestamp" />
+                  <TableColumn fx:id="timestamp" prefWidth="75.0" text="Last message" />
                   <TableColumn fx:id="game" prefWidth="75.0" text="Game" />
                   <TableColumn fx:id="members" prefWidth="75.0" text="Members" />
-                  <TableColumn fx:id="game11" prefWidth="110.0" text="Add member" />
               </columns>
             </TableView>
             <ImageView fitHeight="50.0" fitWidth="101.0" layoutX="61.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -96,6 +94,17 @@
                   <Image url="@../../../../../../img/avatar.png" />
                </image>
             </ImageView>
+            <TableView fx:id="table2" layoutX="258.0" layoutY="408.0" prefHeight="200.0" prefWidth="468.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Name" />
+                <TableColumn prefWidth="75.0" text="Admin" />
+                  <TableColumn prefWidth="75.0" text="Game" />
+                  <TableColumn prefWidth="75.0" text="Members" />
+              </columns>
+            </TableView>
+            <ComboBox fx:id="nomigruppi" layoutX="381.0" layoutY="655.0" prefHeight="28.0" prefWidth="105.0" promptText="Name" />
+            <Text fill="#e8dcdc" layoutX="217.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do?" />
+            <ComboBox fx:id="action" layoutX="497.0" layoutY="655.0" onAction="#selectAction" prefHeight="28.0" prefWidth="106.0" promptText="Action" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

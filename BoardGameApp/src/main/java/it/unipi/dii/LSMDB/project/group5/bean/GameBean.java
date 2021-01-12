@@ -37,6 +37,12 @@ public class GameBean {
         this.category2 = category2;
     }
 
+    public GameBean(String name, double rating, int votes) {
+        this.name = name;
+        this.avgRating = rating;
+        this.numVotes = votes;
+    }
+
     public List<String> getListCategory() {
         return listCategory;
     }

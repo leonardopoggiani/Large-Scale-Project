@@ -21,7 +21,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class GamePageView {
+
     Logger logger = Logger.getLogger(this.getClass().getName());
     int giàCaricato = -1;
     GamesCache cache = GamesCache.getInstance();
@@ -50,6 +52,7 @@ public class GamePageView {
     void setGameFields() throws ExecutionException {
         // setto i campi del gioco
         if (giàCaricato == -1) {
+
             ImageView image = (ImageView) App.getScene().lookup("#image");
             String game = HomepageGames.getGame();
             GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
@@ -65,6 +68,9 @@ public class GamePageView {
 
             if( (currentGame.getImageUrl() != null) && !currentGame.getImageUrl().equals("") ) {
                 image.setImage(new Image(currentGame.getImageUrl()));
+            } else {
+                logger.info("immagine di default");
+                image.setImage(new Image("file:src/main/resources/img/defaultgioco.png"));
             }
 
             Text title = (Text) App.getScene().lookup("#title");
@@ -215,11 +221,8 @@ public class GamePageView {
         RateBean rate = new RateBean(LoginPageView.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
         boolean ret = controller.Neo4jAddRating(rate);
 
-        System.out.println("Aggiungo rate " + ret);
-
         if(ret) {
             double votoMedio = controller.MongoDBgetAvgRating(rate.getGame());
-            System.out.println("Voto: " + votoMedio);
             progress.setProgress(votoMedio / 10);
             voting.setText(String.valueOf(Math.round(votoMedio)));
         }

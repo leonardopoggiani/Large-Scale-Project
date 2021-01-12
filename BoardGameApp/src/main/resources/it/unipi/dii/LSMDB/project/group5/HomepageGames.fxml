@@ -28,11 +28,11 @@
             <Text layoutX="14.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" />
             <Text layoutX="14.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players:" />
             <Text layoutX="14.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Release year:" />
-            <Button cancelButton="true" layoutX="76.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
-            <Button cancelButton="true" layoutX="76.0" layoutY="407.0" mnemonicParsing="false" onMouseClicked="#filterResearch" text="Search" />
-            <Text layoutX="18.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order by:" />
+            <Button cancelButton="true" layoutX="76.0" layoutY="511.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
+            <Button cancelButton="true" layoutX="76.0" layoutY="462.0" mnemonicParsing="false" onMouseClicked="#filterResearch" text="Search" />
+            <Text layoutX="18.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order by:" />
             <ComboBox fx:id="category" layoutX="87.0" layoutY="226.0" onMouseClicked="#caricaCategorie" prefHeight="28.0" prefWidth="114.0" promptText="Categories" visible="false" />
-            <ComboBox fx:id="order" layoutX="87.0" layoutY="352.0" onMouseClicked="#caricaOrdinamenti" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
+            <ComboBox fx:id="order" layoutX="87.0" layoutY="404.0" onMouseClicked="#caricaOrdinamenti" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
             <TextField fx:id="year" layoutX="110.0" layoutY="315.0" prefHeight="26.0" prefWidth="78.0" visible="false" />
             <Slider fx:id="players" blockIncrement="1.0" layoutX="64.0" layoutY="272.0" majorTickUnit="3.0" max="16.0" min="1.0" minorTickCount="8" onDragExited="#aggiorna" onMouseClicked="#aggiorna" onMouseDragOver="#aggiorna" prefHeight="49.0" prefWidth="122.0" showTickLabels="true" showTickMarks="true" value="1.0" visible="false" />
             <Text fx:id="numplayers" layoutX="188.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" visible="false" />
@@ -43,6 +43,8 @@
                   <Image url="@../../../../../../img/avatar.png" />
                </image>
             </ImageView>
+            <Text layoutX="16.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+            <TextField fx:id="name" layoutX="113.0" layoutY="360.0" visible="false" />
          </children>
       </AnchorPane>
       <AnchorPane minHeight="0.0" minWidth="0.0" onMouseMoved="#setSuggestedGames" prefHeight="501.0" prefWidth="532.0">
