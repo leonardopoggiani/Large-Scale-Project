@@ -178,24 +178,31 @@ public class AnalyticsDBManager {
     }
 
     public static List<ActivityBean> getActivitiesStatisticsTotal (){
-        //DA RIVEDERE BENE!
+
         MongoCollection<Document> collection = MongoDBManager.getCollection("User");
         List<ActivityBean> ret = new ArrayList<ActivityBean>();
         BasicDBList pipeline = new BasicDBList();
 
+        Bson projection1 = project(fields(excludeId(), computed("date", new Document("$toDate", "$last_login")), include("username")));
+        Bson match = match(ne("date", null));
         Bson projection = project(fields(excludeId(), computed("date", "$_id"), include("count")));
-        Bson group = new Document("$group", new Document ("_id", new Document("month" ,new Document("$month", "$last_login"))
-            .append("day", new Document ("$dayOfMonth", "$last_login"))
-                .append("year", new Document ("$year", "$last_login")))
+        Bson group = new Document("$group", new Document ("_id", new Document("month" ,new Document("$month", "$date"))
+            .append("day", new Document ("$dayOfMonth", "$date"))
+                .append("year", new Document ("$year", "$date")))
         .append("count", new Document("$sum", 1L)));
 
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(group, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, group, projection)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
-
-
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                Document date = (Document) next.get("date");
+                String d = date.get("year")+"-"+date.get("month")+"-"+date.get("day");
+                System.out.println(d + " " + next.get("count"));
+                ActivityBean a = new ActivityBean();
+                a.setDate(d);
+                a.setNumUser(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
 
             }
         }
