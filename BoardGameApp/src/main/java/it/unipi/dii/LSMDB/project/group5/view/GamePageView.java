@@ -1,37 +1,25 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
+import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.bean.RateBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
-import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
 import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
-import javafx.application.HostServices;
+import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
-import javafx.scene.input.*;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
 public class GamePageView {
     Logger logger = Logger.getLogger(this.getClass().getName());
@@ -140,7 +128,7 @@ public class GamePageView {
     private void setReviews(String game) {
         GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
 
-        List<ReviewBean> reviews = controller.neo4jListGamesReviews(game);
+        List<ReviewBean> reviews = controller.neo4jListGamesReviews(game,3);
         System.out.println("Numero di review: " + reviews.size());
 
         if(!reviews.isEmpty()) {

@@ -19,7 +19,7 @@ public class ReviewsDBManager extends Neo4jDBManager {
      * @return Lista delle reviews ad un gioco
      */
 
-    public static List<ReviewBean> searchListReviews(final String name)
+    public static List<ReviewBean> searchListReviews(final String name, final int quante)
     {
         try(Session session=driver.session())
         {
@@ -28,7 +28,7 @@ public class ReviewsDBManager extends Neo4jDBManager {
                 @Override
                 public List<ReviewBean> execute(Transaction tx)
                 {
-                    return transactionListReviews(tx, name);
+                    return transactionListReviews(tx,name, quante);
                 }
             });
         }
@@ -41,12 +41,13 @@ public class ReviewsDBManager extends Neo4jDBManager {
      * @return Lista delle reviews ad un gioco
      */
 
-    public static List<ReviewBean> transactionListReviews(Transaction tx, String name) {
+    public static List<ReviewBean> transactionListReviews(Transaction tx, String name, int quante) {
 
         List<ReviewBean> infoReviews = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("quante", quante);
         parameters.put("name", name);
-        Result result = tx.run("MATCH (u:User)-[r:REVIEWED]->(g:Game) WHERE g.name=$name return r,u,g", parameters);
+        Result result = tx.run("MATCH (u:User)-[r:REVIEWED]->(g:Game) WHERE g.name=$name return r,u,g ORDER BY r.timestamp DESC LIMIT $quante", parameters);
 
         while (result.hasNext()) {
             Record record = result.next();
@@ -69,7 +70,7 @@ public class ReviewsDBManager extends Neo4jDBManager {
             }
 
             infoReview.setGame(name);
-
+            System.out.println(infoReviews);
             infoReviews.add(infoReview);
         }
 

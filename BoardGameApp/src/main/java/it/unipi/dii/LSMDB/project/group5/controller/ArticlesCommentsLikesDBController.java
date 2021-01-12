@@ -39,10 +39,10 @@ public class ArticlesCommentsLikesDBController {
     }
 
     // tutti i commenti di un articolo
-    public List<CommentBean> neo4jListArticlesComment(String title, String author) {
+    public List<CommentBean> neo4jListArticlesComment(String title, String author, int quanti) {
 
         List<CommentBean> infoComments;
-        infoComments = CommentsDBManager.searchListComments(title, author);
+        infoComments = CommentsDBManager.searchListComments(title, author, quanti);
 
         if(infoComments.isEmpty())
         {
