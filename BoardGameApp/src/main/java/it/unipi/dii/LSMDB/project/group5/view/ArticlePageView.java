@@ -3,6 +3,8 @@ package it.unipi.dii.LSMDB.project.group5.view;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.bean.CommentBean;
 import it.unipi.dii.LSMDB.project.group5.bean.LikeBean;
+import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
+import it.unipi.dii.LSMDB.project.group5.cache.HomepageArticle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -18,20 +20,29 @@ import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ArticlePageView {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
     int giàCaricato = -1;
+    ArticlesCache cache = ArticlesCache.getInstance();
 
     @FXML
-    void setArticleFields() throws IOException {
+    void setArticleFields() throws IOException, ExecutionException {
+        ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
 
        if(giàCaricato == -1) {
-           ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
 
-           ArticleBean a = article.mongoDBshowArticle(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
+           cache.setAuthor(HomepageArticles.getAuthor());
+           ArticleBean a = cache.getDataIfPresent(HomepageArticles.getTitolo());
+
+           if(a == null || a.getTitle() == null) {
+               logger.log(Level.WARNING, "Recupero da db");
+               a = article.mongoDBshowArticle(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
+           }
 
            Text titolo = (Text) App.getScene().lookup("#titolo");
            TextArea body = (TextArea) App.getScene().lookup("#articlebody");

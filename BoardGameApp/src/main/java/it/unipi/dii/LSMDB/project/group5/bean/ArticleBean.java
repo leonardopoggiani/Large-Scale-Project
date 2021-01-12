@@ -1,11 +1,15 @@
 package it.unipi.dii.LSMDB.project.group5.bean;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 
-public class ArticleBean {
+public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     private String title;
     private String author;
     private Timestamp timestamp;

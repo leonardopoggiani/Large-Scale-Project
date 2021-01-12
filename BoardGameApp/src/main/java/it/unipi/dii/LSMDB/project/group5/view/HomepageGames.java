@@ -2,11 +2,14 @@ package it.unipi.dii.LSMDB.project.group5.view;
 
 import com.google.common.collect.Lists;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
+import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -15,12 +18,15 @@ import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBControlle
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 public class HomepageGames {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
     int giàCaricato = -1;
+    GamesCache cache = GamesCache.getInstance();
+    private static List<String> savedGames = Lists.newArrayList();
 
     ObservableList<String> ordinamenti = FXCollections.observableArrayList(
             "Number of reviews", "Number of ratings", "Average ratings", "None");
@@ -88,31 +94,36 @@ public class HomepageGames {
     }
 
     @FXML
-    void setSuggestedGames() throws IOException {
+    void setSuggestedGames() throws IOException, ExecutionException {
+
+        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
 
         if(giàCaricato == -1) {
-            GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
-            List<GameBean> list = controller.neo4jListSuggestedGames(LoginPageView.getLoggedUser());
+            if(savedGames.isEmpty()) {
+                List<GameBean> list = controller.neo4jListSuggestedGames(LoginPageView.getLoggedUser());
+                showGames(list);
+            } else {
+                int i = 0;
+                System.out.println("Dim: " + savedGames.size());
 
-            if (list != null) {
-                System.out.println("Lunghezza lista " + list.size());
-                for (int i = 0; i < list.size() && i < 6; i++) {
-                    GameBean g = list.get(i);
-                    TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
-                    Text category1 = (Text) App.getScene().lookup("#category1" + (i + 1));
-                    Text category2 = (Text) App.getScene().lookup("#category2" + (i + 1));
+                for (String game : savedGames){
+                    GameBean g = cache.getDataIfPresent(game);
+                    if(g != null && g.getName() != null){
+                        if(i < savedGames.size() && i < 6) {
+                            TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
 
-                    gioco.setText(g.getName());
+                            gioco.setText(g.getName());
 
-                    if(!g.getCategory1().equals("null")) {
-                        category1.setText(g.getCategory1());
-                    } else {
-                        category1.setText("");
-                    }
-                    if(!g.getCategory2().equals("null")) {
-                        category2.setText(g.getCategory2());
-                    } else {
-                        category2.setText("");
+                            Text ratings = (Text) App.getScene().lookup("#rating" + (i + 1));
+                            Text number = (Text) App.getScene().lookup("#number" + (i + 1));
+
+
+                            gioco.setText(g.getName());
+                            ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
+                            number.setText(String.valueOf(Math.round(g.getNumVotes())));
+
+                            i++;
+                        }
                     }
                 }
             }
@@ -215,15 +226,12 @@ public class HomepageGames {
 
         // rimuovo i doppioni
         filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(filteredGames));
-        System.out.println("Risultati: \n" + filteringResult);
         // in filteredGames a questo punto c'e la lista dei giochi filtrati, se voglio ordinarli entro nell'if
 
         if(order.getSelectionModel().getSelectedItem() != null) {
             logger.info("Voglio ordinare i risultati");
             int index1 = order.getSelectionModel().getSelectedIndex();
             String ordering = ordinamenti.get(index1);
-
-            System.out.println("Ordinamento " + ordering);
 
             if(filteredGames.isEmpty()) {
                 // qui ci entro solo se non ho selezionato nessun filtro e quindi applico l'ordinamento a tutti i giochi
@@ -251,7 +259,7 @@ public class HomepageGames {
             }
         }
 
-        showFilteringResult(filteringResult);
+        showGames(filteringResult);
     }
 
     private List<GameBean> orderingResult(List<GameBean> target, String mode) {
@@ -274,7 +282,6 @@ public class HomepageGames {
             }
         }
 
-        System.out.println(target);
         return target;
     }
 
@@ -299,35 +306,30 @@ public class HomepageGames {
         }
     }
 
-    private void showFilteringResult(List<GameBean> filteringResult) {
+    private void showGames(List<GameBean> games) {
         logger.info("show filtering result");
-        if (filteringResult != null) {
-            System.out.println("Lunghezza lista " + filteringResult.size());
-            for (int i = 0; i < filteringResult.size() && i < 6; i++) {
-                GameBean g = (GameBean) filteringResult.get(i);
+        if (games != null) {
+            System.out.println("Lunghezza lista " + games.size());
+            for (int i = 0; i < games.size() && i < 6; i++) {
+                GameBean g = games.get(i);
+                savedGames.add(g.getName());
+                System.out.println("Add " + g);
                 TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
-                Text category1 = (Text) App.getScene().lookup("#category1" + (i + 1));
-                Text category2 = (Text) App.getScene().lookup("#category2" + (i + 1));
+                Text ratings = (Text) App.getScene().lookup("#rating" + (i + 1));
+                Text number = (Text) App.getScene().lookup("#number" + (i + 1));
+
 
                 gioco.setText(g.getName());
+                ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
+                number.setText(String.valueOf(Math.round(g.getNumVotes())));
 
-                if(g.getCategory1() == null || !g.getCategory1().equals("null")) {
-                    category1.setText(g.getCategory1());
-                } else {
-                    category1.setText("");
-                }
-                if(g.getCategory1() == null || !g.getCategory2().equals("null")) {
-                    category2.setText(g.getCategory2());
-                } else {
-                    category2.setText("");
-                }
             }
         }
     }
 
     @FXML
     void logout() throws IOException {
-        App.setRoot("login");
+        App.setRoot("LoginPageView");
         LoginPageView.logout();
     }
 

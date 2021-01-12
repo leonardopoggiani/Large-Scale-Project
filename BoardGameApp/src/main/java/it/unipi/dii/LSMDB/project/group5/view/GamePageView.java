@@ -3,6 +3,8 @@ package it.unipi.dii.LSMDB.project.group5.view;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.bean.RateBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
+import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
+import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,11 +18,14 @@ import javafx.scene.input.*;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GamePageView {
     Logger logger = Logger.getLogger(this.getClass().getName());
     int giàCaricato = -1;
+    GamesCache cache = GamesCache.getInstance();
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -43,14 +48,20 @@ public class GamePageView {
     }
 
     @FXML
-    void setGameFields() {
+    void setGameFields() throws ExecutionException {
         // setto i campi del gioco
         if (giàCaricato == -1) {
             ImageView image = (ImageView) App.getScene().lookup("#image");
             String game = HomepageGames.getGame();
             GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
 
-            GameBean currentGame = controller.showGame(game);
+            GameBean currentGame = cache.getDataIfPresent(game);
+
+            if(currentGame == null || currentGame.getName() == null) {
+                logger.log(Level.WARNING, "Recupero da db");
+                currentGame = controller.showGame(game);
+            }
+
             System.out.println(currentGame);
 
             if( (currentGame.getImageUrl() != null) && !currentGame.getImageUrl().equals("") ) {
@@ -82,6 +93,17 @@ public class GamePageView {
 
             TextArea description = (TextArea) App.getScene().lookup("#description");
             description.setText(currentGame.getDescription());
+
+            Text categories = (Text) App.getScene().lookup("#categories");
+            String cat = "";
+            if(currentGame.getListCategory() != null) {
+                for (int i = 0; i < currentGame.getListCategory().size(); i++) {
+                    cat += currentGame.getListCategory().get(i);
+                    cat += ", ";
+                }
+            }
+
+            categories.setText(cat);
 
             setReviews(game);
 
