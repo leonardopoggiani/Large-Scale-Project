@@ -4,6 +4,7 @@ import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -14,10 +15,12 @@ import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import it.unipi.dii.LSMDB.project.group5.bean.TableGroupBean;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class HomepageGroups {
+public class HomepageGroups implements Initializable {
 
     int giaCaricato = -1;
     private TableView<TableGroupBean> tableMembro;
@@ -72,6 +75,7 @@ public class HomepageGroups {
 
             tableAdmin = (TableView<TableGroupBean>) App.getScene().lookup("#admintable");
             tableAdmin.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
             tableMembro = (TableView<TableGroupBean>) App.getScene().lookup("#table2");
             tableMembro.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -151,4 +155,12 @@ public class HomepageGroups {
         //}
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            setGroups();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

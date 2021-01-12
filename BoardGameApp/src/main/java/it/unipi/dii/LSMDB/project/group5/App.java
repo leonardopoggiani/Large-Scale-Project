@@ -1,5 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5;
 
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.MongoDBManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -24,11 +25,17 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         logger.info("Applicazione partita");
 
-        scene = new Scene(loadFXML("LoginPageView"));
-        stage.setScene(scene);
-        stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
-        stage.setTitle("BoardgameApp");
-        stage.show();
+        if(MongoDBManager.createConnection() == true){
+            scene = new Scene(loadFXML("LoginPageView"));
+            stage.setScene(scene);
+            stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
+            stage.setTitle("BoardgameApp");
+            stage.setHeight(800);
+            stage.setWidth(1200);
+            stage.show();
+        } else {
+            logger.log(Level.SEVERE, "Mongo db not starterd");
+        }
     }
 
     public static void setRoot(String fxml) throws IOException {
