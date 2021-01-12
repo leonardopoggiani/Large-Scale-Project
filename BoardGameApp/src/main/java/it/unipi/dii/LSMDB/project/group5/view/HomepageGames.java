@@ -251,12 +251,12 @@ public class HomepageGames {
                         }
                         default -> logger.info("Non ordino");
                     }
-
-                     filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(sortedList));
+                    filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(sortedList));
                 }
             } else {
                 filteringResult = orderingResult(filteredGames, ordering);
             }
+
         }
 
         showGames(filteringResult);
