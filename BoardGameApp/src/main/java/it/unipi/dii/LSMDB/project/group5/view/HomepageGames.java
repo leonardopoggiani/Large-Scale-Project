@@ -48,7 +48,7 @@ public class HomepageGames {
             "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
 
     ObservableList<String> filters = FXCollections.observableArrayList(
-            "Category", "Number of players", "Release year", "None");
+            "Category", "Number of players", "Release year", "Name", "None");
 
     List<GameBean> mostrati = Lists.newArrayList();
 
@@ -148,8 +148,10 @@ public class HomepageGames {
         Slider players = (Slider) scene.lookup("#players");
         Text numPlayers = (Text) scene.lookup("#numplayers");
         ComboBox categorie = (ComboBox) scene.lookup("#category");
-        TextField releseaYear = (TextField) scene.lookup("#year");
+        TextField releaseYear = (TextField) scene.lookup("#year");
         ComboBox filtri = (ComboBox) scene.lookup("#filter");
+        TextField name = (TextField) scene.lookup("#name");
+
 
         if(filtri.getSelectionModel().getSelectedItem() != null){
             String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
@@ -159,32 +161,44 @@ public class HomepageGames {
                         categorie.setVisible(true);
                         players.setVisible(false);
                         numPlayers.setVisible(false);
-                        releseaYear.setVisible(false);
+                        releaseYear.setVisible(false);
+                        name.setVisible(false);
                         break;
                     case "Number of players":
                         categorie.setVisible(false);
                         players.setVisible(true);
                         numPlayers.setVisible(true);
-                        releseaYear.setVisible(false);
+                        releaseYear.setVisible(false);
+                        name.setVisible(false);
                         break;
                     case "Release year":
                         categorie.setVisible(false);
                         players.setVisible(false);
                         numPlayers.setVisible(false);
-                        releseaYear.setVisible(true);
+                        releaseYear.setVisible(true);
+                        name.setVisible(false);
+                        break;
+                    case "Name":
+                        categorie.setVisible(false);
+                        players.setVisible(false);
+                        numPlayers.setVisible(false);
+                        releaseYear.setVisible(false);
+                        name.setVisible(true);
                         break;
                     default:
                         categorie.setVisible(false);
                         players.setVisible(false);
                         numPlayers.setVisible(false);
-                        releseaYear.setVisible(false);
+                        releaseYear.setVisible(false);
+                        name.setVisible(false);
                         break;
                 }
             } else {
                 categorie.setVisible(false);
                 players.setVisible(false);
                 numPlayers.setVisible(false);
-                releseaYear.setVisible(false);
+                releaseYear.setVisible(false);
+                name.setVisible(false);
             }
         }
     }
@@ -198,6 +212,7 @@ public class HomepageGames {
         Slider players = (Slider) App.getScene().lookup("#players");
         TextField data = (TextField) App.getScene().lookup("#year");
         ComboBox order = (ComboBox) App.getScene().lookup("#order");
+        TextField name = (TextField) App.getScene().lookup("#name");
 
         String filtraPerCategoria = " ";
         int filtraGiocatori = 0;
@@ -212,20 +227,27 @@ public class HomepageGames {
             int index1 = categoria.getSelectionModel().getSelectedIndex();
             filtraPerCategoria = categorie.get(index1);
             filteredGames = controller.filterByCategory(filtraPerCategoria);
+            logger.info("categoria:" + filteredGames.size());
         } else if(data.isVisible() && !data.getText().equals("")) {
             if (Integer.parseInt(data.getText()) > 1900 || Integer.parseInt(data.getText()) < 2022) {
                 // filtraggio per anno
                 filtraPerAnno = Integer.parseInt(data.getText());
                 filteredGames = controller.filterByYear(filtraPerAnno);
+                logger.info("data:" + filteredGames.size());
             }
         } else if (players.isVisible() && (players.getValue() > 0 || players.getValue() <= 16) ){
             // filtraggio per numero di giocatori
             filtraGiocatori = (int) players.getValue();
             filteredGames = controller.filterByPlayers(filtraGiocatori);
+            logger.info("players:" + filteredGames.size());
+        } else if(name.isVisible() && (!name.getText().equals(""))){
+            filteredGames = controller.filterByName(name.getText());
         }
 
         // rimuovo i doppioni
         filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(filteredGames));
+        logger.info("filteringResult:" + filteringResult.size());
+
         // in filteredGames a questo punto c'e la lista dei giochi filtrati, se voglio ordinarli entro nell'if
 
         if(order.getSelectionModel().getSelectedItem() != null) {
@@ -254,11 +276,13 @@ public class HomepageGames {
                     filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(sortedList));
                 }
             } else {
+                logger.info("non ordino");
                 filteringResult = orderingResult(filteredGames, ordering);
             }
 
         }
 
+        savedGames.clear();
         showGames(filteringResult);
     }
 
@@ -318,7 +342,7 @@ public class HomepageGames {
                 if(i < games.size()){
                     GameBean g = games.get(i);
                     savedGames.add(g.getName());
-
+                    System.out.println("Stampo " + g);
                     gioco.setText(g.getName());
                     ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
                     number.setText(String.valueOf(Math.round(g.getNumVotes())));

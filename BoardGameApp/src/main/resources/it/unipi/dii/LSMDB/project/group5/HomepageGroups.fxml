@@ -75,7 +75,6 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <TableView fx:id="table2" layoutX="263.0" layoutY="383.0" prefHeight="200.0" prefWidth="380.0" />
             <Text layoutX="336.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you're member of">
                <font>
                   <Font size="18.0" />
@@ -85,7 +84,7 @@
               <columns>
                 <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
                 <TableColumn fx:id="admin" prefWidth="75.0" text="Admin" />
-                  <TableColumn fx:id="timestamp" prefWidth="75.0" text="Timestamp" />
+                  <TableColumn fx:id="timestamp" prefWidth="75.0" text="Last message" />
                   <TableColumn fx:id="game" prefWidth="75.0" text="Game" />
                   <TableColumn fx:id="members" prefWidth="75.0" text="Members" />
                   <TableColumn fx:id="game11" prefWidth="110.0" text="Add member" />
@@ -96,6 +95,14 @@
                   <Image url="@../../../../../../img/avatar.png" />
                </image>
             </ImageView>
+            <TableView fx:id="table2" layoutX="258.0" layoutY="408.0" prefHeight="200.0" prefWidth="468.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Name" />
+                <TableColumn prefWidth="75.0" text="Admin" />
+                  <TableColumn prefWidth="75.0" text="Game" />
+                  <TableColumn prefWidth="75.0" text="Members" />
+              </columns>
+            </TableView>
          </children></AnchorPane>
   </content>
 </ScrollPane>

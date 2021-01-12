@@ -163,24 +163,35 @@ public class HomepageArticles {
 
                 if (list != null) {
                     System.out.println("Lunghezza lista " + list.size());
-                    for (int i = 0; i < list.size() && i < 6; i++) {
-                        ArticleBean a = list.get(i);
-                        // salvo i titoli degli articoli mostrati su homepage
-                        savedTitles.add(a.getTitle());
-                        savedArticles.put(a.getTitle(),a.getAuthor());
+                    for (int i = 0; i < 6; i++) {
 
                         TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
                         Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
                         Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
                         Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
-                        int numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
-                        int numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
-                        int numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
 
-                        articolo.setText(a.getTitle());
-                        author.setText(a.getAuthor());
-                        timestamp.setText(String.valueOf(a.getTimestamp()));
-                        stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+
+                        if( !(articolo == null || author == null || timestamp == null || stats == null) ) {
+                            if (i < list.size()) {
+                                ArticleBean a = list.get(i);
+                                // salvo i titoli degli articoli mostrati su homepage
+                                savedTitles.add(a.getTitle());
+                                savedArticles.put(a.getTitle(), a.getAuthor());
+                                articolo.setText(a.getTitle());
+                                author.setText(a.getAuthor());
+                                timestamp.setText(String.valueOf(a.getTimestamp()));
+
+                                int numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
+                                int numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
+                                int numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
+                                stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+                            } else {
+                                articolo.setText("");
+                                author.setText("");
+                                timestamp.setText("");
+                                stats.setText("");
+                            }
+                        }
                     }
                 }
 

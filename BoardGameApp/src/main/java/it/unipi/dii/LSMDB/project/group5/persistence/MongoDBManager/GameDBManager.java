@@ -73,10 +73,10 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, match, projection, limit)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
-                /*Document next = cursor.next();
+                // System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
                 GameBean g = fillInfoGameFields(next, true);
-                ret.add(g);*/
+                ret.add(g);
             }
         }
         return ret;
