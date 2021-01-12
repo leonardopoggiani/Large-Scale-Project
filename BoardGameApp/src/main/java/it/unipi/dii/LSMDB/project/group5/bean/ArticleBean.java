@@ -14,11 +14,19 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     private String author;
     private Timestamp timestamp;
     private String text;
-    private String game;
+    private String game; //Per Clarissa forse?
+    private int numLikes;
+    private int numDislikes;
+    private int numCommentes;
+    private List<String> ListGame;
 
     List<CommentBean> infoComments;
 
     public ArticleBean() {}
+
+    public List<String> getListGame() {
+        return ListGame;
+    }
 
     public ArticleBean(String title, String author, Timestamp timestamp, String game) {
         this.title = title;
@@ -28,6 +36,17 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
         this.game = game;
     }
 
+    public int getNumCommentes() {
+        return numCommentes;
+    }
+
+    public int getNumDislikes() {
+        return numDislikes;
+    }
+
+    public int getNumLikes() {
+        return numLikes;
+    }
 
     public String getAuthor() {
         return author;
@@ -45,6 +64,10 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
 
     public String getGame() {
         return game;
+    }
+
+    public void setListGame(List<String> listgame) {
+        ListGame = listgame;
     }
 
     public void setAuthor(String author) {
@@ -70,6 +93,19 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
 
     public List<CommentBean> getComments() {
         return infoComments;
+    }
+
+
+    public void setNumCommentes(int numCommentes) {
+        this.numCommentes = numCommentes;
+    }
+
+    public void setNumDislikes(int numDislikes) {
+        this.numDislikes = numDislikes;
+    }
+
+    public void setNumLikes(int numLikes) {
+        this.numLikes = numLikes;
     }
 
     @Override

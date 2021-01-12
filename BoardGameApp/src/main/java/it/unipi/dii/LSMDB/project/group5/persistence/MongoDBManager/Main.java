@@ -19,7 +19,7 @@ public class Main {
         //SignupLoginDBManager.updateLogin("gaia2");
 
         //Read game
-        //InfoGame g = org.openjfx.DBManager.MongoDBManager.GameDBManager.readGame("Monopoli");
+        //GameBean g = GameDBManager.readGame("Monopoli");
         /*System.out.println(g.getAvgRating() + " " + g.getMaxAge() + " " + g.getMinAge() + " " +g.getMinPlayers() + " " +
         g.getMaxPlayers() + " " +g.getNumReviews() + " " + g.getYear() + " " + g.getCategory1() + " " +g.getCategory2() + " " + g.getImageUrl() +g.getMaxTime()
         +" " +g.getMinTime() +" " +g.getName() + " " + g.getUrl() + " " + g.getComplexity() + " " + g.getNumVotes() + " " + g.getAlternativeName() + " " + g.getFamily() + " " + g.isCooperative());
@@ -34,12 +34,12 @@ public class Main {
 
 
         //Filter game
-        //List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByName("Monopoli");
-        //List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByCategory("Economy");
+        //List<GameBean> list = GameDBManager.filterByName("Monopoli");
+        //List<InfoGame> list = GameDBManager.filterByCategory("Economy");
 
-        //List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByPlayers(10);
-        //List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.filterByYear(1960);
-        //List<InfoGame> list = org.openjfx.DBManager.MongoDBManager.GameDBManager.orderBy("numVotes");
+        //List<GameBean> list = GameDBManager.filterByPlayers(10);
+        //List<GameBean> list = GameDBManager.filterByYear(1960);
+        List<GameBean> list = GameDBManager.orderBy("numVotes");
         //System.out.println(list);
 
 
@@ -53,7 +53,7 @@ public class Main {
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getCategoryInfo("Play Card");
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLessRecentLoggedUsers();
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersForAge();
-        AnalyticsDBManager.getActivitiesStatisticsTotal();
+        //AnalyticsDBManager.getActivitiesStatisticsTotal();
 
         MongoDBManager.close();
 

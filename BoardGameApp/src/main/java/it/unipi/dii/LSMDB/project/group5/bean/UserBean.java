@@ -3,7 +3,7 @@ package it.unipi.dii.LSMDB.project.group5.bean;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-public class UserBean extends User{
+public class UserBean {
 
     private String username;
     private String password;
@@ -17,7 +17,6 @@ public class UserBean extends User{
     private Timestamp updated;
     private String name;
     private String surname;
-    //Da concludere per mongoDB
 
     public UserBean() {
         this.name = null;

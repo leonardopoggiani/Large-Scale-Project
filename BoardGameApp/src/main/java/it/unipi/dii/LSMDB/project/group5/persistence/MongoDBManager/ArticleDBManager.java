@@ -3,6 +3,7 @@ package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import it.unipi.dii.LSMDB.project.group5.bean.*;
@@ -203,7 +204,7 @@ public class ArticleDBManager {
         return ret;
     }
 
-    private static int getNumLikes(String author, String title){
+    public static int getNumLikes(String author, String title){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
@@ -223,7 +224,7 @@ public class ArticleDBManager {
         return ret;
     }
 
-    private static int getNumDislikes(String author, String title){
+    public static int getNumDislikes(String author, String title){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson unwind = unwind("$articles");
         Bson projection = project(fields( excludeId(), include("username", "articles")));
@@ -251,6 +252,11 @@ public class ArticleDBManager {
         Timestamp t = convertStringToTimestamp(article.get("timestamp").toString());
         a.setTimestamp(t);
         a.setText(article.get("body").toString());
+        a.setNumCommentes(next.get("num_comments")==null ? 0: Integer.parseInt(next.get("num_comments").toString()));
+        a.setNumCommentes(next.get("num_like")==null ? 0: Integer.parseInt(next.get("num_like").toString()));
+        a.setNumCommentes(next.get("num_dislike")==null ? 0: Integer.parseInt(next.get("num_dislike").toString()));
+        List<String> list = (List<String>) next.get("games");
+        a.setListGame(list);
         return a;
     }
 
@@ -264,6 +270,22 @@ public class ArticleDBManager {
             System.out.println(e.getMessage());
         }
         return timestamp;
+    }
+
+    public static boolean addArticle (ArticleBean a){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        Bson match = (eq("username", a.getAuthor()));
+        List<String> games = a.getListGame();
+
+        Document doc = new Document("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp())
+                .append("num_likes", a.getNumLikes()).append("num_dislikes", a.getNumDislikes()).append("num_comments", a.getNumCommentes())
+                .append("games", games);
+        try{
+            collection.updateOne(match , doc);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
     }
 }
 
