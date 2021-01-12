@@ -20,6 +20,10 @@ public class MongoDBManager {
         return collection;
     }
 
+    public static void dropCollection(MongoCollection<Document> collection){
+        collection.drop();
+    }
+
     public static void close(){
         mongoClient.close();
     }

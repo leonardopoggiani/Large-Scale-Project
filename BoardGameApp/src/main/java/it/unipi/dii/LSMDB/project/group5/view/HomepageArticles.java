@@ -311,21 +311,21 @@ public class HomepageArticles {
     static class NumberOfLikeComparator implements Comparator<ArticleBean> {
         @Override
         public int compare(ArticleBean a, ArticleBean b) {
-            return Double.compare(b.getNumberLikes(), a.getNumberLikes());
+            return Double.compare(b.getNumLikes(), a.getNumLikes());
         }
     }
 
     static class NumberOfDislikeComparator implements Comparator<ArticleBean> {
         @Override
         public int compare(ArticleBean a, ArticleBean b) {
-            return Integer.compare(b.getNumberDislike(), a.getNumberDislike());
+            return Integer.compare(b.getNumDislikes(), a.getNumDislikes());
         }
     }
 
     static class NumberOfComments implements Comparator<ArticleBean> {
         @Override
         public int compare(ArticleBean a, ArticleBean b) {
-            return Integer.compare(b.getNumberComments(), a.getNumberComments());
+            return Integer.compare(b.getNumComments(), a.getNumComments());
         }
     }
 

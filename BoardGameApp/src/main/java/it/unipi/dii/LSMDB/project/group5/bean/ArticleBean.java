@@ -17,7 +17,7 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     private String game; //Per Clarissa forse?
     private int numLikes;
     private int numDislikes;
-    private int numCommentes;
+    private int numComments;
     private List<String> ListGame;
 
     List<CommentBean> infoComments;
@@ -36,8 +36,8 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
         this.game = game;
     }
 
-    public int getNumCommentes() {
-        return numCommentes;
+    public int getNumComments() {
+        return numComments;
     }
 
     public int getNumDislikes() {
@@ -96,8 +96,8 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     }
 
 
-    public void setNumCommentes(int numCommentes) {
-        this.numCommentes = numCommentes;
+    public void setNumComments(int numComments) {
+        this.numComments = numComments;
     }
 
     public void setNumDislikes(int numDislikes) {
