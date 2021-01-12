@@ -4,6 +4,7 @@ import org.bson.Document;
 import it.unipi.dii.LSMDB.project.group5.bean.*;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.*;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 public class Main {
@@ -35,11 +36,12 @@ public class Main {
 
         //Filter game
         //List<GameBean> list = GameDBManager.filterByName("Monopoli");
-        //List<InfoGame> list = GameDBManager.filterByCategory("Economy");
+        //boolean ret = GameDBManager.doesGameExists("Muse: Awakenings");
+
 
         //List<GameBean> list = GameDBManager.filterByPlayers(10);
         //List<GameBean> list = GameDBManager.filterByYear(1960);
-        List<GameBean> list = GameDBManager.orderBy("numVotes");
+        //List<GameBean> list = GameDBManager.orderBy("numVotes");
         //System.out.println(list);
 
 
@@ -54,6 +56,21 @@ public class Main {
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLessRecentLoggedUsers();
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersForAge();
         //AnalyticsDBManager.getActivitiesStatisticsTotal();
+
+        /*ArticleBean a = new ArticleBean();
+        List<String> list1 = new ArrayList<>();
+        list1.add("Monopoli");
+        list1.add("Sherlock");
+        a.setListGame(list1);
+        a.setAuthor("gaia1");
+        a.setNumComments(0);
+        a.setTitle("Articolo1");
+        a.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        a.setText("NON LO SO");
+        a.setNumDislikes(1);
+        a.setNumLikes(4);
+        boolean ret = ArticleDBManager.addArticle(a);*/
+
 
         MongoDBManager.close();
 

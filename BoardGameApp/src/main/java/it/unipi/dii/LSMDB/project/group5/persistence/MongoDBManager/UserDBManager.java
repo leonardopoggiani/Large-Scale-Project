@@ -15,17 +15,24 @@ import static it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.Artic
 
 
 public class UserDBManager extends MongoDBManager {
-    public static void signup(UserBean u){
+    public static boolean signup(UserBean u){
         MongoCollection<Document> collection = getCollection("Users");
         Document doc = new Document("username", u.getUsername()).append("name", u.getName()).append("surname", u.getSurname())
                 .append("age", u.getAge()).append("registered", u.getRegistered()).append("last_login", u.getLastLogin())
                 .append("country", u.getCountry()).append("role", u.getRole()).append("updated", u.getUpdated());
         
-
-        collection.insertOne(doc);
+        try {
+            collection.insertOne(doc);
+            MongoDBManager.dropCollection(collection);
+            return true;
+        }
+        catch (Exception ex){
+            MongoDBManager.dropCollection(collection);
+            return false;
+        }
     }
 
-    public static void updateLogin(String username){
+    public static boolean updateLogin(String username){
         System.out.println("Nella update login");
         MongoCollection<Document> collection = getCollection("User");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -33,7 +40,16 @@ public class UserDBManager extends MongoDBManager {
         setLastLogin.append("last_login", dateFormat.format(Calendar.getInstance().getTime()));
         Document update = new Document();
         update.append("$set", setLastLogin);
-        collection.updateOne(eq("username", username), update);
+        try{
+            collection.updateOne(eq("username", username), update);
+            MongoDBManager.dropCollection(collection);
+            return true;
+        }
+        catch (Exception ex){
+            MongoDBManager.dropCollection(collection);
+            return false;
+        }
+
     }
 	
 	 protected static UserBean fillUserFields (Document next){

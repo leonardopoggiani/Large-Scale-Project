@@ -37,8 +37,7 @@ public class GameDBManager {
             cursor.close();
 
         }
-
-        System.out.println("Gioco da mostrare " + g);
+        MongoDBManager.dropCollection(collection);
         return g;
 
     }
@@ -60,7 +59,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -76,13 +75,13 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, match, projection, limit)).iterator()) {
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
-                Document next = cursor.next();
+                System.out.println(cursor.next().toJson());
+                /*Document next = cursor.next();
                 GameBean g = fillInfoGameFields(next, true);
-                ret.add(g);
+                ret.add(g);*/
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -101,7 +100,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -121,7 +120,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
@@ -153,7 +152,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
 
     }
@@ -162,29 +161,50 @@ public class GameDBManager {
         int votes = getNumVotes(game);
         double avg = getAvgRating(game);
         double newAvg = (avg*votes + rate)/(votes+1);
-        updateAvgRating(newAvg, game);
-        updateNumVotes(votes+1, game);
+        if(updateNumVotes(votes+1, game)){
+            return -1;
+        };
+        if(updateAvgRating(newAvg, game)){
+            updateNumVotes(votes, game);
+            return -1;
+        }
         return getAvgRating(game);
     }
 
-    private static void updateAvgRating (double avg,  String game){
+    private static boolean updateAvgRating (double avg,  String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Document updateAvg = new Document();
         updateAvg.append("avg_rating", avg);
         Document update = new Document();
         update.append("$set", updateAvg);
-        collection.updateOne(eq("name", game), update);
+        try{
+            collection.updateOne(eq("name", game), update);
+            MongoDBManager.dropCollection(collection);
+            return true;
+        }
+        catch (Exception ex){
+            MongoDBManager.dropCollection(collection);
+            return false;
+        }
 
     }
 
-    public static void updateNumReviews(int inc, String game){
+    public static boolean updateNumReviews(int inc, String game){
         int tot = getNumReviews(game) + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Document reviews = new Document();
         reviews.append("num_reviews", tot);
         Document update = new Document();
         update.append("$set", reviews);
-        collection.updateOne(eq("name", game), update);
+        try{
+            collection.updateOne(eq("name", game), update);
+            MongoDBManager.dropCollection(collection);
+            return true;
+        }
+        catch (Exception ex){
+            MongoDBManager.dropCollection(collection);
+            return false;
+        }
 
     }
 
@@ -201,17 +221,26 @@ public class GameDBManager {
                 ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString());
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
-    private static void updateNumVotes(int tot, String game){
+    private static boolean updateNumVotes(int tot, String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Document votes = new Document();
         votes.append("num_votes", tot);
         Document update = new Document();
         update.append("$set", votes);
-        collection.updateOne(eq("name", game), update);
+        try{
+            collection.updateOne(eq("name", game), update);
+            MongoDBManager.dropCollection(collection);
+            return true;
+        }
+        catch (Exception ex){
+            MongoDBManager.dropCollection(collection);
+            return false;
+        }
+
     }
 
     public static double getAvgRating(String game){
@@ -228,9 +257,26 @@ public class GameDBManager {
             }
         }
 
+        MongoDBManager.dropCollection(collection);
         return ret;
     }
 
+    public static boolean doesGameExists (String game){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        Bson match =  (eq("name",game));
+        boolean ret = false;
+        try(MongoCursor<Document> cursor = collection.find(match).iterator()){
+
+            while (cursor.hasNext()) {
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                ret = true;
+            }
+        }
+        MongoDBManager.dropCollection(collection);
+        return ret;
+    }
+    
     public static int getNumVotes (String game){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson projection = (fields( excludeId(), include("name", "num_votes")));
@@ -244,7 +290,7 @@ public class GameDBManager {
                 ret = (next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString());
             }
         }
-
+        MongoDBManager.dropCollection(collection);
         return ret;
 
     }
@@ -252,7 +298,6 @@ public class GameDBManager {
     protected static GameBean fillInfoGameFields(Document next, boolean unwindCategory){
         GameBean g = new GameBean();
         g.setName((next.get("name") == null) ? "" :next.get("name").toString());
-        g.setAlternativeName((next.get("alt_name") == null) ? "" :next.get("alt_name").toString());
         g.setYear((next.get("year") == null) ? 0 :Integer.parseInt(next.get("year").toString()));
 
         g.setDescription((next.get("description") == null) ? "" :(next.get("description").toString()));
@@ -264,10 +309,6 @@ public class GameDBManager {
         // gli url delle immagini vengono attraverso un array, prendo la prima immagini
         List<String> image_url = (List<String>) next.get("image_url");
         g.setImageUrl((next.get("image_url") == null) ? "" : image_url.get(0).toString());
-        g.setLanguageDependency((next.get("language_dependency")==null)? 0: Integer.parseInt(next.get("language_dependency").toString()));
-
-
-        g.setPrice((next.get("list_price") == null) ? "Not specified" :(next.get("list_price").toString()));
         g.setMinPlayers((next.get("min_players") == null) ? 1 :Integer.parseInt(next.get("min_players").toString()));
         g.setMaxPlayers((next.get("max_players") == null) ? 1000 : Integer.parseInt(next.get("max_players").toString()));
         g.setMinAge((next.get("min_age") == null) ? 3 :Integer.parseInt(next.get("min_age").toString()));
@@ -275,8 +316,6 @@ public class GameDBManager {
         g.setMinTime((next.get("min_time") == null) ? "There's no limit!" :next.get("min_time").toString());
         g.setMaxTime((next.get("max_time") == null) ? "There's no limit!" : next.get("max_time").toString());
         g.setCooperative(next.get("cooperative") != null && Boolean.parseBoolean(next.get("cooperative").toString()));
-        List<String> family = (List<String>) next.get("family");
-        g.setFamily(family);
         List<String> expansion = (List<String>) next.get("expansion");
         g.setExpansion(expansion);
         g.setNumVotes((next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString()));
@@ -289,20 +328,19 @@ public class GameDBManager {
                 "\n -complexity: " + g.getComplexity() + "\n -minimum players: " + g.getMinPlayers() +
                 "\n -maximum players: " + g.getMaxPlayers() +
                 "\n -cooperative: " + ((g.isCooperative()) ? "Yes! Play all togheter!" : "No, all against all!") +
-                "\n -family and expansion: " + g.getFamily() + ", " + g.getExpansion());
+                "\n -family and expansion: "  + ", " + g.getExpansion());
 
-        List<String> list = (List<String>) next.get("category");
-        g.setListCategory(list);
 
-        /*if (unwindCategory){
+
+        if (unwindCategory){
             g.setCategory1(next.get("category")==null? "": next.get("category").toString());
             g.setCategory2("");
 
         }
         else {
-
-
-        }*/
+            List<String> list = (List<String>) next.get("category");
+            g.setListCategory(list);
+        }
 
         return g;
     }
