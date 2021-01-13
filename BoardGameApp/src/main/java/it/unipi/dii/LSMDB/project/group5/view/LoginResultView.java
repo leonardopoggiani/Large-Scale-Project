@@ -13,21 +13,29 @@ import java.io.IOException;
 public class LoginResultView {
 
     @FXML
+    Button homebutton;
+
+    @FXML
+    Label loggedUser;
+
+    @FXML
     void goToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
 
     @FXML
-    void setUsername() throws IOException {
-        Scene scene = App.getScene();
-        Label user = (Label) scene.lookup("#loggedUser");
+    void initialize() {
+        setUsername();
+    }
+
+    @FXML
+    void setUsername() {
         if(LoginPageView.getLogged() == 1) {
-            user.setText(LoginPageView.getLoggedUser() + ", welcome!");
+            loggedUser.setText(LoginPageView.getLoggedUser() + ", welcome!");
         } else {
-            user.setText("Login fallito!");
-            Button btn = (Button) scene.lookup("#homebutton");
-            btn.setText("Riprova il login");
-            btn.setOnMouseClicked(event ->  {
+            loggedUser.setText("Login fallito!");
+            homebutton.setText("Riprova il login");
+            homebutton.setOnMouseClicked(event ->  {
                 try {
                     goToLogin();
                 } catch (IOException e) {

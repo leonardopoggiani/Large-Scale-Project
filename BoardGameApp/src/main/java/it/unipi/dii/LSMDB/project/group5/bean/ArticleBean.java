@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
+
 
 
 public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
@@ -29,9 +29,9 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     }
 
     public ArticleBean(String title, String author, Timestamp timestamp, String game) {
+        this.title = title;
         this.author = author;
         this.timestamp = timestamp;
-        this.infoComments = infoComments;
         this.game = game;
     }
 
