@@ -57,13 +57,13 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("role", "influencer");
         /*String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:$role})" +
                 "RETURN f";*/
-        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article)" +
-                "RETURN a, i, p ORDER BY p.timestamp";
+        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article) " +
+                " RETURN a, i, p ORDER BY p.timestamp";
 
-        String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
-                "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
-                "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 6";
+        String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User) " +
+                " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
+                " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +
+                " RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 6 ";
 
         Result result;
         quantiInflu = UsersDBManager.transactionCountUsers(tx,username,"influencer");
@@ -111,20 +111,6 @@ public class ArticlesDBManager extends Neo4jDBManager {
             System.out.println("NELLA DBMANAGER");
             articles.add(article);
         }
-
-        ArticleBean a = new ArticleBean("Un articolo","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean b = new ArticleBean("Ammazza che articolone","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean c = new ArticleBean("Non c'entra niente","francesca",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean d = new ArticleBean("Un articolo3","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean e = new ArticleBean("Un articolo4","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean f = new ArticleBean("Un articolo5","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-
-        articles.add(a);
-        articles.add(b);
-        articles.add(c);
-        articles.add(d);
-        articles.add(e);
-        articles.add(f);
 
         return articles;
 
