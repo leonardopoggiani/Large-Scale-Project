@@ -99,8 +99,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 }
                 if ("p".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    String timestamp = value.get("timestamp").asString();
-                    article.setTimestamp(Timestamp.valueOf(timestamp));
+                    Value timestamp = value.get("timestamp");
+                    System.out.println("Timestamp " + timestamp);
+                    article.setTimestamp(new Timestamp(timestamp.asLong()));
 
                 }
 

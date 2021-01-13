@@ -98,6 +98,9 @@ public class GamePageView {
     Slider rate;
 
     @FXML
+    Button buttonrate;
+
+    @FXML
     void initialize() throws ExecutionException {
         game = HomepageGames.getGame();
         setGameFields();
@@ -294,6 +297,8 @@ public class GamePageView {
             double votoMedio = controller.MongoDBgetAvgRating(newRate.getGame());
             votes1.setProgress(votoMedio / 10);
             votes.setText(String.valueOf(Math.round(votoMedio)));
+            rate.setValue(0);
+            buttonrate.setStyle("-fx-background-color: green");
         }
     }
 

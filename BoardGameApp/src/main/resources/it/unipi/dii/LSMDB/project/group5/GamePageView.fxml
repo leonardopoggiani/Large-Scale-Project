@@ -85,7 +85,7 @@
             <Text layoutX="19.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rate:" />
             <ProgressBar fx:id="votes1" layoutX="107.0" layoutY="249.0" prefHeight="20.0" prefWidth="163.0" progress="0.0" />
             <Slider fx:id="rate" blockIncrement="1.0" layoutX="67.0" layoutY="481.0" majorTickUnit="1.0" max="10.0" prefHeight="50.0" prefWidth="276.0" showTickLabels="true" showTickMarks="true" />
-            <Button layoutX="360.0" layoutY="480.0" minHeight="18.0" minWidth="41.0" mnemonicParsing="false" onMouseClicked="#addVote" prefHeight="32.0" prefWidth="54.0" text="Rate" />
+            <Button fx:id="buttonrate" layoutX="360.0" layoutY="480.0" minHeight="18.0" minWidth="41.0" mnemonicParsing="false" onMouseClicked="#addVote" prefHeight="32.0" prefWidth="54.0" text="Rate" />
             <Text layoutX="37.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories:" />
             <Text fx:id="categories" layoutX="126.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="455.35025787353516" />
             <Text layoutX="37.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Publisher:" />

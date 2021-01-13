@@ -23,6 +23,7 @@ public class HomepageGroups {
     private static String currentGroup;
     private static String adminGroup;
 
+    ObservableList<TableGroupBean> filtering = FXCollections.observableArrayList();
     ObservableList<String> nomiDeiGruppi = FXCollections.observableArrayList();
     ObservableList<String> userActions = FXCollections.observableArrayList("Add post", "Leave group", "View posts", "View members");
     ObservableList<String> adminActions = FXCollections.observableArrayList("Add post", "Delete group", "View posts", "Add member", "View members");
@@ -201,6 +202,12 @@ public class HomepageGroups {
 
     @FXML
     void setActions() throws IOException {
+        String gruppoSelezionato = nomiDeiGruppi.get(nomigruppi.getSelectionModel().getSelectedIndex());
+        if(retrieveAdmin(gruppoSelezionato).equals(LoginPageView.getLoggedUser())) {
+            action.setItems(adminActions);
+        } else {
+            action.setItems(userActions);
+        }
     }
 
     private void viewPosts(String gruppoSelezionato) {
@@ -212,6 +219,14 @@ public class HomepageGroups {
 
         currentGroup = gruppoSelezionato;
         boolean ret = controller.Neo4jDeleteGroup(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
+
+        for(int i = 0; i < gruppiAdmin.size(); i++) {
+            if(gruppiAdmin.get(i).getGroupName().equals(gruppoSelezionato)){
+                gruppiAdmin.remove(i);
+            }
+        }
+
+        admintable.setItems(gruppiAdmin);
     }
 
     private void addPost(String gruppoSelezionato) {
@@ -234,7 +249,12 @@ public class HomepageGroups {
     }
 
     private void filterResearch(){
-
+        String gameFilter = nomiDeiGruppi.get(filter.getSelectionModel().getSelectedIndex());
+        for(int i = 0; i < gruppiAdmin.size(); i++) {
+            if(gruppiAdmin.get(i).getGame().equals(gameFilter)) {
+                filtering.add(gruppiAdmin.get(i));
+            }
+        }
     }
 
     public static String getGroup() {
