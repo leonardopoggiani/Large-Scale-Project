@@ -98,6 +98,9 @@ public class HomepageArticles {
     ComboBox filtri;
 
     @FXML
+    ComboBox order;
+
+    @FXML
     TextField game;
 
     @FXML
@@ -231,87 +234,78 @@ public class HomepageArticles {
     void setSuggestedArticles() throws IOException, ExecutionException {
         ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
 
-        List<String> titoli = Lists.newArrayList(savedArticles.values());
-        int numComments = 0;
-        int numLikes = 0;
-        int numUnlikes = 0;
+        if (savedTitles.isEmpty()) {
+            // non ho salvato i titoli degli articoli da mostrare
+            logger.info("cache vuota");
+            List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
+            System.out.println("Lunghezza lista " + list.size());
+            showArticles(list);
+        } else {
+            int i = 0;
+            logger.info("cache piena");
+            for (String titolo : savedTitles) {
+                if (i < savedTitles.size()) {
+                    String autore = savedArticles.get(titolo);
+                    cache.setAuthor(autore);
+                    ArticleBean a = cache.getDataIfPresent(titolo);
+                    if (a != null && a.getTitle() != null) {
+                        TitledPane ar = chooseArticle(i);
+                        Text au = chooseAuthor(i);
+                        Text ti = chooseTimestamp(i);
+                        Text st = chooseStatistics(i);
 
-        for (int i = 0; i < 6; i++) {
-
-            TitledPane articolo = new TitledPane();
-            Text author = new Text();
-            Text timestamp = new Text();
-            Text stats = new Text();
-
-
-            articolo = chooseArticle(i);
-            author = chooseAuthor(i);
-            timestamp = chooseTimestamp(i);
-            stats = chooseStatistics(i);
-
-            if (titoli.isEmpty()) {
-                // non ho salvato i titoli degli articoli da mostrare
-                logger.info("cache vuota");
-                List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
-                System.out.println("Lunghezza lista " + list.size());
-
-                if (list != null) {
-                    if (i < list.size()) {
-                        ArticleBean a = list.get(i);
-
-                        // caching
-                        savedTitles.add(a.getTitle());
-                        savedArticles.put(a.getTitle(), a.getAuthor());
-
-                        numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
-                        numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
-                        numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
-
-                        System.out.println(a);
-
-                        articolo.setText(a.getTitle());
-                        author.setText(a.getAuthor());
-                        timestamp.setText(String.valueOf(a.getTimestamp()));
-                        stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
-                    } else {
-                        articolo.setText("");
-                        author.setText("");
-                        timestamp.setText("");
-                        stats.setText("");
+                        ar.setText(a.getTitle());
+                        au.setText(a.getAuthor());
+                        ti.setText(String.valueOf(a.getTimestamp()));
+                        st.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
                     }
-                } else {
-                    articolo.setText("");
-                    author.setText("");
-                    timestamp.setText("");
-                    stats.setText("");
-                }
-            } else {
-                if(!savedTitles.isEmpty()) {
-                    for (String titolo : savedTitles) {
-                        if (i < savedTitles.size() && i < 6) {
-                            String autore = savedArticles.get(titolo);
-                            cache.setAuthor(autore);
-                            ArticleBean a = cache.getDataIfPresent(titolo);
-                            if (a != null && a.getTitle() != null) {
-                                articolo.setText(a.getTitle());
-                                author.setText(a.getAuthor());
-                                timestamp.setText(String.valueOf(a.getTimestamp()));
-                                stats.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
-                            } else {
-                                articolo.setText("");
-                                author.setText("");
-                                timestamp.setText("");
-                                stats.setText("");
-                            }
-                        }
-                    }
-                } else {
-                    setSuggestedArticles();
                 }
             }
         }
 
         showFilters();
+    }
+
+    private void showArticles(List<ArticleBean> list) {
+        ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
+
+        int numComments = 0;
+        int numLikes = 0;
+        int numUnlikes = 0;
+
+        logger.info("show articles");
+        if (list != null) {
+            System.out.println("Lunghezza lista " + list.size());
+            for(int i = 0; i < 6; i++) {
+
+                TitledPane ar = chooseArticle(i);
+                Text aut = chooseAuthor(i);
+                Text tim = chooseTimestamp(i);
+                Text st = chooseStatistics(i);
+
+                if (i < list.size()) {
+                    ArticleBean a = list.get(i);
+
+                    // caching
+                    savedTitles.add(a.getTitle());
+                    savedArticles.put(a.getTitle(), a.getAuthor());
+
+                    numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
+                    numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
+                    numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
+
+                    ar.setText(a.getTitle());
+                    aut.setText(a.getAuthor());
+                    tim.setText(String.valueOf(a.getTimestamp()));
+                    st.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+                } else {
+                    ar.setText("");
+                    aut.setText("");
+                    tim.setText("");
+                    st.setText("");
+                }
+            }
+        }
     }
 
     private Text chooseTimestamp(int i){
@@ -373,9 +367,9 @@ public class HomepageArticles {
 
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
 
-        Text a = chooseAuthor(index);
-        TitledPane ar = chooseArticle(index);
-        Text ts = chooseTimestamp(index);
+        Text a = chooseAuthor(index - 1);
+        TitledPane ar = chooseArticle(index - 1);
+        Text ts = chooseTimestamp(index - 1);
 
         autore = a.getText();
         timestamp = ts.getText();
@@ -389,21 +383,15 @@ public class HomepageArticles {
     void filterResearch () throws IOException {
         ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
 
-        TextField gioco = (TextField) App.getScene().lookup("#game");
-        TextField autore = (TextField) App.getScene().lookup("#author");
-        DatePicker data = (DatePicker) App.getScene().lookup("#data");
-        ComboBox order = (ComboBox) App.getScene().lookup("#order");
-
         List<ArticleBean> filteredArticles = Lists.newArrayList();
         List<ArticleBean> sortedList = Lists.newArrayList();
 
-
-        if(gioco.isVisible() && !gioco.getText().equals("")) {
+        if(game.isVisible() && !game.getText().equals("")) {
             // filtraggio per gioco
-            filteredArticles = controller.filterByGame(gioco.getText());
-        } else if(autore.isVisible() && !autore.getText().equals("")) {
+            filteredArticles = controller.filterByGame(game.getText());
+        } else if(author.isVisible() && !author.getText().equals("")) {
             // filtraggio per autore
-            filteredArticles = controller.filterByInfluencer(autore.getText());
+            filteredArticles = controller.filterByInfluencer(author.getText());
         } else if (data.isVisible() && !(data.getValue() == null)){
             // filtraggio per data
             filteredArticles = controller.filterByDate(String.valueOf(data.getValue()));

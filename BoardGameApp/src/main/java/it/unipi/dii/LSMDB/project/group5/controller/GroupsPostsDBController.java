@@ -5,8 +5,11 @@ import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class GroupsPostsDBController {
+
+    Logger logger =  Logger.getLogger(this.getClass().getName());
 
     public GroupsPostsDBController(){};
 
