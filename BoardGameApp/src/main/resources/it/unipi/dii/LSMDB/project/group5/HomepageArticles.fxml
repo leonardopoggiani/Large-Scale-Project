@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.30424242424242426" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#setSuggestedArticles" prefHeight="557.0" prefWidth="827.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageArticles">
+<SplitPane dividerPositions="0.30424242424242426" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="827.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageArticles">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
@@ -36,7 +36,7 @@
                </image>
             </ImageView>
             <Text layoutX="15.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of filter:" />
-            <ComboBox fx:id="filter" layoutX="113.0" layoutY="206.0" onAction="#setFilters" onMouseClicked="#showFilters" prefHeight="28.0" prefWidth="114.0" promptText="Filters" />
+            <ComboBox fx:id="filtri" layoutX="113.0" layoutY="206.0" onAction="#setFilters" prefHeight="28.0" prefWidth="114.0" promptText="Filters" />
             <TextField fx:id="author" layoutX="94.0" layoutY="289.0" prefHeight="26.0" prefWidth="128.0" visible="false" />
             <Text layoutX="14.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order by:" />
             <ComboBox fx:id="order" layoutX="106.0" layoutY="365.0" onMouseClicked="#showOrdering" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
