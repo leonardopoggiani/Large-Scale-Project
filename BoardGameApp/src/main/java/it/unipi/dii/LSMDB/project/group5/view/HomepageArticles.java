@@ -97,12 +97,21 @@ public class HomepageArticles {
     @FXML
     ComboBox filtri;
 
+    @FXML
+    TextField game;
+
+    @FXML
+    TextField author;
+
+    @FXML
+    DatePicker data;
 
     ArticlesCache cache = ArticlesCache.getInstance();
     private static HashMap<String,String> savedArticles = Maps.newHashMap();
     private static List<String> savedTitles = Lists.newArrayList();
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
+
     ObservableList<String> categorie = FXCollections.observableArrayList(
             "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
@@ -125,8 +134,6 @@ public class HomepageArticles {
     ObservableList<String> ordinamenti = FXCollections.observableArrayList(
             "Number of likes", "Number of dislikes", "Number of comments", "None");
 
-
-    int giàCaricato = -1;
     private static String autore;
     private static String timestamp;
     private static String articolo;
@@ -184,11 +191,6 @@ public class HomepageArticles {
 
     @FXML
     void setFilters() {
-        Scene scene = App.getScene(); // recupero la scena della signup
-        TextField game = (TextField) scene.lookup("#game");
-        TextField author = (TextField) scene.lookup("#author");
-        DatePicker data = (DatePicker) scene.lookup("#data");
-        ComboBox filtri = (ComboBox) scene.lookup("#filter");
 
         if(filtri.getSelectionModel().getSelectedItem() != null){
             String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
@@ -256,9 +258,11 @@ public class HomepageArticles {
                 if (list != null) {
                     if (i < list.size()) {
                         ArticleBean a = list.get(i);
+
                         // caching
                         savedTitles.add(a.getTitle());
                         savedArticles.put(a.getTitle(), a.getAuthor());
+
                         numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
                         numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
                         numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
@@ -282,18 +286,27 @@ public class HomepageArticles {
                     stats.setText("");
                 }
             } else {
-                for (String titolo : savedTitles) {
-                    if (i < savedTitles.size() && i < 6) {
-                        String autore = savedArticles.get(titolo);
-                        cache.setAuthor(autore);
-                        ArticleBean a = cache.getDataIfPresent(titolo);
-                        if (a != null && a.getTitle() != null) {
-                            articolo.setText(a.getTitle());
-                            author.setText(a.getAuthor());
-                            timestamp.setText(String.valueOf(a.getTimestamp()));
-                            stats.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
+                if(!savedTitles.isEmpty()) {
+                    for (String titolo : savedTitles) {
+                        if (i < savedTitles.size() && i < 6) {
+                            String autore = savedArticles.get(titolo);
+                            cache.setAuthor(autore);
+                            ArticleBean a = cache.getDataIfPresent(titolo);
+                            if (a != null && a.getTitle() != null) {
+                                articolo.setText(a.getTitle());
+                                author.setText(a.getAuthor());
+                                timestamp.setText(String.valueOf(a.getTimestamp()));
+                                stats.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
+                            } else {
+                                articolo.setText("");
+                                author.setText("");
+                                timestamp.setText("");
+                                stats.setText("");
+                            }
                         }
                     }
+                } else {
+                    setSuggestedArticles();
                 }
             }
         }
@@ -358,12 +371,16 @@ public class HomepageArticles {
         AnchorPane articolo = (AnchorPane) event.getSource();
         String idArticle = articolo.getId();
 
-        Text a = (Text) App.getScene().lookup("#author" + idArticle);
-        Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
+        int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
+
+        Text a = chooseAuthor(index);
+        TitledPane ar = chooseArticle(index);
+        Text ts = chooseTimestamp(index);
+
         autore = a.getText();
-        timestamp = t.getText();
-        TitledPane tx = (TitledPane) App.getScene().lookup("#articolo" + idArticle);
-        titolo = tx.getText();
+        timestamp = ts.getText();
+        titolo = ar.getText();
+
         App.setRoot("ArticlePageView");
 
     }
@@ -477,10 +494,10 @@ public class HomepageArticles {
             System.out.println("Lunghezza lista " + filteringResult.size());
 
             for (int i = 0; i < 6; i++) {
-                TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
-                Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
-                Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
-                Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
+                TitledPane articolo = chooseArticle(i);
+                Text author = chooseAuthor(i);
+                Text timestamp = chooseTimestamp(i);
+                Text stats = chooseStatistics(i);
 
                 if(i < filteringResult.size()) {
                     ArticleBean g = filteringResult.get(i);

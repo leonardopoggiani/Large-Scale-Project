@@ -26,42 +26,120 @@ import java.util.logging.Logger;
 public class ArticlePageView {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
-    int giàCaricato = -1;
     ArticlesCache cache = ArticlesCache.getInstance();
+
+    @FXML
+    Text titolo;
+
+    @FXML
+    TextArea articlebody;
+
+    @FXML
+    Text author;
+
+    @FXML
+    Text data;
+
+    @FXML
+    Text numberlike;
+
+    @FXML
+    Text numberunlike;
+
+    @FXML
+    TextArea comment1;
+
+    @FXML
+    TextArea comment2;
+
+    @FXML
+    TextArea comment3;
+
+    @FXML
+    TextField author1;
+
+    @FXML
+    TextField author2;
+
+    @FXML
+    TextField author3;
+
+    @FXML
+    TextField timestamp1;
+
+    @FXML
+    TextField timestamp2;
+
+    @FXML
+    TextField timestamp3;
+
+    @FXML
+    Button delete1;
+
+    @FXML
+    Button delete2;
+
+    @FXML
+    Button delete3;
+
+    @FXML
+    TitledPane fullarticle1;
+
+    @FXML
+    TitledPane fullarticle2;
+
+    @FXML
+    TitledPane fullarticle3;
+
+    @FXML
+    Text authorarticle1;
+
+    @FXML
+    Text authorarticle2;
+
+    @FXML
+    Text authorarticle3;
+
+    @FXML
+    Text timestamparticle1;
+
+    @FXML
+    Text timestamparticle2;
+
+    @FXML
+    Text timestamparticle3;
+
+    @FXML
+    TextArea articlecomment;
+
+    @FXML
+    void initialize() throws IOException, ExecutionException {
+        setArticleFields();
+    }
 
     @FXML
     void setArticleFields() throws IOException, ExecutionException {
         ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
 
-       if(giàCaricato == -1) {
+        cache.setAuthor(HomepageArticles.getAuthor());
+        ArticleBean a = cache.getDataIfPresent(HomepageArticles.getTitolo());
 
-           cache.setAuthor(HomepageArticles.getAuthor());
-           ArticleBean a = cache.getDataIfPresent(HomepageArticles.getTitolo());
+        if(a == null || a.getTitle() == null) {
+           logger.log(Level.WARNING, "cache miss");
+           a = article.mongoDBshowArticle(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
+        } else {
+           logger.log(Level.WARNING, "cache hit");
+        }
 
-           if(a == null || a.getTitle() == null) {
-               logger.log(Level.WARNING, "Recupero da db");
-               a = article.mongoDBshowArticle(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
-           }
+        author.setText(HomepageArticles.getAuthor());
+        titolo.setText(HomepageArticles.getTitolo());
+        data.setText(HomepageArticles.getTimestamp());
+        numberlike.setText(String.valueOf(article.neo4jCountLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"like")));
+        numberunlike.setText(String.valueOf(article.neo4jCountLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"dislike")));
+        articlebody.setText(a.getText());
 
-           Text titolo = (Text) App.getScene().lookup("#titolo");
-           TextArea body = (TextArea) App.getScene().lookup("#articlebody");
-           Text author = (Text) App.getScene().lookup("#autorearticolo");
-           Text like = (Text) App.getScene().lookup("#numberlike");
-           Text unlike = (Text) App.getScene().lookup("#numberunlike");
-
-           author.setText(HomepageArticles.getAuthor());
-           titolo.setText(HomepageArticles.getTitolo());
-           like.setText(String.valueOf(article.neo4jCountLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"like")));
-           unlike.setText(String.valueOf(article.neo4jCountLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"dislike")));
-           System.out.println("testo" + a.getText());
-
-           body.setText(a.getText());
-
-           setComments();
-           setSuggestedArticlesBelow();
-
-           giàCaricato = 1;
-       }
+        setComments();
+        setSuggestedArticlesBelow();
     }
 
     private void setComments() {
@@ -72,20 +150,56 @@ public class ArticlePageView {
         System.out.println("Numero di commenti " + infoComments.size() + ", autore:" + HomepageArticles.getAuthor() + ", titolo: " + HomepageArticles.getTitolo());
 
         for(int i = 0; i < infoComments.size() && i < 3; i++){
-            TextArea commento = (TextArea) App.getScene().lookup("#comment" + (i + 1));
+            TextArea commento = chooseComment(i);
             commento.setText(infoComments.get(i).getText());
-            TextField autore = (TextField) App.getScene().lookup("#author" + (i + 1));
+            TextField autore = chooseAuthor(i);
             autore.setText(infoComments.get(i).getAuthor());
-            TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
+            TextField timestamp = chooseTimestamp(i);
             timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
 
             if(infoComments.get(i).getAuthor().equals(LoginPageView.getLoggedUser())){
                 // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
-                Button delete = (Button) App.getScene().lookup("#delete" + (i + 1));
+                Button delete = chooseDeleteButton(i);
                 delete.setDisable(false);
                 delete.setVisible(true);
             }
         }
+    }
+
+    private TextArea chooseComment(int i){
+        return switch (i) {
+            case 0 -> comment1;
+            case 1 -> comment2;
+            case 2 -> comment3;
+            default -> new TextArea();
+        };
+    }
+
+    private TextField chooseAuthor(int i){
+        return switch (i) {
+            case 0 -> author1;
+            case 1 -> author2;
+            case 2 -> author3;
+            default -> new TextField();
+        };
+    }
+
+    private TextField chooseTimestamp(int i){
+        return switch (i) {
+            case 0 -> timestamp1;
+            case 1 -> timestamp2;
+            case 2 -> timestamp3;
+            default -> new TextField();
+        };
+    }
+
+    private Button chooseDeleteButton(int i){
+        return switch (i) {
+            case 0 -> delete1;
+            case 1 -> delete2;
+            case 2 -> delete3;
+            default -> new Button();
+        };
     }
 
     private boolean isUserModerator() {
@@ -164,48 +278,26 @@ public class ArticlePageView {
 
     @FXML
     void postComment() throws IOException {
-        TextArea articlecomment = (TextArea) App.getScene().lookup("#articlecomment");
         UpdateDatabaseDBController update = new UpdateDatabaseDBController();
         CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
         update.Neo4jAddComment(comment);
-
-        for( int i = 0; i < 3; i++) {
-            TextArea commentoI = (TextArea) App.getScene().lookup("#comment" + (i + 1));
-            if(commentoI.getText().equals("")) {
-                commentoI.setText(comment.getText());
-
-                TextField author = (TextField) App.getScene().lookup("#author" + (i + 1));
-                author.setText(comment.getAuthor());
-
-                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
-                timestamp.setText(String.valueOf(comment.getTimestamp()));
-
-                Button delete1 = (Button) App.getScene().lookup("#delete" + (i + 1));
-                delete1.setVisible(true);
-
-                break;
-            }
-        }
-
         articlecomment.setText("");
         setComments();
-
     }
 
     @FXML
     void setSuggestedArticlesBelow() throws IOException {
         ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
         List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
-        Text titolo = (Text) App.getScene().lookup("#titolo");
 
         if (list != null) {
             for (ArticleBean a : list) {
                 if (!a.getTitle().equals(titolo.getText())) {
                     for (int j = 0; j < list.size() && j < 3; j++) {
 
-                        TitledPane articolo = (TitledPane) App.getScene().lookup("#fullarticle" + (j + 1));
-                        Text author = (Text) App.getScene().lookup("#authorarticle" + (j + 1));
-                        Text timestamp = (Text) App.getScene().lookup("#timestamparticle" + (j + 1));
+                        TitledPane articolo = chooseArticle(j);
+                        Text author = chooseAuthorArticle(j);
+                        Text timestamp = chooseTimestampArticle(j);
 
                         if (articolo.getText().equals("article" + (j + 1))) {
                             articolo.setText(a.getTitle());
@@ -217,6 +309,33 @@ public class ArticlePageView {
                 }
             }
         }
+    }
+
+    private TitledPane chooseArticle(int j) {
+        return switch (j) {
+            case 0 -> fullarticle1;
+            case 1 -> fullarticle2;
+            case 2 -> fullarticle3;
+            default -> new TitledPane();
+        };
+    }
+
+    private Text chooseAuthorArticle(int i) {
+        return switch (i) {
+            case 0 -> authorarticle1;
+            case 1 -> authorarticle2;
+            case 2 -> authorarticle3;
+            default -> new Text();
+        };
+    }
+
+    private Text chooseTimestampArticle(int i) {
+        return switch (i) {
+            case 0 -> timestamparticle1;
+            case 1 -> timestamparticle2;
+            case 2 -> timestamparticle3;
+            default -> new Text();
+        };
     }
 
     @FXML
@@ -243,37 +362,19 @@ public class ArticlePageView {
         Button target = (Button) event.getSource();
         String id = target.getId();
 
-        Text titolo = (Text) App.getScene().lookup("#titolo");
-        Text autore = (Text) App.getScene().lookup("#autorearticolo");
+        int index = Integer.parseInt(id.substring(id.length() - 1));
 
-        TextArea commentField = null;
-        TextField authorField = null;
-        TextField timestampField = null;
+        TextArea commentField = chooseComment(index);
+        TextField authorField = chooseAuthor(index);
+        TextField timestampField = chooseTimestamp(index);
 
-        switch (id) {
-            case "delete1" -> {
-                commentField = (TextArea) App.getScene().lookup("#comment1");
-                authorField = (TextField) App.getScene().lookup("#author1");
-                timestampField = (TextField) App.getScene().lookup("#timestamp1");
-            }
-            case "delete2" -> {
-                commentField = (TextArea) App.getScene().lookup("#comment2");
-                authorField = (TextField) App.getScene().lookup("#author2");
-                timestampField = (TextField) App.getScene().lookup("#timestamp2");
-            }
-            case "delete3" -> {
-                commentField = (TextArea) App.getScene().lookup("#comment3");
-                authorField = (TextField) App.getScene().lookup("#author3");
-                timestampField = (TextField) App.getScene().lookup("#timestamp3");
-            }
-        }
-
-        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), autore.getText(),titolo.getText());
+        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), author.getText(),titolo.getText());
         boolean ret = controller.Neo4jDeleteComment(infocomment);
 
         commentField.setText("");
         authorField.setText("");
         timestampField.setText("");
+
         target.setVisible(false);
 
         if(ret){
