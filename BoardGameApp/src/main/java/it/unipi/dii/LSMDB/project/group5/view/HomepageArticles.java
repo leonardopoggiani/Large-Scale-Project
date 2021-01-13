@@ -1,11 +1,9 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 import java.util.concurrent.*;
 
-import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
-import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,11 +17,86 @@ import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
 
 public class HomepageArticles {
+
+    @FXML
+    TitledPane articolocompleto1;
+
+    @FXML
+    TitledPane articolocompleto2;
+
+    @FXML
+    TitledPane articolocompleto3;
+
+    @FXML
+    TitledPane articolocompleto4;
+
+    @FXML
+    TitledPane articolocompleto5;
+
+    @FXML
+    TitledPane articolocompleto6;
+
+    @FXML
+    Text authorcompleto1;
+
+    @FXML
+    Text authorcompleto2;
+
+    @FXML
+    Text authorcompleto3;
+
+    @FXML
+    Text authorcompleto4;
+
+    @FXML
+    Text authorcompleto5;
+
+    @FXML
+    Text authorcompleto6;
+
+    @FXML
+    Text timestampcompleto1;
+
+    @FXML
+    Text timestampcompleto2;
+
+    @FXML
+    Text timestampcompleto3;
+
+    @FXML
+    Text timestampcompleto4;
+
+    @FXML
+    Text timestampcompleto5;
+
+    @FXML
+    Text timestampcompleto6;
+
+    @FXML
+    Text statscompleto1;
+
+    @FXML
+    Text statscompleto2;
+
+    @FXML
+    Text statscompleto3;
+
+    @FXML
+    Text statscompleto4;
+
+    @FXML
+    Text statscompleto5;
+
+    @FXML
+    Text statscompleto6;
+
+    @FXML
+    ComboBox filtri;
+
 
     ArticlesCache cache = ArticlesCache.getInstance();
     private static HashMap<String,String> savedArticles = Maps.newHashMap();
@@ -60,6 +133,11 @@ public class HomepageArticles {
     private static String titolo;
 
     @FXML
+    void initialize() throws IOException, ExecutionException {
+        setSuggestedArticles();
+    }
+
+    @FXML
     void returnToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
@@ -93,9 +171,6 @@ public class HomepageArticles {
     @FXML
     void showFilters () throws IOException {
         logger.info("Carico i filtri");
-        Scene scene = App.getScene(); // recupero la scena della signup
-        ComboBox filtri = (ComboBox) scene.lookup("#filter");
-
         filtri.setItems(filters);
     }
 
@@ -154,74 +229,127 @@ public class HomepageArticles {
     void setSuggestedArticles() throws IOException, ExecutionException {
         ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
 
-        if(giàCaricato == -1) {
-            List<String> titoli = Lists.newArrayList(savedArticles.values());
+        List<String> titoli = Lists.newArrayList(savedArticles.values());
+        int numComments = 0;
+        int numLikes = 0;
+        int numUnlikes = 0;
+
+        for (int i = 0; i < 6; i++) {
+
+            TitledPane articolo = new TitledPane();
+            Text author = new Text();
+            Text timestamp = new Text();
+            Text stats = new Text();
+
+
+            articolo = chooseArticle(i);
+            author = chooseAuthor(i);
+            timestamp = chooseTimestamp(i);
+            stats = chooseStatistics(i);
+
             if (titoli.isEmpty()) {
                 // non ho salvato i titoli degli articoli da mostrare
                 logger.info("cache vuota");
                 List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
+                System.out.println("Lunghezza lista " + list.size());
 
                 if (list != null) {
-                    System.out.println("Lunghezza lista " + list.size());
-                    for (int i = 0; i < 6; i++) {
+                    if (i < list.size()) {
+                        ArticleBean a = list.get(i);
+                        // caching
+                        savedTitles.add(a.getTitle());
+                        savedArticles.put(a.getTitle(), a.getAuthor());
+                        numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
+                        numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
+                        numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
 
-                        TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
-                        Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
-                        Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
-                        Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
+                        System.out.println(a);
 
-
-                        if( !(articolo == null || author == null || timestamp == null || stats == null) ) {
-                            if (i < list.size()) {
-                                ArticleBean a = list.get(i);
-                                // salvo i titoli degli articoli mostrati su homepage
-                                savedTitles.add(a.getTitle());
-                                savedArticles.put(a.getTitle(), a.getAuthor());
-                                articolo.setText(a.getTitle());
-                                author.setText(a.getAuthor());
-                                timestamp.setText(String.valueOf(a.getTimestamp()));
-
-                                int numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
-                                int numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
-                                int numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
-                                stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
-                            } else {
-                                articolo.setText("");
-                                author.setText("");
-                                timestamp.setText("");
-                                stats.setText("");
-                            }
-                        }
+                        articolo.setText(a.getTitle());
+                        author.setText(a.getAuthor());
+                        timestamp.setText(String.valueOf(a.getTimestamp()));
+                        stats.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
+                    } else {
+                        articolo.setText("");
+                        author.setText("");
+                        timestamp.setText("");
+                        stats.setText("");
                     }
+                } else {
+                    articolo.setText("");
+                    author.setText("");
+                    timestamp.setText("");
+                    stats.setText("");
                 }
-
-                giàCaricato = 1;
             } else {
-                int i = 0;
                 for (String titolo : savedTitles) {
-                    if(i < savedTitles.size() && i < 6) {
+                    if (i < savedTitles.size() && i < 6) {
                         String autore = savedArticles.get(titolo);
                         cache.setAuthor(autore);
                         ArticleBean a = cache.getDataIfPresent(titolo);
-                        if(a != null && a.getTitle() != null) {
-                            TitledPane articolo = (TitledPane) App.getScene().lookup("#articolocompleto" + (i + 1));
-                            Text author = (Text) App.getScene().lookup("#authorcompleto" + (i + 1));
-                            Text timestamp = (Text) App.getScene().lookup("#timestampcompleto" + (i + 1));
-                            Text stats = (Text) App.getScene().lookup("#statscompleto" + (i + 1));
-
+                        if (a != null && a.getTitle() != null) {
                             articolo.setText(a.getTitle());
                             author.setText(a.getAuthor());
                             timestamp.setText(String.valueOf(a.getTimestamp()));
                             stats.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
-                            i++;
                         }
                     }
                 }
-
-                giàCaricato = 1;
-
             }
         }
+
+        showFilters();
+    }
+
+    private Text chooseTimestamp(int i){
+        return switch (i) {
+            case 0 -> timestampcompleto1;
+            case 1 -> timestampcompleto2;
+            case 2 -> timestampcompleto3;
+            case 3 -> timestampcompleto4;
+            case 4 -> timestampcompleto5;
+            case 5 -> timestampcompleto6;
+            default -> new Text();
+        };
+
+    }
+
+    private Text chooseAuthor(int i){
+        return switch (i) {
+            case 0 -> authorcompleto1;
+            case 1 -> authorcompleto2;
+            case 2 -> authorcompleto3;
+            case 3 -> authorcompleto4;
+            case 4 -> authorcompleto5;
+            case 5 -> authorcompleto6;
+            default -> new Text();
+        };
+    }
+
+    private Text chooseStatistics(int i){
+        return switch (i) {
+            case 0 -> statscompleto1;
+            case 1 -> statscompleto2;
+            case 2 -> statscompleto3;
+            case 3 -> statscompleto4;
+            case 4 -> statscompleto5;
+            case 5 -> statscompleto6;
+            default -> new Text();
+        };
+
+    }
+
+    private TitledPane chooseArticle(int i){
+        return switch (i) {
+            case 0 -> articolocompleto1;
+            case 1 -> articolocompleto2;
+            case 2 -> articolocompleto3;
+            case 3 -> articolocompleto4;
+            case 4 -> articolocompleto5;
+            case 5 -> articolocompleto6;
+            default -> new TitledPane();
+        };
+
     }
 
     @FXML

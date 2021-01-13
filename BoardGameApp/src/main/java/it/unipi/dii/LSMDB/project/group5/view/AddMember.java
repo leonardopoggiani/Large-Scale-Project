@@ -1,6 +1,5 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
-import it.unipi.dii.LSMDB.project.group5.controller.GroupsPostsDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.UsersDBController;
 import javafx.fxml.Initializable;
 
