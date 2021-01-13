@@ -9,9 +9,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ArticlesDBManager extends Neo4jDBManager {
 
+
+     Logger logger = Logger.getLogger(this.getClass().getName());
     /** La funzione restituisce la lista degli articoli suggeriti nella home di un utente
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
      * in base alle sue categorie preferite, ma solo 4
@@ -21,8 +24,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
      */
     public static List<ArticleBean> searchSuggestedArticles(final String username)
     {
-        try(Session session=driver.session())
+        try
         {
+            Session session=driver.session();
             return session.readTransaction(new TransactionWork<List>()
             {
                 @Override
@@ -31,6 +35,11 @@ public class ArticlesDBManager extends Neo4jDBManager {
                     return transactionSearchSuggestedArticles(tx, username);
                 }
             });
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  null;
         }
     }
 
@@ -106,7 +115,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
             articles.add(article);
         }
 
-        ArticleBean a = new ArticleBean("Un articolo","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
+        /*ArticleBean a = new ArticleBean("Un articolo","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
         ArticleBean b = new ArticleBean("Ammazza che articolone","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
         ArticleBean c = new ArticleBean("Non c'entra niente","francesca",new Timestamp(System.currentTimeMillis()),"Spirit island");
         ArticleBean d = new ArticleBean("Un articolo3","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
@@ -118,7 +127,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
         articles.add(c);
         articles.add(d);
         articles.add(e);
-        articles.add(f);
+        articles.add(f);*/
 
         return articles;
 
@@ -128,12 +137,12 @@ public class ArticlesDBManager extends Neo4jDBManager {
     /**
      * La funzione aggiunge un nuovo articolo
      * @param newArt
-     * @return true se ha aggiunto con successo
-     * @return false altrimenti
+     * @return true se ha aggiunto con successo, false altrimenti
      */
 
-    public static Boolean addArticle(final ArticleBean newArt) {
-        try (Session session = driver.session()) {
+    public static boolean addArticle(final ArticleBean newArt) {
+        try  {
+            Session session = driver.session();
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
@@ -143,6 +152,11 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
 
         }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return false;
+        }
     }
 
 
@@ -150,11 +164,10 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * La funzione aggiunge un nuovo articolo
      * @param tx transaction
      * @param newArt articolo
-     * @return true se ha aggiunto con successo
-     * @return false altrimenti
+     * @return true se ha aggiunto con successo, false altrimenti
      */
 
-    private static Boolean transactionAddArticle(Transaction tx, ArticleBean newArt) {
+    private static boolean transactionAddArticle(Transaction tx, ArticleBean newArt) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", newArt.getAuthor());
         parameters.put("timestamp", newArt.getTimestamp().toString());
@@ -185,9 +198,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    public static Boolean deleteArticle(final String author, final String title) {
-        try (Session session = driver.session()) {
-
+    public static boolean deleteArticle(final String author, final String title) {
+        try {
+            Session session = driver.session();
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
@@ -196,6 +209,11 @@ public class ArticlesDBManager extends Neo4jDBManager {
             });
 
 
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return false;
         }
     }
 
@@ -209,12 +227,12 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    private static Boolean transactionDeleteArticle(Transaction tx, String author, String title) {
+    private static boolean transactionDeleteArticle(Transaction tx, String author, String title) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", author);
         parameters.put("title", title);
 
-        Result result = tx.run("MATCH (ua:User {username:$author})-[p:PUBLISHED]->(a:Article{name:$title})-[r:REFERRED]-(g:Game) " +
+        tx.run("MATCH (ua:User {username:$author})-[p:PUBLISHED]->(a:Article{name:$title})-[r:REFERRED]-(g:Game) " +
                         "DELETE p,a,r "
                 , parameters);
 

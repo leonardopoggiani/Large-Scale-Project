@@ -24,6 +24,7 @@ public class UsersDBManager extends Neo4jDBManager{
                 @Override
                 public List<String> execute(Transaction tx)
                 {
+
                     return transactionListUsers(tx, username, type);
                 }
             });
@@ -111,6 +112,7 @@ public class UsersDBManager extends Neo4jDBManager{
         return users;
 
     }
+
 
 
 

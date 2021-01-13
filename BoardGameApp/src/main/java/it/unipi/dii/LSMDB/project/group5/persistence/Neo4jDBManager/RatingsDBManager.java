@@ -71,6 +71,11 @@ public class RatingsDBManager extends Neo4jDBManager {
                 }
             });
         }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
+        }
     }
 
     /**
@@ -102,7 +107,7 @@ public class RatingsDBManager extends Neo4jDBManager {
      * @return true se ha aggiunto correttamente il rating
      * @return false altrimenti
      */
-    public static Boolean addRating(final RateBean newRate) {
+    public static boolean addRating(final RateBean newRate) {
         try (Session session = driver.session()) {
             boolean res;
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -114,6 +119,11 @@ public class RatingsDBManager extends Neo4jDBManager {
 
 
         }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
+        }
     }
 
     /**
@@ -124,7 +134,7 @@ public class RatingsDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    private static Boolean transactionAddRating(Transaction tx, RateBean newRate) {
+    private static boolean transactionAddRating(Transaction tx, RateBean newRate) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", newRate.getAuthor());
         parameters.put("vote", newRate.getVote());

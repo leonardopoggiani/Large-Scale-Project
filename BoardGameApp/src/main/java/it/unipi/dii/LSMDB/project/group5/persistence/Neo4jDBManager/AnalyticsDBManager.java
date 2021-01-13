@@ -126,7 +126,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
     */
     /**
      * La funzione trova gli infuencer che hanno scritto articoli su più categorie diverse
-     * o gli utenti standard che hanno scritto recensioni sul maggiorn numero di categorie diverse
+     * o gli utenti standard che hanno scritto recensioni sul maggior numero di categorie diverse
      * @param type
      * @return Lista degl username e numero di categorie
      */
@@ -156,7 +156,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
     private static List<VersatileUser> transactionVersatileInfluencers(Transaction tx)
     {
         List<VersatileUser> versatileInfluencer = new ArrayList<>();
-        VersatileUser temp = new VersatileUser();
+
         /*HashMap<String,Object> parameters = new HashMap<>();
         Date date = new Date();
         Timestamp today = new Timestamp(date.getTime());
@@ -175,15 +175,21 @@ public class AnalyticsDBManager extends Neo4jDBManager{
 
         while(result.hasNext())
         {
+            VersatileUser temp = new VersatileUser();
             Record record = result.next();
             temp.setUsername(record.get("influencer").asString());
-            System.out.println(record.get("influencer").asString());
             temp.setHowManyCategories(record.get("numeroCategorie").asInt());
+
+            System.out.println(temp.getUsername());
+            System.out.println(temp.getHowManyCategories());
+
             System.out.println(temp.toString());
             versatileInfluencer.add(temp);
         }
 
-        System.out.println(versatileInfluencer);
+        System.out.println(versatileInfluencer.size());
+        System.out.println(versatileInfluencer.get(0).toString());
+        System.out.println(versatileInfluencer.get(1).toString());
         return versatileInfluencer;
 
     }
@@ -230,7 +236,6 @@ public class AnalyticsDBManager extends Neo4jDBManager{
         return versatileNormalUsers;
 
     }
-
 
 
 

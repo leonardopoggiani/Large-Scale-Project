@@ -23,8 +23,9 @@ public class CommentsDBManager extends Neo4jDBManager {
     public static List<CommentBean> searchListComments(String title, String author, int quanti)
     {
 
-        try(Session session=driver.session())
+        try
         {
+            Session session=driver.session();
             return session.readTransaction(new TransactionWork<List<CommentBean>>()
             {
                 @Override
@@ -33,6 +34,11 @@ public class CommentsDBManager extends Neo4jDBManager {
                     return transactionListComments(tx, title, author, quanti);
                 }
             });
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  null;
         }
     }
 
@@ -83,13 +89,14 @@ public class CommentsDBManager extends Neo4jDBManager {
      * La funzione conta il numero di commenti ad un articolo
      * @param title
      * @param author
-     * @return Numero dei commenti ad un articolo
+     * @return Numero dei commenti ad un articolo, -1 in caso di errore
      */
 
     public static int countComments(String title, String author)
     {
-        try(Session session=driver.session())
+        try
         {
+            Session session=driver.session();
             return session.readTransaction(new TransactionWork<Integer>()
             {
                 @Override
@@ -98,6 +105,11 @@ public class CommentsDBManager extends Neo4jDBManager {
                     return transactionCountLikes(tx, title, author);
                 }
             });
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
         }
     }
 
@@ -128,13 +140,12 @@ public class CommentsDBManager extends Neo4jDBManager {
     /**
      * La funzione aggiunge un commento ad un articolo
      * @param newComm
-     * @return true se ha aggiunto con successo
-     * @return false altrimenti
+     * @return true se ha aggiunto con successo, false altrimenti
      */
 
-    public static Boolean addComment(final CommentBean newComm) {
-        try (Session session = driver.session()) {
-            boolean res;
+    public static boolean addComment(final CommentBean newComm) {
+        try{
+            Session session = driver.session();
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
@@ -144,6 +155,11 @@ public class CommentsDBManager extends Neo4jDBManager {
 
 
         }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
+        }
     }
 
 
@@ -151,10 +167,9 @@ public class CommentsDBManager extends Neo4jDBManager {
      * La funzione aggiunge un commento ad un articolo
      * @param tx
      * @param newComm
-     * @return true se ha aggiunto con successo
-     * @return false altrimenti
+     * @return true se ha aggiunto con successo, false altrimenti
      */
-    private static Boolean transactionAddComment(Transaction tx, CommentBean newComm) {
+    private static boolean transactionAddComment(Transaction tx, CommentBean newComm) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("authorComm", newComm.getAuthor());
         parameters.put("text", newComm.getText());
@@ -179,8 +194,8 @@ public class CommentsDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
     public static Boolean deleteComment(final CommentBean delComm) {
-        try (Session session = driver.session()) {
-
+        try {
+            Session session = driver.session();
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
@@ -189,6 +204,11 @@ public class CommentsDBManager extends Neo4jDBManager {
             });
 
 
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
         }
     }
 
@@ -207,7 +227,7 @@ public class CommentsDBManager extends Neo4jDBManager {
         parameters.put("timestamp", delComm.getTimestamp().toString());
         parameters.put("title", delComm.getTitleArt());
 
-        Result result = tx.run("MATCH (ua:User {username:$authorComm})-[c:COMMENTED {timestamp:$timestamp}]->(a:Article{name:$title}) " +
+        tx.run("MATCH (ua:User {username:$authorComm})-[c:COMMENTED {timestamp:$timestamp}]->(a:Article{name:$title}) " +
                         "DELETE c return c"
                 , parameters);
 

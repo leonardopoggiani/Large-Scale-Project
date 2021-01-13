@@ -32,6 +32,11 @@ public class ReviewsDBManager extends Neo4jDBManager {
                 }
             });
         }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  null;
+        }
     }
 
     /**
@@ -96,6 +101,11 @@ public class ReviewsDBManager extends Neo4jDBManager {
                 }
             });
         }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
+        }
     }
 
     /**
@@ -138,6 +148,11 @@ public class ReviewsDBManager extends Neo4jDBManager {
 
 
         }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
+        }
     }
 
     /**
@@ -173,7 +188,7 @@ public class ReviewsDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    public static Boolean deleteReview(final ReviewBean delRev) {
+    public static boolean deleteReview(final ReviewBean delRev) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -184,6 +199,11 @@ public class ReviewsDBManager extends Neo4jDBManager {
             });
 
 
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
         }
     }
 
@@ -202,7 +222,7 @@ public class ReviewsDBManager extends Neo4jDBManager {
         parameters.put("timestamp", delRev.getTimestamp().toString());
         parameters.put("game", delRev.getGame());
 
-        Result result = tx.run("MATCH (ua:User {username:$author})-[r:REVIEWED {timestamp:$timestamp}]->(g:Game{name:$game}) " +
+        tx.run("MATCH (ua:User {username:$author})-[r:REVIEWED {timestamp:$timestamp}]->(g:Game{name:$game}) " +
                         "DELETE r return r"
                 , parameters);
 

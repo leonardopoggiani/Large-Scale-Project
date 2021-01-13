@@ -34,6 +34,11 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
                  }
              );
          }
+         catch(Exception ex)
+         {
+             System.err.println(ex.getMessage());
+             return  -1;
+         }
 
 
      }
@@ -107,6 +112,11 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
                 }
             });
 
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  null;
         }
 
     }

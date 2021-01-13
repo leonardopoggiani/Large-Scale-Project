@@ -31,6 +31,11 @@ public class LikesDBManager extends Neo4jDBManager {
                 }
             });
         }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
+        }
     }
 
     /**
@@ -70,7 +75,7 @@ public class LikesDBManager extends Neo4jDBManager {
      * @return 0 altrimenti
      */
 
-    public static Integer addLike(final LikeBean like) {
+    public static int addLike(final LikeBean like) {
         try (Session session = driver.session()) {
             return session.writeTransaction(new TransactionWork<Integer>() {
                 @Override
@@ -80,6 +85,11 @@ public class LikesDBManager extends Neo4jDBManager {
             });
 
 
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
         }
     }
 

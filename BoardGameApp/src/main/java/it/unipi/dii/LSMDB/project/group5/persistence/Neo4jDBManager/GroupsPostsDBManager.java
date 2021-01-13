@@ -25,6 +25,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
     {
         try(Session session=driver.session())
         {
+
             return session.readTransaction(new TransactionWork<List>()
             {
                 @Override
@@ -34,6 +35,12 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                 }
             });
         }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  null;
+        }
+
     }
 
     /**
@@ -112,6 +119,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
     {
         try(Session session=driver.session())
         {
+
             return session.writeTransaction(new TransactionWork<List>()
             {
                 @Override
@@ -120,6 +128,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     return transactionShowGroupsMembers(tx, name, admin);
                 }
             });
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  null;
         }
     }
 
@@ -182,6 +195,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                 }
             });
         }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  null;
+        }
     }
 
 
@@ -240,6 +258,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                 }
             });
         }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
+        }
     }
 
     /**
@@ -273,7 +296,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    public static Boolean addGroup(final GroupBean newGroup) {
+    public static boolean addGroup(final GroupBean newGroup) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -284,6 +307,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             });
 
 
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
         }
     }
 
@@ -345,6 +373,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
 
 
         }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
+        }
     }
 
 
@@ -362,7 +395,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", delGroup.getAdmin());
         parameters.put("name", delGroup.getName());
 
-        Result result = tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
+        tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
                         "WHERE gr.name=$name and  gr.admin=$admin" +
                         "DELETE b,gr,r"
                 , parameters);
@@ -380,7 +413,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
      */
 
 
-    public static Boolean addGroupMember(final String username, final String name, final String admin) {
+    public static boolean addGroupMember(final String username, final String name, final String admin) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -391,6 +424,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             });
 
 
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
         }
     }
 
