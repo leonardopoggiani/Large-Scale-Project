@@ -1,6 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.bean.LikeInfluencer;
+import it.unipi.dii.LSMDB.project.group5.bean.StatisticsInfluencer;
 import it.unipi.dii.LSMDB.project.group5.controller.*;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class Main {
         //System.out.println(listUsers);
 
         //uDB.neo4jAddRemoveFollow("Gaia5", "Leonardo1", "remove");
-        List<LikeInfluencer> likeInflu = aDB.neo4jTop3InfluLikes("like");
+        List<StatisticsInfluencer> likeInflu = aDB.neo4jTop3InfluLikes("like");
         System.out.println("Fatto");
 
 

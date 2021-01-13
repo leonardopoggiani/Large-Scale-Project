@@ -1,35 +1,35 @@
 Group
 -name
--Description
+-description
 -admin
 
 //Da article o da group VERSO game
 REFERRED
 
 Game
--Name
--Category
+-name
+-category1
+-category2
 
 User
--Username
--Category_1
--Category_2
--Role: influencer, normalUser
+-username
+-category1
+-category2
+-role: [influencer, normalUser]
 
 Article
--Title
+-title
 
 BE_PART
 -timestamp
 
 LIKE
--id
--tipo: like, dislike
+-tipo: [like, dislike]
+-timestamp
 
 
 FOLLOW
 -timestamp
--tipo: friend, follow
 
 -PUBLISHED
 -timestamp
@@ -44,7 +44,7 @@ FOLLOW
 
 -RATED
 -timestamp
--value
+-vote
 
 -POST
 -text
