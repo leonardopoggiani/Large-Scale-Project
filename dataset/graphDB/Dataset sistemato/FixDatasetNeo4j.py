@@ -37,8 +37,8 @@ def fixGames (file):
             array1.append("null")
             array2.append("null")
     
-    df['category_1'] = array1
-    df['category_2'] = array2
+    df['category1'] = array1
+    df['category2'] = array2
     df.drop(columns=['category'],axis=1, inplace=True)
     
     df.to_csv('games.csv', index=False)  
