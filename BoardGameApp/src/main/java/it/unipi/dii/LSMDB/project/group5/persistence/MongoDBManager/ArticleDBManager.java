@@ -305,7 +305,7 @@ public class ArticleDBManager {
         Bson match = (eq("username", a.getAuthor()));
         List<String> games = a.getListGame();
 
-        Document doc = new Document("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp())
+        Document doc = new Document("title", a.getTitle()).append("body", a.getText()).append("timestamp", "2019-11-20 00:00:00" /*a.getTimestamp().toString()*/)
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
 

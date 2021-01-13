@@ -361,13 +361,13 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    public static Boolean deleteGroup(final GroupBean delGroup) {
+    public static Boolean deleteGroup(final String delGroup, final String delAdmin) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    return transactionDeleteGroup(tx, delGroup);
+                    return transactionDeleteGroup(tx, delGroup, delAdmin);
                 }
             });
 
@@ -390,10 +390,10 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
      */
 
 
-    private static Boolean transactionDeleteGroup(Transaction tx, GroupBean delGroup) {
+    private static Boolean transactionDeleteGroup(Transaction tx, String delGroup, String delAdmin) {
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("admin", delGroup.getAdmin());
-        parameters.put("name", delGroup.getName());
+        parameters.put("admin", delAdmin);
+        parameters.put("name", delGroup);
 
         tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
                         "WHERE gr.name=$name and  gr.admin=$admin" +

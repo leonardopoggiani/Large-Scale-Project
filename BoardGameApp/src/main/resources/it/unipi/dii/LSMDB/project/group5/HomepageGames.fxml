@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.2829226847918437" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1179.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGames">
+<SplitPane id="anchor" dividerPositions="0.2829226847918437" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1179.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGames">
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
@@ -47,7 +47,7 @@
             <TextField fx:id="name" layoutX="113.0" layoutY="360.0" visible="false" />
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="0.0" minWidth="0.0" onMouseMoved="#setSuggestedGames" prefHeight="501.0" prefWidth="532.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="532.0">
          <children>
             <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
             <BottomNavigation layoutX="51.0" layoutY="6.0">

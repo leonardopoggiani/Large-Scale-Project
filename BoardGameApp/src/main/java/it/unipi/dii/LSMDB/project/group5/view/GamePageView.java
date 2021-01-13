@@ -25,8 +25,83 @@ import java.util.logging.Logger;
 public class GamePageView {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
-    int giàCaricato = -1;
     GamesCache cache = GamesCache.getInstance();
+    private static String game;
+
+    @FXML
+    ImageView image;
+
+    @FXML
+    Text title;
+
+    @FXML
+    Text votes;
+
+    @FXML
+    ProgressBar votes1;
+
+    @FXML
+    TextArea rules;
+
+    @FXML
+    TextArea description;
+
+    @FXML
+    Text categories;
+
+    @FXML
+    Text publisher;
+
+    @FXML
+    Hyperlink url;
+
+    @FXML
+    TextField review1;
+
+    @FXML
+    TextField review2;
+
+    @FXML
+    TextField review3;
+
+    @FXML
+    TextField author1;
+
+    @FXML
+    TextField author2;
+
+    @FXML
+    TextField author3;
+
+    @FXML
+    TextField timestamp1;
+
+    @FXML
+    TextField timestamp2;
+
+    @FXML
+    TextField timestamp3;
+
+    @FXML
+    Button delete1;
+
+    @FXML
+    Button delete2;
+
+    @FXML
+    Button delete3;
+
+    @FXML
+    TextField review;
+
+    @FXML
+    Slider rate;
+
+    @FXML
+    void initialize() throws ExecutionException {
+        game = HomepageGames.getGame();
+        setGameFields();
+    }
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -51,84 +126,108 @@ public class GamePageView {
     @FXML
     void setGameFields() throws ExecutionException {
         // setto i campi del gioco
-        if (giàCaricato == -1) {
 
-            ImageView image = (ImageView) App.getScene().lookup("#image");
-            String game = HomepageGames.getGame();
-            GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
-
-            GameBean currentGame = cache.getDataIfPresent(game);
-
-            if(currentGame == null || currentGame.getName() == null) {
-                logger.log(Level.WARNING, "Recupero da db");
-                currentGame = controller.showGame(game);
-            }
-
-            System.out.println(currentGame);
-
-            if( (currentGame.getImageUrl() != null) && !currentGame.getImageUrl().equals("") ) {
-                image.setImage(new Image(currentGame.getImageUrl()));
-            } else {
-                logger.info("immagine di default");
-                image.setImage(new Image("file:src/main/resources/img/defaultgioco.png"));
-            }
-
-            Text title = (Text) App.getScene().lookup("#title");
-            title.setText(currentGame.getName());
-
-            Text vote = (Text) App.getScene().lookup("#votes");
-            vote.setText(String.valueOf(Math.round(currentGame.getAvgRating())));
-            ProgressBar votes = (ProgressBar) App.getScene().lookup("#votes1");
-            votes.setProgress(currentGame.getAvgRating()/10);
-            System.out.println(" Progress " + currentGame.getAvgRating());
-
-            if (currentGame.getAvgRating() <= 5) {
-                votes.setStyle("-fx-background-color: red");
-                votes.setStyle("-fx-accent: red");
-            } else if( (currentGame.getAvgRating() > 5) && (currentGame.getAvgRating() < 7) ){
-                votes.setStyle("-fx-background-color: blue");
-                votes.setStyle("-fx-accent: blue");
-            } else if( (currentGame.getAvgRating() >= 7) ){
-                votes.setStyle("-fx-background-color: green");
-                votes.setStyle("-fx-accent: green");
-            }
-
-            TextArea rule = (TextArea) App.getScene().lookup("#rules");
-            rule.setText(currentGame.getRules());
-
-            TextArea description = (TextArea) App.getScene().lookup("#description");
-            description.setText(currentGame.getDescription());
-
-            Text categories = (Text) App.getScene().lookup("#categories");
-            String cat = "";
-            if(currentGame.getListCategory() != null) {
-                for (int i = 0; i < currentGame.getListCategory().size(); i++) {
-                    cat += currentGame.getListCategory().get(i);
-                    cat += ", ";
-                }
-            }
-
-            categories.setText(cat);
-
-            Text publisher = (Text) App.getScene().lookup("#publisher");
-            String pub = "";
-            if(currentGame.getPublisher() != null) {
-                for (int i = 0; i < currentGame.getPublisher().size(); i++) {
-                    cat += currentGame.getPublisher().get(i);
-                    cat += ", ";
-                }
-            }
-            publisher.setText(pub);
-
-            Hyperlink urlText = (Hyperlink) App.getScene().lookup("#url");
-            String url = currentGame.getUrl();
-
-            urlText.setText(url);
-
-            setReviews(game);
-
-            giàCaricato = 1;
+        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+        GameBean currentGame = cache.getDataIfPresent(game);
+        logger.info("show " + currentGame);
+        if(currentGame == null || currentGame.getName() == null) {
+            logger.log(Level.WARNING, "cache miss");
+            currentGame = controller.showGame(game);
+        } else {
+            logger.log(Level.WARNING, "cache hit");
         }
+
+        if( (currentGame.getImageUrl() != null) && !currentGame.getImageUrl().equals("") ) {
+            image.setImage(new Image(currentGame.getImageUrl()));
+        } else {
+            logger.info("immagine di default");
+            image.setImage(new Image("file:src/main/resources/img/defaultgioco.png"));
+        }
+
+        title.setText(currentGame.getName());
+        votes.setText(String.valueOf(Math.round(currentGame.getAvgRating())));
+        votes1.setProgress(currentGame.getAvgRating()/10);
+
+        if (currentGame.getAvgRating() <= 5) {
+            votes1.setStyle("-fx-background-color: red");
+            votes1.setStyle("-fx-accent: red");
+        } else if( (currentGame.getAvgRating() > 5) && (currentGame.getAvgRating() < 7) ){
+            votes1.setStyle("-fx-background-color: blue");
+            votes1.setStyle("-fx-accent: blue");
+        } else if( (currentGame.getAvgRating() >= 7) ){
+            votes1.setStyle("-fx-background-color: green");
+            votes1.setStyle("-fx-accent: green");
+        }
+
+        rules.setText(currentGame.getRules());
+        description.setText(currentGame.getDescription());
+        String cat = "";
+        if(currentGame.getListCategory() != null) {
+            for (int i = 0; i < currentGame.getListCategory().size(); i++) {
+                cat += currentGame.getListCategory().get(i);
+
+                if(i == currentGame.getListCategory().size() - 1) {
+                    cat += " ";
+                } else {
+                    cat += ", ";
+                }
+            }
+        }
+
+        categories.setText(cat);
+
+        String pub = "";
+        if(currentGame.getPublisher() != null) {
+            for (int i = 0; i < currentGame.getPublisher().size(); i++) {
+                pub += currentGame.getPublisher().get(i);
+
+                if (i == currentGame.getPublisher().size() - 1) {
+                    pub += " ";
+                } else {
+                    pub += ", ";
+                }
+            }
+        }
+        publisher.setText(pub);
+        url.setText(currentGame.getUrl());
+
+        setReviews(game);
+    }
+
+    private TextField chooseReview(int i){
+        return switch (i) {
+            case 1 -> review1;
+            case 2 -> review2;
+            case 3 -> review3;
+            default -> new TextField();
+        };
+    }
+
+    private TextField chooseAuthor(int i){
+        return switch (i) {
+            case 1 -> author1;
+            case 2 -> author2;
+            case 3 -> author3;
+            default -> new TextField();
+        };
+    }
+
+    private TextField chooseTimestamp(int i){
+        return switch (i) {
+            case 1 -> timestamp1;
+            case 2 -> timestamp2;
+            case 3 -> timestamp3;
+            default -> new TextField();
+        };
+    }
+
+    private Button chooseDeleteButton(int i){
+        return switch (i) {
+            case 1 -> delete1;
+            case 2 -> delete2;
+            case 3 -> delete3;
+            default -> new Button();
+        };
     }
 
     private void setReviews(String game) {
@@ -139,17 +238,16 @@ public class GamePageView {
 
         if(!reviews.isEmpty()) {
             for (int i = 0; i < reviews.size() && i < 3; i++) {
-                TextField review = (TextField) App.getScene().lookup("#review" + (i + 1));
+                TextField review = chooseReview(i + 1);
+                TextField author = chooseAuthor(i + 1);
+                TextField timestamp = chooseTimestamp(i + 1);
+
                 review.setText(reviews.get(i).getText());
-
-                TextField author = (TextField) App.getScene().lookup("#author" + (i + 1));
                 author.setText(reviews.get(i).getAuthor());
-
-                TextField timestamp = (TextField) App.getScene().lookup("#timestamp" + (i + 1));
                 timestamp.setText(String.valueOf(reviews.get(i).getTimestamp()));
 
                 if (reviews.get(i).getAuthor().equals(LoginPageView.getLoggedUser())) {
-                    Button delete = (Button) App.getScene().lookup("#delete" + (i + 1));
+                    Button delete = chooseDeleteButton(i + 1);
                     delete.setDisable(false);
                     delete.setVisible(true);
                 }
@@ -160,71 +258,42 @@ public class GamePageView {
     @FXML
     void postReview() {
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
-        TextField review = (TextField) App.getScene().lookup("#review");
-        Text title = (Text) App.getScene().lookup("#title");
 
         ReviewBean toAdd = new ReviewBean(review.getText(), title.getText(), LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()));
         controller.Neo4jAddReview(toAdd);
 
-        TextField reviewList = (TextField) App.getScene().lookup("#review1");
-        reviewList.setText(review.getText());
-        TextField autore = (TextField) App.getScene().lookup("#author1");
-        autore.setText(LoginPageView.getLoggedUser());
-        TextField timestamp = (TextField) App.getScene().lookup("#timestamp1");
-        timestamp.setText(String.valueOf(new Timestamp(System.currentTimeMillis())));
-        Button bottone = (Button) App.getScene().lookup("#delete1");
-        bottone.setVisible(true);
-        bottone.setDisable(false);
         review.setText("");
+        setReviews(game);
     }
 
     @FXML
     public void deleteReview(MouseEvent event) {
         Button deleteButton = (Button) event.getSource();
-        String id = deleteButton.getId();
+        int index = Integer.parseInt(deleteButton.getId().substring(deleteButton.getId().length() - 1));
 
-        TextField reviewDaCancellare = null;
-        TextField autore = null;
-        TextField timestamp = null;
+        TextField reviewDaCancellare = chooseReview(index);
+        TextField autore = chooseAuthor(index);
+        TextField timestamp = chooseTimestamp(index);
 
-        if (id.equals("delete1")) {
-            reviewDaCancellare = (TextField) App.getScene().lookup("#review1");
-            autore = (TextField) App.getScene().lookup("#author1");
-            timestamp = (TextField) App.getScene().lookup("#timestamp1");
-        } else if (id.equals("delete2")) {
-            reviewDaCancellare = (TextField) App.getScene().lookup("#review2");
-            autore = (TextField) App.getScene().lookup("#author2");
-            timestamp = (TextField) App.getScene().lookup("#timestamp2");
-        } else {
-            reviewDaCancellare = (TextField) App.getScene().lookup("#review3");
-            autore = (TextField) App.getScene().lookup("#author3");
-            timestamp = (TextField) App.getScene().lookup("#timestamp3");
-        }
-
-        ReviewBean review = new ReviewBean(reviewDaCancellare.getText(), HomepageGames.getGame(), autore.getText(), Timestamp.valueOf(timestamp.getText()));
+        ReviewBean review = new ReviewBean(reviewDaCancellare.getText(), game, autore.getText(), Timestamp.valueOf(timestamp.getText()));
 
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
         controller.Neo4jDeleteReview(review);
 
-        setReviews(HomepageGames.getGame());
+        setReviews(game);
     }
 
     @FXML
     void addVote() {
-        Slider voti = (Slider) App.getScene().lookup("#rate");
-        Text game = (Text) App.getScene().lookup("#title");
-        ProgressBar progress = (ProgressBar) App.getScene().lookup("#votes1");
-        Text voting = (Text) App.getScene().lookup("#votes");
-
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
 
-        RateBean rate = new RateBean(LoginPageView.getLoggedUser(), voti.getValue(), game.getText(), new Timestamp(System.currentTimeMillis()));
-        boolean ret = controller.Neo4jAddRating(rate);
+        RateBean newRate = new RateBean(LoginPageView.getLoggedUser(), rate.getValue(), game, new Timestamp(System.currentTimeMillis()));
+        boolean ret = controller.Neo4jAddRating(newRate);
 
         if(ret) {
-            double votoMedio = controller.MongoDBgetAvgRating(rate.getGame());
-            progress.setProgress(votoMedio / 10);
-            voting.setText(String.valueOf(Math.round(votoMedio)));
+            double votoMedio = controller.MongoDBgetAvgRating(newRate.getGame());
+            votes1.setProgress(votoMedio / 10);
+            votes.setText(String.valueOf(Math.round(votoMedio)));
         }
     }
 

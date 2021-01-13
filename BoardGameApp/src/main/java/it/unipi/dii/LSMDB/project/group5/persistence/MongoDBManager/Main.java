@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Main {
     public static void main (String[] args){
-        //MongoDBManager.createConnection();
+        MongoDBManager.createConnection();
         System.out.println("Connesso");
 
         //signup
@@ -26,7 +26,7 @@ public class Main {
         +" " +g.getMinTime() +" " +g.getName() + " " + g.getUrl() + " " + g.getComplexity() + " " + g.getNumVotes() + " " + g.getAlternativeName() + " " + g.getFamily() + " " + g.isCooperative());
 */
         //Filter article
-        //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByInfluencer("gaia1");
+        //List<ArticleBean> list = ArticleDBManager.filterByInfluencer("microcline");
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame("Cluedo");
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate("2020-12-29");
         //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("comments");
@@ -56,19 +56,23 @@ public class Main {
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLessRecentLoggedUsers();
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersForAge();
         //AnalyticsDBManager.getActivitiesStatisticsTotal();
+        //AnalyticsDBManager.numberOfArticlesPublishedInASpecifiedPeriod("2020-01-12 00:00:00");
+        //AnalyticsDBManager.distinctGamesInArticlesPublishedInASpecifiedPeriod("2020-01-12 00:00:00");
+        //AnalyticsDBManager.getNumLikeForEachInfluencer();
+        AnalyticsDBManager.getNumDislikeForEachInfluencer();
 
         /*ArticleBean a = new ArticleBean();
         List<String> list1 = new ArrayList<>();
         list1.add("Monopoli");
         list1.add("Sherlock");
         a.setListGame(list1);
-        a.setAuthor("gaia1");
-        a.setNumComments(0);
+        a.setAuthor("chakado");
+        a.setNumberComments(0);
         a.setTitle("Articolo1");
         a.setTimestamp(new Timestamp(System.currentTimeMillis()));
         a.setText("NON LO SO");
-        a.setNumDislikes(1);
-        a.setNumLikes(4);
+        a.setNumberDislikes(1);
+        a.setNumberLikes(14);
         boolean ret = ArticleDBManager.addArticle(a);*/
 
 

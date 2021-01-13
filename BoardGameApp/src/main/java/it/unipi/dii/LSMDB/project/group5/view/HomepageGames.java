@@ -6,7 +6,6 @@ import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -22,9 +21,9 @@ import java.util.logging.Logger;
 public class HomepageGames {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
-    int giàCaricato = -1;
     GamesCache cache = GamesCache.getInstance();
     private static List<String> savedGames = Lists.newArrayList();
+    private static String game;
 
     ObservableList<String> ordinamenti = FXCollections.observableArrayList(
             "Number of reviews", "Number of ratings", "Average ratings", "None");
@@ -48,9 +47,86 @@ public class HomepageGames {
     ObservableList<String> filters = FXCollections.observableArrayList(
             "Category", "Number of players", "Release year", "Name", "None");
 
-    List<GameBean> mostrati = Lists.newArrayList();
+    @FXML
+    TitledPane fullgame1;
 
-    private static String game;
+    @FXML
+    TitledPane fullgame2;
+
+    @FXML
+    TitledPane fullgame3;
+
+    @FXML
+    TitledPane fullgame4;
+
+    @FXML
+    TitledPane fullgame5;
+
+    @FXML
+    TitledPane fullgame6;
+
+    @FXML
+    Text rating1;
+
+    @FXML
+    Text rating2;
+
+    @FXML
+    Text rating3;
+
+    @FXML
+    Text rating4;
+
+    @FXML
+    Text rating5;
+
+    @FXML
+    Text rating6;
+
+    @FXML
+    Text number1;
+
+    @FXML
+    Text number2;
+
+    @FXML
+    Text number3;
+
+    @FXML
+    Text number4;
+
+    @FXML
+    Text number5;
+
+    @FXML
+    Text number6;
+
+    @FXML
+    ComboBox filter;
+
+    @FXML
+    Slider players;
+
+    @FXML
+    Text numplayers;
+
+    @FXML
+    ComboBox category;
+
+    @FXML
+    TextField year;
+
+    @FXML
+    TextField name;
+
+    @FXML
+    ComboBox order;
+
+    @FXML
+    void initialize() throws IOException, ExecutionException {
+        setSuggestedGames();
+        setSuggestedGames();
+    }
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -77,125 +153,145 @@ public class HomepageGames {
         App.setRoot("ProfileSettingsPageView");
     }
 
+    private Text chooseNumberOfRating(int i){
+        return switch (i) {
+            case 1 -> number1;
+            case 2 -> number2;
+            case 3 -> number3;
+            case 4 -> number4;
+            case 5 -> number5;
+            case 6 -> number6;
+            default -> new Text();
+        };
+    }
+
+    private Text chooseRating(int i){
+        return switch (i) {
+            case 1 -> rating1;
+            case 2 -> rating2;
+            case 3 -> rating3;
+            case 4 -> rating4;
+            case 5 -> rating5;
+            case 6 -> rating6;
+            default -> new Text();
+        };
+
+    }
+
+    private TitledPane chooseGame(int i){
+        return switch (i) {
+            case 1 -> fullgame1;
+            case 2 -> fullgame2;
+            case 3 -> fullgame3;
+            case 4 -> fullgame4;
+            case 5 -> fullgame5;
+            case 6 -> fullgame6;
+            default -> new TitledPane();
+        };
+
+    }
+
     @FXML
     void goToGame(MouseEvent event) throws IOException {
-        logger.info("Carico " + event.getTarget().getClass());
-        AnchorPane foo = new AnchorPane();
+        AnchorPane gamePressed = (AnchorPane) event.getSource();
+        int index =  Integer.parseInt(gamePressed.getId().substring(gamePressed.getId().length() - 1));
 
-        if(event.getTarget().getClass() == foo.getClass()){
-            AnchorPane pane = (AnchorPane) event.getTarget();
-            TitledPane tp = (TitledPane) App.getScene().lookup("#full" + pane.getId());
-
-            game = tp.getText();
-            App.setRoot("GamePageView");
-        }
+        TitledPane gameSelected = chooseGame(index);
+        game = gameSelected.getText();
+        logger.info("carico " + game);
+        App.setRoot("GamePageView");
     }
 
     @FXML
     void setSuggestedGames() throws IOException, ExecutionException {
 
         GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+        if (savedGames.isEmpty()) {
+            // non ho giochi salvati in cache
+            logger.info("cache vuota");
+            List<GameBean> list = controller.neo4jListSuggestedGames(LoginPageView.getLoggedUser());
+            showGames(list);
+        } else {
+            int i = 0;
+            logger.info("cache piena");
+            for (String game_i : savedGames) {
+                GameBean g = cache.getDataIfPresent(game_i);
+                if (g != null && g.getName() != null) {
+                    if (i < savedGames.size() && i < 6) {
 
-        if(giàCaricato == -1) {
-            if(savedGames.isEmpty()) {
-                List<GameBean> list = controller.neo4jListSuggestedGames(LoginPageView.getLoggedUser());
-                showGames(list);
-            } else {
-                int i = 0;
-                System.out.println("Dim: " + savedGames.size());
+                        TitledPane gioco = chooseGame(i + 1);
+                        Text ratings = chooseRating(i + 1);
+                        Text number = chooseNumberOfRating(i + 1);
 
-                for (String game : savedGames){
-                    GameBean g = cache.getDataIfPresent(game);
-                    if(g != null && g.getName() != null){
-                        if(i < savedGames.size() && i < 6) {
-                            TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
+                        gioco.setText(g.getName());
+                        ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
+                        number.setText(String.valueOf(Math.round(g.getNumVotes())));
 
-                            gioco.setText(g.getName());
-
-                            Text ratings = (Text) App.getScene().lookup("#rating" + (i + 1));
-                            Text number = (Text) App.getScene().lookup("#number" + (i + 1));
-
-
-                            gioco.setText(g.getName());
-                            ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
-                            number.setText(String.valueOf(Math.round(g.getNumVotes())));
-
-                            i++;
-                        }
+                        i++;
                     }
                 }
             }
-
-            giàCaricato = 1;
         }
+
+        showFilters();
+        caricaCategorie();
+        caricaOrdinamenti();
     }
+
 
     @FXML
     void showFilters () throws IOException {
         logger.info("Carico i filtri");
-        Scene scene = App.getScene(); // recupero la scena della signup
-        ComboBox filtri = (ComboBox) scene.lookup("#filter");
-
-        filtri.setItems(filters);
-
+        filter.setItems(filters);
     }
 
     @FXML
     void setFilters() {
-        Scene scene = App.getScene(); // recupero la scena della signup
-        Slider players = (Slider) scene.lookup("#players");
-        Text numPlayers = (Text) scene.lookup("#numplayers");
-        ComboBox categorie = (ComboBox) scene.lookup("#category");
-        TextField releaseYear = (TextField) scene.lookup("#year");
-        ComboBox filtri = (ComboBox) scene.lookup("#filter");
-        TextField name = (TextField) scene.lookup("#name");
-
-
-        if(filtri.getSelectionModel().getSelectedItem() != null){
-            String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
+        if(filter.getSelectionModel().getSelectedItem() != null){
+            String filtroSelezionato = filter.getSelectionModel().getSelectedItem().toString();
             if(!filtroSelezionato.equals("None")){
                 switch(filtroSelezionato){
                     case "Category":
-                        categorie.setVisible(true);
+                        category.setVisible(true);
                         players.setVisible(false);
-                        numPlayers.setVisible(false);
-                        releaseYear.setVisible(false);
+                        numplayers.setVisible(false);
+                        year.setVisible(false);
                         name.setVisible(false);
                         break;
                     case "Number of players":
-                        categorie.setVisible(false);
+                        category.setVisible(false);
                         players.setVisible(true);
-                        numPlayers.setVisible(true);
-                        releaseYear.setVisible(false);
+                        numplayers.setVisible(true);
+                        year.setVisible(false);
                         name.setVisible(false);
                         break;
                     case "Release year":
-                        categorie.setVisible(false);
+                        category.setVisible(false);
                         players.setVisible(false);
-                        numPlayers.setVisible(false);
-                        releaseYear.setVisible(true);
+                        numplayers.setVisible(false);
+                        year.setVisible(true);
                         name.setVisible(false);
                         break;
                     case "Name":
-                        categorie.setVisible(false);
+                        category.setVisible(false);
                         players.setVisible(false);
-                        numPlayers.setVisible(false);
-                        releaseYear.setVisible(false);
+                        numplayers.setVisible(false);
+                        year.setVisible(false);
                         name.setVisible(true);
                         break;
                     default:
-                        categorie.setVisible(false);
+                        category.setVisible(false);
                         players.setVisible(false);
-                        numPlayers.setVisible(false);
-                        releaseYear.setVisible(false);
+                        numplayers.setVisible(false);
+                        year.setVisible(false);
                         name.setVisible(false);
                         break;
                 }
             } else {
-                categorie.setVisible(false);
+                category.setVisible(false);
                 players.setVisible(false);
-                numPlayers.setVisible(false);
-                releaseYear.setVisible(false);
+                numplayers.setVisible(false);
+                year.setVisible(false);
                 name.setVisible(false);
             }
         }
@@ -206,12 +302,6 @@ public class HomepageGames {
         // filtra i risultati in base alle impostazioni passate
         GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
 
-        ComboBox categoria = (ComboBox) App.getScene().lookup("#category");
-        Slider players = (Slider) App.getScene().lookup("#players");
-        TextField data = (TextField) App.getScene().lookup("#year");
-        ComboBox order = (ComboBox) App.getScene().lookup("#order");
-        TextField name = (TextField) App.getScene().lookup("#name");
-
         String filtraPerCategoria = " ";
         int filtraGiocatori = 0;
         int filtraPerAnno = 0;
@@ -220,16 +310,15 @@ public class HomepageGames {
         List<GameBean> sortedList = Lists.newArrayList();
         List<GameBean> filteringResult = Lists.newArrayList();
 
-        if(categoria.isVisible() && categoria.getSelectionModel().getSelectedItem() != null) {
+        if(category.isVisible() && category.getSelectionModel().getSelectedItem() != null) {
             // filtraggio per categoria, crea una lista con tutti i giochi appartenenti alla categoria data
-            int index1 = categoria.getSelectionModel().getSelectedIndex();
+            int index1 = category.getSelectionModel().getSelectedIndex();
             filtraPerCategoria = categorie.get(index1);
             filteredGames = controller.filterByCategory(filtraPerCategoria);
-            logger.info("categoria:" + filteredGames.size());
-        } else if(data.isVisible() && !data.getText().equals("")) {
-            if (Integer.parseInt(data.getText()) > 1900 || Integer.parseInt(data.getText()) < 2022) {
+        } else if(year.isVisible() && !year.getText().equals("")) {
+            if (Integer.parseInt(year.getText()) > 1900 || Integer.parseInt(year.getText()) < 2022) {
                 // filtraggio per anno
-                filtraPerAnno = Integer.parseInt(data.getText());
+                filtraPerAnno = Integer.parseInt(year.getText());
                 filteredGames = controller.filterByYear(filtraPerAnno);
                 logger.info("data:" + filteredGames.size());
             }
@@ -277,7 +366,6 @@ public class HomepageGames {
                 logger.info("non ordino");
                 filteringResult = orderingResult(filteredGames, ordering);
             }
-
         }
 
         savedGames.clear();
@@ -333,14 +421,13 @@ public class HomepageGames {
         if (games != null) {
             System.out.println("Lunghezza lista " + games.size());
             for (int i = 0; i < 6; i++) {
-                TitledPane gioco = (TitledPane) App.getScene().lookup("#fullgame" + (i + 1));
-                Text ratings = (Text) App.getScene().lookup("#rating" + (i + 1));
-                Text number = (Text) App.getScene().lookup("#number" + (i + 1));
+                TitledPane gioco = chooseGame(i + 1);
+                Text ratings = chooseRating(i + 1);
+                Text number = chooseNumberOfRating(i + 1);
 
                 if(i < games.size()){
                     GameBean g = games.get(i);
                     savedGames.add(g.getName());
-                    System.out.println("Stampo " + g);
                     gioco.setText(g.getName());
                     ratings.setText(String.valueOf(Math.round(g.getAvgRating())));
                     number.setText(String.valueOf(Math.round(g.getNumVotes())));
@@ -349,7 +436,6 @@ public class HomepageGames {
                     ratings.setText("");
                     number.setText("");
                 }
-
             }
         }
     }
@@ -362,27 +448,18 @@ public class HomepageGames {
 
     @FXML
     void aggiorna() {
-        Slider player = (Slider) App.getScene().lookup("#players");
-        Text numplayers = (Text) App.getScene().lookup("#numplayers");
-
-        numplayers.setText(String.valueOf((int)(Math.round(player.getValue()))));
+        numplayers.setText(String.valueOf((int)(Math.round(players.getValue()))));
     }
 
     @FXML
-    void caricaCategorie() throws IOException {
-        Scene scene = App.getScene(); // recupero la scena della signup
-        ComboBox cat1 = (ComboBox) scene.lookup("#category");
-
-        cat1.setItems(categorie);
+    void caricaCategorie(){
+        category.setItems(categorie);
     }
+
     @FXML
     void caricaOrdinamenti() throws IOException {
-        Scene scene = App.getScene(); // recupero la scena della signup
-        ComboBox cat1 = (ComboBox) scene.lookup("#order");
-
-        cat1.setItems(ordinamenti);
+        order.setItems(ordinamenti);
     }
-
 
     public static String getGame(){
         return game;
