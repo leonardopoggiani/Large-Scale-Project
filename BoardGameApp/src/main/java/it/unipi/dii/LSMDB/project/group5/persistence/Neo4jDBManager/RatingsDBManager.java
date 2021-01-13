@@ -85,12 +85,12 @@ public class RatingsDBManager extends Neo4jDBManager {
         double avgRates = 0.0;
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
-        Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) return avg(r.vote) AS avgRates", parameters);
+        Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) return coalesce(avg(r.vote), 0) AS avgRates", parameters);
 
         if (result.hasNext()) {
             Record record = result.next();
 
-            if(!record.get("avgRates").equals("NULL"))
+            if(!(record.get("avgRates").equals("NULL")))
                 avgRates = record.get("avgRates").asDouble();
         }
         return avgRates;

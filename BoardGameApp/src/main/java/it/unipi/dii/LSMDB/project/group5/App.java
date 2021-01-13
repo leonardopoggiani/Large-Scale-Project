@@ -1,6 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5;
 
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.MongoDBManager;
+import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.Neo4jDBManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         logger.info("Applicazione partita");
 
-        if(MongoDBManager.createConnection() == true){
+        if(MongoDBManager.createConnection() == true && Neo4jDBManager.InitializeDriver() == true){
             scene = new Scene(loadFXML("LoginPageView"));
             stage.setScene(scene);
             stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
@@ -33,8 +34,10 @@ public class App extends Application {
             stage.setHeight(800);
             stage.setWidth(1200);
             stage.show();
-        } else {
+        } else if (MongoDBManager.createConnection() == false){
            logger.log(Level.SEVERE, "Mongo db not starterd");
+        } else {
+            logger.log(Level.SEVERE, "Neo4j db not starterd");
         }
     }
 
@@ -56,11 +59,9 @@ public class App extends Application {
     }
 
     @Override
-    public void stop() {
-        // MongoDriver md = MongoDriver.getInstance();
-        // Neo4jDriver nd = Neo4jDriver.getInstance();
-        // md.close();
-        // nd.close();
+    public void stop() throws Exception {
+        MongoDBManager.close();
+        Neo4jDBManager.close();
         Platform.exit();
     }
 

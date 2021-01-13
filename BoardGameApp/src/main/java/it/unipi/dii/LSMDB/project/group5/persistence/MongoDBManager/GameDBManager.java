@@ -309,7 +309,7 @@ public class GameDBManager {
         List<String> expansion = (List<String>) next.get("expansion");
         g.setExpansion(expansion);
         g.setNumVotes((next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString()));
-        g.setAvgRating((next.get("avg_rating") == null) ? 0.0: Double.parseDouble(next.get("avg_rating").toString()));
+        g.setAvgRating((next.get("avg_rating") == null || next.get("avg_rating").equals("nan") ) ? 0.0: Double.parseDouble(next.get("avg_rating").toString()));
         g.setNumReviews((next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString()));
         g.setComplexity((next.get("complexity") == null) ? 0.0 : Double.parseDouble(next.get("complexity").toString()));
 

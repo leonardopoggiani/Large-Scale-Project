@@ -26,7 +26,7 @@ public class GamePageView {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
     GamesCache cache = GamesCache.getInstance();
-    private static String game = HomepageGames.getGame();
+    private static String game;
 
     @FXML
     ImageView image;
@@ -99,6 +99,7 @@ public class GamePageView {
 
     @FXML
     void initialize() throws ExecutionException {
+        game = HomepageGames.getGame();
         setGameFields();
     }
 
@@ -128,6 +129,7 @@ public class GamePageView {
 
         GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
         GameBean currentGame = cache.getDataIfPresent(game);
+        logger.info("show " + currentGame);
         if(currentGame == null || currentGame.getName() == null) {
             logger.log(Level.WARNING, "cache miss");
             currentGame = controller.showGame(game);

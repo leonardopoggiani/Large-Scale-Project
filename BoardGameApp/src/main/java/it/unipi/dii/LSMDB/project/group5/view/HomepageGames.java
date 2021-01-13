@@ -125,6 +125,7 @@ public class HomepageGames {
     @FXML
     void initialize() throws IOException, ExecutionException {
         setSuggestedGames();
+        setSuggestedGames();
     }
 
     @FXML
@@ -196,7 +197,6 @@ public class HomepageGames {
         int index =  Integer.parseInt(gamePressed.getId().substring(gamePressed.getId().length() - 1));
 
         TitledPane gameSelected = chooseGame(index);
-        System.out.println("Game selected"  + gameSelected);
         game = gameSelected.getText();
         logger.info("carico " + game);
         App.setRoot("GamePageView");

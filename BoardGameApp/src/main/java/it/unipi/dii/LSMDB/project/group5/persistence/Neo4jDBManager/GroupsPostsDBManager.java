@@ -362,9 +362,9 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", delAdmin);
         parameters.put("name", delGroup);
 
-        Result result = tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
-                        "WHERE gr.name=$name and  gr.admin=$admin" +
-                        "DELETE b,gr,r"
+        Result result = tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game) " +
+                        " WHERE gr.name=$name and  gr.admin=$admin " +
+                        " DELETE b,gr,r"
                 , parameters);
 
         return true;
