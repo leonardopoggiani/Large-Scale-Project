@@ -58,7 +58,7 @@ public class RatingsDBManager extends Neo4jDBManager {
      * @return Ratings medio di un gioco
      */
 
-    public static Double avgRatings(final String name)
+    public static double avgRatings(final String name)
     {
         try(Session session=driver.session())
         {
@@ -80,9 +80,9 @@ public class RatingsDBManager extends Neo4jDBManager {
      * @return Ratings medio di un gioco
      */
 
-    public static Double transactionAvgRatings(Transaction tx, String name) {
+    public static double transactionAvgRatings(Transaction tx, String name) {
 
-        Double avgRates = 0.0;
+        double avgRates = 0.0;
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) return avg(r.vote) AS avgRates", parameters);
