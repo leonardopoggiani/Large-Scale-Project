@@ -1,7 +1,5 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
@@ -11,6 +9,7 @@ import org.bson.conversions.Bson;
 
 import it.unipi.dii.LSMDB.project.group5.bean.*;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import static com.mongodb.client.model.Accumulators.sum;
@@ -80,7 +79,7 @@ public class AnalyticsDBManager {
     }
 
     public static List<CountryBean> getUsersFromCountry (){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson projection = project(fields(excludeId(), computed("country", "$_id"), include("count")));
         Bson group = group("$country", sum("count", 1L));
         Bson match = match(and(ne("country", null), ne("country", "")));
@@ -118,7 +117,7 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
+                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 ret.setAvgRatingTot(next.get("avgRatingTot")==null ? 0.0 : Double.parseDouble(next.get("avgRatingTot").toString()));
                 ret.setName(category);
@@ -135,7 +134,7 @@ public class AnalyticsDBManager {
 
     public static List<UserBean> showLessRecentLoggedUsers (){
         List<UserBean> ret = new ArrayList<UserBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson sort = sort(ascending("last_login"));
         Bson projection = project(fields(excludeId(), include("username", "last_login")));
 
@@ -155,7 +154,7 @@ public class AnalyticsDBManager {
     }
 
     public static List<AgeBean> getUsersForAge (){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson projection = project(fields(excludeId(), computed("age", "$_id"), include("count")));
         Bson group = group("$age", sum("count", 1L));
         Bson match = match(and(ne("age", null), ne("age", "")));
@@ -179,9 +178,8 @@ public class AnalyticsDBManager {
 
     public static List<ActivityBean> getActivitiesStatisticsTotal (){
 
-        MongoCollection<Document> collection = MongoDBManager.getCollection("User");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         List<ActivityBean> ret = new ArrayList<ActivityBean>();
-        BasicDBList pipeline = new BasicDBList();
 
         Bson projection1 = project(fields(excludeId(), computed("date", new Document("$toDate", "$last_login")), include("username")));
         Bson match = match(ne("date", null));
@@ -208,5 +206,113 @@ public class AnalyticsDBManager {
         }
         return ret;
 
+    }
+
+    public static List<InfluencerInfoBean> numberOfArticlesPublishedInASpecifiedPeriod (String start){
+        List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+
+        Bson unwind = unwind("$articles");
+        Bson projection = project(fields(excludeId(), computed("username", "$_id"), include("count")));
+        Bson group = group("$username",sum("count", 1L) );
+        Bson match1 = match(exists("articles"));
+        Bson match = match(and(gte("articles.timestamp", start ), lte("articles.timestamp", new Timestamp(System.currentTimeMillis()).toString()) ));
+        Bson limit = limit(10);
+        Bson sort = sort(ascending("count"));
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, match1, match, group, projection, sort, limit)).iterator()) {
+
+            while (cursor.hasNext()) {
+                System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                InfluencerInfoBean a = new InfluencerInfoBean();
+                a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
+                a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
+                ret.add(a);
+
+            }
+        }
+
+        return ret;
+    }
+
+    public static List<InfluencerInfoBean> distinctGamesInArticlesPublishedInASpecifiedPeriod (String start){
+        List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+
+        Bson unwind = unwind("$articles");
+        Bson unwind1 = unwind("$articles.games");
+        Bson projection = project(fields(excludeId(), computed("username", "$_id"), include("count")));
+        Bson group1 = new Document("$group", new Document ("_id", new Document("username" ,"$username")
+                .append("games", "$articles.games")));
+        Bson group = group("$_id.username",sum("count", 1L) );
+        Bson match1 = match(exists("articles"));
+        Bson match = match(and(gte("articles.timestamp", start ), lte("articles.timestamp", new Timestamp(System.currentTimeMillis()).toString()) ));
+        Bson match2 = match (lte("count",10));
+        Bson limit = limit(10);
+        Bson sort = sort(ascending("count"));
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, unwind1, match1, match, group1, group, match2, projection, sort, limit)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                InfluencerInfoBean a = new InfluencerInfoBean();
+                a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
+                a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
+                ret.add(a);
+
+            }
+        }
+
+        return ret;
+    }
+
+    public static List<InfluencerInfoBean> getNumLikeForEachInfluencer (){
+        List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        Bson unwind = unwind("$articles");
+        Bson projection = project(fields(excludeId(), computed("username", "$_id"), include("count")));
+        Bson group = group("$username",sum("count", "$articles.num_likes"));
+        Bson match = match(exists("articles"));
+        Bson limit = limit(3);
+        Bson sort = sort(descending("count"));
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match, group, projection, sort, limit)).iterator()) {
+
+            while (cursor.hasNext()) {
+                System.out.println(cursor.next().toJson());
+                /*Document next = cursor.next();
+                InfluencerInfoBean a = new InfluencerInfoBean();
+                a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
+                a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
+                ret.add(a);*/
+
+            }
+        }
+
+        return ret;
+    }
+
+    public static List<InfluencerInfoBean> getNumDislikeForEachInfluencer (){
+        List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        Bson unwind = unwind("$articles");
+        Bson projection = project(fields(excludeId(), computed("username", "$_id"), include("count")));
+        Bson group = group("$username",sum("count", "$articles.num_dislikes"));
+        Bson match = match(exists("articles"));
+        Bson limit = limit(3);
+        Bson sort = sort(descending("count"));
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match, group, projection, sort, limit)).iterator()) {
+
+            while (cursor.hasNext()) {
+                System.out.println(cursor.next().toJson());
+                /*Document next = cursor.next();
+                InfluencerInfoBean a = new InfluencerInfoBean();
+                a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
+                a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
+                ret.add(a);*/
+
+            }
+        }
+
+        return ret;
     }
 }

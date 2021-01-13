@@ -164,7 +164,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
         String query = "MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)" +
                 "WHERE u.role=\"influencer\"" +
                 "AND p.timestamp >= $datePar AND p.timestamp <= $today WITH u, count (distinct g) AS countGames WHERE countGames <10 RETURN u.username AS username, countGames ORDER BY countGames ASC";
-        Result result = tx.run(query,parameters);
+        /*Result result = tx.run(query,parameters);
 
         while(result.hasNext())
         {
@@ -175,7 +175,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
             System.out.println(temp.toString());
             versatileInfluencer.add(temp);
         }
-
+*/
 
         System.out.println(versatileInfluencer);
         return versatileInfluencer;
