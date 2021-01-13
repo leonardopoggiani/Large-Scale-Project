@@ -24,9 +24,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
      */
     public static List<ArticleBean> searchSuggestedArticles(final String username)
     {
-        try
+        try(Session session=driver.session())
         {
-            Session session=driver.session();
+
             return session.readTransaction(new TransactionWork<List>()
             {
                 @Override
@@ -36,11 +36,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 }
             });
         }
-        catch (Exception ex)
-        {
-            System.err.println(ex.getMessage());
-            return  null;
-        }
+
     }
 
     /**
@@ -115,7 +111,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
             articles.add(article);
         }
 
-        /*ArticleBean a = new ArticleBean("Un articolo","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
+        ArticleBean a = new ArticleBean("Un articolo","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
         ArticleBean b = new ArticleBean("Ammazza che articolone","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
         ArticleBean c = new ArticleBean("Non c'entra niente","francesca",new Timestamp(System.currentTimeMillis()),"Spirit island");
         ArticleBean d = new ArticleBean("Un articolo3","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
@@ -127,7 +123,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
         articles.add(c);
         articles.add(d);
         articles.add(e);
-        articles.add(f);*/
+        articles.add(f);
 
         return articles;
 
