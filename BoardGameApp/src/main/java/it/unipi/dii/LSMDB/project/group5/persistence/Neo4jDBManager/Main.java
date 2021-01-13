@@ -1,16 +1,14 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
+import it.unipi.dii.LSMDB.project.group5.bean.VersatileUser;
 import it.unipi.dii.LSMDB.project.group5.controller.*;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 public class Main {
 
     public static void main( String[] args ) throws Exception {
-        //Neo4jDBManager.InitializeDriver();
+        Neo4jDBManager.InitializeDriver();
         GamesReviewsRatesDBController gr = new GamesReviewsRatesDBController();
 
         ArticlesCommentsLikesDBController artCon  = new ArticlesCommentsLikesDBController();
@@ -37,14 +35,14 @@ public class Main {
         //System.out.println(listUsers);
 
         //uDB.neo4jAddRemoveFollow("Gaia5", "Leonardo1", "remove");
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        /*DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = dateFormat.parse("23/09/2007");
         long time = date.getTime();
-        String dateString = new Timestamp(time).toString();
-        //List<StatisticsInfluencer> statInfluVer = AnalyticsDBManager.versatileInfluencers(dateString);
+        String dateString = new Timestamp(time).toString();*/
+        List<VersatileUser> statVer = AnalyticsDBManager.versatileUsers("normalUser");
         //System.out.println("Fatto");
         //List<ArticleBean> art = artCon.neo4jListSuggestedArticles("Gaia5");
-        //System.out.println(statInfluVer);
+        System.out.println(statVer);
 
 
 
