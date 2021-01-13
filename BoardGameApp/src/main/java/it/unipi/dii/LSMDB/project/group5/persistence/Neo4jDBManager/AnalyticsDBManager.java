@@ -13,19 +13,6 @@ import java.util.List;
 public class AnalyticsDBManager extends Neo4jDBManager{
 
 
-   /* match (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User)
-    where r.status = "like"
-            return u.name, count(r) as likeCount
-    order by likeCount desc
-    limit 3
-
-    // per dislike
-    match (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User)
-    where r.status = "dislike"
-            return u.name, count(r) as likeCount
-    order by likeCount desc
-    limit 3*/
-
     /**
      * La funzione trova gli influencer con il maggior numero di likes o dislikes
      * @param type [like-dislike]
@@ -74,8 +61,70 @@ public class AnalyticsDBManager extends Neo4jDBManager{
 
     }
 
+
     /**
-     * La funzione trova gli influencer che hanno scritto articoli sul maggior numero di giochi
+     * La funzione trova gli influencer che hanno scritto articoli su meno di 10
+     * giochi nell'ultimo periodo, in ordine crescente
+     * @param datePar data di partenza del periodo
+     * @return Lista degli username degli influencer e il numero di giochi
+     */
+    public static List<StatisticsInfluencer> worstInfluencers(String datePar) {
+        try (Session session = driver.session()) {
+            return session.readTransaction(new TransactionWork<List>() {
+                @Override
+                public List<StatisticsInfluencer> execute(Transaction tx) {
+
+                    return transactionWorstInfluencers(tx, datePar);
+                }
+            });
+
+
+        }
+    }
+    /**
+     * La funzione trova gli influencer che hanno scritto articoli su meno di 10
+     * giochi nell'ultimo periodo, in ordine crescente
+     * @param datePar data di partenza del periodo
+     * @param tx
+     * @return Lista degli username degli influencer e il numero di giochi
+     */
+    private static List<StatisticsInfluencer> transactionWorstInfluencers(Transaction tx, String datePar)
+    {
+        List<StatisticsInfluencer> versatileInfluencer = new ArrayList<>();
+        StatisticsInfluencer temp = new StatisticsInfluencer();
+        HashMap<String,Object> parameters = new HashMap<>();
+        Date date = new Date();
+        Timestamp today = new Timestamp(date.getTime());
+        String todayString = today.toString();
+        parameters.put("datePar", datePar);
+        parameters.put("today", todayString);
+        System.out.println(todayString);
+        System.out.println(datePar);
+
+
+        String query = "MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)" +
+                "WHERE u.role=\"influencer\"" +
+                "AND p.timestamp >= $datePar AND p.timestamp <= $today WITH u, count (distinct g) AS countGames WHERE countGames <10 RETURN u.username AS username, countGames ORDER BY countGames ASC";
+        Result result = tx.run(query,parameters);
+
+        while(result.hasNext())
+        {
+            Record record = result.next();
+            temp.setUsername(record.get("username").asString());
+            System.out.println(record.get("username").asString());
+            temp.setHowManyGames(record.get("countGames").asInt());
+            System.out.println(temp.toString());
+            versatileInfluencer.add(temp);
+        }
+
+
+        System.out.println(versatileInfluencer);
+        return versatileInfluencer;
+
+    }
+
+    /**
+     * La funzione trova gli influencer che hanno scritto articoli sul maggior numero di categorie
      * nell'ultimo mese
      * @return Lista degli username degli influencer e il numero di categorie
      */
@@ -102,14 +151,14 @@ public class AnalyticsDBManager extends Neo4jDBManager{
     {
         List<StatisticsInfluencer> versatileInfluencer = new ArrayList<>();
         StatisticsInfluencer temp = new StatisticsInfluencer();
-        HashMap<String,Object> parameters = new HashMap<>();
+        /*HashMap<String,Object> parameters = new HashMap<>();
         Date date = new Date();
         Timestamp today = new Timestamp(date.getTime());
         String todayString = today.toString();
         parameters.put("datePar", datePar);
         parameters.put("today", todayString);
         System.out.println(todayString);
-        System.out.println(datePar);
+        System.out.println(datePar);*/
 
 
         String query = "MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)" +

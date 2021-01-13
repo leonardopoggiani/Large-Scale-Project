@@ -1,13 +1,11 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.bean.StatisticsInfluencer;
 import it.unipi.dii.LSMDB.project.group5.controller.*;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class Main {
 
@@ -43,7 +41,7 @@ public class Main {
         Date date = dateFormat.parse("23/09/2007");
         long time = date.getTime();
         String dateString = new Timestamp(time).toString();
-        List<StatisticsInfluencer> statInfluVer = AnalyticsDBManager.versatileInfluencers(dateString);
+        //List<StatisticsInfluencer> statInfluVer = AnalyticsDBManager.versatileInfluencers(dateString);
         //System.out.println("Fatto");
         //List<ArticleBean> art = artCon.neo4jListSuggestedArticles("Gaia5");
         //System.out.println(statInfluVer);
