@@ -62,7 +62,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
         Result result;
         quantiInflu = UsersDBManager.transactionCountUsers(tx,username,"influencer");
-        if(quantiInflu < 3)
+        if(quantiInflu < 0)
         {
             result = tx.run(nienteAmici, parameters);
             System.out.println("Pochi Influencer");
@@ -103,7 +103,6 @@ public class ArticlesDBManager extends Neo4jDBManager {
             }
 
             System.out.println("NELLA DBMANAGER");
-            System.out.println(article.toString());
             articles.add(article);
         }
 

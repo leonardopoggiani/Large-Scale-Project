@@ -1,43 +1,26 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.bean.StatisticsInfluencer;
-import it.unipi.dii.LSMDB.project.group5.bean.VersatileInfluencerBean;
+import it.unipi.dii.LSMDB.project.group5.bean.VersatileUser;
 import org.neo4j.driver.Record;
-import org.neo4j.driver.Result;
-import org.neo4j.driver.Session;
-import org.neo4j.driver.Transaction;
-import org.neo4j.driver.TransactionWork;
+import org.neo4j.driver.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class AnalyticsDBManager extends Neo4jDBManager{
 
-
-   /* match (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User)
-    where r.status = "like"
-            return u.name, count(r) as likeCount
-    order by likeCount desc
-    limit 3
-
-    // per dislike
-    match (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User)
-    where r.status = "dislike"
-            return u.name, count(r) as likeCount
-    order by likeCount desc
-    limit 3*/
-
+    /*
     /**
      * La funzione trova gli influencer con il maggior numero di likes o dislikes
      * @param type [like-dislike]
      * @return lista dei 3 influencer
      */
-    public static List<StatisticsInfluencer> top3InfluLikes(String type) {
+    /*
+    public static List<VersatileUser> top3InfluLikes(String type) {
         try (Session session = driver.session()) {
             return session.readTransaction(new TransactionWork<List>() {
                 @Override
-                public List<StatisticsInfluencer> execute(Transaction tx) {
+                public List<VersatileUser> execute(Transaction tx) {
 
                     return transactionTop3InfluLikes(tx, type);
                 }
@@ -45,19 +28,20 @@ public class AnalyticsDBManager extends Neo4jDBManager{
 
 
         }
-    }
-    /**
+    }*/
+    /*/**
      * La funzione trova gli influencer con il maggior numero di likes o dislikes
      * @param type
      * @param tx
      * @return lista dei 3 influencer
      */
-    private static List<StatisticsInfluencer> transactionTop3InfluLikes(Transaction tx, String type)
+    /*
+    private static List<VersatileUser> transactionTop3InfluLikes(Transaction tx, String type)
     {
-        List<StatisticsInfluencer> top = new ArrayList<>();
+        List<VersatileUser> top = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("type", type);
-        StatisticsInfluencer temp = new StatisticsInfluencer();
+        VersatileUser temp = new VersatileUser();
         String query = "MATCH (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User)" +
                 "WHERE r.type =$type RETURN u.username AS influencer, count(r) as countLike ORDER BY countLike desc LIMIT 3";
         Result result = tx.run(query,parameters);
@@ -76,19 +60,21 @@ public class AnalyticsDBManager extends Neo4jDBManager{
 
     }
 
-    //TODO
+
     /**
-     * La funzione trova gli influencer che hanno scritto articoli sul maggior numero di giochi
-     * nell'ultimo mese
-     * @return Lista degli username degli influencer e il numero di categorie
+     * La funzione trova gli influencer che hanno scritto articoli su meno di 10
+     * giochi nell'ultimo periodo, in ordine crescente
+     * @param datePar data di partenza del periodo
+     * @return Lista degli username degli influencer e il numero di giochi
      */
-    public static List<VersatileInfluencerBean> versatileInfluencers() {
+    /*
+    public static List<VersatileUser> worstInfluencers(String datePar) {
         try (Session session = driver.session()) {
             return session.readTransaction(new TransactionWork<List>() {
                 @Override
-                public List<VersatileInfluencerBean> execute(Transaction tx) {
+                public List<VersatileUser> execute(Transaction tx) {
 
-                    return transactionVersatileInfluencers(tx);
+                    return transactionWorstInfluencers(tx, datePar);
                 }
             });
 
@@ -96,38 +82,156 @@ public class AnalyticsDBManager extends Neo4jDBManager{
         }
     }
     /**
-     * La funzione trova gli influencer che hanno scritto articoli sul maggior numero di giochi
-     * nell'ultimo mese
+     * La funzione trova gli influencer che hanno scritto articoli su meno di 10
+     * giochi nell'ultimo periodo, in ordine crescente
+     * @param datePar data di partenza del periodo
      * @param tx
-     * @return Lista degli username degli influencer e il numero di categorie
+     * @return Lista degli username degli influencer e il numero di giochi
      */
-    private static List<VersatileInfluencerBean> transactionVersatileInfluencers(Transaction tx)
+    /*
+    private static List<VersatileUser> transactionWorstInfluencers(Transaction tx, String datePar)
     {
-        List<VersatileInfluencerBean> versatileInfluencer = new ArrayList<>();
-        VersatileInfluencerBean temp = new VersatileInfluencerBean();
+        List<VersatileUser> versatileInfluencer = new ArrayList<>();
+        VersatileUser temp = new VersatileUser();
+        HashMap<String,Object> parameters = new HashMap<>();
+        Date date = new Date();
+        Timestamp today = new Timestamp(date.getTime());
+        String todayString = today.toString();
+        parameters.put("datePar", datePar);
+        parameters.put("today", todayString);
+        System.out.println(todayString);
+        System.out.println(datePar);
+
+
         String query = "MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)" +
                 "WHERE u.role=\"influencer\"" +
-                "AND p.timestamp >= datetime({year:2020, month:1, day:1})" +
-                "AND p.timestamp <= datetime({year:2020, month:12, day: 31})" +
-                "WITH u, count (distinct g) AS countGames" +
-                "WHERE countGames <10" +
-                "RETURN u.username AS username, countGames" +
-                "ORDER BY countGames ASC";
-        Result result = tx.run(query);
+                "AND p.timestamp >= $datePar AND p.timestamp <= $today WITH u, count (distinct g) AS countGames WHERE countGames <10 RETURN u.username AS username, countGames ORDER BY countGames ASC";
+        Result result = tx.run(query,parameters);
 
         while(result.hasNext())
         {
             Record record = result.next();
             temp.setUsername(record.get("username").asString());
-            temp.setNumGames(record.get("countGames").asInt());
+            System.out.println(record.get("username").asString());
+            temp.setHowManyGames(record.get("countGames").asInt());
+            System.out.println(temp.toString());
             versatileInfluencer.add(temp);
         }
 
 
-
+        System.out.println(versatileInfluencer);
         return versatileInfluencer;
 
     }
+    */
+    /**
+     * La funzione trova gli infuencer che hanno scritto articoli su più categorie diverse
+     * o gli utenti standard che hanno scritto recensioni sul maggiorn numero di categorie diverse
+     * @param type
+     * @return Lista degl username e numero di categorie
+     */
+    public static List<VersatileUser> versatileUsers(String type) {
+        try (Session session = driver.session()) {
+            return session.readTransaction(new TransactionWork<List>() {
+                @Override
+                public List<VersatileUser> execute(Transaction tx) {
+
+                    if(type.equals("influencer"))
+                        return transactionVersatileInfluencers(tx);
+                    else
+                        return transactionVersatileNormalUser(tx);
+                }
+            });
+
+
+        }
+    }
+    /**
+     * La funzione trova gli influencer che hanno scritto articoli
+     * sul maggior numero categorie diverse di giochi
+     * nell'ultimo mese
+     * @param tx
+     * @return Lista degli username degli influencer e il numero di categorie
+     */
+    private static List<VersatileUser> transactionVersatileInfluencers(Transaction tx)
+    {
+        List<VersatileUser> versatileInfluencer = new ArrayList<>();
+        VersatileUser temp = new VersatileUser();
+        /*HashMap<String,Object> parameters = new HashMap<>();
+        Date date = new Date();
+        Timestamp today = new Timestamp(date.getTime());
+        String todayString = today.toString();
+        parameters.put("datePar", datePar);
+        parameters.put("today", todayString);
+        System.out.println(todayString);
+        System.out.println(datePar);*/
+
+
+        String query = "MATCH (u:User {role:\"influencer\"})-[:PUBLISHED]->(a:Article)-[:REFERRED]->(g: Game)\n" +
+                "RETURN u.username AS influencer, COUNT(DISTINCT g.category1) AS numeroCategorie\n" +
+                "ORDER BY numeroCategorie DESC \n" +
+                "LIMIT 3";
+        Result result = tx.run(query);
+
+        while(result.hasNext())
+        {
+            Record record = result.next();
+            temp.setUsername(record.get("influencer").asString());
+            System.out.println(record.get("influencer").asString());
+            temp.setHowManyCategories(record.get("numeroCategorie").asInt());
+            System.out.println(temp.toString());
+            versatileInfluencer.add(temp);
+        }
+
+        System.out.println(versatileInfluencer);
+        return versatileInfluencer;
+
+    }
+
+    /**
+     * La funzione trova gli utenti standard che hanno scritto reviews
+     * sul maggior numero di categorie
+     * @param tx
+     * @return Lista degli username e il numero di categorie
+     */
+    private static List<VersatileUser> transactionVersatileNormalUser(Transaction tx)
+    {
+        List<VersatileUser> versatileNormalUsers = new ArrayList<>();
+        VersatileUser temp = new VersatileUser();
+        /*HashMap<String,Object> parameters = new HashMap<>();
+        Date date = new Date();
+        Timestamp today = new Timestamp(date.getTime());
+        String todayString = today.toString();
+        parameters.put("datePar", datePar);
+        parameters.put("today", todayString);
+        System.out.println(todayString);
+        System.out.println(datePar);*/
+
+
+        String versatileNormalUser = "MATCH (u:User {role:\"normalUser\"})-[:REVIEWED]->(g: Game)\n" +
+                "RETURN u.username AS username, COUNT(DISTINCT g.category1) AS numeroCategorie\n" +
+                "ORDER BY numeroCategorie DESC \n" +
+                "LIMIT 3";
+
+        Result result = tx.run(versatileNormalUser);
+
+        while(result.hasNext())
+        {
+            Record record = result.next();
+            temp.setUsername(record.get("username").asString());
+            System.out.println(record.get("username").asString());
+            temp.setHowManyCategories(record.get("numeroCategorie").asInt());
+            System.out.println(temp.toString());
+            versatileNormalUsers.add(temp);
+        }
+
+
+        System.out.println(versatileNormalUsers);
+        return versatileNormalUsers;
+
+    }
+
+
 
 
 

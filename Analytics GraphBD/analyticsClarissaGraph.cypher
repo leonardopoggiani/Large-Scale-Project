@@ -1,5 +1,3 @@
-//DA SCEGLIERE UNA DELLE DUE
-
 //Se hai già più di 5 amici
 //PERSONE CHE SONO AMICHE DEI TUOI AMICI MA CHE TU NON SEGUI ANCORA
 MATCH (me:User{username:"Gaia5"})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]-(me), (tizio:User{role:"normalUser"})
@@ -34,34 +32,7 @@ RETURN p ORDER BY p.timestamp DESC LIMIT 1
 
 
 
-//3.1) [moderator] suggest the promotion of a user to influencer ( [1] quanti amici ha [2] quante review ha fatto )
-MATCH (u:User)<-[r:FOLLOW]->(u1:User)
-WHERE u.role="normalUser" AND r.type="friend"
-RETURN u.id, u.name,COUNT(r) AS CountFriends
-ORDER BY CountFriends DESC
 
-
-//DA MODIFICARE DATA E ORA
-
-//How many articles an influencer pubblished in a period, ordered
-MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)
-WHERE u.role="influencer" //Non servirebbe 
-AND p.timestamp >= datetime({year:2020, month:1, day:1})
-AND p.timestamp <= datetime({year:2020, month:12, day: 31})
-RETURN u.name,  count (distinct g) AS countGames
-ORDER BY countGames ASC
-
-
-
-//Influencers who wrotes articles about less than 10 games in a period, ordered
-MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)
-WHERE u.role="influencer" 
-AND p.timestamp >= datetime({year:2020, month:1, day:1})
-AND p.timestamp <= datetime({year:2020, month:12, day: 31})
-WITH u, count (distinct g) AS countGames
-WHERE countGames <10
-RETURN u.name, countGames
-ORDER BY countGames ASC
 
 //FARE CONTROLLO SE NON SEGUE NESSUN INFLUENCER QUESTA QUERY QUA SOTTO ALTRIMENTI
 //SOLO GLI ARTICOLI SCRITTA DAGLI INFLUENCERS CHE SEGUE QUESTO TIZIO
@@ -90,5 +61,26 @@ ORDER BY p.timestamp
 )*/
 
 //Influencer con più followers o con + articoli scritti!!
+
+
+//3.1) [moderator] suggest the promotion of a user to influencer ( [1] quanti amici ha [2] quante review ha fatto )
+MATCH (u:User)<-[r:FOLLOW]->(u1:User)
+WHERE u.role="normalUser" AND r.type="friend"
+RETURN u.id, u.name,COUNT(r) AS CountFriends
+ORDER BY CountFriends DESC
+
+// 7) influencer who wrote more articles about different categories of game
+
+MATCH (u:User {role:"influencer"})-[:PUBLISHED]->(a)-[:REFERRED]->(g: Game)
+RETURN u.name AS Influencer, SUM(DISTINCT category_1) AS numeroCategorie
+ORDER BY numeroCategorie DESC 
+LIMIT 1
+
+// 7.bis) se metto user e :reviewed allora diventa utile per promuvere gente ad influencer
+MATCH (u:User {role:"user"})-[:REVIEWED]->(g)
+WITH u, COUNT(DISTINCT g.category_1) AS categorie1, COUNT( DISTINCT g.category_2) AS categorie2
+RETURN u.name AS User, SUM(categorie1 - categorie2) AS numeroCategorie
+ORDER BY numeroCategorie DESC 
+LIMIT 1
 
 

@@ -1,0 +1,38 @@
+//Quanti articoli un ifluencer ha pubblicato in un periodo
+//Una è la data di oggi e l'altra è passata come parametro
+MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)
+WHERE u.role="influencer" //Non servirebbe 
+AND p.timestamp >= datetime({year:2020, month:1, day:1})
+AND p.timestamp <= datetime({year:2020, month:12, day: 31})
+RETURN u.name,  count (distinct g) AS countGames
+ORDER BY countGames ASC
+
+
+
+//Influencers who wrotes articles about less than 10 games in a period, ordered
+//Una è la data di oggi e l'altra è passata come parametro
+
+MATCH (u:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game)
+WHERE u.role="influencer" 
+AND p.timestamp >= datetime({year:2020, month:1, day:1})
+AND p.timestamp <= datetime({year:2020, month:12, day: 31})
+WITH u, count (distinct g) AS countGames
+WHERE countGames <10
+RETURN u.name, countGames
+ORDER BY countGames ASC
+
+
+
+// 3(o qualsiasi) influencer con più like e dislike
+match (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User) 
+where r.type = "like"  
+return u.username, count(r) as likeCount 
+order by likeCount desc 
+limit 3
+
+// per dislike
+match (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User) 
+where r.status = "dislike"  
+return u.name, count(r) as likeCount 
+order by likeCount desc 
+limit 3
