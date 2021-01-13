@@ -113,10 +113,10 @@ public class UpdateDatabaseDBController {
     }
 
 
-    public Boolean Neo4jDeleteGroup(GroupBean group) {
+    public Boolean Neo4jDeleteGroup(String delGroup,String delAdmin) {
 
         Boolean ret = false;
-        ret  = GroupsPostsDBManager.deleteGroup(group);
+        ret  = GroupsPostsDBManager.deleteGroup(delGroup, delAdmin);
         return ret;
     }
 

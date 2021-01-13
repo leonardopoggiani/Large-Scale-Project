@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane onMouseMoved="#setGroups" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: green;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGroups">
+<ScrollPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: green;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGroups">
   <content>
     <AnchorPane id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="796.0" minWidth="1212.0" prefHeight="796.0" prefWidth="1212.0" stylesheets="@style.css">
          <children>
@@ -26,7 +26,7 @@
             <Text layoutX="44.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
             <Button cancelButton="true" layoutX="72.0" layoutY="376.0" mnemonicParsing="false" text="Logout" />
             <Button cancelButton="true" layoutX="72.0" layoutY="289.0" mnemonicParsing="false" text="Search" />
-            <ComboBox layoutX="114.0" layoutY="227.0" prefHeight="28.0" prefWidth="90.0" />
+            <ComboBox fx:id="filter" layoutX="114.0" layoutY="227.0" prefHeight="28.0" prefWidth="90.0" />
             <Text layoutX="822.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
             <Text layoutX="357.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you created">
                <font>
@@ -46,8 +46,6 @@
             <TextField fx:id="description" layoutX="897.0" layoutY="227.0" promptText="Description (optional)" />
             <Text layoutX="796.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="88.68880462646484" />
             <Text layoutX="51.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
-            <Line endX="-37.60005187988281" endY="838.5999755859375" layoutX="259.0" layoutY="26.0" startX="-37.60002136230469" startY="-27.0" />
-            <Line endX="-47.10002136230469" endY="114.39996337890625" layoutX="269.0" layoutY="36.0" startX="-269.0" startY="114.39996337890625" />
             <BottomNavigation layoutX="290.0">
                <actionItems>
                   <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
@@ -75,7 +73,7 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <Text layoutX="336.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you're member of">
+            <Text layoutX="330.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you're member of">
                <font>
                   <Font size="18.0" />
                </font>
@@ -94,7 +92,7 @@
                   <Image url="@../../../../../../img/avatar.png" />
                </image>
             </ImageView>
-            <TableView fx:id="table2" layoutX="258.0" layoutY="408.0" prefHeight="200.0" prefWidth="468.0">
+            <TableView fx:id="usertable" layoutX="258.0" layoutY="408.0" prefHeight="200.0" prefWidth="468.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="Name" />
                 <TableColumn prefWidth="75.0" text="Admin" />
@@ -102,9 +100,10 @@
                   <TableColumn prefWidth="75.0" text="Members" />
               </columns>
             </TableView>
-            <ComboBox fx:id="nomigruppi" layoutX="381.0" layoutY="655.0" prefHeight="28.0" prefWidth="105.0" promptText="Name" />
-            <Text fill="#e8dcdc" layoutX="217.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do?" />
-            <ComboBox fx:id="action" layoutX="497.0" layoutY="655.0" onAction="#selectAction" prefHeight="28.0" prefWidth="106.0" promptText="Action" />
+            <ComboBox fx:id="nomigruppi" layoutX="931.0" layoutY="639.0" onAction="#setActions" prefHeight="28.0" prefWidth="105.0" promptText="Name" />
+            <Text fill="#e8dcdc" layoutX="767.0" layoutY="659.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do?" />
+            <ComboBox fx:id="action" layoutX="1047.0" layoutY="639.0" onAction="#selectAction" prefHeight="28.0" prefWidth="106.0" promptText="Action" />
+            <TableView fx:id="utils" layoutX="798.0" layoutY="411.0" prefHeight="195.0" prefWidth="355.0" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

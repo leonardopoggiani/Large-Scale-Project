@@ -19,7 +19,7 @@
 
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="946.0" prefWidth="685.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.GamePageView">
    <content>
-      <AnchorPane minHeight="0.0" minWidth="0.0" onMouseMoved="#setGameFields" prefHeight="943.0" prefWidth="688.0" stylesheets="@style.css">
+      <AnchorPane id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="943.0" prefWidth="688.0" stylesheets="@style.css">
          <children>
             <BottomNavigation layoutX="117.0" layoutY="6.0" prefHeight="28.0" prefWidth="371.0">
                <actionItems>

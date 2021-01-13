@@ -75,7 +75,7 @@ public class    GamesDBManager extends Neo4jDBManager{
 
             infoGames.add(infoGame);
         }
-        /*
+
         GameBean game1 = new GameBean("Un gioco", 8.5,120);
         GameBean game2 = new GameBean("Un gioco bello", 5.5,120);
         GameBean game3 = new GameBean("Un gioco brutto", 2.5,110);
@@ -90,7 +90,7 @@ public class    GamesDBManager extends Neo4jDBManager{
         infoGames.add(game4);
         infoGames.add(game5);
         infoGames.add(game6);
-        infoGames.add(game7);*/
+        infoGames.add(game7);
 
         return infoGames;
 

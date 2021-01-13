@@ -150,16 +150,16 @@ public class ArticlePageView {
         System.out.println("Numero di commenti " + infoComments.size() + ", autore:" + HomepageArticles.getAuthor() + ", titolo: " + HomepageArticles.getTitolo());
 
         for(int i = 0; i < infoComments.size() && i < 3; i++){
-            TextArea commento = chooseComment(i);
+            TextArea commento = chooseComment(i + 1);
             commento.setText(infoComments.get(i).getText());
-            TextField autore = chooseAuthor(i);
+            TextField autore = chooseAuthor(i + 1);
             autore.setText(infoComments.get(i).getAuthor());
-            TextField timestamp = chooseTimestamp(i);
+            TextField timestamp = chooseTimestamp(i + 1);
             timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
 
             if(infoComments.get(i).getAuthor().equals(LoginPageView.getLoggedUser())){
                 // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
-                Button delete = chooseDeleteButton(i);
+                Button delete = chooseDeleteButton(i + 1);
                 delete.setDisable(false);
                 delete.setVisible(true);
             }
@@ -168,36 +168,36 @@ public class ArticlePageView {
 
     private TextArea chooseComment(int i){
         return switch (i) {
-            case 0 -> comment1;
-            case 1 -> comment2;
-            case 2 -> comment3;
+            case 1 -> comment1;
+            case 2 -> comment2;
+            case 3 -> comment3;
             default -> new TextArea();
         };
     }
 
     private TextField chooseAuthor(int i){
         return switch (i) {
-            case 0 -> author1;
-            case 1 -> author2;
-            case 2 -> author3;
+            case 1 -> author1;
+            case 2 -> author2;
+            case 3 -> author3;
             default -> new TextField();
         };
     }
 
     private TextField chooseTimestamp(int i){
         return switch (i) {
-            case 0 -> timestamp1;
-            case 1 -> timestamp2;
-            case 2 -> timestamp3;
+            case 1 -> timestamp1;
+            case 2 -> timestamp2;
+            case 3 -> timestamp3;
             default -> new TextField();
         };
     }
 
     private Button chooseDeleteButton(int i){
         return switch (i) {
-            case 0 -> delete1;
-            case 1 -> delete2;
-            case 2 -> delete3;
+            case 1 -> delete1;
+            case 2 -> delete2;
+            case 3 -> delete3;
             default -> new Button();
         };
     }
@@ -295,9 +295,9 @@ public class ArticlePageView {
                 if (!a.getTitle().equals(titolo.getText())) {
                     for (int j = 0; j < list.size() && j < 3; j++) {
 
-                        TitledPane articolo = chooseArticle(j);
-                        Text author = chooseAuthorArticle(j);
-                        Text timestamp = chooseTimestampArticle(j);
+                        TitledPane articolo = chooseArticle(j + 1);
+                        Text author = chooseAuthorArticle(j + 1);
+                        Text timestamp = chooseTimestampArticle(j + 1);
 
                         if (articolo.getText().equals("article" + (j + 1))) {
                             articolo.setText(a.getTitle());
@@ -313,27 +313,27 @@ public class ArticlePageView {
 
     private TitledPane chooseArticle(int j) {
         return switch (j) {
-            case 0 -> fullarticle1;
-            case 1 -> fullarticle2;
-            case 2 -> fullarticle3;
+            case 1 -> fullarticle1;
+            case 2 -> fullarticle2;
+            case 3 -> fullarticle3;
             default -> new TitledPane();
         };
     }
 
     private Text chooseAuthorArticle(int i) {
         return switch (i) {
-            case 0 -> authorarticle1;
-            case 1 -> authorarticle2;
-            case 2 -> authorarticle3;
+            case 1 -> authorarticle1;
+            case 2 -> authorarticle2;
+            case 3 -> authorarticle3;
             default -> new Text();
         };
     }
 
     private Text chooseTimestampArticle(int i) {
         return switch (i) {
-            case 0 -> timestamparticle1;
-            case 1 -> timestamparticle2;
-            case 2 -> timestamparticle3;
+            case 1 -> timestamparticle1;
+            case 2 -> timestamparticle2;
+            case 3 -> timestamparticle3;
             default -> new Text();
         };
     }

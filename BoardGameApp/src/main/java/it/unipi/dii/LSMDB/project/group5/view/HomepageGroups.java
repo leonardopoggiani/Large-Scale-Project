@@ -1,11 +1,9 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
-import com.google.common.collect.Lists;
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,13 +20,12 @@ import java.util.List;
 
 public class HomepageGroups {
 
-    int giaCaricato = -1;
     private static String currentGroup;
-    private TableView<TableGroupBean> tableMembro;
-    private TableView<TableGroupBean> tableAdmin;
+    private static String adminGroup;
+
     ObservableList<String> nomiDeiGruppi = FXCollections.observableArrayList();
-    ObservableList<String> userActions = FXCollections.observableArrayList("Add post", "Leave group", "View posts");
-    ObservableList<String> adminActions = FXCollections.observableArrayList("Add post", "Delete group", "View posts", "Add member");
+    ObservableList<String> userActions = FXCollections.observableArrayList("Add post", "Leave group", "View posts", "View members");
+    ObservableList<String> adminActions = FXCollections.observableArrayList("Add post", "Delete group", "View posts", "Add member", "View members");
 
     private ObservableList<TableGroupBean> gruppiAdmin = FXCollections.observableArrayList();
     private ObservableList<TableGroupBean> gruppiMembro = FXCollections.observableArrayList();
@@ -47,6 +44,38 @@ public class HomepageGroups {
 
     @FXML
     public TableColumn<TableGroupBean, Integer> members;
+
+    @FXML
+    TableView admintable;
+
+    @FXML
+    TableView usertable;
+
+    @FXML
+    TableView utils;
+
+    @FXML
+    ComboBox filter;
+
+    @FXML
+    ComboBox nomigruppi;
+
+    @FXML
+    ComboBox action;
+
+    @FXML
+    TextField groupname;
+
+    @FXML
+    TextField referredgame;
+
+    @FXML
+    TextField description;
+
+    @FXML
+    void initialize() throws IOException {
+        setGroups();
+    }
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -76,53 +105,41 @@ public class HomepageGroups {
     @FXML
     void setGroups() throws IOException {
         GroupsPostsDBController controller = new GroupsPostsDBController();
-        if(giaCaricato == -1) {
-            ComboBox gruppi = (ComboBox) App.getScene().lookup("#nomigruppi");
-            ComboBox azioni = (ComboBox) App.getScene().lookup("#action");
 
-            tableAdmin = (TableView<TableGroupBean>) App.getScene().lookup("#admintable");
-            tableAdmin.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        utils.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        admintable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        usertable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-            tableMembro = (TableView<TableGroupBean>) App.getScene().lookup("#table2");
-            tableMembro.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        name.setCellValueFactory(new PropertyValueFactory<>("groupName"));
+        admin.setCellValueFactory(new PropertyValueFactory<>("admin"));
+        game.setCellValueFactory(new PropertyValueFactory<>("game"));
+        timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
+        members.setCellValueFactory(new PropertyValueFactory<>("members"));
 
-            name.setCellValueFactory(new PropertyValueFactory<>("groupName"));
-            admin.setCellValueFactory(new PropertyValueFactory<>("admin"));
-            game.setCellValueFactory(new PropertyValueFactory<>("game"));
-            timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
-            members.setCellValueFactory(new PropertyValueFactory<>("members"));
+         List<GroupBean> gruppiDiCuiSonoAdmin = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"admin");
+         List<GroupBean> gruppiDiCuiSonoMembro = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"member");
 
-             List<GroupBean> gruppiDiCuiSonoAdmin = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"admin");
-             List<GroupBean> gruppiDiCuiSonoMembro = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"member");
-
-             name = new TableColumn("Name");
-             timestamp = new TableColumn<>("Timestamp");
-             admin = new TableColumn<>("Admin");
-             game = new TableColumn<>("Game");
-             members = new TableColumn<>("Members");
-
-            for(int i = 0; i < gruppiDiCuiSonoAdmin.size(); i++){
-                GroupBean g = gruppiDiCuiSonoAdmin.get(i);
-                TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
-                nomiDeiGruppi.add(g.getName());
-                gruppiAdmin.add(tableGroup);
-            }
-
-            for(int i = 0; i < gruppiDiCuiSonoMembro.size(); i++){
-                GroupBean g = gruppiDiCuiSonoMembro.get(i);
-                TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
-                nomiDeiGruppi.add(g.getName());
-                gruppiMembro.add(tableGroup);
-            }
-
-            tableAdmin.setItems(gruppiAdmin);
-            tableMembro.setItems(gruppiMembro);
-
-            gruppi.setItems(nomiDeiGruppi);
-            azioni.setItems(adminActions);
-
-            giaCaricato = 1;
+        for(int i = 0; i < gruppiDiCuiSonoAdmin.size(); i++){
+            GroupBean g = gruppiDiCuiSonoAdmin.get(i);
+            TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
+            nomiDeiGruppi.add(g.getName());
+            gruppiAdmin.add(tableGroup);
         }
+
+        for(int i = 0; i < gruppiDiCuiSonoMembro.size(); i++){
+            GroupBean g = gruppiDiCuiSonoMembro.get(i);
+            TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
+            nomiDeiGruppi.add(g.getName());
+            gruppiMembro.add(tableGroup);
+        }
+
+        admintable.setItems(gruppiAdmin);
+        usertable.setItems(gruppiMembro);
+
+        nomigruppi.setItems(nomiDeiGruppi);
+        action.setItems(adminActions);
+        filter.setItems(nomiDeiGruppi);
+
     }
 
     @FXML
@@ -130,78 +147,119 @@ public class HomepageGroups {
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
         GroupsPostsDBController membersNumber = new GroupsPostsDBController();
 
-        ComboBox gruppi = (ComboBox) App.getScene().lookup("#nomigruppi");
-        ComboBox azioni = (ComboBox) App.getScene().lookup("#action");
+        String name = groupname.getText();
+        String game = referredgame.getText();
+        String des = description.getText();
 
-        TextField tf = (TextField) App.getScene().lookup("#groupname");
-        TextField tf2 = (TextField) App.getScene().lookup("#referredgame");
-        TextField tf3 = (TextField) App.getScene().lookup("#description");
-
-        String groupname = tf.getText();
-        String game = tf2.getText();
-        String description = tf3.getText();
-
-        if(groupname.equals("")){
-            tf.setStyle("-fx-background-color: #ff0000; -fx-font-size: 12;");
+        if(name.equals("")){
+            groupname.setStyle("-fx-background-color: #ff0000; -fx-font-size: 12;");
             return;
         }
 
         if(game.equals("")) {
-            tf2.setStyle("-fx-background-color: #ff0000; -fx-font-size: 12;");
+            referredgame.setStyle("-fx-background-color: #ff0000; -fx-font-size: 12;");
             return;
         }
 
-        if(description.equals("")){
-            description = "No description provided";
+        if(des.equals("")){
+            des = "No description provided";
         }
 
-        tf.setText("");
-        tf2.setText("");
-        tf3.setText("");
+        groupname.setText("");
+        referredgame.setText("");
+        description.setText("");
 
-        GroupBean group = new GroupBean(groupname, new Timestamp(System.currentTimeMillis()), LoginPageView.getLoggedUser(), description, game);
+        GroupBean group = new GroupBean(name, new Timestamp(System.currentTimeMillis()), LoginPageView.getLoggedUser(), des, game);
         boolean ret = controller.Neo4jAddGroup(group);
-
+        System.out.println("Ritorno " + ret);
         //if(ret) {
-            TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.neo4jCountGroupMembers(group.getName(),group.getAdmin()));
-            System.out.println(tableGroup);
-            gruppiAdmin.add(tableGroup);
-            tableAdmin.setItems(gruppiAdmin);
-            nomiDeiGruppi.add(group.getName());
-            azioni.setItems(adminActions);
-            gruppi.setItems(nomiDeiGruppi);
+        TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.neo4jCountGroupMembers(group.getName(),group.getAdmin()));
+        System.out.println(tableGroup);
+        gruppiAdmin.add(tableGroup);
+        admintable.setItems(gruppiAdmin);
+        nomiDeiGruppi.add(group.getName());
+        action.setItems(adminActions);
+        nomigruppi.setItems(nomiDeiGruppi);
+        filter.setItems(nomiDeiGruppi);
 
         //}
     }
 
     @FXML
     void selectAction() throws IOException {
-        ComboBox gruppi = (ComboBox) App.getScene().lookup("#nomigruppi");
-        ComboBox azioni = (ComboBox) App.getScene().lookup("#action");
-
-        if(gruppi.getSelectionModel().getSelectedItem() != null) {
-            String gruppoSelezionato = nomiDeiGruppi.get(gruppi.getSelectionModel().getSelectedIndex());
-            switch (adminActions.get(azioni.getSelectionModel().getSelectedIndex())) {
-                case "Add post":
-                    break;
-                case "Add member":
-                    addMember(gruppoSelezionato);
-                    break;
-                case "Delete group":
-                    break;
-                case "View posts":
-                    break;
+        if(nomigruppi.getSelectionModel().getSelectedItem() != null) {
+            String gruppoSelezionato = nomiDeiGruppi.get(nomigruppi.getSelectionModel().getSelectedIndex());
+            switch (adminActions.get(action.getSelectionModel().getSelectedIndex())) {
+                case "Add post" -> addPost(gruppoSelezionato);
+                case "Add member" -> addMember(gruppoSelezionato);
+                case "Delete group" -> deleteGroup(gruppoSelezionato);
+                case "View posts" -> viewPosts(gruppoSelezionato);
+                case "View members" -> viewMembers(gruppoSelezionato);
             }
         }
     }
 
-    private void addMember(String gruppo) throws IOException {
-        currentGroup = gruppo;
+    @FXML
+    void setActions() throws IOException {
+    }
+
+    private void viewPosts(String gruppoSelezionato) {
+        currentGroup = gruppoSelezionato;
+    }
+
+    private void deleteGroup(String gruppoSelezionato) {
+        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+
+        currentGroup = gruppoSelezionato;
+        boolean ret = controller.Neo4jDeleteGroup(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
+    }
+
+    private void addPost(String gruppoSelezionato) {
+        currentGroup = gruppoSelezionato;
+    }
+
+    private void addMember(String gruppoSelezionato) throws IOException {
+        currentGroup = gruppoSelezionato;
         App.setRoot("AddMember");
+    }
+
+    private void viewMembers(String gruppoSelezionato) throws IOException {
+        GroupsPostsDBController controller = new GroupsPostsDBController();
+        currentGroup = gruppoSelezionato;
+
+        List<String> listMembers = controller.neo4jShowGroupsMembers(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
+        ObservableList<String> members = FXCollections.observableArrayList(listMembers);
+
+        utils.setItems(members);
+    }
+
+    private void filterResearch(){
+
     }
 
     public static String getGroup() {
         return currentGroup;
+    }
+
+    public static String getAdminGroup() {
+        return adminGroup;
+    }
+
+    private String retrieveAdmin(String group) {
+        for(int i = 0; i < gruppiMembro.size(); i++) {
+            TableGroupBean tb = gruppiMembro.get(i);
+            if(tb.getGroupName().equals(group)) {
+                return tb.getAdmin();
+            }
+        }
+
+        for(int i = 0; i < gruppiAdmin.size(); i++) {
+            TableGroupBean tb = gruppiAdmin.get(i);
+            if(tb.getGroupName().equals(group)) {
+                return tb.getAdmin();
+            }
+        }
+        return "";
     }
 
 }
