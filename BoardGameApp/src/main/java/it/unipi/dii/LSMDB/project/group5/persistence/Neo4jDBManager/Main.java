@@ -1,9 +1,9 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UsersDBController;
+import it.unipi.dii.LSMDB.project.group5.bean.StatisticsInfluencer;
+import it.unipi.dii.LSMDB.project.group5.controller.*;
+
+import java.util.List;
 
 public class Main {
 
@@ -16,6 +16,8 @@ public class Main {
         UpdateDatabaseDBController ud = new UpdateDatabaseDBController();
 
         UsersDBController uDB = new UsersDBController();
+
+        AnalyticsDBController aDB = new AnalyticsDBController();
 
         /*ArticlesCommentsLikesDBController la = new ArticlesCommentsLikesDBController();
 
@@ -32,7 +34,12 @@ public class Main {
         //System.out.println(suggestions);
         //System.out.println(listUsers);
 
-        uDB.neo4jAddRemoveFollow("Gaia5", "Leonardo1", "remove");
+        //uDB.neo4jAddRemoveFollow("Gaia5", "Leonardo1", "remove");
+        List<StatisticsInfluencer> likeInflu = aDB.neo4jTop3InfluLikes("like");
+        System.out.println("Fatto");
+
+
+
 
 
 
