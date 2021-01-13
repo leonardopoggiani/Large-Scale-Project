@@ -30,4 +30,13 @@ public class LikeInfluencer {
     public int getHowMany() {
         return howMany;
     }
+
+    @Override
+    public String toString() {
+        return "LikeInfluencer{" +
+                "username='" + username + '\'' +
+                ", howMany=" + howMany +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

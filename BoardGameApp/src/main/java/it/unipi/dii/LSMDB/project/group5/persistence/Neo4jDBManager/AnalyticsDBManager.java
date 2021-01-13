@@ -33,7 +33,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
      * @param type [like-dislike]
      * @return lista dei 3 influencer
      */
-    public static List<LikeInfluencer> top3InfluLikeDislike(String type) {
+    public static List<LikeInfluencer> top3InfluLikes(String type) {
         try (Session session = driver.session()) {
             return session.readTransaction(new TransactionWork<List>() {
                 @Override
@@ -58,9 +58,8 @@ public class AnalyticsDBManager extends Neo4jDBManager{
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("type", type);
         LikeInfluencer temp = new LikeInfluencer();
-        String query = "match (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User)" +
-                "WHERE r.status =$type" +
-                "RETURN u.username AS influencer, count(r) as countLike ORDER BY likeCount desc LIMIT 3";
+        String query = "MATCH (u:User)-[:PUBLISHED]->(a:Article)<-[r:LIKED]-(u1:User)" +
+                "WHERE r.type =$type RETURN u.username AS influencer, count(r) as countLike ORDER BY countLike desc LIMIT 3";
         Result result = tx.run(query,parameters);
 
         while(result.hasNext())
@@ -70,6 +69,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
             temp.setHowMany(record.get("countLike").asInt());
             temp.setType(type);
             top.add(temp);
+            System.out.println(temp.toString());
         }
 
         return top;
