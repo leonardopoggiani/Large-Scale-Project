@@ -158,7 +158,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("game1", newArt.getListGame().get(0));
         parameters.put("game2", newArt.getListGame().get(1));
         String checkArticle = "MATCH (a:Article{name:$title})<-[p:PUBLISHED]-(u:User{username:$author})" +
-                "RETURN a";
+                " RETURN a";
         Result result = tx.run(checkArticle, parameters);
         if (result.hasNext()) {
             return false;
