@@ -40,8 +40,9 @@ public class PostView {
     @FXML
     void initialize() {
 
-        GroupsPostsDBController controller = new GroupsPostsDBController();
-        List<PostBean> postList = controller.neo4jShowGroupsPost(HomepageGroups.getGroup(),HomepageGroups.getAdminGroup());
+        GroupsPagesDBController controller = new GroupsPagesDBController();
+        int limit = 10;
+        List<PostBean> postList = controller.showGroupsPost(HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), limit);
         logger.info("size " + postList.size());
         VBox vertical = new VBox();
         for(int i = 0; i < postList.size(); i++) {
