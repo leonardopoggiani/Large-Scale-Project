@@ -1,4 +1,4 @@
-package it.unipi.dii.LSMDB.project.group5.bean;
+package it.unipi.dii.LSMDB.project.group5.view.tablebean;
 
 import javafx.beans.property.SimpleStringProperty;
 

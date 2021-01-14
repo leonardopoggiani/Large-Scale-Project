@@ -10,13 +10,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.controller.GroupsPostsDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
-import it.unipi.dii.LSMDB.project.group5.bean.TableGroupBean;
+import it.unipi.dii.LSMDB.project.group5.view.tablebean.TableGroupBean;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class HomepageGroups {
+
+    Logger logger =  Logger.getLogger(this.getClass().getName());
 
     private static String currentGroup;
     private static String adminGroup;
@@ -188,21 +191,22 @@ public class HomepageGroups {
         boolean ret = controller.Neo4jAddGroup(group);
         System.out.println("Ritorno " + ret);
 
-        //if(ret) {
-        TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.neo4jCountGroupMembers(group.getName(),group.getAdmin()));
-        System.out.println(tableGroup);
-        gruppiAdmin.add(tableGroup);
-        admintable.setItems(gruppiAdmin);
-        nomiDeiGruppi.add(group.getName());
-        action.setItems(adminActions);
-        nomigruppi.setItems(nomiDeiGruppi);
+        if(ret) {
+            TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.neo4jCountGroupMembers(group.getName(),group.getAdmin()));
+            System.out.println(tableGroup);
+            gruppiAdmin.add(tableGroup);
+            admintable.setItems(gruppiAdmin);
+            nomiDeiGruppi.add(group.getName());
+            action.setItems(adminActions);
+            nomigruppi.setItems(nomiDeiGruppi);
 
-        if(!giochiDeiGruppi.contains(group.getGame())){
-            giochiDeiGruppi.add(group.getGame());
+            if(!giochiDeiGruppi.contains(group.getGame())){
+                giochiDeiGruppi.add(group.getGame());
+            }
+            filter.setItems(giochiDeiGruppi);
+        } else {
+            logger.info("problemi nella addGroup");
         }
-        filter.setItems(giochiDeiGruppi);
-
-        //}
     }
 
     @FXML
