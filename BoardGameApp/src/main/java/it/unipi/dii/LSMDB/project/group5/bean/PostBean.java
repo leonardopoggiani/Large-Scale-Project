@@ -1,5 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.bean;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 public class PostBean {
@@ -8,6 +9,12 @@ public class PostBean {
     private Timestamp timestamp;
     private  String group;
     private String admin;
+
+    public PostBean() {}
+
+    public PostBean(String author, String text, Timestamp timestamp, String group, String admin) {
+        this.author = author; this.text = text; this.timestamp = timestamp; this.group = group; this.admin = admin;
+    }
 
     public void setGroup(String group) {
         this.group = group;

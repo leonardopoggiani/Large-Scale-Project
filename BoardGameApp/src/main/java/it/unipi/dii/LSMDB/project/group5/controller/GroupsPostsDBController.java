@@ -4,6 +4,7 @@ import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.GroupsPostsDBManager;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -73,11 +74,18 @@ public class GroupsPostsDBController {
         List<PostBean> posts ;
         posts = GroupsPostsDBManager.showGroupsPosts(name, admin, 3);
 
-            for(int i=0;i<posts.size();i++){
-                System.out.println(posts.get(i));
+        for(int i=0;i<posts.size();i++){
+            System.out.println(posts.get(i));
 
-            }
+        }
 
+        PostBean p = new PostBean("leonardo", "Ahahaha che ridere", new Timestamp(System.currentTimeMillis()), "gruppo", "leonardo");
+        PostBean p1 = new PostBean("leonardo", "Ahahaha che ridere", new Timestamp(System.currentTimeMillis()), "gruppo", "leonardo");
+        PostBean p2 = new PostBean("leonardo", "Ahahaha che ridere", new Timestamp(System.currentTimeMillis()), "gruppo", "leonardo");
+
+        posts.add(p);
+        posts.add(p1);
+        posts.add(p2);
         return posts;
 
     }

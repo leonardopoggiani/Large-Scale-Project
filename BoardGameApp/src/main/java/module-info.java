@@ -19,6 +19,7 @@ module org.openjfx {
     opens it.unipi.dii.LSMDB.project.group5.view to javafx.fxml;
     opens it.unipi.dii.LSMDB.project.group5 to javafx.fxml;
     opens it.unipi.dii.LSMDB.project.group5.bean to javafx.base;
+    opens it.unipi.dii.LSMDB.project.group5.view.tablebean to javafx.base;
 
     exports it.unipi.dii.LSMDB.project.group5;
 }
