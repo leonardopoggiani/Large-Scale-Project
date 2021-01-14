@@ -16,6 +16,11 @@
             <Text fx:id="message" layoutX="429.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New message" />
           <Button fx:id="post" layoutX="396.0" layoutY="217.0" mnemonicParsing="false" onAction="#post" text="Post" />
             <Button fx:id="home" layoutX="491.0" layoutY="217.0" mnemonicParsing="false" onAction="#returnToHomepage" text="Home" />
+            <ScrollPane fx:id="scrollingPane" layoutX="26.0" layoutY="32.0" prefHeight="322.0" prefWidth="309.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
          </children></AnchorPane>
   </content>
 </ScrollPane>

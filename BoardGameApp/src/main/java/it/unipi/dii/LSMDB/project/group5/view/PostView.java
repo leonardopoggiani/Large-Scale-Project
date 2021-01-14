@@ -23,6 +23,9 @@ public class PostView {
     ScrollPane posts;
 
     @FXML
+    ScrollPane scrollingPane;
+
+    @FXML
     Text message;
 
     @FXML
@@ -42,8 +45,9 @@ public class PostView {
 
         GroupsPagesDBController controller = new GroupsPagesDBController();
         int limit = 10;
+
         List<PostBean> postList = controller.showGroupsPost(HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), limit);
-        logger.info("size " + postList.size());
+
         VBox vertical = new VBox();
         for(int i = 0; i < postList.size(); i++) {
             PostPane newPane = new PostPane(postList.get(i));
@@ -51,7 +55,7 @@ public class PostView {
         }
 
         posts.setMaxSize(400,800);
-        ancora.getChildren().addAll(vertical);
+        scrollingPane.setContent(vertical);
         posts.setContent(ancora);
     }
 

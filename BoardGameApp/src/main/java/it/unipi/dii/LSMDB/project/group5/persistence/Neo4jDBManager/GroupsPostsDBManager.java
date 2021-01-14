@@ -667,11 +667,17 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             post.setAdmin(admin);
             posts.add(post);
         }
+
+        PostBean p1 = new PostBean("leonardo","che ridere ahahaha",new Timestamp(System.currentTimeMillis()),"gruppo","leonardo");
+        PostBean p2 = new PostBean("leonardo","che ridere ahahaha",new Timestamp(System.currentTimeMillis()),"gruppo","leonardo");
+        PostBean p3 = new PostBean("leonardo","che ridere ahahaha",new Timestamp(System.currentTimeMillis()),"gruppo","leonardo");
+
+        posts.add(p1);
+        posts.add(p2);
+        posts.add(p3);
+
         return posts;
 
     }
-
-
-
 
 }
