@@ -67,7 +67,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
         Result result;
         quantiInflu = UsersDBManager.transactionCountUsers(tx,username,"influencer");
-        if(quantiInflu < 0)
+        if(quantiInflu < 3)
         {
             result = tx.run(nienteAmici, parameters);
             System.out.println("Pochi Influencer");
@@ -99,9 +99,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 }
                 if ("p".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    Value timestamp = value.get("timestamp");
-                    System.out.println("Timestamp " + timestamp);
-                    article.setTimestamp(new Timestamp(timestamp.asLong()));
+                    String timestamp = value.get("timestamp").asString();
+                    System.out.println(timestamp);
+                    article.setTimestamp(Timestamp.valueOf(timestamp));
 
                 }
 

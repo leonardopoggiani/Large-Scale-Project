@@ -1,23 +1,62 @@
 package it.unipi.dii.LSMDB.project.group5.view.tablebean;
 
-import javafx.beans.property.SimpleStringProperty;
+import java.sql.Timestamp;
 
 public class PostBean {
+    private String author;
+    private String text;
+    private Timestamp timestamp;
+    private  String group;
+    private String admin;
 
-    SimpleStringProperty author;
-    SimpleStringProperty timestamp;
-    SimpleStringProperty message;
-
-    public PostBean(String name, String time, String text){
-        this.author = new SimpleStringProperty(name);
-        this.timestamp = new SimpleStringProperty(time);
-        this.message = new SimpleStringProperty(text);
+    public void setGroup(String group) {
+        this.group = group;
     }
-    public String getAuthor(){ return author.get(); }
-    public String getTimestamp(){ return timestamp.get(); }
-    public String getMessage(){ return message.get(); }
 
-    public void setAuthor(String name) {this.author = new SimpleStringProperty(name); }
-    public void setTimestamp(String name) {this.author = new SimpleStringProperty(name); }
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
+
+    public String getAdmin() {
+        return admin;
+    }
+
+    @Override
+    public String toString() {
+        return "PostBean{" +
+                "author='" + author + '\'' +
+                ", text='" + text + '\'' +
+                ", timestamp=" + timestamp +
+                ", group='" + group + '\'' +
+                ", admin='" + admin + '\'' +
+                '}';
+    }
 }
