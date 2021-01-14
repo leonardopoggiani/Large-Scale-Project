@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.GroupsPostsDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.GroupsPagesDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import it.unipi.dii.LSMDB.project.group5.bean.TableGroupBean;
 
@@ -108,7 +108,7 @@ public class HomepageGroups {
 
     @FXML
     void setGroups() throws IOException {
-        GroupsPostsDBController controller = new GroupsPostsDBController();
+        GroupsPagesDBController controller = new GroupsPagesDBController();
 
         utils.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         admintable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -160,7 +160,7 @@ public class HomepageGroups {
     @FXML
     void createGroup() throws IOException {
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
-        GroupsPostsDBController membersNumber = new GroupsPostsDBController();
+        GroupsPagesDBController membersNumber = new GroupsPagesDBController();
 
         String name = groupname.getText();
         String game = referredgame.getText();
@@ -231,7 +231,7 @@ public class HomepageGroups {
 
     private void viewPosts(String gruppoSelezionato) {
         UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
-        GroupsPostsDBController membersNumber = new GroupsPostsDBController();
+        GroupsPagesDBController membersNumber = new GroupsPagesDBController();
         currentGroup = gruppoSelezionato;
     }
 
@@ -261,7 +261,7 @@ public class HomepageGroups {
     }
 
     private void viewMembers(String gruppoSelezionato) throws IOException {
-        GroupsPostsDBController controller = new GroupsPostsDBController();
+        GroupsPagesDBController controller = new GroupsPagesDBController();
         currentGroup = gruppoSelezionato;
 
         List<String> listMembers = controller.neo4jShowGroupsMembers(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));

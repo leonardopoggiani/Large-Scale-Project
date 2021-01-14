@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.GamesPageDBController;
 
 import java.io.IOException;
 import java.util.*;
@@ -205,7 +205,7 @@ public class HomepageGames {
     @FXML
     void setSuggestedGames() throws IOException, ExecutionException {
 
-        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+        GamesPageDBController controller = new GamesPageDBController();
         if (savedGames.isEmpty()) {
             // non ho giochi salvati in cache
             logger.info("cache vuota");
@@ -300,7 +300,7 @@ public class HomepageGames {
     @FXML
     void filterResearch () throws IOException {
         // filtra i risultati in base alle impostazioni passate
-        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+        GamesPageDBController controller = new GamesPageDBController();
 
         String filtraPerCategoria = " ";
         int filtraGiocatori = 0;

@@ -155,7 +155,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("author", newArt.getAuthor());
         parameters.put("timestamp", newArt.getTimestamp().toString());
         parameters.put("title", newArt.getTitle());
-        parameters.put("game", newArt.getGame());
+        parameters.put("game1", newArt.getListGame().get(0));
+        parameters.put("game2", newArt.getListGame().get(1));
         String checkArticle = "MATCH (a:Article{name:$title})<-[p:PUBLISHED]-(u:User{username:$author})" +
                 "RETURN a";
         Result result = tx.run(checkArticle, parameters);
@@ -163,8 +164,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
             return false;
         }
 
-        result = tx.run("MATCH(u:User {username:$author}), (g:Game{name:$game})" +
-                        "CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})-[r:REFERRED]->(g) " +
+        result = tx.run("MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2)" +
+                        "CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})" +
+                        "CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) " +
                         "return a"
                 , parameters);
         if (result.hasNext()) {

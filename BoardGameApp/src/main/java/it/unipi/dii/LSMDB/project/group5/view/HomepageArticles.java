@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPageDBController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
 
 import java.io.IOException;
 import java.util.*;
@@ -232,7 +232,7 @@ public class HomepageArticles {
 
     @FXML
     void setSuggestedArticles() throws IOException, ExecutionException {
-        ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
+        ArticlesPageDBController home = new ArticlesPageDBController();
 
         if (savedTitles.isEmpty()) {
             // non ho salvato i titoli degli articoli da mostrare
@@ -267,7 +267,7 @@ public class HomepageArticles {
     }
 
     private void showArticles(List<ArticleBean> list) {
-        ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
+        ArticlesPageDBController home = new ArticlesPageDBController();
 
         int numComments = 0;
         int numLikes = 0;
@@ -381,7 +381,7 @@ public class HomepageArticles {
 
     @FXML
     void filterResearch () throws IOException {
-        ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
+        ArticlesPageDBController controller = new ArticlesPageDBController();
 
         List<ArticleBean> filteredArticles = Lists.newArrayList();
         List<ArticleBean> sortedList = Lists.newArrayList();

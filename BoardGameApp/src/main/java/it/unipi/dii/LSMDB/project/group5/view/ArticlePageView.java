@@ -5,7 +5,7 @@ import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.bean.CommentBean;
 import it.unipi.dii.LSMDB.project.group5.bean.LikeBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPageDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -119,7 +119,7 @@ public class ArticlePageView {
 
     @FXML
     void setArticleFields() throws IOException, ExecutionException {
-        ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
+        ArticlesPageDBController article = new ArticlesPageDBController();
 
         cache.setAuthor(HomepageArticles.getAuthor());
         ArticleBean a = cache.getDataIfPresent(HomepageArticles.getTitolo());
@@ -143,7 +143,7 @@ public class ArticlePageView {
     }
 
     private void setComments() {
-        ArticlesCommentsLikesDBController article = new ArticlesCommentsLikesDBController();
+        ArticlesPageDBController article = new ArticlesPageDBController();
 
         List<CommentBean> infoComments = null;
         infoComments = article.neo4jListArticlesComment(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(), 3);
@@ -287,7 +287,7 @@ public class ArticlePageView {
 
     @FXML
     void setSuggestedArticlesBelow() throws IOException {
-        ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
+        ArticlesPageDBController home = new ArticlesPageDBController();
         List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
 
         if (list != null) {

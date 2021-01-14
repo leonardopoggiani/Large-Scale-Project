@@ -10,7 +10,7 @@ import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.LikesDBManag
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ArticlesCommentsLikesDBController {
+public class ArticlesPageDBController {
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
     public List<ArticleBean> neo4jListSuggestedArticles(String username) {

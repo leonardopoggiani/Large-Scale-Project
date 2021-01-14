@@ -7,11 +7,11 @@ import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.GroupsPostsD
 import java.util.List;
 import java.util.logging.Logger;
 
-public class GroupsPostsDBController {
+public class GroupsPagesDBController {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
-    public GroupsPostsDBController(){};
+    public GroupsPagesDBController(){};
 
     public List<GroupBean> neo4jShowUsersGroups(String username, String type) {
 

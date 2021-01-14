@@ -5,7 +5,7 @@ import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.bean.RateBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
 import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
-import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.GamesPageDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -130,7 +130,7 @@ public class GamePageView {
     void setGameFields() throws ExecutionException {
         // setto i campi del gioco
 
-        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+        GamesPageDBController controller = new GamesPageDBController();
         GameBean currentGame = cache.getDataIfPresent(game);
         logger.info("show " + currentGame);
         if(currentGame == null || currentGame.getName() == null) {
@@ -234,7 +234,7 @@ public class GamePageView {
     }
 
     private void setReviews(String game) {
-        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+        GamesPageDBController controller = new GamesPageDBController();
 
         List<ReviewBean> reviews = controller.neo4jListGamesReviews(game,3);
         System.out.println("Numero di review: " + reviews.size());

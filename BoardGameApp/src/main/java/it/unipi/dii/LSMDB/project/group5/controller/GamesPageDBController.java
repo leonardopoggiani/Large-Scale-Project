@@ -9,8 +9,8 @@ import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.ReviewsDBMan
 
 import java.util.List;
 
-public class GamesReviewsRatesDBController {
-    public GamesReviewsRatesDBController() {
+public class GamesPageDBController {
+    public GamesPageDBController() {
         //LoginSignUpDBManager.InitializeDriver();
         //MongoDBManager.createConnection();
     }

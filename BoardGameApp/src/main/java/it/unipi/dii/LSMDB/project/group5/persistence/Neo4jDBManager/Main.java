@@ -13,18 +13,18 @@ public class Main {
 
 
 
-            GamesReviewsRatesDBController gr = new GamesReviewsRatesDBController();
-            ArticlesCommentsLikesDBController artCon = new ArticlesCommentsLikesDBController();
+            GamesPageDBController gr = new GamesPageDBController();
+            ArticlesPageDBController artCon = new ArticlesPageDBController();
 
             UpdateDatabaseDBController ud = new UpdateDatabaseDBController();
 
-            GroupsPostsDBController grpos = new GroupsPostsDBController();
+            GroupsPagesDBController grpos = new GroupsPagesDBController();
 
             UsersDBController uDB = new UsersDBController();
 
             AnalyticsDBController aDB = new AnalyticsDBController();
 
-        /*ArticlesCommentsLikesDBController la = new ArticlesCommentsLikesDBController();
+        /*ArticlesPageDBController la = new ArticlesPageDBController();
 
         ArticleBean art = new ArticleBean("Nuovo articolo1", "Clarissa1", new Timestamp(System.currentTimeMillis()),"Risiko", null);
         la.addArticle(art);

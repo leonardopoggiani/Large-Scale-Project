@@ -1,7 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPageDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -36,7 +36,7 @@ public class AddArticlePageView {
         if(!title.getText().equals("") && !game.getText().equals("") && !body.getText().equals("")) {
             ArticleBean toPublish = new ArticleBean(title.getText(), LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), game.getText());
             toPublish.setText(body.getText());
-            ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
+            ArticlesPageDBController controller = new ArticlesPageDBController();
             boolean ret = controller.addArticle(toPublish);
 
             if(ret) {
