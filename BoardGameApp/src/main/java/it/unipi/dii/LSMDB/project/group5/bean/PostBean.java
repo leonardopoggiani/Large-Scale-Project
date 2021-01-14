@@ -1,4 +1,4 @@
-package it.unipi.dii.LSMDB.project.group5.view.tablebean;
+package it.unipi.dii.LSMDB.project.group5.bean;
 
 import java.sql.Timestamp;
 
