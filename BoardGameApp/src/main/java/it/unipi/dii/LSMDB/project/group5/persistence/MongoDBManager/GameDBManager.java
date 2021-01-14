@@ -246,7 +246,7 @@ public class GameDBManager {
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
-                ret = (next.get("avg_rating") == null) ? 0.0 : Double.parseDouble(next.get("avg_rating").toString());
+                ret = (next.get("avg_rating") == null || next.get("avg_rating").equals("nan")) ? 0.0 : Double.parseDouble(next.get("avg_rating").toString());
             }
         }
 

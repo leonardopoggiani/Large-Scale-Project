@@ -57,7 +57,7 @@ public class UpdateDatabaseDBController {
 
     }
 
-    public Boolean Neo4jDeleteComment(CommentBean comm) {
+    public boolean Neo4jDeleteComment(CommentBean comm) {
 
        Boolean ret = false;
         ret  = CommentsDBManager.deleteComment(comm);
@@ -69,7 +69,7 @@ public class UpdateDatabaseDBController {
 
     }
 
-    public Boolean Neo4jAddReview(ReviewBean newRev) {
+    public boolean Neo4jAddReview(ReviewBean newRev) {
 
         Boolean ret = false;
         ret = ReviewsDBManager.addReview(newRev);
@@ -83,7 +83,7 @@ public class UpdateDatabaseDBController {
     }
 
     //Add rate se non esiste già un voto fatto dalla stessa persona sullo stesso gioco
-    public Boolean Neo4jAddRating(RateBean newRate) {
+    public boolean Neo4jAddRating(RateBean newRate) {
 
         Boolean ret = false;
         ret = RatingsDBManager.addRating(newRate);
@@ -94,39 +94,40 @@ public class UpdateDatabaseDBController {
     }
 
 
-    public Boolean Neo4jDeleteReview(ReviewBean rev) {
+    public boolean Neo4jDeleteReview(ReviewBean rev) {
 
-        Boolean ret = false;
-        ret  = ReviewsDBManager.deleteReview(rev);
+        boolean ret  = ReviewsDBManager.deleteReview(rev);
         if(ret){
             GameDBManager.updateNumReviews(-1, rev.getGame());
         }
         return ret;
     }
 
-    public Boolean Neo4jAddGroup(GroupBean newGroup) {
+    public boolean Neo4jAddGroup(GroupBean newGroup) {
 
-        Boolean ret = false;
-        ret  = GroupsPostsDBManager.addGroup(newGroup);
-
-        return ret;
+        return GroupsPostsDBManager.addGroup(newGroup);
     }
 
 
-    public Boolean Neo4jDeleteGroup(String delGroup,String delAdmin) {
+    public boolean Neo4jDeleteGroup(String delGroup,String delAdmin) {
 
-        Boolean ret = false;
-        ret  = GroupsPostsDBManager.deleteGroup(delGroup, delAdmin);
-        return ret;
+      return GroupsPostsDBManager.deleteGroup(delGroup, delAdmin);
+
     }
 
-    public Boolean Neo4jAddGroupMember(String username, String name, String admin) {
+    public boolean Neo4jAddDeleteGroupMember(String username, String name, String admin, String type) {
 
-        Boolean ret = false;
-        ret  = GroupsPostsDBManager.addGroupMember(username, name, admin);
+        return GroupsPostsDBManager.addDeleteGroupMember(username, name, admin, type);
 
-        return ret;
     }
+
+    public boolean Neo4jAddDeletePost(PostBean post, String type) {
+
+
+        return   GroupsPostsDBManager.addDeletePost(post, type);
+
+    }
+
 
     public double MongoDBgetAvgRating(String game){
         return GameDBManager.getAvgRating(game);

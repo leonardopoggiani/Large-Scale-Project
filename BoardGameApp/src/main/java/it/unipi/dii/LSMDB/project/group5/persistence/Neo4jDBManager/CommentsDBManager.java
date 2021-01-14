@@ -17,10 +17,11 @@ public class CommentsDBManager extends Neo4jDBManager {
      * La funzione cerca la lista di tutti i commenti ad un articolo
      * @param author
      * @param title
+     * @param limit
      * @return Lista dei commenti all'articolo
      */
 
-    public static List<CommentBean> searchListComments(String title, String author, int quanti)
+    public static List<CommentBean> searchListComments(final String title, final String author, int limit)
     {
 
         try
@@ -31,7 +32,7 @@ public class CommentsDBManager extends Neo4jDBManager {
                 @Override
                 public List<CommentBean> execute(Transaction tx)
                 {
-                    return transactionListComments(tx, title, author, quanti);
+                    return transactionListComments(tx, title, author, limit);
                 }
             });
         }
@@ -48,14 +49,14 @@ public class CommentsDBManager extends Neo4jDBManager {
      * @param title
      * @return Lista dei commenti all'articolo
      */
-    public static List<CommentBean> transactionListComments(Transaction tx, String title, String author, int quanti) {
+    public static List<CommentBean> transactionListComments(Transaction tx, String title, String author, int limit) {
 
         List<CommentBean> infoComments = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", author);
         parameters.put("title", title);
-        parameters.put("quanti", quanti);
-        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User) WHERE au.username=$author AND a.name=$title RETURN c,u  ORDER BY c.timestamp DESC LIMIT $quanti", parameters);
+        parameters.put("limit", limit);
+        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User) WHERE au.username=$author AND a.name=$title RETURN c,u  ORDER BY c.timestamp DESC LIMIT $limit", parameters);
 
         while (result.hasNext()) {
             Record record = result.next();

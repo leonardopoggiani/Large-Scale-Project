@@ -1,9 +1,9 @@
 package it.unipi.dii.LSMDB.project.group5.controller;
 
-import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.GroupsPostsDBManager;
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
+import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
+import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.GroupsPostsDBManager;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -68,11 +68,21 @@ public class GroupsPostsDBController {
 
     }
 
-    public Timestamp neo4jTimestampLastPost(String name, String admin) {
+    public List<PostBean> neo4jShowGroupsPost(String name, String admin) {
 
-        return GroupsPostsDBManager.timestampLastPost(name, admin);
+        List<PostBean> posts ;
+        posts = GroupsPostsDBManager.showGroupsPosts(name, admin, 3);
+
+            for(int i=0;i<posts.size();i++){
+                System.out.println(posts.get(i));
+
+            }
+
+        return posts;
 
     }
+
+
 
     //Timestamp dell'ultimo post pubblicato su un gruppo
     //Fare funzione a parte e chiamrla all'interno della di usersGroups in entrambi i casi

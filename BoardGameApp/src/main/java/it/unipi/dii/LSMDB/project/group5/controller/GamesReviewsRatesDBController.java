@@ -74,6 +74,8 @@ public class GamesReviewsRatesDBController {
     }
 
 
+
+
     // tutte le reviews di un gioco
 
     public List<ReviewBean> neo4jListGamesReviews(String name, int quante) {
@@ -95,6 +97,8 @@ public class GamesReviewsRatesDBController {
         return infoReviews;
 
     }
+
+
 
     public GameBean showGame (String game){
         GameBean g = GameDBManager.readGame(game);
