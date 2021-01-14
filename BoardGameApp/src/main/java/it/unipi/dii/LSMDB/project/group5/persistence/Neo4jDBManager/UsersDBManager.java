@@ -62,6 +62,8 @@ public class UsersDBManager extends Neo4jDBManager{
                                 "WHERE (u2)<-[:FOLLOW]-(u)" +
                                 "RETURN u2.username as friends";
 
+        String searchAllDebug =  "MATCH (u:User) " + "RETURN u.username as users LIMIT 10";
+
         if(type.equals("friends"))
         {
             Result result=tx.run(searchFriends, parameters);
@@ -105,6 +107,13 @@ public class UsersDBManager extends Neo4jDBManager{
             {
                 Record record = result.next();
                 users.add(record.get("followersAll").asString());
+            }
+        } else if(type.equals("all")) {
+            Result result=tx.run(searchAllDebug, parameters);
+            while(result.hasNext())
+            {
+                Record record = result.next();
+                users.add(record.get("users").asString());
             }
         }
 

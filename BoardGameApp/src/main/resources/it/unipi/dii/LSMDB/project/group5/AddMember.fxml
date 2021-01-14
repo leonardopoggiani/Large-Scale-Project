@@ -13,6 +13,7 @@
             <Text layoutX="112.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a member to your group!" />
             <ComboBox fx:id="users" layoutX="40.0" layoutY="87.0" prefHeight="29.0" prefWidth="145.0" promptText="User" />
             <Button layoutX="231.0" layoutY="86.0" mnemonicParsing="false" onAction="#addMember" text="Add member" />
+            <Button layoutX="130.0" layoutY="137.0" mnemonicParsing="false" onAction="#returnToHomepageGroups" text="Return to homepage" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

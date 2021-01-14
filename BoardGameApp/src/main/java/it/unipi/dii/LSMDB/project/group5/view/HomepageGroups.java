@@ -1,13 +1,13 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
+import it.unipi.dii.LSMDB.project.group5.bean.GroupMember;
+import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.controller.GroupsPostsDBController;
@@ -23,9 +23,11 @@ public class HomepageGroups {
     private static String currentGroup;
     private static String adminGroup;
 
+    ObservableList<TableGroupBean> filtering = FXCollections.observableArrayList();
     ObservableList<String> nomiDeiGruppi = FXCollections.observableArrayList();
     ObservableList<String> userActions = FXCollections.observableArrayList("Add post", "Leave group", "View posts", "View members");
     ObservableList<String> adminActions = FXCollections.observableArrayList("Add post", "Delete group", "View posts", "Add member", "View members");
+    ObservableList<GroupMember> membriGruppo = FXCollections.observableArrayList();
 
     private ObservableList<TableGroupBean> gruppiAdmin = FXCollections.observableArrayList();
     private ObservableList<TableGroupBean> gruppiMembro = FXCollections.observableArrayList();
@@ -44,6 +46,9 @@ public class HomepageGroups {
 
     @FXML
     public TableColumn<TableGroupBean, Integer> members;
+
+    @FXML
+    public TableColumn<GroupMember, String> nomeMembro;
 
     @FXML
     TableView admintable;
@@ -115,6 +120,7 @@ public class HomepageGroups {
         game.setCellValueFactory(new PropertyValueFactory<>("game"));
         timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         members.setCellValueFactory(new PropertyValueFactory<>("members"));
+        nomeMembro.setCellValueFactory(new PropertyValueFactory<>("groupMemberName"));
 
          List<GroupBean> gruppiDiCuiSonoAdmin = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"admin");
          List<GroupBean> gruppiDiCuiSonoMembro = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"member");
@@ -139,6 +145,7 @@ public class HomepageGroups {
         nomigruppi.setItems(nomiDeiGruppi);
         action.setItems(adminActions);
         filter.setItems(nomiDeiGruppi);
+        utils.setItems(membriGruppo);
 
     }
 
@@ -201,6 +208,12 @@ public class HomepageGroups {
 
     @FXML
     void setActions() throws IOException {
+        String gruppoSelezionato = nomiDeiGruppi.get(nomigruppi.getSelectionModel().getSelectedIndex());
+        if(retrieveAdmin(gruppoSelezionato).equals(LoginPageView.getLoggedUser())) {
+            action.setItems(adminActions);
+        } else {
+            action.setItems(userActions);
+        }
     }
 
     private void viewPosts(String gruppoSelezionato) {
@@ -212,6 +225,14 @@ public class HomepageGroups {
 
         currentGroup = gruppoSelezionato;
         boolean ret = controller.Neo4jDeleteGroup(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
+
+        for(int i = 0; i < gruppiAdmin.size(); i++) {
+            if(gruppiAdmin.get(i).getGroupName().equals(gruppoSelezionato)){
+                gruppiAdmin.remove(i);
+            }
+        }
+
+        admintable.setItems(gruppiAdmin);
     }
 
     private void addPost(String gruppoSelezionato) {
@@ -220,6 +241,7 @@ public class HomepageGroups {
 
     private void addMember(String gruppoSelezionato) throws IOException {
         currentGroup = gruppoSelezionato;
+        adminGroup = retrieveAdmin(gruppoSelezionato);
         App.setRoot("AddMember");
     }
 
@@ -228,13 +250,22 @@ public class HomepageGroups {
         currentGroup = gruppoSelezionato;
 
         List<String> listMembers = controller.neo4jShowGroupsMembers(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
-        ObservableList<String> members = FXCollections.observableArrayList(listMembers);
+        ObservableList<GroupMember> members = FXCollections.observableArrayList();
+
+        for(int i = 0; i < listMembers.size(); i++){
+            members.add(new GroupMember(listMembers.get(i)));
+        }
 
         utils.setItems(members);
     }
 
     private void filterResearch(){
-
+        String gameFilter = nomiDeiGruppi.get(filter.getSelectionModel().getSelectedIndex());
+        for(int i = 0; i < gruppiAdmin.size(); i++) {
+            if(gruppiAdmin.get(i).getGame().equals(gameFilter)) {
+                filtering.add(gruppiAdmin.get(i));
+            }
+        }
     }
 
     public static String getGroup() {

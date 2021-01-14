@@ -103,7 +103,11 @@
             <ComboBox fx:id="nomigruppi" layoutX="931.0" layoutY="639.0" onAction="#setActions" prefHeight="28.0" prefWidth="105.0" promptText="Name" />
             <Text fill="#e8dcdc" layoutX="767.0" layoutY="659.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do?" />
             <ComboBox fx:id="action" layoutX="1047.0" layoutY="639.0" onAction="#selectAction" prefHeight="28.0" prefWidth="106.0" promptText="Action" />
-            <TableView fx:id="utils" layoutX="798.0" layoutY="411.0" prefHeight="195.0" prefWidth="355.0" />
+            <TableView fx:id="utils" layoutX="875.0" layoutY="408.0" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="nomeMembro" prefWidth="75.0" text="Name" />
+              </columns>
+            </TableView>
          </children></AnchorPane>
   </content>
 </ScrollPane>

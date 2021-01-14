@@ -48,10 +48,10 @@ public class    GamesDBManager extends Neo4jDBManager{
         List<GameBean> infoGames = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username", username);
-        Result result=tx.run("MATCH (g:Game),(u:User)" +
-                "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
-                "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN g,u LIMIT 6", parameters);
+        Result result=tx.run("MATCH (g:Game),(u:User) " +
+                " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
+                " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +
+                " RETURN g,u LIMIT 6 ", parameters);
 
         while(result.hasNext())
         {
@@ -122,7 +122,7 @@ public class    GamesDBManager extends Neo4jDBManager{
         parameters.put("category1", newGame.getCategory1());
         parameters.put("category2", newGame.getCategory2());
         String checkGame = "MATCH (g:Game{name:$name})" +
-                "RETURN g";
+                " RETURN g";
         Result result = tx.run(checkGame, parameters);
         if (result.hasNext()) {
             return false;
@@ -175,14 +175,14 @@ public class    GamesDBManager extends Neo4jDBManager{
         parameters.put("name", name);
         List<ArticleBean> articleDelete = new ArrayList<>();
 
-        String eliminaReferred = "MATCH (a)-[r:REFERRED]->(g:Game{name:$name})\n" +
-                "DELETE r,a";
-        String eliminaReviews = "MATCH (a)-[r:REVIEWED]->(g:Game{name:$name})\n" +
-                "DELETE r,a";
-        String eliminaRatings = "MATCH (a)-[r:RATED]->(g:Game{name:$name})\n" +
-                "DELETE r,a";
-        String eliminaGame = "(g:Game{name:$name})\n" +
-                "DELETE g";
+        String eliminaReferred = "MATCH (a)-[r:REFERRED]->(g:Game{name:$name}) " +
+                " DELETE r,a";
+        String eliminaReviews = "MATCH (a)-[r:REVIEWED]->(g:Game{name:$name}) " +
+                " DELETE r,a";
+        String eliminaRatings = "MATCH (a)-[r:RATED]->(g:Game{name:$name}) " +
+                " DELETE r,a";
+        String eliminaGame = "(g:Game{name:$name}) " +
+                " DELETE g";
         Result result = tx.run(eliminaReferred, parameters);
 
         result = tx.run(eliminaReviews, parameters);

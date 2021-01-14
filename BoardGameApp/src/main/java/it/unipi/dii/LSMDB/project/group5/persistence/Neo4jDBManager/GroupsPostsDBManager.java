@@ -60,12 +60,12 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
 
         if (type == "member") {
             result = tx.run("MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
-                    "WHERE NOT (gr.admin=$username)" +
-                    "RETURN u,b,gr,ga ORDER BY b.timestamp", parameters);
+                    " WHERE NOT (gr.admin=$username)" +
+                    " RETURN u,b,gr,ga ORDER BY b.timestamp", parameters);
 
         } else if (type == "admin") {
             result = tx.run("MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{admin:$username})-[r:REFERRED]->(ga:Game)" +
-                    "RETURN u,b,gr,ga ORDER BY b.timestamp", parameters);
+                    " RETURN u,b,gr,ga ORDER BY b.timestamp", parameters);
         }
 
         while (result.hasNext()) {
@@ -154,7 +154,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", admin);
 
         Result result1 = tx.run("MATCH (gr:Group{name:$name, admin:$admin})<-[b:BE_PART]-(u:User)" +
-                "RETURN u", parameters);
+                " RETURN u", parameters);
 
         while(result1.hasNext())
         {
@@ -219,7 +219,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", admin);
         Timestamp ts = null;
         Result result1 = tx.run("MATCH (gr:Group{name:$name, admin:$admin})<-[p:POST]-(u:User)" +
-                "RETURN p ORDER BY p.timestamp DESC LIMIT 1 ", parameters);
+                " RETURN p ORDER BY p.timestamp DESC LIMIT 1 ", parameters);
 
         while (result1.hasNext())
         {
@@ -341,8 +341,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             return false;
         } else {
 
-            Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game})" +
-                            "CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)"
+            Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game}) " +
+                            " CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)"
                     , parameters);
 
             if (result.hasNext()) {
