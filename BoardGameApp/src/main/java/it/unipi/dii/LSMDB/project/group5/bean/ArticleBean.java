@@ -1,8 +1,10 @@
 package it.unipi.dii.LSMDB.project.group5.bean;
 
+import com.google.common.collect.Lists;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -14,7 +16,6 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     private String author;
     private Timestamp timestamp;
     private String text;
-    private String game; //Per Clarissa forse?
     private int numLikes;
     private int numDislikes;
     private int numComments;
@@ -28,11 +29,11 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
         return ListGame;
     }
 
-    public ArticleBean(String title, String author, Timestamp timestamp, String game) {
+    public ArticleBean(String title, String author, Timestamp timestamp, String game, String game2) {
         this.title = title;
         this.author = author;
         this.timestamp = timestamp;
-        this.game = game;
+        ListGame = Lists.newArrayList(game,game2);
     }
 
     public int getNumberComments() {
@@ -61,10 +62,6 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
 
     public String getText(){return text;}
 
-    public String getGame() {
-        return game;
-    }
-
     public void setListGame(List<String> listgame) {
         ListGame = listgame;
     }
@@ -84,10 +81,6 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     public void setText (String text){ this.text = text;}
     public void setComments(List<CommentBean> infoComments) {
         this.infoComments = infoComments;
-    }
-
-    public void setGame(String game) {
-        this.game = game;
     }
 
     public List<CommentBean> getComments() {

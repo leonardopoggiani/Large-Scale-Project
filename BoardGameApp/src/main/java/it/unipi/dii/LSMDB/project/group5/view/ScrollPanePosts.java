@@ -1,41 +1,109 @@
 package it.unipi.dii.LSMDB.project.group5.view;
-import javafx.scene.control.ScrollPane;
+
+import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.util.Pair;
 
-import java.util.List;
+ public class PostPane extends Pane {
+    private PostBean post;
+    private int numberOfAnswers;
+    private VBox fatherRoot;
 
+    public PostPane(PostBean post, VBox fatherRoot) {
+        setMinHeight(90);
+        setPrefWidth(380);
+        setStyle("-fx-background-color: white; -fx-background-radius: 15; -fx-border-color: grey; -fx-border-radius: 15;");
 
-public class ScrollPanePosts extends ScrollPane {
-    private VBox root;
-    private String pokemonName;
+        this.post = post;
+        this.numberOfAnswers = numberOfAnswers;
+        this.fatherRoot = fatherRoot;
 
-    public ScrollPanePosts(int x, int y, int width, int height, String pokemonName) {
-        relocate(x, y);
-        setPrefSize(width, height);
-
-        this.pokemonName = pokemonName;
-
-        root = new VBox();
-        root.setSpacing(5);
-        setContent(root);
-
-        loadPosts();
+        displayUsername();
+        displayDate();
+        displayContent();
+        displayButtons();
     }
 
-    private void loadPosts() { /*
-        PostManager postManagerFactory =  PostManagerFactory.buildManager();
-        List<Pair<Post, Integer>> postList = postManagerFactory.getPostsByPokemon(pokemonName);
+    private void displayUsername() {
+        Label username = new Label("USER: " + post.getAuthorUsername());
+        username.relocate(5, 5);
 
-        for (Pair<Post, Integer> p: postList) {
-            Post post = p.getKey();
-            int numberOfAnswers = p.getValue();
-
-            PostPane postPane = new PostPane(post, numberOfAnswers, root);
-
-            root.getChildren().add(postPane);
-        }
-    */
+        getChildren().add(username);
     }
 
+    /**
+     * Only if the user logged is the author or an admin. This method add a delete button to the <code>PostPane</code>
+     */
+    private void displayDeleteButton() {
+        DeletePostButton deletePostButton = new DeletePostButton("Delete", 160, 0, this);
+
+        getChildren().add(deletePostButton);
+    }
+
+    /**
+     * Displays the published date
+     */
+    private void displayDate() {
+        Label date = new Label(post.getFormattedDate());
+        date.relocate(250, 5);
+
+        getChildren().add(date);
+    }
+
+    /**
+     * Displays the content of the post
+     */
+    private void displayContent() {
+        TextArea content = new TextArea(post.getContent());
+        content.setPrefSize(368, 30);
+        content.relocate(5, 24);
+        content.setWrapText(true);
+        content.setEditable(false);
+
+        getChildren().add(content);
+    }
+
+    /**
+     * Displays the two <code>PostButton</code> for commenting and viewing the answers
+     */
+    private void displayButtons() {
+        SubPostsVBox subPostsVBox = new SubPostsVBox(20, 95);
+        PostButton answers = new PostButton("Answers (" + numberOfAnswers + ")" , 90, 58, subPostsVBox, post, numberOfAnswers);
+        PostButton comment = new PostButton("Comment", 5, 58, subPostsVBox, post, numberOfAnswers, answers);
+        answers.setCommentButton(comment);
+
+        getChildren().addAll(comment, answers, subPostsVBox);
+    }
+
+    /**
+     * Removes the PostPane from the <code>fatherRoot</code>
+     */
+    public void removeItself() {
+        fatherRoot.getChildren().remove(this);
+    }
+
+    /**
+     *
+     * @return <code>post</code>
+     */
+    public Post getPost() {
+        return post;
+    }
 }
+
+    © 2021 GitHub, Inc.
+            Terms
+            Privacy
+            Security
+            Status
+            Help
+
+            Contact GitHub
+            Pricing
+            API
+            Training
+            Blog
+            About
+

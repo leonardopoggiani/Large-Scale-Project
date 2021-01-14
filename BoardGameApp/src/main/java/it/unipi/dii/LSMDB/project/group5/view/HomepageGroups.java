@@ -2,6 +2,7 @@ package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 import it.unipi.dii.LSMDB.project.group5.bean.GroupMemberBean;
+import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -233,10 +234,11 @@ public class HomepageGroups {
         }
     }
 
-    private void viewPosts(String gruppoSelezionato) {
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
-        GroupsPagesDBController membersNumber = new GroupsPagesDBController();
+    private void viewPosts(String gruppoSelezionato) throws IOException {
+        GroupsPostsDBController controller = new GroupsPostsDBController();
         currentGroup = gruppoSelezionato;
+        adminGroup = retrieveAdmin(gruppoSelezionato);
+        App.setRoot("PostViewPage");
     }
 
     private void deleteGroup(String gruppoSelezionato) {
@@ -255,7 +257,9 @@ public class HomepageGroups {
     }
 
     private void addPost(String gruppoSelezionato) {
+
         currentGroup = gruppoSelezionato;
+
     }
 
     private void addMember(String gruppoSelezionato) throws IOException {
