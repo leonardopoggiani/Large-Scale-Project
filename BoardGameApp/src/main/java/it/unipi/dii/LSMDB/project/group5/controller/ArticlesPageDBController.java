@@ -2,106 +2,58 @@ package it.unipi.dii.LSMDB.project.group5.controller;
 
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.bean.CommentBean;
+import it.unipi.dii.LSMDB.project.group5.bean.LikeBean;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.ArticleDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.ArticlesDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.CommentsDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.LikesDBManager;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ArticlesPageDBController {
-    Logger logger =  Logger.getLogger(this.getClass().getName());
 
-    public List<ArticleBean> neo4jListSuggestedArticles(String username) {
 
-        List<ArticleBean> articles ;
-        articles = ArticlesDBManager.searchSuggestedArticles(username);
+    //ONLY NEO4J
+    public List<ArticleBean> listSuggestedArticles(String username) {
 
-        if(articles.isEmpty())
-        {
-            System.err.println("Niente!");
-        }
-        else {
-            for (ArticleBean article : articles) {
-                System.out.println(article.toString());
-                ArticleBean a = article;
-
-                /*for(int j=0;j<articles.get(i).getComments().size();j++){
-                    System.out.println(articles.get(i).getComments().get(j).toString());
-                }*/
-            }
-
-        }
-
-        return articles;
+        return ArticlesDBManager.searchSuggestedArticles(username);
 
     }
 
-    // tutti i commenti di un articolo
-    public List<CommentBean> neo4jListArticlesComment(String title, String author, int quanti) {
+    public List<CommentBean> listArticlesComments(String title, String author, int limit) {
 
-        List<CommentBean> infoComments;
-        infoComments = CommentsDBManager.searchListComments(title, author, quanti);
-
-        if(infoComments.isEmpty())
-        {
-            System.err.println("Niente!");
-        }
-        else {
-            for(int i = 0; i< infoComments.size(); i++){
-                System.out.println(infoComments.get(i).toString());
-
-            }
-
-        }
-        return infoComments;
+        return CommentsDBManager.searchListComments(title, author, limit);
 
     }
 
-    //Restituisce un articolo intero con testo da mongoDB
+    public int countLikes(String title, String author, String type) {
 
-    public ArticleBean mongoDBshowArticle(String title, String author) {
+        return LikesDBManager.countLikes(title, author, type);
+    }
 
-        ArticleBean article;
-        article = ArticleDBManager.readArticle(author, title);
+    public int countComments(String title, String author) {
 
-        //System.out.println(article.toString());
-
-        return article;
+        return CommentsDBManager.countComments(title, author);
 
     }
 
-    public int neo4jCountLikes(String title, String author, String type) {
+    //ONLY MONGODB
+    public ArticleBean showArticleDetails(String title, String author) {
 
-        int quantiLike = 0;
-        quantiLike = LikesDBManager.countLikes(title, author, type);
-
-        System.out.println(quantiLike);
-
-        return quantiLike;
+       return  ArticleDBManager.readArticle(author, title);
 
     }
 
-    public int neo4jCountComments(String title, String author) {
 
-        int quantiComments = 0;
-        quantiComments = CommentsDBManager.countComments(title, author);
-
-        System.out.println(quantiComments);
-
-        return quantiComments;
-
-    }
 
     public List<ArticleBean> filterByInfluencer(String influencer){
-        List<ArticleBean> list = ArticleDBManager.filterByInfluencer(influencer);
-        return list;
+        return ArticleDBManager.filterByInfluencer(influencer);
+
     }
 
     public List<ArticleBean> filterByGame(String game){
-        List<ArticleBean> list = ArticleDBManager.filterByGame(game);
-        return list;
+        return ArticleDBManager.filterByGame(game);
+
     }
 
     public List<ArticleBean> filterByDate(String date){
@@ -109,35 +61,87 @@ public class ArticlesPageDBController {
     }
 
     public List<ArticleBean> orderByLikes (){
-        List<ArticleBean> list = ArticleDBManager.orderBy("like");
-        return list;
+        return ArticleDBManager.orderBy("like");
+
     }
 
     public List<ArticleBean> orderByDislikes (){
-        List<ArticleBean> list = ArticleDBManager.orderBy("dislike");
-        return list;
+        return ArticleDBManager.orderBy("dislike");
     }
 
     public List<ArticleBean> orderByComments (){
-        List<ArticleBean> list = ArticleDBManager.orderBy("comments");
-        return list;
+       return ArticleDBManager.orderBy("comments");
     }
 
-    public Boolean addArticle(ArticleBean a)
+
+    //MONGODB PRIMA, NEO4J DOPO
+    public boolean addArticle(ArticleBean a)
     {
-        //ADD MONGODB
-        Boolean ret = false;
-        ret = ArticlesDBManager.addArticle(a);
-        System.out.println(ret);
-        return  ret;
+        if(ArticleDBManager.addArticle(a))
+        {
+             return ArticlesDBManager.addArticle(a);
+        }
+        return  false;
+
     }
 
-    public Boolean deleteArticle(String author, String title)
+
+    public boolean deleteArticle(String author, String title)
     {
         //DELETE MONGODB
-        Boolean ret = false;
-        ret = ArticlesDBManager.deleteArticle(author, title);
-        System.out.println(ret);
-        return  ret;
+        if(true)
+        {
+            ArticlesDBManager.deleteArticle(author, title);
+        }
+
+        return  false;
+    }
+
+    //NEO4J PRIMA, MONGODB DOPO
+    public boolean addComment(CommentBean newComm) {
+
+        boolean ret = CommentsDBManager.addComment(newComm);
+        if (ret){
+            ArticleDBManager.updateNumComments(1, newComm.getAuthorArt(), newComm.getTitleArt());
+        }
+        return ret;
+
+    }
+
+    public int addLike(LikeBean like) {
+
+        int ret = LikesDBManager.addLike(like);
+        if(ret > -1){
+            if (ret == 0){
+                if(like.getType().equals("like")){
+                    ArticleDBManager.updateNumLike(-1, like.getAuthorArt(), like.getTitleArt());
+                }else {
+                    ArticleDBManager.updateNumDislike(-1, like.getAuthorArt(), like.getTitleArt());
+
+                }
+            }else {
+                if(like.getType().equals("like")){
+                    ArticleDBManager.updateNumLike(1, like.getAuthorArt(), like.getTitleArt());
+                }else {
+                    ArticleDBManager.updateNumDislike(1, like.getAuthorArt(), like.getTitleArt());
+
+                }
+            }
+
+        }
+
+        return ret;
+
+    }
+
+    public boolean deleteComment(CommentBean comm) {
+
+        boolean ret  = CommentsDBManager.deleteComment(comm);
+        if (ret){
+            ArticleDBManager.updateNumComments(-1, comm.getAuthorArt(), comm.getTitleArt());
+
+        }
+        return ret;
+
     }
 }

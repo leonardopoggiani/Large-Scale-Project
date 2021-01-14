@@ -16,11 +16,10 @@ public class Main {
             GamesPageDBController gr = new GamesPageDBController();
             ArticlesPageDBController artCon = new ArticlesPageDBController();
 
-            UpdateDatabaseDBController ud = new UpdateDatabaseDBController();
 
             GroupsPagesDBController grpos = new GroupsPagesDBController();
 
-            UsersDBController uDB = new UsersDBController();
+            UsersPageDBController uDB = new UsersPageDBController();
 
             AnalyticsDBController aDB = new AnalyticsDBController();
 
@@ -32,21 +31,21 @@ public class Main {
         String authorDel = "Clarissa1";
         String titleDel = "Nuovo articolo2";
         la.deleteArticle(authorDel, titleDel);*/
-            //List<ArticleBean> suggArticles = artCon.neo4jListSuggestedArticles("Gaia5");
-            //List<String> suggestions = uDB.neo4jListSuggestingFollowing("Gaia5","normalUser");
-            //List<String> listUsers = uDB.neo4jListUsers("Gaia5", "followersOnly");
+            //List<ArticleBean> suggArticles = artCon.listSuggestedArticles("Gaia5");
+            //List<String> suggestions = uDB.listSuggestingFollowing("Gaia5","normalUser");
+            //List<String> listUsers = uDB.listUsers("Gaia5", "followersOnly");
             //System.out.println(suggArticles);
             //System.out.println(suggestions);
             //System.out.println(listUsers);
 
-            //uDB.neo4jAddRemoveFollow("Gaia5", "Leonardo1", "remove");
+            //uDB.addRemoveFollow("Gaia5", "Leonardo1", "remove");
         /*DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = dateFormat.parse("23/09/2007");
         long time = date.getTime();
         String dateString = new Timestamp(time).toString();*/
             //List<VersatileUser> statVer = AnalyticsDBManager.versatileUsers("influencer");
             //System.out.println("Fatto");
-        /*List<ArticleBean> art = artCon.neo4jListSuggestedArticles("Gaia5");
+        /*List<ArticleBean> art = artCon.listSuggestedArticles("Gaia5");
         System.out.println(art);
 
         ArticleBean b = new ArticleBean("Ammazza che articolone","Leonardo1",new Timestamp(System.currentTimeMillis()),"Spirit Island");
@@ -59,7 +58,7 @@ public class Main {
         post.setAuthor("Gaia5");
         post.setTimestamp(new Timestamp(System.currentTimeMillis()));
         post.setText("Ci siete amici??");
-        ud.Neo4jAddDeletePost(post, "add");
+        grpos.addDeletePost(post, "add");
 
         PostBean post2 = new PostBean();
         post2.setGroup("Gruppo brutto");
@@ -69,17 +68,17 @@ public class Main {
         post2.setText("Ci siete amici miei??");
         //ud.Neo4jAddDeletePost(post, "add");
 
-        //grpos.neo4jShowGroupsPost("Gruppo brutto", "Gaia5");
+        //grpos.showGroupsPost("Gruppo brutto", "Gaia5");
 
-        /*ud.Neo4jAddDeleteGroupMember("Leonardo1", "Gruppo brutto", "Gaia5", "add");
-        grpos.neo4jShowGroupsMembers("Gruppo brutto", "Gaia5");
-        ud.Neo4jAddDeleteGroupMember("Leonardo1", "Gruppo brutto", "Gaia5", "delete");
-        grpos.neo4jShowGroupsMembers("Gruppo brutto", "Gaia5");*/
+        /*ud.addDeleteGroupMember("Leonardo1", "Gruppo brutto", "Gaia5", "add");
+        grpos.showGroupsMembers("Gruppo brutto", "Gaia5");
+        ud.addDeleteGroupMember("Leonardo1", "Gruppo brutto", "Gaia5", "delete");
+        grpos.showGroupsMembers("Gruppo brutto", "Gaia5");*/
 
-        ud.Neo4jAddDeletePost(post2, "add");
-        grpos.neo4jShowGroupsPost("Gruppo brutto", "Gaia5");
+        /*ud.Neo4jAddDeletePost(post2, "add");
+        grpos.showGroupsPost("Gruppo brutto", "Gaia5");
         ud.Neo4jAddDeletePost(post2, "delete");
-        grpos.neo4jShowGroupsPost("Gruppo brutto", "Gaia5");
+        grpos.showGroupsPost("Gruppo brutto", "Gaia5");*/
         Neo4jDBManager.close();
 
 

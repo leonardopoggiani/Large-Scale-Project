@@ -1,17 +1,18 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
+import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 import it.unipi.dii.LSMDB.project.group5.bean.GroupMemberBean;
-import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
+import it.unipi.dii.LSMDB.project.group5.controller.GroupsPagesDBController;
+import it.unipi.dii.LSMDB.project.group5.view.tablebean.TableGroupBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.GroupsPagesDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
-import it.unipi.dii.LSMDB.project.group5.view.tablebean.TableGroupBean;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -125,12 +126,12 @@ public class HomepageGroups {
         members.setCellValueFactory(new PropertyValueFactory<>("members"));
         nomeMembro.setCellValueFactory(new PropertyValueFactory<>("groupMemberName"));
 
-         List<GroupBean> gruppiDiCuiSonoAdmin = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"admin");
-         List<GroupBean> gruppiDiCuiSonoMembro = controller.neo4jShowUsersGroups(LoginPageView.getLoggedUser(),"member");
+         List<GroupBean> gruppiDiCuiSonoAdmin = controller.showUsersGroups(LoginPageView.getLoggedUser(),"admin");
+         List<GroupBean> gruppiDiCuiSonoMembro = controller.showUsersGroups(LoginPageView.getLoggedUser(),"member");
 
         for(int i = 0; i < gruppiDiCuiSonoAdmin.size(); i++){
             GroupBean g = gruppiDiCuiSonoAdmin.get(i);
-            TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
+            TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.countGroupMembers(g.getName(),g.getAdmin()));
             nomiDeiGruppi.add(g.getName());
 
             if(!giochiDeiGruppi.contains(g.getName())){
@@ -141,7 +142,7 @@ public class HomepageGroups {
 
         for(int i = 0; i < gruppiDiCuiSonoMembro.size(); i++){
             GroupBean g = gruppiDiCuiSonoMembro.get(i);
-            TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
+            TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.countGroupMembers(g.getName(),g.getAdmin()));
             nomiDeiGruppi.add(g.getName());
 
             if(!giochiDeiGruppi.contains(g.getName())){
@@ -163,7 +164,7 @@ public class HomepageGroups {
 
     @FXML
     void createGroup() throws IOException {
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+
         GroupsPagesDBController membersNumber = new GroupsPagesDBController();
 
         String name = groupname.getText();
@@ -189,11 +190,11 @@ public class HomepageGroups {
         description.setText("");
 
         GroupBean group = new GroupBean(name, new Timestamp(System.currentTimeMillis()), LoginPageView.getLoggedUser(), des, game);
-        boolean ret = controller.Neo4jAddGroup(group);
+        boolean ret = membersNumber.addGroup(group);
         System.out.println("Ritorno " + ret);
 
         if(ret) {
-            TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.neo4jCountGroupMembers(group.getName(),group.getAdmin()));
+            TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.countGroupMembers(group.getName(),group.getAdmin()));
             System.out.println(tableGroup);
             gruppiAdmin.add(tableGroup);
             admintable.setItems(gruppiAdmin);
@@ -235,17 +236,17 @@ public class HomepageGroups {
     }
 
     private void viewPosts(String gruppoSelezionato) throws IOException {
-        GroupsPostsDBController controller = new GroupsPostsDBController();
+        GroupsPagesDBController controller = new GroupsPagesDBController();
         currentGroup = gruppoSelezionato;
         adminGroup = retrieveAdmin(gruppoSelezionato);
         App.setRoot("PostViewPage");
     }
 
     private void deleteGroup(String gruppoSelezionato) {
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+         GroupsPagesDBController controller = new GroupsPagesDBController();
 
         currentGroup = gruppoSelezionato;
-        boolean ret = controller.Neo4jDeleteGroup(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
+        boolean ret = controller.deleteGroup(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
 
         for(int i = 0; i < gruppiAdmin.size(); i++) {
             if(gruppiAdmin.get(i).getGroupName().equals(gruppoSelezionato)){
@@ -272,7 +273,7 @@ public class HomepageGroups {
         GroupsPagesDBController controller = new GroupsPagesDBController();
         currentGroup = gruppoSelezionato;
 
-        List<String> listMembers = controller.neo4jShowGroupsMembers(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
+        List<String> listMembers = controller.showGroupsMembers(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
         ObservableList<GroupMemberBean> members = FXCollections.observableArrayList();
 
         for(int i = 0; i < listMembers.size(); i++){

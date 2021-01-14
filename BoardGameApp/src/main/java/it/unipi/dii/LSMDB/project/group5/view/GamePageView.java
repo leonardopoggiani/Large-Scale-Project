@@ -2,11 +2,10 @@ package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
-import it.unipi.dii.LSMDB.project.group5.bean.RateBean;
+import it.unipi.dii.LSMDB.project.group5.bean.RatingBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
 import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
 import it.unipi.dii.LSMDB.project.group5.controller.GamesPageDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -236,7 +235,7 @@ public class GamePageView {
     private void setReviews(String game) {
         GamesPageDBController controller = new GamesPageDBController();
 
-        List<ReviewBean> reviews = controller.neo4jListGamesReviews(game,3);
+        List<ReviewBean> reviews = controller.listGamesReviews(game,3);
         System.out.println("Numero di review: " + reviews.size());
 
         if(!reviews.isEmpty()) {
@@ -260,10 +259,10 @@ public class GamePageView {
 
     @FXML
     void postReview() {
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+        GamesPageDBController controller = new GamesPageDBController();
 
         ReviewBean toAdd = new ReviewBean(review.getText(), title.getText(), LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()));
-        controller.Neo4jAddReview(toAdd);
+        controller.addReview(toAdd);
 
         review.setText("");
         setReviews(game);
@@ -280,21 +279,21 @@ public class GamePageView {
 
         ReviewBean review = new ReviewBean(reviewDaCancellare.getText(), game, autore.getText(), Timestamp.valueOf(timestamp.getText()));
 
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
-        controller.Neo4jDeleteReview(review);
+        GamesPageDBController controller = new GamesPageDBController();
+        controller.deleteReview(review);
 
         setReviews(game);
     }
 
     @FXML
     void addVote() {
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
 
-        RateBean newRate = new RateBean(LoginPageView.getLoggedUser(), rate.getValue(), game, new Timestamp(System.currentTimeMillis()));
-        boolean ret = controller.Neo4jAddRating(newRate);
+        GamesPageDBController controller = new GamesPageDBController();
+        RatingBean newRate = new RatingBean(LoginPageView.getLoggedUser(), rate.getValue(), game, new Timestamp(System.currentTimeMillis()));
+        boolean ret = controller.addRating(newRate);
 
         if(ret) {
-            double votoMedio = controller.MongoDBgetAvgRating(newRate.getGame());
+            double votoMedio = controller.getAvgRating(newRate.getGame());
             votes1.setProgress(votoMedio / 10);
             votes.setText(String.valueOf(Math.round(votoMedio)));
             rate.setValue(0);

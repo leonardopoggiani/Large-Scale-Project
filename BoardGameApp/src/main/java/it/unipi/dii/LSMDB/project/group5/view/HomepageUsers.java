@@ -1,6 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
-import it.unipi.dii.LSMDB.project.group5.controller.UsersDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UsersPageDBController;
 import javafx.fxml.FXML;
 import it.unipi.dii.LSMDB.project.group5.App;
 import javafx.scene.control.Button;
@@ -206,9 +206,9 @@ public class HomepageUsers {
     @FXML
     void initialize() {
         username = LoginPageView.getLoggedUser();
-        UsersDBController controller = new UsersDBController();
+        UsersPageDBController controller = new UsersPageDBController();
 
-        List<String> user = controller.neo4jListUsers(username,"friends");
+        List<String> user = controller.listUsers(username,"friends");
         following.setText(String.valueOf(user.size()));
         logger.info("size " + user.size());
 
@@ -223,7 +223,7 @@ public class HomepageUsers {
         }
 
         user.clear();
-        user = controller.neo4jListSuggestingFollowing(username,"normalUser");
+        user = controller.listSuggestingFollowing(username,"normalUser");
         logger.info("size " + user.size());
 
         for(int i = 0; i < 6; i++) {
@@ -236,7 +236,7 @@ public class HomepageUsers {
         }
 
         user.clear();
-        user = controller.neo4jListSuggestingFollowing(username,"influencer");
+        user = controller.listSuggestingFollowing(username,"influencer");
         logger.info("size " + user.size());
 
         for(int i = 0; i < 6; i++) {
@@ -273,14 +273,14 @@ public class HomepageUsers {
     @FXML
     void follow(MouseEvent event) {
         logger.info("follow");
-        UsersDBController controller = new UsersDBController();
+        UsersPageDBController controller = new UsersPageDBController();
         Button target = (Button) event.getSource();
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
 
         Text user = chooseSuggestInfluencer(id - 1);
         logger.info("user " + user);
         if(!user.getText().equals("")){
-            boolean ret = controller.neo4jAddRemoveFollow(username,user.getText(),"add");
+            boolean ret = controller.addRemoveFollow(username,user.getText(),"add");
             logger.info("ret " + ret);
             if(ret) {
                 target.setStyle("-fx-background-color: green");
@@ -294,7 +294,7 @@ public class HomepageUsers {
     void unfollow(MouseEvent event) {
         logger.info("unfollow");
 
-        UsersDBController controller = new UsersDBController();
+        UsersPageDBController controller = new UsersPageDBController();
         Button target = (Button) event.getSource();
 
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
@@ -302,7 +302,7 @@ public class HomepageUsers {
         Text user = chooseSuggestInfluencer(id - 1);
 
         if(!user.getText().equals("")){
-            boolean ret = controller.neo4jAddRemoveFollow(username,user.getText(),"remove");
+            boolean ret = controller.addRemoveFollow(username,user.getText(),"remove");
 
             if(ret) {
                 target.setStyle("-fx-background-color: green");

@@ -40,7 +40,7 @@ public class ArticlesCache {
     }
 
     private ArticleBean cercaArticoli(String title) {
-        return controller.mongoDBshowArticle(title, author);
+        return controller.showArticleDetails(title, author);
     }
 
     public ArticleBean getDataIfPresent(String titolo) throws ExecutionException {

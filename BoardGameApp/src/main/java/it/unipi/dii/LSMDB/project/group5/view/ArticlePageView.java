@@ -6,7 +6,6 @@ import it.unipi.dii.LSMDB.project.group5.bean.CommentBean;
 import it.unipi.dii.LSMDB.project.group5.bean.LikeBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
 import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPageDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -126,7 +125,7 @@ public class ArticlePageView {
 
         if(a == null || a.getTitle() == null) {
            logger.log(Level.WARNING, "cache miss");
-           a = article.mongoDBshowArticle(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
+           a = article.showArticleDetails(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
         } else {
            logger.log(Level.WARNING, "cache hit");
         }
@@ -134,8 +133,8 @@ public class ArticlePageView {
         author.setText(HomepageArticles.getAuthor());
         titolo.setText(HomepageArticles.getTitolo());
         data.setText(HomepageArticles.getTimestamp());
-        numberlike.setText(String.valueOf(article.neo4jCountLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"like")));
-        numberunlike.setText(String.valueOf(article.neo4jCountLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"dislike")));
+        numberlike.setText(String.valueOf(article.countLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"like")));
+        numberunlike.setText(String.valueOf(article.countLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"dislike")));
         articlebody.setText(a.getText());
 
         setComments();
@@ -146,7 +145,7 @@ public class ArticlePageView {
         ArticlesPageDBController article = new ArticlesPageDBController();
 
         List<CommentBean> infoComments = null;
-        infoComments = article.neo4jListArticlesComment(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(), 3);
+        infoComments = article.listArticlesComments(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(), 3);
         System.out.println("Numero di commenti " + infoComments.size() + ", autore:" + HomepageArticles.getAuthor() + ", titolo: " + HomepageArticles.getTitolo());
 
         for(int i = 0; i < infoComments.size() && i < 3; i++){
@@ -217,6 +216,7 @@ public class ArticlePageView {
         Button dislikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Text like = (Text) App.getScene().lookup("#numberlike");
         int numberOfLike = Integer.parseInt(like.getText());
+        ArticlesPageDBController update = new ArticlesPageDBController();
 
         // like button disabled vuol dire che ho pigiato dislike
         if(!likebutton.isDisabled()) {
@@ -226,20 +226,16 @@ public class ArticlePageView {
                 likebutton.setStyle("-fx-background-color: red");
                 likebutton.setText("Remove like");
                 dislikebutton.setDisable(true);
-
-                UpdateDatabaseDBController update = new UpdateDatabaseDBController();
                 LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-                update.Neo4jAddLike(aLike);
+                update.addLike(aLike);
             } else {
                 like.setText(String.valueOf(numberOfLike - 1));
 
                 likebutton.setStyle("-fx-background-color: green");
                 likebutton.setText("Like");
                 dislikebutton.setDisable(false);
-
-                UpdateDatabaseDBController update = new UpdateDatabaseDBController();
                 LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-                update.Neo4jAddLike(aLike);
+                update.addLike(aLike);
             }
 
         }
@@ -251,6 +247,7 @@ public class ArticlePageView {
         Button unlikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Button likebutton = (Button) App.getScene().lookup("#likebutton");
         int numberOfUnlike = Integer.parseInt(like.getText());
+        ArticlesPageDBController update = new ArticlesPageDBController();
 
         // unlike button disabled vuol dire che ho pigiato like
         if(!unlikebutton.isDisabled()) {
@@ -259,28 +256,25 @@ public class ArticlePageView {
                 unlikebutton.setText("Remove dislike");
                 likebutton.setDisable(true);
                 like.setText(String.valueOf(numberOfUnlike + 1));
-
-                UpdateDatabaseDBController update = new UpdateDatabaseDBController();
                 LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-                update.Neo4jAddLike(anUnlike);
+                update.addLike(anUnlike);
             } else {
                 unlikebutton.setStyle("-fx-background-color: red");
                 unlikebutton.setText("Dislike");
                 likebutton.setDisable(false);
 
                 like.setText(String.valueOf(numberOfUnlike - 1));
-                UpdateDatabaseDBController update = new UpdateDatabaseDBController();
                 LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-                update.Neo4jAddLike(anUnlike);
+                update.addLike(anUnlike);
             }
         }
     }
 
     @FXML
     void postComment() throws IOException {
-        UpdateDatabaseDBController update = new UpdateDatabaseDBController();
+        ArticlesPageDBController update = new ArticlesPageDBController();
         CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-        update.Neo4jAddComment(comment);
+        update.addComment(comment);
         articlecomment.setText("");
         setComments();
     }
@@ -288,7 +282,7 @@ public class ArticlePageView {
     @FXML
     void setSuggestedArticlesBelow() throws IOException {
         ArticlesPageDBController home = new ArticlesPageDBController();
-        List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
+        List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser());
 
         if (list != null) {
             for (ArticleBean a : list) {
@@ -357,7 +351,7 @@ public class ArticlePageView {
 
     @FXML
     void deleteComment(MouseEvent event) throws IOException {
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+        ArticlesPageDBController controller = new ArticlesPageDBController();
 
         Button target = (Button) event.getSource();
         String id = target.getId();
@@ -369,7 +363,7 @@ public class ArticlePageView {
         TextField timestampField = chooseTimestamp(index);
 
         CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), author.getText(),titolo.getText());
-        boolean ret = controller.Neo4jDeleteComment(infocomment);
+        boolean ret = controller.deleteComment(infocomment);
 
         commentField.setText("");
         authorField.setText("");

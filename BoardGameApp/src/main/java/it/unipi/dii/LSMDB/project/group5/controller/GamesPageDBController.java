@@ -1,6 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.controller;
 
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
+import it.unipi.dii.LSMDB.project.group5.bean.RatingBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.GameDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.GamesDBManager;
@@ -10,135 +11,114 @@ import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.ReviewsDBMan
 import java.util.List;
 
 public class GamesPageDBController {
-    public GamesPageDBController() {
-        //LoginSignUpDBManager.InitializeDriver();
-        //MongoDBManager.createConnection();
+    public GamesPageDBController() {}
+
+    //ONLY NEO4J
+    public List<GameBean> listSuggestedGames(String username) {
+
+        return GamesDBManager.searchSuggestedGames(username);
     }
 
-    public List<GameBean> neo4jListSuggestedGames(String username) {
+    public List<ReviewBean> listGamesReviews(String name, int quante) {
 
-        List<GameBean> games ;
-        games = GamesDBManager.searchSuggestedGames(username);
+        return ReviewsDBManager.searchListReviews(name, quante);
+    }
 
-        if(games.isEmpty())
-        {
-            System.err.println("Niente!");
+
+
+
+
+    //PRIMA NEO4J, POI MONGODB
+    public boolean addReview(ReviewBean newRev) {
+
+        boolean ret = ReviewsDBManager.addReview(newRev);
+        if(ret){
+            GameDBManager.updateNumReviews(1, newRev.getGame());
         }
-        else {
-            for(int i=0;i<games.size();i++){
-                System.out.println(games.get(i).toString());
-                //InfoGame g = games.get(i);
 
-                /*for(int j=0;j<games.get(i).getGroups().size();j++){
-                    System.out.println(games.get(i).getGroups().get(j).toString());
-                }*/
-            }
+        return ret;
 
+    }
+
+
+    public boolean addRating(RatingBean newRating) {
+
+        boolean ret = RatingsDBManager.addRating(newRating);
+        if (ret){
+            GameDBManager.updateRating(newRating.getVote(), newRating.getGame());
         }
-        return games;
-
-    }
-
-    public int neo4jCountReviews(String name) {
-
-        int quanteReviews = 0;
-        quanteReviews = ReviewsDBManager.countReviews(name);
-
-
-        System.out.println(quanteReviews);
-
-        return quanteReviews;
-
-    }
-
-    public int neo4jCountRatings(String name) {
-
-        int quantiRates = 0;
-        quantiRates = RatingsDBManager.countRatings(name);
-
-        System.out.println(quantiRates);
-
-        return quantiRates;
-
-    }
-
-    public double neo4jAvgRatings(String name) {
-
-        double avgRates = 0;
-        avgRates = RatingsDBManager.avgRatings(name);
-
-        System.out.println(avgRates);
-
-        return avgRates;
-
+        return ret;
     }
 
 
+    public boolean deleteReview(ReviewBean rev) {
 
-
-    // tutte le reviews di un gioco
-
-    public List<ReviewBean> neo4jListGamesReviews(String name, int quante) {
-
-        List<ReviewBean> infoReviews;
-        infoReviews = ReviewsDBManager.searchListReviews(name, quante);
-
-        if(infoReviews.isEmpty())
-        {
-            System.err.println("Niente!");
+        boolean ret  = ReviewsDBManager.deleteReview(rev);
+        if(ret){
+            GameDBManager.updateNumReviews(-1, rev.getGame());
         }
-        else {
-            for(int i = 0; i< infoReviews.size(); i++){
-                System.out.println(infoReviews.get(i).toString());
-
-            }
-
-        }
-        return infoReviews;
-
+        return ret;
     }
 
 
+
+    //ONLY MONGODB
+    public double getAvgRating(String game){
+        return GameDBManager.getAvgRating(game);
+    }
 
     public GameBean showGame (String game){
-        GameBean g = GameDBManager.readGame(game);
-        return g;
+        return GameDBManager.readGame(game);
     }
 
     public List<GameBean> filterByName (String game){
-        List<GameBean> list = GameDBManager.filterByName(game);
-        return list;
+        return GameDBManager.filterByName(game);
     }
 
     public List<GameBean> filterByCategory(String category){
-        List<GameBean> list = GameDBManager.filterByCategory(category);
-        return list;
+        return GameDBManager.filterByCategory(category);
     }
 
     public List<GameBean> filterByPlayers(int players){
-        List<GameBean> list = GameDBManager.filterByPlayers(players);
-        return list;
+        return GameDBManager.filterByPlayers(players);
     }
 
     public List<GameBean> filterByYear(int year){
-        List<GameBean> list = GameDBManager.filterByYear(year);
-        return list;
+        return GameDBManager.filterByYear(year);
     }
 
     public List<GameBean> orderByAvgRating(){
-        List<GameBean> list = GameDBManager.orderBy("avgRating");
-        return list;
+        return GameDBManager.orderBy("avgRating");
     }
 
     public List<GameBean> orderByNumReviews(){
-        List<GameBean> list = GameDBManager.orderBy("reviews");
-        return list;
+        return GameDBManager.orderBy("reviews");
     }
 
     public List<GameBean> orderByNumVotes(){
-        List<GameBean> list = GameDBManager.orderBy("numVotes");
-        return list;
+        return GameDBManager.orderBy("numVotes");
     }
+
+
+
+    /*
+    public int countReviews(String name) {
+        return countReviews(name);
+    }
+
+
+    public int countRatings(String name) {
+
+        return RatingsDBManager.countRatings(name);
+    }
+
+
+    public double avgRatings(String name) {
+
+        return RatingsDBManager.avgRatings(name);
+
+
+    }*/
 
 
 }

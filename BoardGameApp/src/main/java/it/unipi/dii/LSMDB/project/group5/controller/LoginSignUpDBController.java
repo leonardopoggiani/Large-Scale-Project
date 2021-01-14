@@ -1,59 +1,43 @@
 package it.unipi.dii.LSMDB.project.group5.controller;
-import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.UserDBManager;
 import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.UserDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.LoginSignUpDBManager;
-
-import java.util.logging.Logger;
 
 public class LoginSignUpDBController {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
 
     public LoginSignUpDBController() {
-        //LoginSignUpDBManager.InitializeDriver();
-        //MongoDBManager.createConnection();
     }
 
-    public void neo4jRegisterUserController(UserBean user) {
+    //MONGODB PRIMA, NEO4J DOPO
 
-        // varie cose che aggiustano la roba
-        int registration;
-        String username = user.getUsername();
-        String password = user.getPassword();
-        String category1 = user.getCategory1();
-        String category2 = user.getCategory2();
-        int age = user.getAge();
-        String role = user.getRole();
-        registration = LoginSignUpDBManager.registerUser(username, password, category1, category2, age, role);
+    public boolean registerUser(UserBean user) {
 
-        if(registration == 1)
+
+        if(UserDBManager.signup(user))
         {
-            System.err.println("Esiste utente con lo stesso username!");
+            int registrationNeo4j = LoginSignUpDBManager.registerUser(user);
+            if(registrationNeo4j == 0)
+                return true;
         }
-        else {
-            System.out.println("Utente creato!");
-            UserDBManager.signup(user);
-        }
+        return false;
     }
 
-    public String neo4jLoginUserController(String username, String password) {
+    //NEO4J PRIMA, MONGODB DOPO
+    public String loginUser(String username, String password) {
 
-        // varie cose che aggiustano la roba
-        String roleLogin;
-        roleLogin = LoginSignUpDBManager.loginUser(username, password);
-        String logOk = "fallito";
+        String roleLogin = LoginSignUpDBManager.loginUser(username, password);
 
         if(roleLogin != "NA")
         {
             System.out.println("Login effettuato con successo! Role: " + roleLogin);
             UserDBManager.updateLogin(username);
-            logOk = roleLogin;
         }
         else {
             System.err.println("Pass o username non corretti! Role: " + roleLogin);
         }
 
-        return logOk;
+        return roleLogin;
     }
 
 }

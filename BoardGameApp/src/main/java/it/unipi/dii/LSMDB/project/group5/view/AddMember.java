@@ -1,8 +1,8 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UsersDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.GroupsPagesDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UsersPageDBController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 public class AddMember {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
-    UsersDBController controller = new UsersDBController();
-    UpdateDatabaseDBController controller2 = new UpdateDatabaseDBController();
+    UsersPageDBController controller = new UsersPageDBController();
+    GroupsPagesDBController controller2 = new GroupsPagesDBController();
 
     ObservableList<String> usersList = FXCollections.observableArrayList();
 
@@ -25,7 +25,7 @@ public class AddMember {
 
     @FXML
     void initialize() {
-        List<String> utenti = controller.neo4jListUsers(HomepageGroups.getGroup(),"all");
+        List<String> utenti = controller.listUsers(HomepageGroups.getGroup(),"all");
         logger.info("size " + utenti.size());
         usersList.addAll(utenti);
         users.setItems(usersList);
@@ -35,7 +35,7 @@ public class AddMember {
     public void addMember() {
         String toInsert = usersList.get(users.getSelectionModel().getSelectedIndex());
         logger.info("inserito " + toInsert);
-        controller2.Neo4jAddDeleteGroupMember(toInsert,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "add");
+        controller2.addDeleteGroupMember(toInsert,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "add");
     }
 
     @FXML

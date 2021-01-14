@@ -2,15 +2,15 @@ package it.unipi.dii.LSMDB.project.group5.bean;
 
 import java.sql.Timestamp;
 
-public class RateBean {
+public class RatingBean {
     private String author;
     private double vote;
     private String game;
     private Timestamp timestamp;
 
-    public RateBean(){};
+    public RatingBean(){};
 
-    public RateBean(String author, double vote, String game, Timestamp timestamp)
+    public RatingBean(String author, double vote, String game, Timestamp timestamp)
     {
         this.author = author;
         this.vote = vote;

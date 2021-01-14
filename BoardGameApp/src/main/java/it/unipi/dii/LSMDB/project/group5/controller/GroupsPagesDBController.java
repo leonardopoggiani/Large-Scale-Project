@@ -13,80 +13,55 @@ public class GroupsPagesDBController {
 
     public GroupsPagesDBController(){};
 
-    public List<GroupBean> neo4jShowUsersGroups(String username, String type) {
+    //ONLY NEO4J
 
-        List<GroupBean> groups ;
-        groups = GroupsPostsDBManager.showUsersGroups(username, type);
+    public List<GroupBean> showUsersGroups(String username, String type) {
 
-        if(groups.isEmpty())
-        {
-            System.err.println("Niente!");
-        }
-        else {
-            for(int i=0;i<groups.size();i++){
-                System.out.println(groups.get(i).toString());
-                //InfoGame g = games.get(i);
-
-                /*for(int j=0;j<games.get(i).getGroups().size();j++){
-                    System.out.println(games.get(i).getGroups().get(j).toString());
-                }*/
-            }
-
-        }
-        return groups;
+        return GroupsPostsDBManager.showUsersGroups(username, type);
 
     }
 
-    public List<String> neo4jShowGroupsMembers(String name, String admin) {
+    public List<String> showGroupsMembers(String name, String admin) {
 
-        List<String> members ;
-        members = GroupsPostsDBManager.showGroupsMembers(name, admin);
-
-        if(members.isEmpty())
-        {
-            System.err.println("Niente!");
-        }
-        else {
-            for(int i=0;i<members.size();i++){
-                System.out.println(members.get(i));
-
-            }
-
-        }
-        return members;
+        return GroupsPostsDBManager.showGroupsMembers(name, admin);
 
     }
 
-    public int neo4jCountGroupMembers(String name, String admin) {
+    public int countGroupMembers(String name, String admin) {
 
-        int numMembers = 0;
-        numMembers = GroupsPostsDBManager.countGroupsMembers(name, admin);
-
-        System.out.println(numMembers);
-
-        return numMembers;
+        return GroupsPostsDBManager.countGroupsMembers(name, admin);
 
     }
 
-    public List<PostBean> neo4jShowGroupsPost(String name, String admin) {
+    public List<PostBean> showGroupsPost(String name, String admin, int limit) {
 
-        List<PostBean> posts ;
-        posts = GroupsPostsDBManager.showGroupsPosts(name, admin, 3);
-
-            for(int i=0;i<posts.size();i++){
-                System.out.println(posts.get(i));
-
-            }
-
-        return posts;
+        return GroupsPostsDBManager.showGroupsPosts(name, admin, limit);
 
     }
 
 
+    public boolean addGroup(GroupBean newGroup) {
+        return GroupsPostsDBManager.addGroup(newGroup);
+    }
 
-    //Timestamp dell'ultimo post pubblicato su un gruppo
-    //Fare funzione a parte e chiamrla all'interno della di usersGroups in entrambi i casi
-    //Poi se se possono cancellare viene mostrato altrimenti no
+
+    public boolean deleteGroup(String delGroup, String delAdmin) {
+        return GroupsPostsDBManager.deleteGroup(delGroup, delAdmin);
+
+    }
+
+
+    public boolean addDeleteGroupMember(String username, String name, String admin, String type) {
+        return GroupsPostsDBManager.addDeleteGroupMember(username, name, admin, type);
+
+    }
+
+
+    public boolean addDeletePost(PostBean post, String type) {
+        return   GroupsPostsDBManager.addDeletePost(post, type);
+
+    }
+
 
 
 }

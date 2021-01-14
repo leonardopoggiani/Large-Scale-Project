@@ -29,7 +29,7 @@ public class LoginPageView {
         boolean ret = false;
 
         if(username != null && password != null ){
-            loggedRole = neo.neo4jLoginUserController(username,password);
+            loggedRole = neo.loginUser(username,password);
 
             if(!loggedRole.equals("fallito")){
                 logged = 1;

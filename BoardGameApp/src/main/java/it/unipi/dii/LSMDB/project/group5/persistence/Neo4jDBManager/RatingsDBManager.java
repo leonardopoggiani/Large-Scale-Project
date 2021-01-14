@@ -1,6 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.bean.RateBean;
+import it.unipi.dii.LSMDB.project.group5.bean.RatingBean;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 
@@ -107,7 +107,7 @@ public class RatingsDBManager extends Neo4jDBManager {
      * @return true se ha aggiunto correttamente il rating
      * @return false altrimenti
      */
-    public static boolean addRating(final RateBean newRate) {
+    public static boolean addRating(final RatingBean newRate) {
         try (Session session = driver.session()) {
             boolean res;
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -134,7 +134,7 @@ public class RatingsDBManager extends Neo4jDBManager {
      * @return false altrimenti
      */
 
-    private static boolean transactionAddRating(Transaction tx, RateBean newRate) {
+    private static boolean transactionAddRating(Transaction tx, RatingBean newRate) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", newRate.getAuthor());
         parameters.put("vote", newRate.getVote());

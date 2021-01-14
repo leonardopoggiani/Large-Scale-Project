@@ -209,7 +209,7 @@ public class HomepageGames {
         if (savedGames.isEmpty()) {
             // non ho giochi salvati in cache
             logger.info("cache vuota");
-            List<GameBean> list = controller.neo4jListSuggestedGames(LoginPageView.getLoggedUser());
+            List<GameBean> list = controller.listSuggestedGames(LoginPageView.getLoggedUser());
             showGames(list);
         } else {
             int i = 0;
