@@ -35,7 +35,7 @@ public class AddMember {
     public void addMember() {
         String toInsert = usersList.get(users.getSelectionModel().getSelectedIndex());
         logger.info("inserito " + toInsert);
-        controller2.Neo4jAddGroupMember(toInsert,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup());
+        controller2.Neo4jAddDeleteGroupMember(toInsert,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "add");
     }
 
     @FXML
