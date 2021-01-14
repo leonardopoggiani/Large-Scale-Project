@@ -43,26 +43,27 @@ public class UsersDBManager extends Neo4jDBManager{
         HashMap<String,Object> parameters = new HashMap<>();
 
         parameters.put("username", username);
+
         //Tutti quelli che un utente segue
-        String searchFollowingOnly ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
-                                     "WHERE NOT (u2)-[:FOLLOW]->(u)" +
-                                     "RETURN u2.username as followingOnly";
+        String searchFollowingOnly ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User) " +
+                                     " WHERE NOT (u2)-[:FOLLOW]->(u) " +
+                                     " RETURN u2.username as followingOnly ";
 
-        String searchFollowingAll ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
-                "RETURN u2.username as followingAll";
+        String searchFollowingAll ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User) " +
+                " RETURN u2.username as followingAll";
 
-        String searchFollowersOnly ="MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User)" +
-                                     "WHERE NOT (u2)<-[:FOLLOW]-(u)" +
-                                     "RETURN u2.username as followersOnly";
+        String searchFollowersOnly ="MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User) " +
+                                     " WHERE NOT (u2)<-[:FOLLOW]-(u) " +
+                                     " RETURN u2.username as followersOnly ";
 
-        String searchFollowersAll ="MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User)" +
-                "RETURN u2.username as followersAll";
+        String searchFollowersAll ="MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User) " +
+                " RETURN u2.username as followersAll";
         //Doppio follow
-        String searchFriends =  "MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User)" +
-                                "WHERE (u2)<-[:FOLLOW]-(u)" +
-                                "RETURN u2.username as friends";
+        String searchFriends =  "MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User) " +
+                                " WHERE (u2)<-[:FOLLOW]-(u) " +
+                                " RETURN u2.username as friends ";
 
-        String searchAllDebug =  "MATCH (u:User) " + "RETURN u.username as users LIMIT 10";
+        String searchAllDebug =  "MATCH (u:User) " + " RETURN u.username as users LIMIT 10";
 
         if(type.equals("friends"))
         {
@@ -161,27 +162,26 @@ public class UsersDBManager extends Neo4jDBManager{
         HashMap<String,Object> parameters = new HashMap<>();
         Result result;
         parameters.put("username", username);
-        parameters.put("role", role);
-
+        parameters.put("role", "normalUser");
 
         /*String searchFriends = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
                 "WHERE (u2)-[:FOLLOW]->(u)" +
                 "RETURN count(u2) AS quantiAmici";*/
 
         String searchForFriendsInflu = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
-                "WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
+                " WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
 
         String searchForArticlesFollowersInflu = "MATCH (u:User)-[f:FOLLOW]->(u2:User{role:$role})-[p:PUBLISHED]->(a:Article)" +
-                "RETURN u2.username AS suggestion ,COUNT(f) AS quantiFollowers, COUNT(p) AS quantiArticoli ORDER BY quantiFollowers DESC, quantiArticoli DESC LIMIT 4";
+                " RETURN u2.username AS suggestion ,COUNT(f) AS quantiFollowers, COUNT(p) AS quantiArticoli ORDER BY quantiFollowers DESC, quantiArticoli DESC LIMIT 4";
 
         String searchForFriendsNormal = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
-                "WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (tizio)-[:FOLLOW]->(friend) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
+                " WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (tizio)-[:FOLLOW]->(friend) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
 
         String searchForCategoryNormal = "MATCH (ub:User{username:$username}),(ua:User{role:$role})" +
-                "WHERE (ub.category1=ua.category1 or ub.category1=ua.category2)" +
-                "or (ub.category2=ua.category1 or ub.category2=ua.category2)" +
-                "AND NOT(ua.username=$username)" +
-                "RETURN ua.username AS suggestion";
+                " WHERE (ub.category1=ua.category1 or ub.category1=ua.category2)" +
+                " or (ub.category2=ua.category1 or ub.category2=ua.category2)" +
+                " AND NOT(ua.username=$username)" +
+                " RETURN ua.username AS suggestion";
 
         int quantiAmici = transactionCountUsers(tx,username, "normalUser");
         System.out.println(quantiAmici);
