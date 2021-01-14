@@ -1,9 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
-import it.unipi.dii.LSMDB.project.group5.bean.GroupMember;
-import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
-import javafx.beans.property.SimpleStringProperty;
+import it.unipi.dii.LSMDB.project.group5.bean.GroupMemberBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,10 +22,11 @@ public class HomepageGroups {
     private static String adminGroup;
 
     ObservableList<TableGroupBean> filtering = FXCollections.observableArrayList();
+    ObservableList<String> giochiDeiGruppi = FXCollections.observableArrayList();
     ObservableList<String> nomiDeiGruppi = FXCollections.observableArrayList();
     ObservableList<String> userActions = FXCollections.observableArrayList("Add post", "Leave group", "View posts", "View members");
     ObservableList<String> adminActions = FXCollections.observableArrayList("Add post", "Delete group", "View posts", "Add member", "View members");
-    ObservableList<GroupMember> membriGruppo = FXCollections.observableArrayList();
+    ObservableList<GroupMemberBean> membriGruppo = FXCollections.observableArrayList();
 
     private ObservableList<TableGroupBean> gruppiAdmin = FXCollections.observableArrayList();
     private ObservableList<TableGroupBean> gruppiMembro = FXCollections.observableArrayList();
@@ -48,7 +47,7 @@ public class HomepageGroups {
     public TableColumn<TableGroupBean, Integer> members;
 
     @FXML
-    public TableColumn<GroupMember, String> nomeMembro;
+    public TableColumn<GroupMemberBean, String> nomeMembro;
 
     @FXML
     TableView admintable;
@@ -129,6 +128,10 @@ public class HomepageGroups {
             GroupBean g = gruppiDiCuiSonoAdmin.get(i);
             TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
             nomiDeiGruppi.add(g.getName());
+
+            if(!giochiDeiGruppi.contains(g.getName())){
+                giochiDeiGruppi.add(g.getName());
+            }
             gruppiAdmin.add(tableGroup);
         }
 
@@ -136,6 +139,11 @@ public class HomepageGroups {
             GroupBean g = gruppiDiCuiSonoMembro.get(i);
             TableGroupBean tableGroup = new TableGroupBean(g.getName(),g.getTimestamp(),g.getAdmin(),g.getGame(),controller.neo4jCountGroupMembers(g.getName(),g.getAdmin()));
             nomiDeiGruppi.add(g.getName());
+
+            if(!giochiDeiGruppi.contains(g.getName())){
+                giochiDeiGruppi.add(g.getName());
+            }
+
             gruppiMembro.add(tableGroup);
         }
 
@@ -144,7 +152,7 @@ public class HomepageGroups {
 
         nomigruppi.setItems(nomiDeiGruppi);
         action.setItems(adminActions);
-        filter.setItems(nomiDeiGruppi);
+        filter.setItems(giochiDeiGruppi);
         utils.setItems(membriGruppo);
 
     }
@@ -179,6 +187,7 @@ public class HomepageGroups {
         GroupBean group = new GroupBean(name, new Timestamp(System.currentTimeMillis()), LoginPageView.getLoggedUser(), des, game);
         boolean ret = controller.Neo4jAddGroup(group);
         System.out.println("Ritorno " + ret);
+
         //if(ret) {
         TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.neo4jCountGroupMembers(group.getName(),group.getAdmin()));
         System.out.println(tableGroup);
@@ -187,7 +196,11 @@ public class HomepageGroups {
         nomiDeiGruppi.add(group.getName());
         action.setItems(adminActions);
         nomigruppi.setItems(nomiDeiGruppi);
-        filter.setItems(nomiDeiGruppi);
+
+        if(!giochiDeiGruppi.contains(group.getGame())){
+            giochiDeiGruppi.add(group.getGame());
+        }
+        filter.setItems(giochiDeiGruppi);
 
         //}
     }
@@ -217,6 +230,8 @@ public class HomepageGroups {
     }
 
     private void viewPosts(String gruppoSelezionato) {
+        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+        GroupsPostsDBController membersNumber = new GroupsPostsDBController();
         currentGroup = gruppoSelezionato;
     }
 
@@ -250,10 +265,10 @@ public class HomepageGroups {
         currentGroup = gruppoSelezionato;
 
         List<String> listMembers = controller.neo4jShowGroupsMembers(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
-        ObservableList<GroupMember> members = FXCollections.observableArrayList();
+        ObservableList<GroupMemberBean> members = FXCollections.observableArrayList();
 
         for(int i = 0; i < listMembers.size(); i++){
-            members.add(new GroupMember(listMembers.get(i)));
+            members.add(new GroupMemberBean(listMembers.get(i)));
         }
 
         utils.setItems(members);
