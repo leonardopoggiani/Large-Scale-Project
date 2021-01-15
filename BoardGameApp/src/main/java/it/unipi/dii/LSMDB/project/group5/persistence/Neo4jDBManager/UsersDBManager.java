@@ -162,7 +162,7 @@ public class UsersDBManager extends Neo4jDBManager{
         HashMap<String,Object> parameters = new HashMap<>();
         Result result;
         parameters.put("username", username);
-        parameters.put("role", "normalUser");
+        parameters.put("role", role);
 
         /*String searchFriends = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
                 "WHERE (u2)-[:FOLLOW]->(u)" +

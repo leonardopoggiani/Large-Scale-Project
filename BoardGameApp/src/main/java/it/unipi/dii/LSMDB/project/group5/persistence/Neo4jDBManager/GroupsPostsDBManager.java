@@ -97,10 +97,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     group.setTimestamp(Timestamp.valueOf(timestamp));
 
                 }
-
-
-
-
             }
             //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
 
@@ -306,8 +302,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     return transactionAddGroup(tx, newGroup);
                 }
             });
-
-
         }
         catch(Exception ex)
         {
@@ -341,9 +335,9 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             return false;
         } else {
 
-            Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game})\n" +
-                            " CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)\n" +
-                            "RETURN gr"
+            Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game})" +
+                            " CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)" +
+                            " RETURN gr"
                     , parameters);
 
             if (result.hasNext()) {
@@ -352,8 +346,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             }
             return false;
         }
-
-
     }
 
     /**

@@ -1,6 +1,10 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
+import it.unipi.dii.LSMDB.project.group5.controller.GroupsPagesDBController;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -37,6 +41,11 @@ public class PostPane extends Pane {
         Button delete = new Button();
         delete.setText("Delete");
         delete.setId(post.getAuthor() + post.getAuthor() + post.getTimestamp().toString());
+        delete.setOnAction(λ -> {
+            vbox.getChildren().removeAll(body,author,timestamp,delete);
+            GroupsPagesDBController controller = new GroupsPagesDBController();
+            controller.addDeletePost(post,"remove");
+        });
 
         vbox.getChildren().addAll(body,author,timestamp,delete);
         vbox.setSpacing(2);

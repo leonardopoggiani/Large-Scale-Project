@@ -16,6 +16,11 @@ import java.util.logging.Logger;
 public class HomepageUsers {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
+    private static String filter = "";
+
+    public static String getFilter() {
+        return filter;
+    }
 
     @FXML
     Text following;
@@ -208,10 +213,11 @@ public class HomepageUsers {
         username = LoginPageView.getLoggedUser();
         UsersPageDBController controller = new UsersPageDBController();
 
-        List<String> user = controller.listUsers(username,"friends");
+        List<String> user = controller.listUsers(username,"followingAll");
         following.setText(String.valueOf(user.size()));
         logger.info("size " + user.size());
 
+        System.out.println(user.toString());
         Text nomeuser;
         for(int i = 0; i < 6; i++) {
             nomeuser = chooseUser(i);
@@ -256,17 +262,28 @@ public class HomepageUsers {
     }
 
     @FXML
-    void showFollowedUsers() {
+    void showFollowedUsers() throws IOException {
+        showusers.setSelected(false);
+        showinfluencer.setSelected(false);
+        filter = "followed";
+        App.setRoot("UsersFilterPageView");
+    }
+
+    @FXML
+    void showSuggestedUsers() throws IOException {
+        showfollowed.setSelected(false);
+        showinfluencer.setSelected(false);
+        filter = "suggested";
+        App.setRoot("UsersFilterPageView");
 
     }
 
     @FXML
-    void showSuggestedUsers() {
-
-    }
-
-    @FXML
-    void showSuggestedInfluencers() {
+    void showSuggestedInfluencers() throws IOException {
+        showusers.setSelected(false);
+        showfollowed.setSelected(false);
+        filter = "influencer";
+        App.setRoot("UsersFilterPageView");
 
     }
 
