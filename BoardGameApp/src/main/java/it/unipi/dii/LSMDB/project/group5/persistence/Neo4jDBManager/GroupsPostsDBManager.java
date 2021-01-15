@@ -341,8 +341,9 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             return false;
         } else {
 
-            Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game}) " +
-                            " CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)"
+            Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game})\n" +
+                            " CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)\n" +
+                            "RETURN gr"
                     , parameters);
 
             if (result.hasNext()) {
@@ -358,11 +359,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
     /**
      * La funzione elimina un gruppo
      * @param delGroup
-     * @return true se ha eliminato correttamente il gruppo
-     * @return false altrimenti
+     * @param delAdmin
+     * @return true se ha eliminato correttamente il gruppo, false altrimenti
      */
 
-    public static Boolean deleteGroup(final String delGroup, final String delAdmin) {
+    public static boolean deleteGroup(final String delGroup, final String delAdmin) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
