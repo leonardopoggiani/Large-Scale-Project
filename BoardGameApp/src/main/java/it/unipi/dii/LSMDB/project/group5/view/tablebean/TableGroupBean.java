@@ -11,13 +11,15 @@ public class TableGroupBean {
     SimpleStringProperty admin;
     SimpleStringProperty game;
     SimpleIntegerProperty members;
+    SimpleIntegerProperty numberposts;
 
-    public TableGroupBean(String name, Timestamp time, String admin, String game, int members){
+    public TableGroupBean(String name, Timestamp time, String admin, String game, int members, int posts){
         this.groupName = new SimpleStringProperty(name);
         this.timestamp = new SimpleStringProperty(String.valueOf(time));
         this.admin = new SimpleStringProperty(admin);
         this.game = new SimpleStringProperty(game);
         this.members = new SimpleIntegerProperty(members);
+        this.numberposts = new SimpleIntegerProperty(posts);
     }
 
     public String getGroupName() {
@@ -35,6 +37,12 @@ public class TableGroupBean {
     public String getTimestamp() {
         return timestamp.get();
     }
+
+    public int getNumberPosts() { return numberposts.get(); }
+
+    public void updateNumberPost() { numberposts = new SimpleIntegerProperty(numberposts.get() + 1); }
+
+    public void updateTimestamp() {timestamp = new SimpleStringProperty(String.valueOf(new Timestamp(System.currentTimeMillis())));}
 
     public int getMembers() { return members.get(); }
 

@@ -53,15 +53,11 @@ public class GroupsPagesDBController {
 
     public boolean addDeleteGroupMember(String username, String name, String admin, String type) {
         return GroupsPostsDBManager.addDeleteGroupMember(username, name, admin, type);
-
     }
 
 
     public boolean addDeletePost(PostBean post, String type) {
         return   GroupsPostsDBManager.addDeletePost(post, type);
-
     }
-
-
 
 }

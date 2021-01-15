@@ -397,14 +397,14 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", delAdmin);
         parameters.put("name", delGroup);
         String eliminaPosts = "MATCH (u:User)-[p:POST]->(gr:Group)" +
-                "WHERE gr.name=$name" +
-                "DELETE p";
+                " WHERE gr.name=$name" +
+                " DELETE p";
         tx.run(eliminaPosts, parameters);
 
         //Esiste sempre almeno un be_part quello dell'admin
         tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
-                        "WHERE gr.name=$name and  gr.admin=$admin" +
-                        "DELETE b,gr,r"
+                        " WHERE gr.name=$name and  gr.admin=$admin" +
+                        " DELETE b,gr,r"
                 , parameters);
 
         return true;
@@ -462,15 +462,15 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("timestamp", ts.toString());
 
         Result result = tx.run("MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{name:$name, admin:$admin})" +
-                        "RETURN b"
+                        " RETURN b"
                 , parameters);
         if (result.hasNext()) {
             //System.out.println("Utente già membro del gruppo!");
             return false;
         } else {
             result = tx.run("MATCH (u:User{username:$username}),(gr:Group{name:$name, admin:$admin})" +
-                            "CREATE (u)-[b:BE_PART {timestamp:$timestamp}]->(gr)" +
-                            "RETURN b"
+                            " CREATE (u)-[b:BE_PART {timestamp:$timestamp}]->(gr)" +
+                            " RETURN b"
                     , parameters);
             if (result.hasNext()) {
                 System.out.println("Ho aggiunto il nuovo gruppo");
@@ -497,7 +497,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", admin);
         parameters.put("group", group);
         String eliminaMembro = "MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{name:$group, admin:$admin})\n" +
-                "DELETE b";
+                " DELETE b";
         tx.run(eliminaMembro, parameters);
 
         return true;
@@ -555,8 +555,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         //Anche senza va bene lo stesso
         if (result.hasNext()) {
             result = tx.run("MATCH (u:User{username:$author}),(gr:Group{name:$group, admin:$admin})" +
-                            "CREATE (u)-[p:POST{timestamp:$timestamp, text:$text}]->(gr)" +
-                            "RETURN p"
+                            " CREATE (u)-[p:POST{timestamp:$timestamp, text:$text}]->(gr)" +
+                            " RETURN p"
                     , parameters);
 
             if (result.hasNext()) {
@@ -587,7 +587,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("timestamp", delPost.getTimestamp());
         String eliminaPost = "MATCH (u:User{username:$author})-[p:POST{timestamp:$timestamp}]\n" +
                 "->(gr:Group{name:$group, admin:$admin})\n" +
-                "DELETE p";
+                " DELETE p";
         tx.run(eliminaPost, parameters);
 
         return true;
@@ -637,8 +637,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("group", group);
         parameters.put("admin", admin);
         parameters.put("limit", limit);
-        Result result = tx.run("MATCH (u:User)-[p:POST]->(gr:Group{name:$group, admin:$admin})" +
-                "RETURN u,p,gr ORDER BY p.timestamp DESC", parameters);
+        Result result = tx.run("MATCH (u:User)-[p:POST]->(gr:Group{name:$group, admin:$admin}) " +
+                " RETURN u,p,gr ORDER BY p.timestamp DESC", parameters);
 
         while (result.hasNext()) {
             Record record = result.next();
@@ -668,11 +668,9 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             post.setAdmin(admin);
             posts.add(post);
         }
+
         return posts;
 
     }
-
-
-
 
 }

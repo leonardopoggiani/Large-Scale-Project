@@ -85,6 +85,7 @@
                   <TableColumn fx:id="timestamp" prefWidth="75.0" text="Last message" />
                   <TableColumn fx:id="game" prefWidth="75.0" text="Game" />
                   <TableColumn fx:id="members" prefWidth="75.0" text="Members" />
+                  <TableColumn fx:id="numberposts" prefWidth="75.0" text="Posts" />
               </columns>
             </TableView>
             <ImageView fitHeight="50.0" fitWidth="101.0" layoutX="61.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
