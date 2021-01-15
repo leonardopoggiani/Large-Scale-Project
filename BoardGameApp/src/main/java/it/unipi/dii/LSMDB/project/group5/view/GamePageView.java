@@ -5,7 +5,7 @@ import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.bean.RatingBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
 import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
-import it.unipi.dii.LSMDB.project.group5.controller.GamesPageDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.GamesPagesDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -129,7 +129,7 @@ public class GamePageView {
     void setGameFields() throws ExecutionException {
         // setto i campi del gioco
 
-        GamesPageDBController controller = new GamesPageDBController();
+        GamesPagesDBController controller = new GamesPagesDBController();
         GameBean currentGame = cache.getDataIfPresent(game);
         logger.info("show " + currentGame);
         if(currentGame == null || currentGame.getName() == null) {
@@ -233,7 +233,7 @@ public class GamePageView {
     }
 
     private void setReviews(String game) {
-        GamesPageDBController controller = new GamesPageDBController();
+        GamesPagesDBController controller = new GamesPagesDBController();
 
         List<ReviewBean> reviews = controller.listGamesReviews(game,3);
         System.out.println("Numero di review: " + reviews.size());
@@ -259,7 +259,7 @@ public class GamePageView {
 
     @FXML
     void postReview() {
-        GamesPageDBController controller = new GamesPageDBController();
+        GamesPagesDBController controller = new GamesPagesDBController();
 
         ReviewBean toAdd = new ReviewBean(review.getText(), title.getText(), LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()));
         controller.addReview(toAdd);
@@ -279,7 +279,7 @@ public class GamePageView {
 
         ReviewBean review = new ReviewBean(reviewDaCancellare.getText(), game, autore.getText(), Timestamp.valueOf(timestamp.getText()));
 
-        GamesPageDBController controller = new GamesPageDBController();
+        GamesPagesDBController controller = new GamesPagesDBController();
         controller.deleteReview(review);
 
         setReviews(game);
@@ -288,7 +288,7 @@ public class GamePageView {
     @FXML
     void addVote() {
 
-        GamesPageDBController controller = new GamesPageDBController();
+        GamesPagesDBController controller = new GamesPagesDBController();
         RatingBean newRate = new RatingBean(LoginPageView.getLoggedUser(), rate.getValue(), game, new Timestamp(System.currentTimeMillis()));
         boolean ret = controller.addRating(newRate);
 

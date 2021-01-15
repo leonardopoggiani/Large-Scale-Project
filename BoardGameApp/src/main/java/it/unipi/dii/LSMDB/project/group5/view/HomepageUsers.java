@@ -1,6 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
-import it.unipi.dii.LSMDB.project.group5.controller.UsersPageDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UsersPagesDBController;
 import javafx.fxml.FXML;
 import it.unipi.dii.LSMDB.project.group5.App;
 import javafx.scene.control.Button;
@@ -214,7 +214,7 @@ public class HomepageUsers {
     @FXML
     void initialize() {
         username = LoginPageView.getLoggedUser();
-        UsersPageDBController controller = new UsersPageDBController();
+        UsersPagesDBController controller = new UsersPagesDBController();
 
         List<String> user = controller.listUsers(username,"followingAll");
         logger.info("size " + user.size());
@@ -297,7 +297,7 @@ public class HomepageUsers {
     @FXML
     void follow(MouseEvent event) {
         logger.info("follow");
-        UsersPageDBController controller = new UsersPageDBController();
+        UsersPagesDBController controller = new UsersPagesDBController();
         Button target = (Button) event.getSource();
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
 
@@ -318,7 +318,7 @@ public class HomepageUsers {
     void unfollow(MouseEvent event) {
         logger.info("unfollow");
 
-        UsersPageDBController controller = new UsersPageDBController();
+        UsersPagesDBController controller = new UsersPagesDBController();
         Button target = (Button) event.getSource();
 
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));

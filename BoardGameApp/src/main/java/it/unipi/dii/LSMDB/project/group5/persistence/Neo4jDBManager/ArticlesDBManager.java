@@ -218,8 +218,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("author", author);
         parameters.put("title", title);
 
-        tx.run("MATCH (ua:User {username:$author})-[p:PUBLISHED]->(a:Article{name:$title})-[r:REFERRED]-(g:Game) " +
-                        "DELETE p,a,r "
+        tx.run("MATCH (a:Article{name:$title})<-[:PUBLISHED]-(u:User{username:$author})" +
+                        " DETACH DELETE a "
                 , parameters);
 
         return true;

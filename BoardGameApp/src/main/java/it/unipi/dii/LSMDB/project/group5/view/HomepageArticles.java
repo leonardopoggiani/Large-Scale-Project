@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPageDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPagesDBController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -234,7 +234,7 @@ public class HomepageArticles {
 
     @FXML
     void setSuggestedArticles() throws IOException, ExecutionException {
-        ArticlesPageDBController home = new ArticlesPageDBController();
+        ArticlesPagesDBController home = new ArticlesPagesDBController();
 
         if (savedTitles.isEmpty()) {
             // non ho salvato i titoli degli articoli da mostrare
@@ -269,7 +269,7 @@ public class HomepageArticles {
     }
 
     private void showArticles(List<ArticleBean> list) {
-        ArticlesPageDBController home = new ArticlesPageDBController();
+        ArticlesPagesDBController home = new ArticlesPagesDBController();
 
         int numComments = 0;
         int numLikes = 0;
@@ -383,7 +383,7 @@ public class HomepageArticles {
 
     @FXML
     void filterResearch () throws IOException {
-        ArticlesPageDBController controller = new ArticlesPageDBController();
+        ArticlesPagesDBController controller = new ArticlesPagesDBController();
 
         List<ArticleBean> filteredArticles = Lists.newArrayList();
         List<ArticleBean> sortedList = Lists.newArrayList();
