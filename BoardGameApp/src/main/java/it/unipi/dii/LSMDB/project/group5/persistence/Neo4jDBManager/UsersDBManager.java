@@ -241,11 +241,11 @@ public class UsersDBManager extends Neo4jDBManager{
         int quanti = 0;
         parameters.put("username", username);
         String countFriends ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
-                            "WHERE (u2)-[:FOLLOW]->(u)" +
-                            "RETURN count(u2) AS quanti";
+                            " WHERE (u2)-[:FOLLOW]->(u)" +
+                            " RETURN count(u2) AS quanti";
 
         String countInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:\"influencer\"})" +
-                "RETURN count(u2) AS quanti";
+                                " RETURN count(u2) AS quanti";
 
         if(type.equals("influencer"))
         {
@@ -285,6 +285,12 @@ public class UsersDBManager extends Neo4jDBManager{
 
 
         }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return false;
+        }
+
     }
 
 
@@ -307,8 +313,8 @@ public class UsersDBManager extends Neo4jDBManager{
         {
             System.out.println("Non esiste aggiungo!");
             tx.run("MATCH(u1:User {username:$username1}),(u2:User {username:$username2})" +
-                            "CREATE (u1)-[f:FOLLOW{timestamp:$timestamp}]->(u2) " +
-                            "return f"
+                            " CREATE (u1)-[f:FOLLOW{timestamp:$timestamp}]->(u2) " +
+                            " return f"
                     , parameters);
 
         }
@@ -336,7 +342,7 @@ public class UsersDBManager extends Neo4jDBManager{
         {
             System.out.println("Esiste elimino!");
             tx.run("MATCH(u1:User {username:$username1})-[f:FOLLOW]->(u2:User {username:$username2})" +
-                            "DELETE f RETURN f"
+                            " DELETE f RETURN f"
                     , parameters);
             //System.out.println("Ho eliminato!");
             return true;
@@ -359,11 +365,129 @@ public class UsersDBManager extends Neo4jDBManager{
         parameters.put("username2", username2);
 
         Result result = tx.run("MATCH (u:User{username:$username1})-[f:FOLLOW]->(u2:User{username:$username2})" +
-                "RETURN f",parameters);
+                " RETURN f",parameters);
 
         if (result.hasNext()) {
             return true;
         }
+        return false;
+    }
+
+    //TODO
+    //Credo sia sbagliata ci devo guardare meglio
+    /**
+     * La funzione elimina uno user
+     * @param username dell'utente
+     * @return true se ha eliminato con successo, false altrimenti
+     */
+
+    public static boolean deleteUser(final String username) {
+        try(Session session = driver.session())
+        {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    return transactionDeleteUser(tx, username);
+                }
+            });
+
+
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
+
+
+    /**
+     * La funzione elimina uno user
+     * @param tx transaction
+     * @param username del gioco
+     * @return true se ha eliminato correttamente il gioco
+     * @return false altrimenti
+     */
+
+    private static boolean transactionDeleteUser(Transaction tx, String username) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("username", username);
+
+        String eliminaReviews = "MATCH (u:User{username:$username})-[r:REVIEWED]->(g) " +
+                " DELETE r";
+        String eliminaRatings = "MATCH (u:User{username:$username})-[r:RATED]->(g)" +
+                " DELETE r";
+        String eliminaPosts = "(u:User{username:$username})-[p:POST]->(gr:Group)" +
+                " DELETE p";
+        String eliminaBepartGroup = "MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{admin:$username})" +
+                " DELETE b,gr";
+        String eliminaPublished = "MATCH (u:User{username:$username})-[p:PUBLISHED]->(a)" +
+                " DELETE p";
+
+        String eliminaGame = "(u:User{username:$username}) " +
+                " DELETE u";
+        Result result = tx.run(eliminaReviews, parameters);
+        result = tx.run(eliminaRatings, parameters);
+        result = tx.run(eliminaPosts, parameters);
+        result = tx.run(eliminaBepartGroup, parameters);
+        result = tx.run(eliminaPublished, parameters);
+
+
+        return true;
+    }
+
+    /**
+     * La funzione aggiunge promuove o declassa un utente
+     * @param username1
+     * @param username2
+     * @return true se ha modificato con successo, false altrimenti
+     */
+
+    public static boolean promoteDemoteUser(final String username1, final String username2, final String role) {
+        try (Session session = driver.session()) {
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) { return transactionPromoteDemoteUser(tx, username1, role);
+                }
+            });
+
+
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
+
+
+    /**
+     * La funzione aggiunge promuove o declassa un utente
+     * @param username
+     * @param tx
+     * @return true se ha modificato con successo, false altrimenti
+     */
+    private static boolean transactionPromoteDemoteUser(Transaction tx, String username, String role) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        Timestamp current = new Timestamp(System.currentTimeMillis());
+        parameters.put("username", username);
+        parameters.put("role", role);
+
+
+        Result result = tx.run("MATCH(u1:User {username:$username})" +
+                        " SET u1.role:$role" +
+                        " return u1.role AS newRole"
+                        , parameters);
+
+        if(result.hasNext())
+        {
+            Record record = result.next();
+            if(record.get("newRole").asString().equals(role))
+                return  true;
+        }
+
+
         return false;
     }
 

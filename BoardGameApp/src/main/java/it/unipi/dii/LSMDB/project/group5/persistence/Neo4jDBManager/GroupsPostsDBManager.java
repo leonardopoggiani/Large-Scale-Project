@@ -387,6 +387,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
      * La funzione elimina un gruppo
      * @param tx
      * @param delGroup
+     * @param delAdmin
      * @return true se ha eliminato correttamente il gruppo
      * @return false altrimenti
      */

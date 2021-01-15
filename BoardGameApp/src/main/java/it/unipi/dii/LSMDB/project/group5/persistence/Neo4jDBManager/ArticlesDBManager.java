@@ -22,7 +22,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * @param username username utente
      * @return Lista degli articoli suggeriti
      */
-    public static List<ArticleBean> searchSuggestedArticles(final String username)
+    public static List<ArticleBean> searchSuggestedArticles(final String username, final int limit)
     {
         try(Session session=driver.session())
         {
@@ -32,7 +32,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 @Override
                 public List<ArticleBean> execute(Transaction tx)
                 {
-                    return transactionSearchSuggestedArticles(tx, username);
+                    return transactionSearchSuggestedArticles(tx, username, limit);
                 }
             });
         }
@@ -48,22 +48,23 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * @param username username utente
      * @return Lista degli articoli suggeriti
      */
-    private static List<ArticleBean> transactionSearchSuggestedArticles(Transaction tx, String username)
+    private static List<ArticleBean> transactionSearchSuggestedArticles(Transaction tx, String username, int limit)
     {
         List<ArticleBean> articles = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         int quantiInflu= 0;
         parameters.put("username", username);
         parameters.put("role", "influencer");
+        parameters.put("limit", limit);
         /*String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:$role})" +
                 "RETURN f";*/
         String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article) " +
-                " RETURN a, i, p ORDER BY p.timestamp";
+                " RETURN a, i, p ORDER BY p.timestamp LIMIT $limit";
 
         String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User) " +
                 " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
                 " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +
-                " RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 6 ";
+                " RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT $limit ";
 
         Result result;
         quantiInflu = UsersDBManager.transactionCountUsers(tx,username,"influencer");

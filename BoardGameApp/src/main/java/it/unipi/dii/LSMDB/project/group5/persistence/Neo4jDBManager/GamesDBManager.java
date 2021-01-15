@@ -20,7 +20,7 @@ public class    GamesDBManager extends Neo4jDBManager{
      * @return Lista degli articoli suggeriti
      */
 
-    public static List<GameBean> searchSuggestedGames(final String username)
+    public static List<GameBean> searchSuggestedGames(final String username, final int limit)
     {
         try(Session session=driver.session())
         {
@@ -29,7 +29,7 @@ public class    GamesDBManager extends Neo4jDBManager{
                 @Override
                 public List<GameBean> execute(Transaction tx)
                 {
-                    return transactionSearchSuggestedGames(tx, username);
+                    return transactionSearchSuggestedGames(tx, username, limit);
                 }
             });
         }
@@ -43,15 +43,16 @@ public class    GamesDBManager extends Neo4jDBManager{
      * @param username
      * @return Lista degli articoli suggeriti
      */
-    private static List<GameBean> transactionSearchSuggestedGames(Transaction tx, String username)
+    private static List<GameBean> transactionSearchSuggestedGames(Transaction tx, String username, int limit)
     {
         List<GameBean> infoGames = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username", username);
+        parameters.put("username", limit);
         Result result=tx.run("MATCH (g:Game),(u:User) " +
                 " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
                 " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +
-                " RETURN g,u LIMIT 6 ", parameters);
+                " RETURN g,u LIMIT $limit ", parameters);
 
         while(result.hasNext())
         {

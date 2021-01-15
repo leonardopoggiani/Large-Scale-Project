@@ -56,7 +56,8 @@ public class CommentsDBManager extends Neo4jDBManager {
         parameters.put("author", author);
         parameters.put("title", title);
         parameters.put("limit", limit);
-        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User) WHERE au.username=$author AND a.name=$title RETURN c,u  ORDER BY c.timestamp DESC LIMIT $limit", parameters);
+        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User) WHERE au.username=$author AND a.name=$title RETURN c,u  " +
+                " ORDER BY c.timestamp DESC LIMIT $limit", parameters);
 
         while (result.hasNext()) {
             Record record = result.next();
