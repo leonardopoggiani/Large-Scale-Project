@@ -48,7 +48,7 @@ public class    GamesDBManager extends Neo4jDBManager{
         List<GameBean> infoGames = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username", username);
-        parameters.put("username", limit);
+        parameters.put("limit", limit);
         Result result=tx.run("MATCH (g:Game),(u:User) " +
                 " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
                 " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +

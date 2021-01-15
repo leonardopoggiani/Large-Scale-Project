@@ -282,7 +282,7 @@ public class ArticlePageView {
     @FXML
     void setSuggestedArticlesBelow() throws IOException {
         ArticlesPageDBController home = new ArticlesPageDBController();
-        List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser());
+        List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 10);
 
         if (list != null) {
             for (ArticleBean a : list) {

@@ -14,14 +14,14 @@ public class GamesPageDBController {
     public GamesPageDBController() {}
 
     //ONLY NEO4J
-    public List<GameBean> listSuggestedGames(String username) {
+    public List<GameBean> listSuggestedGames(String username, int limit) {
 
-        return GamesDBManager.searchSuggestedGames(username);
+        return GamesDBManager.searchSuggestedGames(username, limit);
     }
 
-    public List<ReviewBean> listGamesReviews(String name, int quante) {
+    public List<ReviewBean> listGamesReviews(String name, int limit) {
 
-        return ReviewsDBManager.searchListReviews(name, quante);
+        return ReviewsDBManager.searchListReviews(name, limit);
     }
 
 

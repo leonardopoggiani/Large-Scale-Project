@@ -209,7 +209,8 @@ public class HomepageGames {
         if (savedGames.isEmpty()) {
             // non ho giochi salvati in cache
             logger.info("cache vuota");
-            List<GameBean> list = controller.listSuggestedGames(LoginPageView.getLoggedUser());
+            int limit = 10;
+            List<GameBean> list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), limit);
             showGames(list);
         } else {
             int i = 0;

@@ -239,7 +239,7 @@ public class HomepageArticles {
         if (savedTitles.isEmpty()) {
             // non ho salvato i titoli degli articoli da mostrare
             logger.info("cache vuota");
-            List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser());
+            List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 10);
             System.out.println("Lunghezza lista " + list.size());
             showArticles(list);
         } else {

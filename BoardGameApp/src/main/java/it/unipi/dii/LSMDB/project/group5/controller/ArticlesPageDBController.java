@@ -14,9 +14,9 @@ public class ArticlesPageDBController {
 
 
     //ONLY NEO4J
-    public List<ArticleBean> listSuggestedArticles(String username) {
+    public List<ArticleBean> listSuggestedArticles(String username, int limit) {
 
-        return ArticlesDBManager.searchSuggestedArticles(username);
+        return ArticlesDBManager.searchSuggestedArticles(username, limit);
 
     }
 
