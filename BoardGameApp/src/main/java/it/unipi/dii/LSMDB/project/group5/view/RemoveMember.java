@@ -2,7 +2,7 @@ package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.controller.GroupsPagesDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UsersPageDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UsersPagesDBController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class RemoveMember {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
-    UsersPageDBController controller = new UsersPageDBController();
+    UsersPagesDBController controller = new UsersPagesDBController();
     GroupsPagesDBController controller2 = new GroupsPagesDBController();
 
     ObservableList<String> usersList = FXCollections.observableArrayList();

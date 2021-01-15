@@ -2,7 +2,7 @@ package it.unipi.dii.LSMDB.project.group5.view;
 
 import com.google.common.collect.Lists;
 import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.UsersPageDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UsersPagesDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -31,7 +31,7 @@ public class UserFilterPageView {
     void initialize() {
         VBox lista = new VBox();
 
-        UsersPageDBController controller = new UsersPageDBController();
+        UsersPagesDBController controller = new UsersPagesDBController();
         List<String> listaUtenti;
 
         switch (HomepageUsers.getFilter()) {

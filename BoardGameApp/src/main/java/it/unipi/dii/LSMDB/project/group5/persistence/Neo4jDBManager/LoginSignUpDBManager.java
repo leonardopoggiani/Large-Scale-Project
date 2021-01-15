@@ -1,6 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
 import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
@@ -145,6 +146,15 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
         }
         return role;
     }
+
+    public static String passwordEncryption(String passToEncrypt)
+    {
+        String salt = "randomSalt";
+        String encryptedPassword = DigestUtils.sha256Hex(passToEncrypt+salt);
+        System.out.println("ENCRYPTION | encrypt-pw: " + encryptedPassword);
+        return encryptedPassword;
+    }
+
 
 }
 

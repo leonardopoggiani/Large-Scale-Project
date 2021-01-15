@@ -9,9 +9,12 @@ import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.RatingsDBMan
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.ReviewsDBManager;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-public class GamesPageDBController {
-    public GamesPageDBController() {}
+public class GamesPagesDBController {
+    public GamesPagesDBController() {}
+
+    Logger logger = Logger.getLogger(this.getClass().getName());
 
     //ONLY NEO4J
     public List<GameBean> listSuggestedGames(String username, int limit) {

@@ -4,13 +4,13 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
-import it.unipi.dii.LSMDB.project.group5.controller.GamesPageDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.GamesPagesDBController;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class GamesCache {
-    GamesPageDBController controller = new GamesPageDBController();
+    GamesPagesDBController controller = new GamesPagesDBController();
 
     //Singleton
     private static GamesCache instance;

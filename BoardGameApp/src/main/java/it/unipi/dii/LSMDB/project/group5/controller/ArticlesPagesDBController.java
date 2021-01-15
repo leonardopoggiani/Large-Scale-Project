@@ -9,9 +9,11 @@ import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.CommentsDBMa
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.LikesDBManager;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-public class ArticlesPageDBController {
+public class ArticlesPagesDBController {
 
+    Logger logger = Logger.getLogger(this.getClass().getName());
 
     //ONLY NEO4J
     public List<ArticleBean> listSuggestedArticles(String username, int limit) {
@@ -79,8 +81,14 @@ public class ArticlesPageDBController {
     {
         if(ArticleDBManager.addArticle(a))
         {
-             return ArticlesDBManager.addArticle(a);
+            if(!ArticlesDBManager.addArticle(a));
+            {
+                //DeleteArticleMongoDB
+                logger.severe("NEO4J | Articolo " + a.getTitle() + "non aggiunto!");
+            }
+            return true;
         }
+        logger.severe("MONGODB | Articolo " + a.getTitle() + "non aggiunto!");
         return  false;
 
     }
@@ -91,9 +99,23 @@ public class ArticlesPageDBController {
         //DELETE MONGODB
         if(true)
         {
-            ArticlesDBManager.deleteArticle(author, title);
+            //DELETE NEO4J
+            if(!ArticlesDBManager.deleteArticle(author, title))
+            {
+                //SE VA MALE RIPROVO AD ELIMINARE DA NEO4J
+                if(!ArticlesDBManager.deleteArticle(author, title))
+                {
+                    //SE VA MALE DI NUOVO ESCO
+                    //SOSTITUIRE CON ID DELL'ARTICOLO
+                    logger.severe("NEO4J | Articolo " + title + "non eliminato!");
+                    return false;
+                }
+                return  true;
+            }
+            return  true;
         }
-
+        //SOSTITUIRE CON ID DELL'ARTICOLO
+        logger.severe("NEO4J MONGODB | Articolo" + title +"non eliminato!");
         return  false;
     }
 
@@ -102,9 +124,16 @@ public class ArticlesPageDBController {
 
         boolean ret = CommentsDBManager.addComment(newComm);
         if (ret){
-            ArticleDBManager.updateNumComments(1, newComm.getAuthorArt(), newComm.getTitleArt());
+            if(!ArticleDBManager.updateNumComments(1, newComm.getAuthorArt(), newComm.getTitleArt()))
+            {
+                logger.severe("MONGODB | Numero dei commenti non incrementato!");
+                return false;
+            }
+            return  ret;
         }
-        return ret;
+        logger.severe("NEO4J | Commento: " + newComm.getAuthor() + " | " + newComm.getTimestamp() +
+                " non aggiunto!");
+        return false;
 
     }
 
@@ -114,21 +143,28 @@ public class ArticlesPageDBController {
         if(ret > -1){
             if (ret == 0){
                 if(like.getType().equals("like")){
-                    ArticleDBManager.updateNumLike(-1, like.getAuthorArt(), like.getTitleArt());
+                    if(!ArticleDBManager.updateNumLike(-1, like.getAuthorArt(), like.getTitleArt()))
+                        logger.severe("MONGODB | Numero dei like non decrementato!");
                 }else {
-                    ArticleDBManager.updateNumDislike(-1, like.getAuthorArt(), like.getTitleArt());
+                    if(!ArticleDBManager.updateNumDislike(-1, like.getAuthorArt(), like.getTitleArt()))
+                        logger.severe("MONGODB | Numero dei dislike non decrementato!");
 
                 }
             }else {
                 if(like.getType().equals("like")){
-                    ArticleDBManager.updateNumLike(1, like.getAuthorArt(), like.getTitleArt());
+                    if(!ArticleDBManager.updateNumLike(1, like.getAuthorArt(), like.getTitleArt()))
+                        logger.severe("MONGODB | Numero dei like non incrementato!");
                 }else {
-                    ArticleDBManager.updateNumDislike(1, like.getAuthorArt(), like.getTitleArt());
+                    if(!ArticleDBManager.updateNumDislike(1, like.getAuthorArt(), like.getTitleArt()))
+                        logger.severe("MONGODB | Numero dei dislike non incrementato!");
 
                 }
             }
 
         }
+        else
+            logger.severe("NEO4J  | Like non aggiunto!");
+
 
         return ret;
 
@@ -138,10 +174,13 @@ public class ArticlesPageDBController {
 
         boolean ret  = CommentsDBManager.deleteComment(comm);
         if (ret){
-            ArticleDBManager.updateNumComments(-1, comm.getAuthorArt(), comm.getTitleArt());
+            if(!ArticleDBManager.updateNumComments(-1, comm.getAuthorArt(), comm.getTitleArt()))
+                logger.severe("MONGODB | Numero dei commenti articolo: " + comm.getTitleArt()+" non decrementato!");
 
+            return true;
         }
-        return ret;
 
+        logger.severe("NEO4J | Commento: " + comm.getAuthor() + " | " + comm.getTimestamp() + " non aggiunto!");
+        return  false;
     }
 }

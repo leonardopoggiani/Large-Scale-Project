@@ -85,7 +85,7 @@ public class UsersDBManager extends Neo4jDBManager{
         }
         else if(type.equals("followingAll"))
         {
-            Result result=tx.run(searchFollowingOnly, parameters);
+            Result result=tx.run(searchFollowingAll, parameters);
             while(result.hasNext())
             {
                 Record record = result.next();
@@ -373,8 +373,7 @@ public class UsersDBManager extends Neo4jDBManager{
         return false;
     }
 
-    //TODO
-    //Credo sia sbagliata ci devo guardare meglio
+
     /**
      * La funzione elimina uno user
      * @param username dell'utente
@@ -414,14 +413,18 @@ public class UsersDBManager extends Neo4jDBManager{
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("username", username);
 
-        String eliminaReviews = "MATCH (u:User{username:$username})-[r:REVIEWED]->(g) " +
+
+        String eliminaTutto = " MATCH (u:User{username:$username})" +
+                " DETACH DELETE u";
+        String eliminaGroup = "MATCH (gr:Group{admin:$username})" +
+                " DETACH DELETE gr";
+        /*String eliminaReviews = "MATCH (u:User{username:$username})-[r:REVIEWED]->(g) " +
                 " DELETE r";
         String eliminaRatings = "MATCH (u:User{username:$username})-[r:RATED]->(g)" +
                 " DELETE r";
         String eliminaPosts = "(u:User{username:$username})-[p:POST]->(gr:Group)" +
                 " DELETE p";
-        String eliminaBepartGroup = "MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{admin:$username})" +
-                " DELETE b,gr";
+
         String eliminaPublished = "MATCH (u:User{username:$username})-[p:PUBLISHED]->(a)" +
                 " DELETE p";
 
@@ -432,6 +435,9 @@ public class UsersDBManager extends Neo4jDBManager{
         result = tx.run(eliminaPosts, parameters);
         result = tx.run(eliminaBepartGroup, parameters);
         result = tx.run(eliminaPublished, parameters);
+        result = tx.run(eliminaGame, parameters);*/
+        Result result = tx.run(eliminaTutto, parameters);
+        result = tx.run(eliminaGroup, parameters);
 
 
         return true;
@@ -439,16 +445,15 @@ public class UsersDBManager extends Neo4jDBManager{
 
     /**
      * La funzione aggiunge promuove o declassa un utente
-     * @param username1
-     * @param username2
+     * @param username
      * @return true se ha modificato con successo, false altrimenti
      */
 
-    public static boolean promoteDemoteUser(final String username1, final String username2, final String role) {
+    public static boolean promoteDemoteUser(final String username, final String role) {
         try (Session session = driver.session()) {
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
-                public Boolean execute(Transaction tx) { return transactionPromoteDemoteUser(tx, username1, role);
+                public Boolean execute(Transaction tx) { return transactionPromoteDemoteUser(tx, username, role);
                 }
             });
 
@@ -476,7 +481,7 @@ public class UsersDBManager extends Neo4jDBManager{
 
 
         Result result = tx.run("MATCH(u1:User {username:$username})" +
-                        " SET u1.role:$role" +
+                        " SET u1.role=$role" +
                         " return u1.role AS newRole"
                         , parameters);
 

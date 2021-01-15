@@ -276,7 +276,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         parameters.put("admin", admin);
-        Result result = tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group{name:$name, admin:$admin}) return count(distinct b) AS countMembers", parameters);
+        Result result = tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group{name:$name, admin:$admin}) " +
+                " RETURN COUNT(DISTINCT b) AS countMembers", parameters);
 
         if (result.hasNext()) {
             Record record = result.next();
@@ -389,15 +390,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("admin", delAdmin);
         parameters.put("name", delGroup);
-        String eliminaPosts = "MATCH (u:User)-[p:POST]->(gr:Group)" +
-                " WHERE gr.name=$name" +
-                " DELETE p";
-        tx.run(eliminaPosts, parameters);
 
-        //Esiste sempre almeno un be_part quello dell'admin
-        tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
+
+        tx.run("MATCH (gr:Group)" +
                         " WHERE gr.name=$name and  gr.admin=$admin" +
-                        " DELETE b,gr,r"
+                        " DETACH DELETE gr"
                 , parameters);
 
         return true;

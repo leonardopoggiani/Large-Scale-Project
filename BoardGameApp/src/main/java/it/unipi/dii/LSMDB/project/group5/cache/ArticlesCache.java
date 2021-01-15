@@ -4,13 +4,13 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPageDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPagesDBController;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class ArticlesCache {
-    ArticlesPageDBController controller = new ArticlesPageDBController();
+    ArticlesPagesDBController controller = new ArticlesPagesDBController();
 
     //Singleton
     private static ArticlesCache instance;

@@ -5,7 +5,7 @@ import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.bean.CommentBean;
 import it.unipi.dii.LSMDB.project.group5.bean.LikeBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPageDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPagesDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -118,7 +118,7 @@ public class ArticlePageView {
 
     @FXML
     void setArticleFields() throws IOException, ExecutionException {
-        ArticlesPageDBController article = new ArticlesPageDBController();
+        ArticlesPagesDBController article = new ArticlesPagesDBController();
 
         cache.setAuthor(HomepageArticles.getAuthor());
         ArticleBean a = cache.getDataIfPresent(HomepageArticles.getTitolo());
@@ -142,7 +142,7 @@ public class ArticlePageView {
     }
 
     private void setComments() {
-        ArticlesPageDBController article = new ArticlesPageDBController();
+        ArticlesPagesDBController article = new ArticlesPagesDBController();
 
         List<CommentBean> infoComments = null;
         infoComments = article.listArticlesComments(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(), 3);
@@ -216,7 +216,7 @@ public class ArticlePageView {
         Button dislikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Text like = (Text) App.getScene().lookup("#numberlike");
         int numberOfLike = Integer.parseInt(like.getText());
-        ArticlesPageDBController update = new ArticlesPageDBController();
+        ArticlesPagesDBController update = new ArticlesPagesDBController();
 
         // like button disabled vuol dire che ho pigiato dislike
         if(!likebutton.isDisabled()) {
@@ -247,7 +247,7 @@ public class ArticlePageView {
         Button unlikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Button likebutton = (Button) App.getScene().lookup("#likebutton");
         int numberOfUnlike = Integer.parseInt(like.getText());
-        ArticlesPageDBController update = new ArticlesPageDBController();
+        ArticlesPagesDBController update = new ArticlesPagesDBController();
 
         // unlike button disabled vuol dire che ho pigiato like
         if(!unlikebutton.isDisabled()) {
@@ -272,7 +272,7 @@ public class ArticlePageView {
 
     @FXML
     void postComment() throws IOException {
-        ArticlesPageDBController update = new ArticlesPageDBController();
+        ArticlesPagesDBController update = new ArticlesPagesDBController();
         CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
         update.addComment(comment);
         articlecomment.setText("");
@@ -281,7 +281,7 @@ public class ArticlePageView {
 
     @FXML
     void setSuggestedArticlesBelow() throws IOException {
-        ArticlesPageDBController home = new ArticlesPageDBController();
+        ArticlesPagesDBController home = new ArticlesPagesDBController();
         List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 10);
 
         if (list != null) {
@@ -351,7 +351,7 @@ public class ArticlePageView {
 
     @FXML
     void deleteComment(MouseEvent event) throws IOException {
-        ArticlesPageDBController controller = new ArticlesPageDBController();
+        ArticlesPagesDBController controller = new ArticlesPagesDBController();
 
         Button target = (Button) event.getSource();
         String id = target.getId();

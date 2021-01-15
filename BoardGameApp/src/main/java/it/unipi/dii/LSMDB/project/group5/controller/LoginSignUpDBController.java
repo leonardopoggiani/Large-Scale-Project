@@ -3,8 +3,11 @@ import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.UserDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.LoginSignUpDBManager;
 
+import java.util.logging.Logger;
+
 public class LoginSignUpDBController {
 
+    Logger logger = Logger.getLogger(this.getClass().getName());
 
     public LoginSignUpDBController() {
     }
@@ -34,6 +37,7 @@ public class LoginSignUpDBController {
             UserDBManager.updateLogin(username);
         }
         else {
+            logger.info("Password o username non corretti!");
             System.err.println("Pass o username non corretti! Role: " + roleLogin);
         }
 

@@ -176,19 +176,17 @@ public class    GamesDBManager extends Neo4jDBManager{
         parameters.put("name", name);
         List<ArticleBean> articleDelete = new ArrayList<>();
 
-        String eliminaReferred = "MATCH (a)-[r:REFERRED]->(g:Game{name:$name}) " +
-                " DELETE r,a";
-        String eliminaReviews = "MATCH (a)-[r:REVIEWED]->(g:Game{name:$name}) " +
-                " DELETE r,a";
-        String eliminaRatings = "MATCH (a)-[r:RATED]->(g:Game{name:$name}) " +
-                " DELETE r,a";
-        String eliminaGame = "(g:Game{name:$name}) " +
-                " DELETE g";
-        Result result = tx.run(eliminaReferred, parameters);
 
-        result = tx.run(eliminaReviews, parameters);
-        result = tx.run(eliminaRatings, parameters);
-        result = tx.run(eliminaGame, parameters);
+        //Elimino il gruppo, con tutti i suoi post, be_part, referred
+        String eliminaGroups = "MATCH (gr:Group)-[:REFERRED]->(g:Game{name:$name})" +
+                " DETACH DELETE gr";
+        //Elimino il gioco e tutto quello che è collegato ad esso
+        String eliminaTutto = "MATCH (g:Game{name:$name}) " +
+                " DETACH DELETE g";
+
+        Result result = tx.run(eliminaGroups, parameters);
+        result = tx.run(eliminaTutto, parameters);
+
 
 
         return true;

@@ -1,9 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
 import it.unipi.dii.LSMDB.project.group5.controller.*;
-
-import java.sql.Timestamp;
 
 public class Main {
 
@@ -13,17 +10,17 @@ public class Main {
 
 
 
-            GamesPageDBController gr = new GamesPageDBController();
-            ArticlesPageDBController artCon = new ArticlesPageDBController();
+            GamesPagesDBController gr = new GamesPagesDBController();
+            ArticlesPagesDBController artCon = new ArticlesPagesDBController();
 
 
             GroupsPagesDBController grpos = new GroupsPagesDBController();
 
-            UsersPageDBController uDB = new UsersPageDBController();
+            UsersPagesDBController uDB = new UsersPagesDBController();
 
             AnalyticsDBController aDB = new AnalyticsDBController();
 
-        /*ArticlesPageDBController la = new ArticlesPageDBController();
+        /*ArticlesPagesDBController la = new ArticlesPagesDBController();
 
         ArticleBean art = new ArticleBean("Nuovo articolo1", "Clarissa1", new Timestamp(System.currentTimeMillis()),"Risiko", null);
         la.addArticle(art);
@@ -52,7 +49,7 @@ public class Main {
         boolean ret = ArticlesDBManager.addArticle(b);
         System.out.println(ret);*/
 
-        PostBean post = new PostBean();
+        /*PostBean post = new PostBean();
         post.setGroup("Gruppo brutto");
         post.setAdmin("Gaia5");
         post.setAuthor("Gaia5");
@@ -65,7 +62,7 @@ public class Main {
         post2.setAdmin("Gaia5");
         post2.setAuthor("sara");
         post2.setTimestamp(new Timestamp(System.currentTimeMillis()));
-        post2.setText("Ci siete amici miei??");
+        post2.setText("Ci siete amici miei??");*/
         //ud.Neo4jAddDeletePost(post, "add");
 
         //grpos.showGroupsPost("Gruppo brutto", "Gaia5");
@@ -79,6 +76,9 @@ public class Main {
         grpos.showGroupsPost("Gruppo brutto", "Gaia5");
         ud.Neo4jAddDeletePost(post2, "delete");
         grpos.showGroupsPost("Gruppo brutto", "Gaia5");*/
+        //uDB.deleteUser("Gaia4");
+        //grpos.deleteGroup("Mio gruppetto di amici", "Gaia5");
+        LoginSignUpDBManager.passwordEncryption("Clarissa");
         Neo4jDBManager.close();
 
 
