@@ -23,9 +23,6 @@ public class HomepageUsers {
     }
 
     @FXML
-    Text following;
-
-    @FXML
     CheckBox showfollowed;
 
     @FXML
@@ -74,16 +71,16 @@ public class HomepageUsers {
     Text suggested4;
 
     @FXML
-    Text influencer1;
+    Text suggested5;
 
     @FXML
-    Text influencer2;
+    Text suggested6;
 
     @FXML
-    Text influencer3;
+    Text suggested7;
 
     @FXML
-    Text influencer4;
+    Text suggested8;
 
     @FXML
     Button unfollow1;
@@ -133,6 +130,18 @@ public class HomepageUsers {
     @FXML
     Button followinfluencer4;
 
+    @FXML
+    Button search;
+
+    @FXML
+    Button promote;
+
+    @FXML
+    Text searched;
+
+    @FXML
+    TextField searchuser;
+
     private String username;
 
     private Button chooseUnfollowButton(int i){
@@ -169,16 +178,10 @@ public class HomepageUsers {
             case 1 -> suggested2;
             case 2 -> suggested3;
             case 3 -> suggested4;
-            default -> new Text();
-        };
-    }
-
-    private Text chooseSuggestInfluencer(int i) {
-        return switch (i) {
-            case 0 -> influencer1;
-            case 1 -> influencer2;
-            case 2 -> influencer3;
-            case 3 -> influencer4;
+            case 4 -> suggested5;
+            case 5 -> suggested6;
+            case 6 -> suggested7;
+            case 7 -> suggested8;
             default -> new Text();
         };
     }
@@ -214,12 +217,11 @@ public class HomepageUsers {
         UsersPageDBController controller = new UsersPageDBController();
 
         List<String> user = controller.listUsers(username,"followingAll");
-        following.setText(String.valueOf(user.size()));
         logger.info("size " + user.size());
 
         System.out.println(user.toString());
         Text nomeuser;
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < 8; i++) {
             nomeuser = chooseUser(i);
             if(i < user.size()) {
                 nomeuser.setText(user.get(i));
@@ -232,7 +234,7 @@ public class HomepageUsers {
         user = controller.listSuggestingFollowing(username,"normalUser");
         logger.info("size " + user.size());
 
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < 4; i++) {
             nomeuser = chooseSuggestUser(i);
             if(i < user.size()) {
                 nomeuser.setText(user.get(i));
@@ -245,8 +247,8 @@ public class HomepageUsers {
         user = controller.listSuggestingFollowing(username,"influencer");
         logger.info("size " + user.size());
 
-        for(int i = 0; i < 6; i++) {
-            nomeuser = chooseSuggestInfluencer(i);
+        for(int i = 4; i < 8; i++) {
+            nomeuser = chooseSuggestUser(i);
             if(i < user.size()) {
                 nomeuser.setText(user.get(i));
             } else {
@@ -258,7 +260,14 @@ public class HomepageUsers {
 
     @FXML
     void filterUsers() {
+        String filter = name.getText();
+        UsersPageDBController controller = new UsersPageDBController();
 
+    }
+
+    @FXML
+    void promote() throws IOException {
+        UsersPageDBController controller = new UsersPageDBController();
     }
 
     @FXML
@@ -275,7 +284,6 @@ public class HomepageUsers {
         showinfluencer.setSelected(false);
         filter = "suggested";
         App.setRoot("UsersFilterPageView");
-
     }
 
     @FXML
@@ -284,7 +292,6 @@ public class HomepageUsers {
         showfollowed.setSelected(false);
         filter = "influencer";
         App.setRoot("UsersFilterPageView");
-
     }
 
     @FXML
@@ -294,7 +301,7 @@ public class HomepageUsers {
         Button target = (Button) event.getSource();
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
 
-        Text user = chooseSuggestInfluencer(id - 1);
+        Text user = chooseSuggestUser(id - 1);
         logger.info("user " + user);
         if(!user.getText().equals("")){
             boolean ret = controller.addRemoveFollow(username,user.getText(),"add");
@@ -316,11 +323,12 @@ public class HomepageUsers {
 
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
 
-        Text user = chooseSuggestInfluencer(id - 1);
+        Text user = chooseUser(id - 1);
+        logger.info("" + user);
 
         if(!user.getText().equals("")){
             boolean ret = controller.addRemoveFollow(username,user.getText(),"remove");
-
+            logger.info("ret " + ret + "| " + username + ", " + user.getText());
             if(ret) {
                 target.setStyle("-fx-background-color: green");
                 user.setText("");

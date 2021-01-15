@@ -17,15 +17,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: green;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGroups">
+<ScrollPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: green;" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGroups">
   <content>
-    <AnchorPane id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="796.0" minWidth="1212.0" prefHeight="796.0" prefWidth="1212.0" stylesheets="@style.css">
+    <AnchorPane id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="796.0" minWidth="1212.0" prefHeight="796.0" prefWidth="1212.0" stylesheets="@../../../../../../img/style.css">
          <children>
             <Button layoutX="23.0" layoutY="89.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
             <Line endX="100.0" startX="-100.0" />
             <Text layoutX="44.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
             <Button cancelButton="true" layoutX="72.0" layoutY="376.0" mnemonicParsing="false" text="Logout" />
-            <Button cancelButton="true" layoutX="72.0" layoutY="289.0" mnemonicParsing="false" text="Search" />
+            <Button cancelButton="true" layoutX="72.0" layoutY="289.0" mnemonicParsing="false" onAction="#filterResearch" text="Search" />
             <ComboBox fx:id="filter" layoutX="114.0" layoutY="227.0" prefHeight="28.0" prefWidth="90.0" />
             <Text layoutX="822.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
             <Text layoutX="357.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you created">
@@ -46,7 +46,7 @@
             <TextField fx:id="description" layoutX="897.0" layoutY="227.0" promptText="Description (optional)" />
             <Text layoutX="796.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="88.68880462646484" />
             <Text layoutX="51.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
-            <BottomNavigation layoutX="290.0">
+            <BottomNavigation layoutX="458.0" layoutY="-1.0" prefHeight="31.0" prefWidth="446.0">
                <actionItems>
                   <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
                      <graphic>
@@ -68,6 +68,11 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToFriends" text="Statistics">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
                </actionItems>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
@@ -85,7 +90,6 @@
                   <TableColumn fx:id="timestamp" prefWidth="75.0" text="Last message" />
                   <TableColumn fx:id="game" prefWidth="75.0" text="Game" />
                   <TableColumn fx:id="members" prefWidth="75.0" text="Members" />
-                  <TableColumn fx:id="numberposts" prefWidth="75.0" text="Posts" />
               </columns>
             </TableView>
             <ImageView fitHeight="50.0" fitWidth="101.0" layoutX="61.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
@@ -95,20 +99,26 @@
             </ImageView>
             <TableView fx:id="usertable" layoutX="258.0" layoutY="408.0" prefHeight="200.0" prefWidth="468.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Name" />
-                <TableColumn prefWidth="75.0" text="Admin" />
-                  <TableColumn prefWidth="75.0" text="Game" />
-                  <TableColumn prefWidth="75.0" text="Members" />
+                <TableColumn fx:id="nameuser" prefWidth="75.0" text="Name" />
+                <TableColumn fx:id="adminuser" prefWidth="75.0" text="Admin" />
+                  <TableColumn fx:id="messageuser" prefWidth="75.0" text="Last message" />
+                  <TableColumn fx:id="gameuser" prefWidth="75.0" text="Game" />
+                  <TableColumn fx:id="membersuser" prefWidth="75.0" text="Members" />
               </columns>
             </TableView>
             <ComboBox fx:id="nomigruppi" layoutX="931.0" layoutY="639.0" onAction="#setActions" prefHeight="28.0" prefWidth="105.0" promptText="Name" />
-            <Text fill="#e8dcdc" layoutX="767.0" layoutY="659.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do?" />
+            <Text fill="#e8dcdc" layoutX="749.0" layoutY="657.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do?" />
             <ComboBox fx:id="action" layoutX="1047.0" layoutY="639.0" onAction="#selectAction" prefHeight="28.0" prefWidth="106.0" promptText="Action" />
             <TableView fx:id="utils" layoutX="875.0" layoutY="408.0" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="nomeMembro" prefWidth="75.0" text="Name" />
               </columns>
             </TableView>
+            <Text layoutX="884.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group members">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
          </children></AnchorPane>
   </content>
 </ScrollPane>

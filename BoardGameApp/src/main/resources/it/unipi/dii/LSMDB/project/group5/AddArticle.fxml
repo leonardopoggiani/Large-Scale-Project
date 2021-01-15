@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="833.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.AddArticlePageView">
+<ScrollPane id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="833.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.AddArticlePageView">
   <content>
-    <AnchorPane id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="418.0" prefWidth="742.0" stylesheets="@style.css">
+    <AnchorPane id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="418.0" prefWidth="742.0" stylesheets="@../../../../../../img/style.css">
          <children>
             <Text fx:id="alert" layoutX="188.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add your article!">
                <font>

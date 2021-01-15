@@ -25,7 +25,7 @@ public class AddMember {
 
     @FXML
     void initialize() {
-        List<String> utenti = controller.listUsers(HomepageGroups.getGroup(),"all");
+        List<String> utenti = controller.listUsers(HomepageGroups.getGroup(),"friends");
         logger.info("size " + utenti.size());
         usersList.addAll(utenti);
         users.setItems(usersList);

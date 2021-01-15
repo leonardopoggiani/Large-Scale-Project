@@ -76,6 +76,7 @@ public class UsersDBManager extends Neo4jDBManager{
         }
         else if(type.equals("followingOnly"))
         {
+
             Result result=tx.run(searchFollowingOnly, parameters);
             while(result.hasNext())
             {
@@ -85,7 +86,7 @@ public class UsersDBManager extends Neo4jDBManager{
         }
         else if(type.equals("followingAll"))
         {
-            Result result=tx.run(searchFollowingOnly, parameters);
+            Result result=tx.run(searchFollowingAll, parameters);
             while(result.hasNext())
             {
                 Record record = result.next();
@@ -117,7 +118,6 @@ public class UsersDBManager extends Neo4jDBManager{
                 users.add(record.get("users").asString());
             }
         }
-
 
         return users;
 

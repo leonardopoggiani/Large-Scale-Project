@@ -8,7 +8,7 @@
 
 <ScrollPane maxHeight="200" maxWidth="400" minHeight="200" minWidth="400" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.RemoveMember">
    <content>
-      <AnchorPane id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="202.0" prefWidth="397.0" stylesheets="@style.css">
+      <AnchorPane id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="202.0" prefWidth="397.0" stylesheets="@../../../../../../img/style.css">
          <children>
             <Text layoutX="92.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove a member from your group!" />
             <ComboBox fx:id="users" layoutX="40.0" layoutY="87.0" prefHeight="29.0" prefWidth="145.0" promptText="User" />

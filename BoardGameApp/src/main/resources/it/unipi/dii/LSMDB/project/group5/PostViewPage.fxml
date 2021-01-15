@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane id="anchor" fx:id="posts" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.PostView">
+<ScrollPane id="anchor" fx:id="posts" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.PostView">
   <content>
-    <AnchorPane id="anchor" fx:id="ancora" minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="601.0" stylesheets="@style.css">
+    <AnchorPane id="anchor" fx:id="ancora" minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="601.0" stylesheets="@../../../../../../img/style.css">
          <children>
             <ButtonBar layoutX="201.0" layoutY="347.0" prefHeight="40.0" prefWidth="200.0" />
             <TextArea fx:id="newmessage" layoutX="372.0" layoutY="114.0" prefHeight="87.0" prefWidth="196.0" />

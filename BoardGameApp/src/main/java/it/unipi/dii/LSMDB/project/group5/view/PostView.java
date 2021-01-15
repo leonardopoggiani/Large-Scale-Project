@@ -78,7 +78,7 @@ public class PostView {
         GroupsPagesDBController controller = new GroupsPagesDBController();
         logger.info("add post");
 
-        PostBean newPost = new PostBean(LoginPageView.getLoggedUser(),newmessage.getText(),new Timestamp(System.currentTimeMillis()),HomepageGroups.getGroup(),HomepageGroups.getAdminGroup());
+        PostBean newPost = new PostBean(LoginPageView.getLoggedUser(),newmessage.getText(),String.valueOf(new Timestamp(System.currentTimeMillis())),HomepageGroups.getGroup(),HomepageGroups.getAdminGroup());
 
         boolean ret = false;
         if(!newPost.getText().equals("")) {
@@ -89,8 +89,6 @@ public class PostView {
             tic.setVisible(true);
             newmessage.setText("");
             HomepageGroups home = new HomepageGroups();
-            home.setTimestampLastPost(newPost.getGroup());
-            home.updateNumberPosts(newPost.getGroup());
         } else {
             ics.setVisible(true);
             newmessage.setStyle("-fx-text-fill: red");
@@ -101,6 +99,6 @@ public class PostView {
 
     @FXML
     void returnToHomepage() throws IOException {
-        App.setRoot("HomepageArticles");
+        App.setRoot("HomepageGroups");
     }
 }

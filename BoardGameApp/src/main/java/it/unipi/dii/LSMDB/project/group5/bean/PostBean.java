@@ -6,13 +6,13 @@ import java.sql.Timestamp;
 public class PostBean {
     private String author;
     private String text;
-    private Timestamp timestamp;
+    private String timestamp;
     private  String group;
     private String admin;
 
     public PostBean() {}
 
-    public PostBean(String author, String text, Timestamp timestamp, String group, String admin) {
+    public PostBean(String author, String text, String timestamp, String group, String admin) {
         this.author = author; this.text = text; this.timestamp = timestamp; this.group = group; this.admin = admin;
     }
 
@@ -20,7 +20,7 @@ public class PostBean {
         this.group = group;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -36,7 +36,7 @@ public class PostBean {
         return group;
     }
 
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 

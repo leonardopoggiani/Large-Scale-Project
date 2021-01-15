@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.logging.*;
-
 import java.io.IOException;
 
 /**
@@ -26,7 +25,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         logger.info("Applicazione partita");
 
-        if(MongoDBManager.createConnection() == true && Neo4jDBManager.InitializeDriver() == true){
+        if(MongoDBManager.createConnection() && Neo4jDBManager.InitializeDriver()){
             scene = new Scene(loadFXML("LoginPageView"));
             stage.setScene(scene);
             stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
@@ -34,7 +33,8 @@ public class App extends Application {
             stage.setHeight(800);
             stage.setWidth(1200);
             stage.show();
-        } else if (MongoDBManager.createConnection() == false){
+            stage.centerOnScreen();
+        } else if (!MongoDBManager.createConnection()){
            logger.log(Level.SEVERE, "Mongo db not starterd");
         } else {
             logger.log(Level.SEVERE, "Neo4j db not starterd");

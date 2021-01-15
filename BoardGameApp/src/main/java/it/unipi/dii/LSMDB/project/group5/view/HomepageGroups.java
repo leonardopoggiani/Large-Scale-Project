@@ -3,6 +3,7 @@ package it.unipi.dii.LSMDB.project.group5.view;
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
 import it.unipi.dii.LSMDB.project.group5.bean.GroupMemberBean;
+import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
 import it.unipi.dii.LSMDB.project.group5.controller.GroupsPagesDBController;
 import it.unipi.dii.LSMDB.project.group5.view.tablebean.TableGroupBean;
 import javafx.collections.FXCollections;
@@ -29,8 +30,8 @@ public class HomepageGroups {
     ObservableList<TableGroupBean> filtering = FXCollections.observableArrayList();
     ObservableList<String> giochiDeiGruppi = FXCollections.observableArrayList();
     ObservableList<String> nomiDeiGruppi = FXCollections.observableArrayList();
-    ObservableList<String> userActions = FXCollections.observableArrayList("Add post", "Leave group", "View posts", "View members");
-    ObservableList<String> adminActions = FXCollections.observableArrayList("Add post", "Delete group", "View posts", "Add member", "View members", "Remove member");
+    ObservableList<String> userActions = FXCollections.observableArrayList("Leave group", "View posts", "View members");
+    ObservableList<String> adminActions = FXCollections.observableArrayList("Delete group", "View posts", "Add member", "View members", "Remove member");
     ObservableList<GroupMemberBean> membriGruppo = FXCollections.observableArrayList();
 
     private ObservableList<TableGroupBean> gruppiAdmin = FXCollections.observableArrayList();
@@ -52,10 +53,22 @@ public class HomepageGroups {
     public TableColumn<TableGroupBean, Integer> members;
 
     @FXML
-    public TableColumn<TableGroupBean, Integer> numberposts;
+    public TableColumn<GroupMemberBean, String> nomeMembro;
 
     @FXML
-    public TableColumn<GroupMemberBean, String> nomeMembro;
+    public TableColumn<TableGroupBean, String> nameuser;
+
+    @FXML
+    public TableColumn<TableGroupBean, String> adminuser;
+
+    @FXML
+    public TableColumn<TableGroupBean, String> gameuser;
+
+    @FXML
+    public TableColumn<TableGroupBean, String> messageuser;
+
+    @FXML
+    public TableColumn<TableGroupBean, Integer> membersuser;
 
     @FXML
     TableView admintable;
@@ -83,38 +96,6 @@ public class HomepageGroups {
 
     @FXML
     TextField description;
-
-    public void setTimestampLastPost(String group) {
-        for(int i = 0; i < gruppiMembro.size(); i++) {
-            TableGroupBean tb = gruppiMembro.get(i);
-            if(tb.getGroupName().equals(group)) {
-                tb.updateTimestamp();
-            }
-        }
-
-        for(int i = 0; i < gruppiAdmin.size(); i++) {
-            TableGroupBean tb = gruppiAdmin.get(i);
-            if(tb.getGroupName().equals(group)) {
-                tb.updateTimestamp();
-            }
-        }
-    }
-
-    public void updateNumberPosts(String group) {
-        for(int i = 0; i < gruppiMembro.size(); i++) {
-            TableGroupBean tb = gruppiMembro.get(i);
-            if(tb.getGroupName().equals(group)) {
-                tb.updateNumberPost();
-            }
-        }
-
-        for(int i = 0; i < gruppiAdmin.size(); i++) {
-            TableGroupBean tb = gruppiAdmin.get(i);
-            if(tb.getGroupName().equals(group)) {
-                tb.updateNumberPost();
-            }
-        }
-    }
 
     @FXML
     void initialize() throws IOException {
@@ -159,34 +140,43 @@ public class HomepageGroups {
         game.setCellValueFactory(new PropertyValueFactory<>("game"));
         timestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         members.setCellValueFactory(new PropertyValueFactory<>("members"));
-        numberposts.setCellValueFactory(new PropertyValueFactory<>("members"));
-
+        nomeMembro.setCellValueFactory(new PropertyValueFactory<>("groupMemberName"));
+        nameuser.setCellValueFactory(new PropertyValueFactory<>("groupName"));
+        adminuser.setCellValueFactory(new PropertyValueFactory<>("admin"));
+        gameuser.setCellValueFactory(new PropertyValueFactory<>("game"));
+        messageuser.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
+        membersuser.setCellValueFactory(new PropertyValueFactory<>("members"));
         nomeMembro.setCellValueFactory(new PropertyValueFactory<>("groupMemberName"));
 
-         List<GroupBean> gruppiDiCuiSonoAdmin = controller.showUsersGroups(LoginPageView.getLoggedUser(),"admin");
-         List<GroupBean> gruppiDiCuiSonoMembro = controller.showUsersGroups(LoginPageView.getLoggedUser(),"member");
+
+        List<GroupBean> gruppiDiCuiSonoAdmin = controller.showUsersGroups(LoginPageView.getLoggedUser(),"admin");
+        List<GroupBean> gruppiDiCuiSonoMembro = controller.showUsersGroups(LoginPageView.getLoggedUser(),"member");
+
 
          if(gruppiDiCuiSonoAdmin != null) {
              for (int i = 0; i < gruppiDiCuiSonoAdmin.size(); i++) {
                  GroupBean g = gruppiDiCuiSonoAdmin.get(i);
-                 TableGroupBean tableGroup = new TableGroupBean(g.getName(), g.getTimestamp(), g.getAdmin(), g.getGame(), controller.countGroupMembers(g.getName(), g.getAdmin()), 0);
+
+                 TableGroupBean tableGroup = new TableGroupBean(g.getName(), g.getTimestamp().toString(),g.getLastPost().toString(), g.getAdmin(), g.getGame(), controller.countGroupMembers(g.getName(), g.getAdmin()));
                  nomiDeiGruppi.add(g.getName());
 
-                 if (!giochiDeiGruppi.contains(g.getName())) {
-                     giochiDeiGruppi.add(g.getName());
+                 if (!giochiDeiGruppi.contains(g.getGame())) {
+                     giochiDeiGruppi.add(g.getGame());
                  }
                  gruppiAdmin.add(tableGroup);
              }
          }
 
+
          if(gruppiDiCuiSonoMembro != null) {
              for (int i = 0; i < gruppiDiCuiSonoMembro.size(); i++) {
                  GroupBean g = gruppiDiCuiSonoMembro.get(i);
-                 TableGroupBean tableGroup = new TableGroupBean(g.getName(), g.getTimestamp(), g.getAdmin(), g.getGame(), controller.countGroupMembers(g.getName(), g.getAdmin()), 0);
+                 System.out.println(g);
+                 TableGroupBean tableGroup = new TableGroupBean(g.getName(), String.valueOf(g.getTimestamp()),String.valueOf(g.getLastPost()), g.getAdmin(), g.getGame(), controller.countGroupMembers(g.getName(), g.getAdmin()));
                  nomiDeiGruppi.add(g.getName());
 
-                 if (!giochiDeiGruppi.contains(g.getName())) {
-                     giochiDeiGruppi.add(g.getName());
+                 if (!giochiDeiGruppi.contains(g.getGame())) {
+                     giochiDeiGruppi.add(g.getGame());
                  }
 
                  gruppiMembro.add(tableGroup);
@@ -200,7 +190,6 @@ public class HomepageGroups {
         action.setItems(adminActions);
         filter.setItems(giochiDeiGruppi);
         utils.setItems(membriGruppo);
-
     }
 
     @FXML
@@ -235,7 +224,7 @@ public class HomepageGroups {
         System.out.println("Ritorno " + ret);
 
         if(ret) {
-            TableGroupBean tableGroup = new TableGroupBean(group.getName(), group.getTimestamp(), group.getAdmin(), group.getGame(),membersNumber.countGroupMembers(group.getName(),group.getAdmin()), 0);
+            TableGroupBean tableGroup = new TableGroupBean(group.getName(), String.valueOf(group.getTimestamp()),String.valueOf(group.getLastPost()), group.getAdmin(), group.getGame(),membersNumber.countGroupMembers(group.getName(),group.getAdmin()));
             System.out.println(tableGroup);
             gruppiAdmin.add(tableGroup);
             admintable.setItems(gruppiAdmin);
@@ -256,13 +245,22 @@ public class HomepageGroups {
     void selectAction() throws IOException {
         if(nomigruppi.getSelectionModel().getSelectedItem() != null) {
             String gruppoSelezionato = nomiDeiGruppi.get(nomigruppi.getSelectionModel().getSelectedIndex());
-            switch (adminActions.get(action.getSelectionModel().getSelectedIndex())) {
-                case "Add post" -> addPost(gruppoSelezionato);
-                case "Add member" -> addMember(gruppoSelezionato);
-                case "Delete group" -> deleteGroup(gruppoSelezionato);
-                case "View posts" -> viewPosts(gruppoSelezionato);
-                case "View members" -> viewMembers(gruppoSelezionato);
-                case "Remove member" ->  removeMember(gruppoSelezionato);
+            String adminGruppoSelezionato = retrieveAdmin(gruppoSelezionato);
+
+            if(adminGruppoSelezionato.equals(LoginPageView.getLoggedUser())) {
+                switch (adminActions.get(action.getSelectionModel().getSelectedIndex())) {
+                    case "Add member" -> addMember(gruppoSelezionato);
+                    case "Delete group" -> deleteGroup(gruppoSelezionato);
+                    case "View posts" -> viewPosts(gruppoSelezionato);
+                    case "View members" -> viewMembers(gruppoSelezionato);
+                    case "Remove member" -> removeMember(gruppoSelezionato);
+                }
+            } else {
+                switch (userActions.get(action.getSelectionModel().getSelectedIndex())) {
+                    case "Leave group" -> deleteGroup(gruppoSelezionato);
+                    case "View posts" -> viewPosts(gruppoSelezionato);
+                    case "View members" -> viewMembers(gruppoSelezionato);
+                }
             }
         }
     }
@@ -305,12 +303,6 @@ public class HomepageGroups {
         admintable.setItems(gruppiAdmin);
     }
 
-    private void addPost(String gruppoSelezionato) {
-
-        currentGroup = gruppoSelezionato;
-
-    }
-
     private void addMember(String gruppoSelezionato) throws IOException {
         currentGroup = gruppoSelezionato;
         adminGroup = retrieveAdmin(gruppoSelezionato);
@@ -331,12 +323,32 @@ public class HomepageGroups {
         utils.setItems(members);
     }
 
-    private void filterResearch(){
-        String gameFilter = nomiDeiGruppi.get(filter.getSelectionModel().getSelectedIndex());
-        for(int i = 0; i < gruppiAdmin.size(); i++) {
-            if(gruppiAdmin.get(i).getGame().equals(gameFilter)) {
-                filtering.add(gruppiAdmin.get(i));
+    @FXML
+    void filterResearch(){
+        String gameFilter = giochiDeiGruppi.get(filter.getSelectionModel().getSelectedIndex());
+
+        if(gameFilter != null && !gameFilter.equals("")) {
+            logger.info(gameFilter);
+
+            for (int i = 0; i < gruppiAdmin.size(); i++) {
+                if (gruppiAdmin.get(i).getGame().equals(gameFilter)) {
+                    filtering.add(gruppiAdmin.get(i));
+                }
             }
+
+            admintable.setItems(filtering);
+            logger.info("size " + filtering.size());
+            filtering.clear();
+
+            for (int i = 0; i < gruppiMembro.size(); i++) {
+                if (gruppiMembro.get(i).getGame().equals(gameFilter)) {
+                    filtering.add(gruppiMembro.get(i));
+                }
+            }
+
+            usertable.setItems(filtering);
+            logger.info("size " + filtering.size());
+            filtering.clear();
         }
     }
 

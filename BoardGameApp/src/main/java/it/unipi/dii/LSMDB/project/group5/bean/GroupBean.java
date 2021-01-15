@@ -50,7 +50,7 @@ public class GroupBean {
     }
 
     public Timestamp getLastPost() {
-        return lastPost;
+        return (lastPost == null) ? new Timestamp(System.currentTimeMillis()) : lastPost;
     }
 
     public void setName(String name) {

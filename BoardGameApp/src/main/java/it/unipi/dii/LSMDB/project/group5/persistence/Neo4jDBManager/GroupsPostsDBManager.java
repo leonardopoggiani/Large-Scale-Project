@@ -76,7 +76,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                 if ("ga".equals(nameValue.key())) {
                     Value value = nameValue.value();
                     group.setGame(value.get("name").asString());
-
                 }
 
                 if ("gr".equals(nameValue.key())) {
@@ -93,9 +92,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
 
                 if ("b".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    String timestamp = value.get("timestamp").asString();
-                    group.setTimestamp(Timestamp.valueOf(timestamp));
-
+                    Timestamp timestamp = Timestamp.valueOf(value.get("timestamp").asString());
+                    group.setTimestamp(timestamp);
                 }
             }
             //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
@@ -185,7 +183,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         {
             return session.writeTransaction(new TransactionWork<Timestamp>()
             {
-                @Override
                 public Timestamp execute(Transaction tx)
                 {
                     return transactionTimestampLastPost(tx, name, admin);
@@ -224,8 +221,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             GroupBean group= new GroupBean();
             for (Pair<String,Value> nameValue: values) {
                     Value value = nameValue.value();
-                    String timestamp = value.get("timestamp").asString();
-                    ts = Timestamp.valueOf(timestamp);
+                    Timestamp timestamp = Timestamp.valueOf(value.get("timestamp").asString());
+                    ts = timestamp;
 
             }
         }
@@ -643,7 +640,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     String text = value.get("text").asString();
                     String timestamp = value.get("timestamp").asString();
                     post.setText(text);
-                    post.setTimestamp(Timestamp.valueOf(timestamp));
+                    post.setTimestamp(timestamp);
                 }
 
                 if ("u".equals(nameValue.key())) {

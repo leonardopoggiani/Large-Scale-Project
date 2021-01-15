@@ -8,18 +8,18 @@ import java.sql.Timestamp;
 public class TableGroupBean {
     SimpleStringProperty groupName;
     SimpleStringProperty timestamp;
+    SimpleStringProperty timestampLastPost;
     SimpleStringProperty admin;
     SimpleStringProperty game;
     SimpleIntegerProperty members;
-    SimpleIntegerProperty numberposts;
 
-    public TableGroupBean(String name, Timestamp time, String admin, String game, int members, int posts){
+    public TableGroupBean(String name, String time,String lastPost, String admin, String game, int members){
         this.groupName = new SimpleStringProperty(name);
         this.timestamp = new SimpleStringProperty(String.valueOf(time));
         this.admin = new SimpleStringProperty(admin);
         this.game = new SimpleStringProperty(game);
         this.members = new SimpleIntegerProperty(members);
-        this.numberposts = new SimpleIntegerProperty(posts);
+        this.timestampLastPost = new SimpleStringProperty(String.valueOf(lastPost));
     }
 
     public String getGroupName() {
@@ -37,10 +37,6 @@ public class TableGroupBean {
     public String getTimestamp() {
         return timestamp.get();
     }
-
-    public int getNumberPosts() { return numberposts.get(); }
-
-    public void updateNumberPost() { numberposts = new SimpleIntegerProperty(numberposts.get() + 1); }
 
     public void updateTimestamp() {timestamp = new SimpleStringProperty(String.valueOf(new Timestamp(System.currentTimeMillis())));}
 

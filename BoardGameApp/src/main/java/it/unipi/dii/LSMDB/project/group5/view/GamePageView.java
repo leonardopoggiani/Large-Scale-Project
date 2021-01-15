@@ -133,10 +133,10 @@ public class GamePageView {
         GameBean currentGame = cache.getDataIfPresent(game);
         logger.info("show " + currentGame);
         if(currentGame == null || currentGame.getName() == null) {
-            logger.log(Level.WARNING, "cache miss");
+            logger.log(Level.INFO, "cache miss");
             currentGame = controller.showGame(game);
         } else {
-            logger.log(Level.WARNING, "cache hit");
+            logger.log(Level.INFO, "cache hit");
         }
 
         if( (currentGame.getImageUrl() != null) && !currentGame.getImageUrl().equals("") ) {

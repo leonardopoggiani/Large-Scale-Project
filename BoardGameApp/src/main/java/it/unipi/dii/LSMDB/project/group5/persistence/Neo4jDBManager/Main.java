@@ -56,7 +56,7 @@ public class Main {
         post.setGroup("Gruppo brutto");
         post.setAdmin("Gaia5");
         post.setAuthor("Gaia5");
-        post.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        //post.setTimestamp(new Timestamp(System.currentTimeMillis()));
         post.setText("Ci siete amici??");
         grpos.addDeletePost(post, "add");
 
@@ -64,7 +64,7 @@ public class Main {
         post2.setGroup("Gruppo brutto");
         post2.setAdmin("Gaia5");
         post2.setAuthor("sara");
-        post2.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        //post2.setTimestamp(new Timestamp(System.currentTimeMillis()));
         post2.setText("Ci siete amici miei??");
         //ud.Neo4jAddDeletePost(post, "add");
 
