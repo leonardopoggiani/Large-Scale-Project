@@ -219,6 +219,7 @@ public class AnalyticsDBManager {
         Bson match = match(and(gte("articles.timestamp", start ), lte("articles.timestamp", new Timestamp(System.currentTimeMillis()).toString()) ));
         Bson limit = limit(10);
         Bson sort = sort(ascending("count"));
+
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, match1, match, group, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {

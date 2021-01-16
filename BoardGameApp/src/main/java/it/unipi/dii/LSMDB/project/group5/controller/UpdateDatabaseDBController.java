@@ -21,7 +21,7 @@ public class UpdateDatabaseDBController {
         Boolean ret = false;
         ret = CommentsDBManager.addComment(newComm);
         if (ret){
-            ArticleDBManager.updateNumComments(1, newComm.getAuthorArt(), newComm.getTitleArt());
+            ArticleDBManager.updateNumComments(1, n);
 
         }
         return ret;

@@ -63,8 +63,9 @@ public class ArticlesCommentsLikesDBController {
 
     public ArticleBean mongoDBshowArticle(String title, String author) {
 
-        ArticleBean article;
-        article = ArticleDBManager.readArticle(author, title);
+        ArticleBean article = new ArticleBean();
+        //article = ArticleDBManager.readArticle(author, title); SOSTITUIRE CON QUELLA SOTTO
+        //article = ArticleDBManager.readArticle(id);
 
         //System.out.println(article.toString());
 
