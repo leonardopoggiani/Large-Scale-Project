@@ -262,6 +262,7 @@ public class ArticleDBManager {
 
     private static ArticleBean fillArticleFields (Document next){
         ArticleBean a = new ArticleBean();
+        a.setId(Integer.parseInt(next.get("id").toString()));
         a.setAuthor(next.get("author").toString());
         a.setTitle(next.get("title").toString());
         System.out.println("Titolo " + next.get("title").toString());
