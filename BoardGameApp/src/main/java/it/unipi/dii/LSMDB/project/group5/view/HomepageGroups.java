@@ -324,6 +324,10 @@ public class HomepageGroups {
     }
 
     @FXML
+    void searchUser() {
+    }
+
+    @FXML
     void filterResearch(){
         String gameFilter = giochiDeiGruppi.get(filter.getSelectionModel().getSelectedIndex());
 

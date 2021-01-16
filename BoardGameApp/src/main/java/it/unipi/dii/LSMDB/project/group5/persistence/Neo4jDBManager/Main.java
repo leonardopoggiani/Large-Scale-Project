@@ -13,13 +13,13 @@ public class Main {
 
 
 
-            GamesPageDBController gr = new GamesPageDBController();
-            ArticlesPageDBController artCon = new ArticlesPageDBController();
+            GamesPagesDBController gr = new GamesPagesDBController();
+            ArticlesPagesDBController artCon = new ArticlesPagesDBController();
 
 
             GroupsPagesDBController grpos = new GroupsPagesDBController();
 
-            UsersPageDBController uDB = new UsersPageDBController();
+            UsersPagesDBController uDB = new UsersPagesDBController();
 
             AnalyticsDBController aDB = new AnalyticsDBController();
 

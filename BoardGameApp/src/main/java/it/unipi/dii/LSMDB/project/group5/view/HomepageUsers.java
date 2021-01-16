@@ -1,6 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.controller.UsersPagesDBController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import it.unipi.dii.LSMDB.project.group5.App;
 import javafx.scene.control.Button;
@@ -261,13 +262,13 @@ public class HomepageUsers {
     @FXML
     void filterUsers() {
         String filter = name.getText();
-        UsersPageDBController controller = new UsersPageDBController();
+        UsersPagesDBController controller = new UsersPagesDBController();
 
     }
 
     @FXML
     void promote() throws IOException {
-        UsersPageDBController controller = new UsersPageDBController();
+        UsersPagesDBController controller = new UsersPagesDBController();
     }
 
     @FXML
@@ -334,5 +335,8 @@ public class HomepageUsers {
                 user.setText("");
             }
         }
+    }
+
+    public void searchUser(ActionEvent actionEvent) {
     }
 }
