@@ -213,6 +213,13 @@ public class HomepageUsers {
     }
 
     @FXML
+    void logout() throws IOException {
+        App.setRoot("LoginPageView");
+        LoginPageView.logout();
+    }
+
+
+    @FXML
     void initialize() {
         username = LoginPageView.getLoggedUser();
         UsersPagesDBController controller = new UsersPagesDBController();

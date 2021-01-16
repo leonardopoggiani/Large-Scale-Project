@@ -91,11 +91,9 @@ public class AnalyticsDBManager {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 CountryBean a = new CountryBean();
-                a.setCountry(next.get("age").toString());
+                a.setCountry((next.get("country") == null) ? "" : (next.get("country").toString()));
                 a.setNumUser((next.get("count") == null) ? 0 : Integer.parseInt(next.get("count").toString()));
                 ret.add(a);
-
-
             }
         }
         return ret;
@@ -121,15 +119,11 @@ public class AnalyticsDBManager {
                 Document next = cursor.next();
                 ret.setAvgRatingTot(next.get("avgRatingTot")==null ? 0.0 : Double.parseDouble(next.get("avgRatingTot").toString()));
                 ret.setName(category);
-                ret.setNumRatesTot(next.get("totVotes")==null?0: Integer.parseInt(next.get("totVotes").toString()));
-                ret.setTotGames(Integer.parseInt(next.get("totGames").toString()));
-
-
+                ret.setNumRatesTot(next.get("totVotes")==null ? 0 : Integer.parseInt(next.get("totVotes").toString()));
+                ret.setTotGames(Integer.parseInt(next.get("totGames") == null ? "0" : next.get("totGames").toString()));
             }
         }
-
         return ret;
-
     }
 
     public static List<UserBean> showLessRecentLoggedUsers (){
@@ -145,8 +139,6 @@ public class AnalyticsDBManager {
                 Document next = cursor.next();
                 UserBean u = fillUserFields(next);
                 ret.add(u);
-
-
             }
         }
 

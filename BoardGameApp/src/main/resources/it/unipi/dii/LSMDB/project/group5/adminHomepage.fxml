@@ -1,45 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.Avatar?>
 <?import com.gluonhq.charm.glisten.control.BottomNavigation?>
 <?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
 <?import com.gluonhq.charm.glisten.control.Icon?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.28484848484848485" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#setSuggestedArticles" prefHeight="557.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageArticles">
+<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="663.0" prefWidth="1111.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.AdminHomepage">
    <items>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
-         <children>
-            <Button layoutX="42.0" layoutY="91.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
-            <Avatar layoutX="88.0" layoutY="25.0" />
-            <Line endX="156.0" layoutX="105.0" layoutY="144.0" startX="-100.0" />
-            <Button cancelButton="true" layoutX="76.0" layoutY="423.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
-         </children>
-      </AnchorPane>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="562.0">
          <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="261.0" layoutY="95.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="51.0" layoutY="95.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
             <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
             <BottomNavigation layoutX="51.0" layoutY="6.0" prefHeight="66.0" prefWidth="339.0">
                <actionItems>
-                  <BottomNavigationButton onMouseClicked="#returnToStatistics" selected="true" text="Statistics">
-                     <graphic>
-                        <Icon content="EMPTY" onMouseClicked="#returnToHomepage" />
-                     </graphic>
+                  <BottomNavigationButton onAction="#goToStatistics" selected="true" text="Statistics">
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToAdminGames" text="Games">
+                  <BottomNavigationButton onAction="#goToGamesAdmin" text="Games">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToAdminUsers" text="Users">
+                  <BottomNavigationButton onAction="#goToUsers" text="Users">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>
@@ -49,15 +40,45 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <Text layoutX="54.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1)" />
-            <Text layoutX="54.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2)" />
-            <Text layoutX="54.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3)" />
-            <ComboBox layoutX="54.0" layoutY="90.0" prefHeight="30.0" prefWidth="161.0" promptText="Less rated games" />
-            <ComboBox layoutX="274.0" layoutY="90.0" prefHeight="30.0" prefWidth="161.0" promptText="Category" />
-            <Text layoutX="287.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1)" />
-            <Text layoutX="287.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2)" />
-            <Text layoutX="287.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3)" />
-            <PieChart layoutX="226.0" layoutY="203.0" prefHeight="135.0" prefWidth="257.0" title="Distribution per category" />
+            <Group layoutX="277.0" layoutY="141.0">
+               <children>
+                  <ComboBox fx:id="categories" onAction="#displayCategoryInfo" prefHeight="30.0" prefWidth="161.0" promptText="Choose statistics" />
+                  <Text fx:id="category1" layoutX="120.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+                  <Text fx:id="category2" layoutX="120.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+                  <Text fx:id="category3" layoutX="120.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+                  <Text layoutX="-5.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of games" />
+                  <Text layoutX="-3.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average rating" />
+                  <Text layoutX="-1.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number rates" />
+               </children>
+            </Group>
+            <Button cancelButton="true" layoutX="417.0" layoutY="23.0" mnemonicParsing="false" onAction="#logout" onMouseClicked="#logout" text="Logout" />
+            <Group layoutX="210.0" layoutY="290.0" />
+            <Group layoutX="68.0" layoutY="141.0">
+               <children>
+                  <Text layoutY="40.630218505859375" strokeType="OUTSIDE" strokeWidth="0.0" text="1)" />
+                  <Text layoutY="58.630218505859375" strokeType="OUTSIDE" strokeWidth="0.0" text="2)" />
+                  <Text layoutY="76.63021850585938" strokeType="OUTSIDE" strokeWidth="0.0" text="3)" />
+                  <AnchorPane>
+                     <children>
+                        <ComboBox fx:id="games" onAction="#displayGameStatisticResult" prefHeight="30.0" prefWidth="161.0" promptText="Choose statistics" />
+                     </children>
+                  </AnchorPane>
+                  <Text fx:id="game1" layoutX="19.0" layoutY="40.630218505859375" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+                  <Text fx:id="game3" layoutX="19.0" layoutY="75.63021850585938" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+                  <Text fx:id="game2" layoutX="19.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+               </children>
+            </Group>
+            <PieChart fx:id="pie" layoutX="508.0" layoutY="55.0" prefHeight="237.0" prefWidth="442.0" title="Distribution per category" />
+            <ComboBox fx:id="choosenCategory" layoutX="76.0" layoutY="246.0" onAction="#displayCategoryStatisticResult" prefWidth="150.0" promptText="Choose category" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="45.0" layoutY="331.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="261.0" layoutY="331.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <PieChart fx:id="userpie" layoutX="490.0" layoutY="292.0" prefHeight="279.0" prefWidth="433.0" title="User distribution per country" />
+            <Text layoutX="62.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least recently logged user" />
+            <Text fx:id="user1" layoutX="62.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="user2" layoutX="62.0" layoutY="436.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="user3" layoutX="63.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="user4" layoutX="62.0" layoutY="486.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="user5" layoutX="61.0" layoutY="511.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
          </children>
       </AnchorPane>
    </items>

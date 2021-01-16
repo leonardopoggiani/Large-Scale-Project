@@ -32,7 +32,7 @@
                <font>
                   <Font size="17.0" />
                </font></Text>
-            <Button cancelButton="true" layoutX="76.0" layoutY="423.0" mnemonicParsing="false" text="Logout" />
+            <Button cancelButton="true" layoutX="76.0" layoutY="423.0" mnemonicParsing="false" text="Logout" onAction="#logout"/>
             <Button cancelButton="true" layoutX="76.0" layoutY="374.0" mnemonicParsing="false" onAction="#filterUsers" text="Search" />
             <CheckBox fx:id="showfollowed" layoutX="51.0" layoutY="187.0" mnemonicParsing="false" onAction="#showFollowedUsers" text="Followed users" />
             <CheckBox fx:id="showusers" layoutX="51.0" layoutY="220.0" mnemonicParsing="false" onAction="#showSuggestedUsers" text="Suggested users" />
