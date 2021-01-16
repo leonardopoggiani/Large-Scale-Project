@@ -24,6 +24,8 @@ public class addingThings {
             ObservableList<String> autori = FXCollections.observableArrayList("chakado", "microcline", "leonardo", "francesca", "kd5dgh", "jtong77");
             ObservableList<String> categorie = FXCollections.observableArrayList("Card Game:1002","Humor:1079","Party Game:1030","Educational:1094","Medical:2145","Animals:1089","Racing:1031");
             ObservableList<String> text = FXCollections.observableArrayList("Ah incredibile", "Ah davvero", "Post", "Sono ioo", "Ci siete?", "Che fate?", "Tutto bene?");
+            ObservableList<String> nomi = FXCollections.observableArrayList("Bel gruppo", "Gli sfollati", "Quelli di sempre", "Pisammare", "Cimone 2k16", "Quelli del quartiere");
+            ObservableList<String> giochi = FXCollections.observableArrayList("Muse: Awakenings", "Streams", "Bowl Bound", "Kribbeln", "Santa Cruz 1797", "Qwixx: Das Duell");
 
             ArticlesPagesDBController controller = new ArticlesPagesDBController();
             GamesPagesDBController controller1 = new GamesPagesDBController();
@@ -40,6 +42,12 @@ public class addingThings {
 
             for(int i = 0; i < 50; i++){
                 if(controller2.addRemoveFollow(autori.get(rand.nextInt(5)), autori.get(rand.nextInt(5)),"add")){
+                    System.out.println("ok");
+                }
+            }
+
+            for(int i = 0; i < 50; i++){
+                if(controller3.addGroup(new GroupBean((nomi.get(rand.nextInt(5))),new Timestamp(System.currentTimeMillis()), autori.get(rand.nextInt(5)),"no description",giochi.get(rand.nextInt(5))))){
                     System.out.println("ok");
                 }
             }
