@@ -40,9 +40,9 @@ public class ArticlesPagesDBController {
     }
 
     //ONLY MONGODB
-    public ArticleBean showArticleDetails(String title, String author) {
+    public ArticleBean showArticleDetails(int id) {
 
-       return  ArticleDBManager.readArticle(author, title);
+       return  ArticleDBManager.readArticle(id);
 
     }
 

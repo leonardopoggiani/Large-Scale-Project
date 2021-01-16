@@ -212,15 +212,13 @@ public class AnalyticsDBManager {
         List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields(excludeId(), computed("username", "$_id"), include("count")));
-        Bson group = group("$username",sum("count", 1L) );
-        Bson match1 = match(exists("articles"));
-        Bson match = match(and(gte("articles.timestamp", start ), lte("articles.timestamp", new Timestamp(System.currentTimeMillis()).toString()) ));
+        Bson projection = project(fields(excludeId(), computed("author", "$_id"), include("count")));
+        Bson group = group("$author",sum("count", 1L) );
+        Bson match = match(and(gte("timestamp", start ), lte("timestamp", new Timestamp(System.currentTimeMillis()).toString()) ));
         Bson limit = limit(10);
         Bson sort = sort(ascending("count"));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, match1, match, group, projection, sort, limit)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(match, group, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {
                 System.out.println(cursor.next().toJson());
@@ -240,18 +238,17 @@ public class AnalyticsDBManager {
         List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
-        Bson unwind = unwind("$articles");
+
         Bson unwind1 = unwind("$articles.games");
-        Bson projection = project(fields(excludeId(), computed("username", "$_id"), include("count")));
-        Bson group1 = new Document("$group", new Document ("_id", new Document("username" ,"$username")
+        Bson projection = project(fields(excludeId(), computed("author", "$_id"), include("count")));
+        Bson group1 = new Document("$group", new Document ("_id", new Document("author" ,"$username")
                 .append("games", "$articles.games")));
-        Bson group = group("$_id.username",sum("count", 1L) );
-        Bson match1 = match(exists("articles"));
-        Bson match = match(and(gte("articles.timestamp", start ), lte("articles.timestamp", new Timestamp(System.currentTimeMillis()).toString()) ));
+        Bson group = group("$_id.author",sum("count", 1L) );
+        Bson match = match(and(gte("timestamp", start ), lte("timestamp", new Timestamp(System.currentTimeMillis()).toString()) ));
         Bson match2 = match (lte("count",10));
         Bson limit = limit(10);
         Bson sort = sort(ascending("count"));
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, unwind1, match1, match, group1, group, match2, projection, sort, limit)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind1,  match, group1, group, match2, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -270,13 +267,11 @@ public class AnalyticsDBManager {
     public static List<InfluencerInfoBean> getNumLikeForEachInfluencer (){
         List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields(excludeId(), computed("username", "$_id"), include("count")));
-        Bson group = group("$username",sum("count", "$articles.num_likes"));
-        Bson match = match(exists("articles"));
+        Bson projection = project(fields(excludeId(), computed("author", "$_id"), include("count")));
+        Bson group = group("$author",sum("count", "$num_likes"));
         Bson limit = limit(3);
         Bson sort = sort(descending("count"));
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match, group, projection, sort, limit)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(group, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {
                 System.out.println(cursor.next().toJson());
@@ -295,13 +290,11 @@ public class AnalyticsDBManager {
     public static List<InfluencerInfoBean> getNumDislikeForEachInfluencer (){
         List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields(excludeId(), computed("username", "$_id"), include("count")));
-        Bson group = group("$username",sum("count", "$articles.num_dislikes"));
-        Bson match = match(exists("articles"));
+        Bson projection = project(fields(excludeId(), computed("author", "$_id"), include("count")));
+        Bson group = group("$author",sum("count", "$num_dislikes"));
         Bson limit = limit(3);
         Bson sort = sort(descending("count"));
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match, group, projection, sort, limit)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(group, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {
                 System.out.println(cursor.next().toJson());
