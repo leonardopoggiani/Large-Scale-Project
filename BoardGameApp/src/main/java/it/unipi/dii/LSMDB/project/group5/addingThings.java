@@ -48,10 +48,14 @@ public class addingThings {
                 String author = autori.get(rand.nextInt(5));
                 String testo = text.get(rand.nextInt(7));
                 List<GroupBean> gruppi = controller3.showUsersGroups(author,"member");
-                GroupBean gruppoScelto = gruppi.get(rand.nextInt(gruppi.size()));
-                PostBean p = new PostBean(author,testo, (new Timestamp(System.currentTimeMillis())).toString(), gruppoScelto.getName(), gruppoScelto.getAdmin());
-                if(controller3.addDeletePost(p,"add")){
-                    System.out.println("ok");
+                System.out.println("gruppi " + gruppi.size());
+
+                if(gruppi.size() != 0) {
+                    GroupBean gruppoScelto = gruppi.get(rand.nextInt(gruppi.size()));
+                    PostBean p = new PostBean(author, testo, (new Timestamp(System.currentTimeMillis())).toString(), gruppoScelto.getName(), gruppoScelto.getAdmin());
+                    if (controller3.addDeletePost(p, "add")) {
+                        System.out.println("ok");
+                    }
                 }
             }
         }
