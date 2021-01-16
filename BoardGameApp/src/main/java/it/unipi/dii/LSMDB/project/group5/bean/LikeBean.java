@@ -7,8 +7,10 @@ public class LikeBean {
     private String type;
     private String author;
     private Timestamp timestamp;
-    private String authorArt;
-    private String titleArt;
+    private String authorArt;  //SI PUO' LEVARE?
+    private String titleArt; //SI PUO' LEVARE?
+    private int id;
+
 
     public LikeBean(String type, String author, Timestamp timestamp, String authorArt, String titleArt)
     {
@@ -17,6 +19,10 @@ public class LikeBean {
         this. timestamp = timestamp;
         this.authorArt = authorArt;
         this.titleArt = titleArt;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getType() {
@@ -37,6 +43,10 @@ public class LikeBean {
 
     public String getTitleArt() {
         return titleArt;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setType(String type) {

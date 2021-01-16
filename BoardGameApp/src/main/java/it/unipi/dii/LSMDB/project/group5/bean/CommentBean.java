@@ -9,6 +9,7 @@ public class CommentBean {
     private Timestamp timestamp;
     private String authorArt;
     private String titleArt;
+    private int id;
 
     public CommentBean() { }
 
@@ -22,6 +23,13 @@ public class CommentBean {
         this.titleArt = titleArt;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
