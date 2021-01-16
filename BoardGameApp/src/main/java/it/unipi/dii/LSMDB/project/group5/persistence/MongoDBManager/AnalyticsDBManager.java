@@ -17,6 +17,7 @@ import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Sorts.*;
+import static it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.GameDBManager.fillInfoGameFields;
 import static it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.UserDBManager.*;
 
 
@@ -61,16 +62,16 @@ public class AnalyticsDBManager {
             }
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
+               //System.out.println(cursor.next().toJson());
 
-                /*Document next = cursor.next();
+                Document next = cursor.next();
                 if(value.equals("category")){
                     g = fillInfoGameFields(next, true);
                 }else {
                     g = fillInfoGameFields(next, false);
                 }
 
-                ret.add(g);*/
+                ret.add(g);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,9 +84,10 @@ public class AnalyticsDBManager {
         Bson projection = project(fields(excludeId(), computed("country", "$_id"), include("count")));
         Bson group = group("$country", sum("count", 1L));
         Bson match = match(and(ne("country", null), ne("country", "")));
+        Bson sort = sort(descending("count"));
 
        List<CountryBean> ret = new ArrayList<CountryBean>();
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( group, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(match, group, projection, sort)).iterator()) {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -110,7 +112,7 @@ public class AnalyticsDBManager {
         .append("avgRatingtot", new Document("$avg", "$avg_rating"))
         .append("totGames", new Document("$sum", 1L)));
         //Bson group2 = group("$category", avg("avgRatingTot", "$avg_rating"));
-        Bson projection2 = project(fields(excludeId(), computed("category", "$_id"), include("category, totVotes, avgRatingTot, totGames")));
+        Bson projection2 = project(fields(excludeId(), computed("category", "$_id"), include("totVotes", "avgRatingTot", "totGames")));
 
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2)).iterator()) {
 
@@ -121,7 +123,7 @@ public class AnalyticsDBManager {
                 ret.setName(category);
                 ret.setNumRatesTot(next.get("totVotes")==null ? 0 : Integer.parseInt(next.get("totVotes").toString()));
                 ret.setTotGames(Integer.parseInt(next.get("totGames") == null ? "0" : next.get("totGames").toString()));
-            }
+           }
         }
         return ret;
     }

@@ -33,7 +33,7 @@ public class ArticleDBManager {
             while(cursor.hasNext()){
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                a = fillArticleFields(next);
+                a = fillArticleFields(next, false);
             }
             cursor.close();
        }
@@ -55,7 +55,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = (Document)cursor.next();
                 //System.out.println(next.toJson());
-                ArticleBean a = fillArticleFields(next);
+                ArticleBean a = fillArticleFields(next,false);
                 ret.add(a);
             }
         }
@@ -67,9 +67,9 @@ public class ArticleDBManager {
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
 
-        Bson unwind1 = unwind("$articles.games");
+        Bson unwind1 = unwind("$games");
         Bson projection = project(fields( excludeId()));
-        Bson match =  match(and(eq("articles.games",game)));
+        Bson match =  match(and(eq("games",game)));
 
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind1,match,projection)).iterator()) {
 
@@ -77,7 +77,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = (Document) cursor.next();
                 //System.out.println(next.toJson());
-                ArticleBean a = fillArticleFields(next);
+                ArticleBean a = fillArticleFields(next,true);
                 ret.add(a);
             }
         }
@@ -98,7 +98,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                ArticleBean a = fillArticleFields(next);
+                ArticleBean a = fillArticleFields(next,false);
                 ret.add(a);
 
             }
@@ -116,22 +116,22 @@ public class ArticleDBManager {
         Bson sort = null;
         Bson match = null;
         if(mode.equals("like")){
-            match = (and(ne("articles.num_like", null), ne("articles.num_like", "")));
+            match = (and(ne("num_like", null), ne("num_like", "")));
             sort = (descending("num_like"));
         } else if (mode.equals("dislike")){
-            match = (and(ne("articles.num_dislike", null), ne("articles.num_dislike", "")));
-            sort = (descending("articles.num_dislike"));
+            match = (and(ne("num_dislike", null), ne("num_dislike", "")));
+            sort = (descending("num_dislike"));
         } else {
-            match = (and(ne("articles.num_comments", null), ne("articles.num_comments", "")));
-            sort = (descending("articles.num_comments"));
+            match = (and(ne("num_comments", null), ne("num_comments", "")));
+            sort = (descending("num_comments"));
         }
         //try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, sort, limit, projection)).iterator()) {
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).sort(sort).limit(6).iterator()) {
 
         while (cursor.hasNext()) {
                 Document next = cursor.next();
-                System.out.println(next.toJson());
-                ArticleBean g = fillArticleFields(next);
+                //System.out.println(next.toJson());
+                ArticleBean g = fillArticleFields(next,false);
                 ret.add(g);
             }
         }
@@ -260,20 +260,26 @@ public class ArticleDBManager {
         return ret;
     }
 
-    private static ArticleBean fillArticleFields (Document next){
+    private static ArticleBean fillArticleFields (Document next, boolean unwind){
         ArticleBean a = new ArticleBean();
         a.setId(Integer.parseInt(next.get("id").toString()));
         a.setAuthor(next.get("author").toString());
         a.setTitle(next.get("title").toString());
-        System.out.println("Titolo " + next.get("title").toString());
+        //System.out.println("Titolo " + next.get("title").toString());
         Timestamp t = convertStringToTimestamp(next.get("timestamp").toString());
         a.setTimestamp(t);
         a.setText(next.get("body").toString());
         a.setNumberComments(next.get("num_comments")==null ? 0: Integer.parseInt(next.get("num_comments").toString()));
         a.setNumberLikes(next.get("num_like")==null ? 0: Integer.parseInt(next.get("num_like").toString()));
         a.setNumberDislikes(next.get("num_dislike")==null ? 0: Integer.parseInt(next.get("num_dislike").toString()));
-        List<String> list = (List<String>) next.get("games");
-        a.setListGame(list);
+        if (unwind){
+            List<String> list = new ArrayList<>();
+            list.add(next.get("games").toString());
+        }else{
+            List<String> list = (List<String>) next.get("games");
+            a.setListGame(list);
+        }
+
         return a;
     }
 

@@ -26,12 +26,13 @@ public class Main {
         +" " +g.getMinTime() +" " +g.getName() + " " + g.getUrl() + " " + g.getComplexity() + " " + g.getNumVotes() + " " + g.getAlternativeName() + " " + g.getFamily() + " " + g.isCooperative());
 */
         //Filter article
-        //List<ArticleBean> list = ArticleDBManager.filterByInfluencer("microcline");
-        //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByGame("Cluedo");
-        //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.filterByDate("2020-12-29");
-        //List<Article> list = org.openjfx.DBManager.MongoDBManager.ArticleDBManager.orderBy("comments");
-        //org.openjfx.DBManager.MongoDBManager.ArticleDBManager.updateNumComments(-1, "gaia1", "Giudizio su Azul" );
-       // System.out.println(list);
+        //List<ArticleBean> list = ArticleDBManager.filterByInfluencer("gaia1");
+        //List<ArticleBean> list = ArticleDBManager.filterByGame("Cluedo");
+        //List<ArticleBean> list = ArticleDBManager.filterByDate("2020-01-16");
+        //List<ArticleBean> list = ArticleDBManager.orderBy("comments");
+        //ArticleDBManager.updateNumComments(-1, 0 );
+        //ArticleBean list = ArticleDBManager.readArticle(0);
+        //System.out.println(list);
 
 
         //Filter game
@@ -50,16 +51,17 @@ public class Main {
         //org.openjfx.DBManager.MongoDBManager.GameDBManager.updateNumVotes(10, "Monopoli");
 
         //ANALYTICS
-        //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersFromCountry("italy");
-        //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLeastRatedGames("year", "1960");
-        //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getCategoryInfo("Play Card");
+       //AnalyticsDBManager.getUsersFromCountry();
+
+        //AnalyticsDBManager.showLeastRatedGames("category", "Card Game:1002");
+        AnalyticsDBManager.getCategoryInfo("Card Game:1002");
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLessRecentLoggedUsers();
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersForAge();
         //AnalyticsDBManager.getActivitiesStatisticsTotal();
         //AnalyticsDBManager.numberOfArticlesPublishedInASpecifiedPeriod("2020-01-12 00:00:00");
         //AnalyticsDBManager.distinctGamesInArticlesPublishedInASpecifiedPeriod("2020-01-12 00:00:00");
         //AnalyticsDBManager.getNumLikeForEachInfluencer();
-        AnalyticsDBManager.getNumDislikeForEachInfluencer();
+        //AnalyticsDBManager.getNumDislikeForEachInfluencer();
 
         /*ArticleBean a = new ArticleBean();
         List<String> list1 = new ArrayList<>();
