@@ -22,16 +22,14 @@ import static com.mongodb.client.model.Sorts.descending;
 
 public class ArticleDBManager {
 
-    public static ArticleBean readArticle(String user, String title){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
-
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields( excludeId(), include("username", "articles")));
-        Bson match =  match(and(eq("username",user), eq("articles.title", title)));
+    public static ArticleBean readArticle(int id){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
+        Bson projection = (fields(excludeId()));
+        Bson match =  (eq("id",id));
 
         ArticleBean a = new ArticleBean();
 
-       try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()){
+       try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
@@ -47,13 +45,12 @@ public class ArticleDBManager {
 
     public static List<ArticleBean> filterByInfluencer(String influencer){
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
 
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields( excludeId(), include("username", "articles")));
-        Bson match =  match(and(eq("username",influencer)));
+        Bson projection = (fields( excludeId()));
+        Bson match =  (eq("author",influencer));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()) {
 
             while (cursor.hasNext()) {
                 Document next = (Document)cursor.next();
@@ -68,14 +65,13 @@ public class ArticleDBManager {
 
     public static List<ArticleBean> filterByGame(String game){
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
 
-        Bson unwind = unwind("$articles");
         Bson unwind1 = unwind("$articles.games");
-        Bson projection = project(fields( excludeId(), include("username", "articles")));
+        Bson projection = project(fields( excludeId()));
         Bson match =  match(and(eq("articles.games",game)));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,unwind1,match,projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind1,match,projection)).iterator()) {
 
 
             while (cursor.hasNext()) {
@@ -91,13 +87,13 @@ public class ArticleDBManager {
 
     public static List<ArticleBean> filterByDate(String date){
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
 
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields( excludeId(), include("username", "articles")));
-        Bson match =  match(and(gte("articles.timestamp",date)));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
+        Bson projection = (fields( excludeId()));
+        Bson match =  (gte("timestamp",date));
+
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()) {
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
@@ -113,26 +109,26 @@ public class ArticleDBManager {
 
     public static List<ArticleBean> orderBy (String mode){
         List<ArticleBean> ret = new ArrayList<ArticleBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
 
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields( excludeId(), include("username","articles")));
-        Bson limit = limit(10);
+
+        Bson projection = (fields( excludeId()));
         Bson sort = null;
         Bson match = null;
         if(mode.equals("like")){
-            match = match(and(ne("articles.num_like", null), ne("articles.num_like", "")));
-            sort = sort(descending("num_like"));
+            match = (and(ne("articles.num_like", null), ne("articles.num_like", "")));
+            sort = (descending("num_like"));
         } else if (mode.equals("dislike")){
-            match = match(and(ne("articles.num_dislike", null), ne("articles.num_dislike", "")));
-            sort = sort(descending("articles.num_dislike"));
+            match = (and(ne("articles.num_dislike", null), ne("articles.num_dislike", "")));
+            sort = (descending("articles.num_dislike"));
         } else {
-            match = match(and(ne("articles.num_comments", null), ne("articles.num_comments", "")));
-            sort = sort(descending("articles.num_comments"));
+            match = (and(ne("articles.num_comments", null), ne("articles.num_comments", "")));
+            sort = (descending("articles.num_comments"));
         }
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, sort, limit, projection)).iterator()) {
+        //try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, sort, limit, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).sort(sort).limit(6).iterator()) {
 
-            while (cursor.hasNext()) {
+        while (cursor.hasNext()) {
                 Document next = cursor.next();
                 System.out.println(next.toJson());
                 ArticleBean g = fillArticleFields(next);
@@ -144,16 +140,15 @@ public class ArticleDBManager {
 
     }
 
-    public static boolean updateNumLike(int inc, String author, String title){
-        int tot = getNumLikes(author, title) + inc;
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+    public static boolean updateNumLike(int inc, int id){
+        int tot = getNumLikes(id) + inc;
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Document updateLike = new Document();
-        updateLike.append("articles.$.num_like", tot);
+        updateLike.append("num_like", tot);
         Document update = new Document();
         update.append("$set", updateLike);
         Document query = new Document();
-        query.append("username", author);
-        query.append("articles.title", title);
+        query.append("id", id);
         try{
             collection.updateOne(query, update);
 
@@ -166,16 +161,16 @@ public class ArticleDBManager {
 
     }
 
-    public static boolean updateNumDislike(int inc, String author, String title){
-        int tot = getNumLikes(author, title) + inc;
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+    public static boolean updateNumDislike(int inc, int id){
+        int tot = getNumDislikes(id) + inc;
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Document updateLike = new Document();
-        updateLike.append("articles.$.num_dislike", tot);
+        updateLike.append("num_dislike", tot);
         Document update = new Document();
         update.append("$set", updateLike);
         Document query = new Document();
-        query.append("username", author);
-        query.append("articles.title", title);
+        query.append("id", id);
+
         try{
             collection.updateOne(query, update);
 
@@ -187,16 +182,15 @@ public class ArticleDBManager {
         }
     }
 
-    public static boolean updateNumComments(int inc , String author, String title){
-        int tot = getNumComments(author, title) + inc;
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+    public static boolean updateNumComments(int inc , int id){
+        int tot = getNumComments(id) + inc;
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Document updateLike = new Document();
-        updateLike.append("articles.$.num_comments", tot);
+        updateLike.append("num_comments", tot);
         Document update = new Document();
         update.append("$set", updateLike);
         Document query = new Document();
-        query.append("username", author);
-        query.append("articles.title", title);
+        query.append("id", id);
         try{
             collection.updateOne(query, update);
 
@@ -208,20 +202,18 @@ public class ArticleDBManager {
         }
     }
 
-    public static int getNumComments(String author, String title){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields( excludeId(), include("username", "articles")));
-        Bson match =  match(and(eq("articles.title",title), eq("username", author)));
+    public static int getNumComments(int id){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
+        Bson projection = (fields( excludeId()));
+        Bson match =  (eq("id",id));
         int ret = 0;
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()) {
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                Document articles = (Document) next.get("articles");
-                ret = (next.get("num_comments") == null) ? 0 :Integer.parseInt(articles.get("num_comments").toString());
+                ret = (next.get("num_comments") == null) ? 0 :Integer.parseInt(next.get("num_comments").toString());
 
             }
         }
@@ -229,20 +221,18 @@ public class ArticleDBManager {
         return ret;
     }
 
-    public static int getNumLikes(String author, String title){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields( excludeId(), include("username", "articles")));
-        Bson match =  match(and(eq("articles.title",title), eq("username", author)));
+    private static int getNumLikes(int id){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
+        Bson projection = (fields( excludeId()));
+        Bson match =  (eq("id", id));
         int ret = 0;
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()) {
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                Document articles = (Document) next.get("articles");
-                ret = (next.get("num_like") == null) ? 0 :Integer.parseInt(articles.get("num_like").toString());
+                ret = (next.get("num_like") == null) ? 0 :Integer.parseInt(next.get("num_like").toString());
 
             }
         }
@@ -250,14 +240,13 @@ public class ArticleDBManager {
         return ret;
     }
 
-    public static int getNumDislikes(String author, String title){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
-        Bson unwind = unwind("$articles");
-        Bson projection = project(fields( excludeId(), include("username", "articles")));
-        Bson match =  match(and(eq("articles.title",title), eq("username", author)));
+    private static int getNumDislikes(int id){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
+        Bson projection = (fields( excludeId()));
+        Bson match = eq("id",id);
         int ret = 0;
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind,match,projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()) {
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
@@ -273,13 +262,13 @@ public class ArticleDBManager {
 
     private static ArticleBean fillArticleFields (Document next){
         ArticleBean a = new ArticleBean();
-        a.setAuthor(next.get("username").toString());
-        Document article = (Document)next.get("articles");
-        a.setTitle(article.get("title").toString());
-        System.out.println("Titolo " + article.get("title").toString());
-        Timestamp t = convertStringToTimestamp(article.get("timestamp").toString());
+        a.setId(Integer.parseInt(next.get("id").toString()));
+        a.setAuthor(next.get("author").toString());
+        a.setTitle(next.get("title").toString());
+        System.out.println("Titolo " + next.get("title").toString());
+        Timestamp t = convertStringToTimestamp(next.get("timestamp").toString());
         a.setTimestamp(t);
-        a.setText(article.get("body").toString());
+        a.setText(next.get("body").toString());
         a.setNumberComments(next.get("num_comments")==null ? 0: Integer.parseInt(next.get("num_comments").toString()));
         a.setNumberLikes(next.get("num_like")==null ? 0: Integer.parseInt(next.get("num_like").toString()));
         a.setNumberDislikes(next.get("num_dislike")==null ? 0: Integer.parseInt(next.get("num_dislike").toString()));
@@ -301,20 +290,16 @@ public class ArticleDBManager {
     }
 
     public static boolean addArticle (ArticleBean a){
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
-        Bson match = (eq("username", a.getAuthor()));
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         List<String> games = a.getListGame();
 
-        Document doc = new Document("title", a.getTitle()).append("body", a.getText()).append("timestamp", "2019-11-20 00:00:00" /*a.getTimestamp().toString()*/)
+        Document doc = new Document("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", "2019-11-20 00:00:00" /*a.getTimestamp().toString()*/)
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
 
-        Bson query = new Document("username", a.getAuthor());
-        Bson update = new Document("$push", new Document("articles", doc));
-
 
         try{
-            collection.findOneAndUpdate(query, update);
+            collection.insertOne(doc);
 
             return true;
         }catch (Exception ex){

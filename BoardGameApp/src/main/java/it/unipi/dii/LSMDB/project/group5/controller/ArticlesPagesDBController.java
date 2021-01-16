@@ -40,9 +40,9 @@ public class ArticlesPagesDBController {
     }
 
     //ONLY MONGODB
-    public ArticleBean showArticleDetails(String title, String author) {
+    public ArticleBean showArticleDetails(int id) {
 
-       return  ArticleDBManager.readArticle(author, title);
+       return  ArticleDBManager.readArticle(id);
 
     }
 
@@ -124,7 +124,7 @@ public class ArticlesPagesDBController {
 
         boolean ret = CommentsDBManager.addComment(newComm);
         if (ret){
-            if(!ArticleDBManager.updateNumComments(1, newComm.getAuthorArt(), newComm.getTitleArt()))
+            if(!ArticleDBManager.updateNumComments(1, newComm.getId()))
             {
                 logger.severe("MONGODB | Numero dei commenti non incrementato!");
                 return false;
@@ -143,19 +143,19 @@ public class ArticlesPagesDBController {
         if(ret > -1){
             if (ret == 0){
                 if(like.getType().equals("like")){
-                    if(!ArticleDBManager.updateNumLike(-1, like.getAuthorArt(), like.getTitleArt()))
+                    if(!ArticleDBManager.updateNumLike(-1, like.getId()))
                         logger.severe("MONGODB | Numero dei like non decrementato!");
                 }else {
-                    if(!ArticleDBManager.updateNumDislike(-1, like.getAuthorArt(), like.getTitleArt()))
+                    if(!ArticleDBManager.updateNumDislike(-1, like.getId()))
                         logger.severe("MONGODB | Numero dei dislike non decrementato!");
 
                 }
             }else {
                 if(like.getType().equals("like")){
-                    if(!ArticleDBManager.updateNumLike(1, like.getAuthorArt(), like.getTitleArt()))
+                    if(!ArticleDBManager.updateNumLike(1, like.getId()))
                         logger.severe("MONGODB | Numero dei like non incrementato!");
                 }else {
-                    if(!ArticleDBManager.updateNumDislike(1, like.getAuthorArt(), like.getTitleArt()))
+                    if(!ArticleDBManager.updateNumDislike(1, like.getId()))
                         logger.severe("MONGODB | Numero dei dislike non incrementato!");
 
                 }
@@ -174,7 +174,7 @@ public class ArticlesPagesDBController {
 
         boolean ret  = CommentsDBManager.deleteComment(comm);
         if (ret){
-            if(!ArticleDBManager.updateNumComments(-1, comm.getAuthorArt(), comm.getTitleArt()))
+            if(!ArticleDBManager.updateNumComments(-1, comm.getId() ))
                 logger.severe("MONGODB | Numero dei commenti articolo: " + comm.getTitleArt()+" non decrementato!");
 
             return true;

@@ -20,6 +20,7 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     private int numDislikes;
     private int numComments;
     private List<String> ListGame;
+    private int id;
 
     List<CommentBean> infoComments;
 
@@ -35,6 +36,8 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
         this.timestamp = timestamp;
         ListGame = Lists.newArrayList(game,game2);
     }
+
+    public int getId (){return id;}
 
     public int getNumberComments() {
         return numComments;
@@ -61,6 +64,8 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     }
 
     public String getText(){return text;}
+
+    public void setId (int id) {this.id =id;}
 
     public void setListGame(List<String> listgame) {
         ListGame = listgame;
