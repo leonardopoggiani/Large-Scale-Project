@@ -2,6 +2,7 @@ package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
 
 import it.unipi.dii.LSMDB.project.group5.bean.GroupBean;
+import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
@@ -59,12 +60,12 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
 
         if (type == "member") {
             result = tx.run("MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
-                    "WHERE NOT (gr.admin=$username)" +
-                    "RETURN u,b,gr,ga ORDER BY b.timestamp", parameters);
+                    " WHERE NOT (gr.admin=$username)" +
+                    " RETURN u,b,gr,ga ORDER BY b.timestamp", parameters);
 
         } else if (type == "admin") {
             result = tx.run("MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{admin:$username})-[r:REFERRED]->(ga:Game)" +
-                    "RETURN u,b,gr,ga ORDER BY b.timestamp", parameters);
+                    " RETURN u,b,gr,ga ORDER BY b.timestamp", parameters);
         }
 
         while (result.hasNext()) {
@@ -75,7 +76,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                 if ("ga".equals(nameValue.key())) {
                     Value value = nameValue.value();
                     group.setGame(value.get("name").asString());
-
                 }
 
                 if ("gr".equals(nameValue.key())) {
@@ -92,14 +92,9 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
 
                 if ("b".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    String timestamp = value.get("timestamp").asString();
-                    group.setTimestamp(Timestamp.valueOf(timestamp));
-
+                    Timestamp timestamp = Timestamp.valueOf(value.get("timestamp").asString());
+                    group.setTimestamp(timestamp);
                 }
-
-
-
-
             }
             //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
 
@@ -153,7 +148,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", admin);
 
         Result result1 = tx.run("MATCH (gr:Group{name:$name, admin:$admin})<-[b:BE_PART]-(u:User)" +
-                "RETURN u", parameters);
+                " RETURN u", parameters);
 
         while(result1.hasNext())
         {
@@ -188,7 +183,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         {
             return session.writeTransaction(new TransactionWork<Timestamp>()
             {
-                @Override
                 public Timestamp execute(Transaction tx)
                 {
                     return transactionTimestampLastPost(tx, name, admin);
@@ -218,7 +212,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", admin);
         Timestamp ts = null;
         Result result1 = tx.run("MATCH (gr:Group{name:$name, admin:$admin})<-[p:POST]-(u:User)" +
-                "RETURN p ORDER BY p.timestamp DESC LIMIT 1 ", parameters);
+                " RETURN p ORDER BY p.timestamp DESC LIMIT 1 ", parameters);
 
         while (result1.hasNext())
         {
@@ -227,8 +221,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             GroupBean group= new GroupBean();
             for (Pair<String,Value> nameValue: values) {
                     Value value = nameValue.value();
-                    String timestamp = value.get("timestamp").asString();
-                    ts = Timestamp.valueOf(timestamp);
+                    Timestamp timestamp = Timestamp.valueOf(value.get("timestamp").asString());
+                    ts = timestamp;
 
             }
         }
@@ -279,7 +273,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         parameters.put("admin", admin);
-        Result result = tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group{name:$name, admin:$admin}) return count(distinct b) AS countMembers", parameters);
+        Result result = tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group{name:$name, admin:$admin}) " +
+                " RETURN COUNT(DISTINCT b) AS countMembers", parameters);
 
         if (result.hasNext()) {
             Record record = result.next();
@@ -305,8 +300,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     return transactionAddGroup(tx, newGroup);
                 }
             });
-
-
         }
         catch(Exception ex)
         {
@@ -341,7 +334,8 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         } else {
 
             Result result = tx.run("MATCH (u:User{username:$admin}),(ga:Game{name:$game})" +
-                            "CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)"
+                            " CREATE (u)-[:BE_PART{timestamp:$timestamp}]->(gr:Group {name:$name,description:$desc, admin:$admin})-[:REFERRED]->(ga)" +
+                            " RETURN gr"
                     , parameters);
 
             if (result.hasNext()) {
@@ -350,18 +344,16 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             }
             return false;
         }
-
-
     }
 
     /**
      * La funzione elimina un gruppo
      * @param delGroup
-     * @return true se ha eliminato correttamente il gruppo
-     * @return false altrimenti
+     * @param delAdmin
+     * @return true se ha eliminato correttamente il gruppo, false altrimenti
      */
 
-    public static Boolean deleteGroup(final String delGroup, final String delAdmin) {
+    public static boolean deleteGroup(final String delGroup, final String delAdmin) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
@@ -385,6 +377,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
      * La funzione elimina un gruppo
      * @param tx
      * @param delGroup
+     * @param delAdmin
      * @return true se ha eliminato correttamente il gruppo
      * @return false altrimenti
      */
@@ -395,31 +388,35 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("admin", delAdmin);
         parameters.put("name", delGroup);
 
-        tx.run("MATCH (u:User)-[b:BE_PART]->(gr:Group)-[r:REFERRED]->(ga:Game)" +
-                        "WHERE gr.name=$name and  gr.admin=$admin" +
-                        "DELETE b,gr,r"
+
+        tx.run("MATCH (gr:Group)" +
+                        " WHERE gr.name=$name and  gr.admin=$admin" +
+                        " DETACH DELETE gr"
                 , parameters);
 
         return true;
     }
 
     /**
-     * La funzione aggiunge un membro ad un gruppo
+     * La funzione aggiunge o toglie un membro ad un gruppo in base al parametro type
      * @param username
      * @param name
      * @param admin
-     * @return true se ha aggiunto correttamente il membro
-     * @return false se l'utente era già membro del gruppo
+     * @param type
+     * @return true se ha tolto o aggiunto un membro correttamente
      */
 
 
-    public static boolean addGroupMember(final String username, final String name, final String admin) {
+    public static boolean addDeleteGroupMember(final String username, final String name, final String admin, final String type) {
         try (Session session = driver.session()) {
 
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    return transactionAddGroupMember(tx, username, name, admin);
+                    if(type.equals("add"))
+                        return transactionAddGroupMember(tx, username, name, admin);
+                    else
+                        return transactionDeleteGroupMember(tx, username, name, admin);
                 }
             });
 
@@ -439,11 +436,10 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
      * @param username
      * @param name
      * @param admin
-     * @return true se ha aggiunto correttamente il membro
-     * @return false se l'utente era già membro del gruppo
+     * @return true se ha aggiunto correttamente il membro, false altrimenti
      */
 
-    private static Boolean transactionAddGroupMember(Transaction tx, String username, String name, String admin) {
+    private static boolean transactionAddGroupMember(Transaction tx, String username, String name, String admin) {
 
         HashMap<String, Object> parameters = new HashMap<>();
         Timestamp ts = new Timestamp(System.currentTimeMillis());
@@ -452,16 +448,16 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("username", username);
         parameters.put("timestamp", ts.toString());
 
-        Result result0 = tx.run("MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{name:$name, admin:$admin})" +
-                        "RETURN b"
+        Result result = tx.run("MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{name:$name, admin:$admin})" +
+                        " RETURN b"
                 , parameters);
-        if (result0.hasNext()) {
+        if (result.hasNext()) {
             //System.out.println("Utente già membro del gruppo!");
             return false;
         } else {
-            Result result = tx.run("MATCH (u:User{username:$username}),(gr:Group{name:$name, admin:$admin})" +
-                            "CREATE (u)-[b:BE_PART {timestamp:$timestamp}]->(gr)" +
-                            "RETURN b"
+            result = tx.run("MATCH (u:User{username:$username}),(gr:Group{name:$name, admin:$admin})" +
+                            " CREATE (u)-[b:BE_PART {timestamp:$timestamp}]->(gr)" +
+                            " RETURN b"
                     , parameters);
             if (result.hasNext()) {
                 System.out.println("Ho aggiunto il nuovo gruppo");
@@ -469,6 +465,198 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             }
             return false;
         }
+
+    }
+
+    /**
+     * La funzione elimina un un membro di un gruppo
+     * @param tx
+     * @param username
+     * @param group
+     * @param admin
+     * @return true se ha eliminato correttamente l'utente membro, false altrimenti
+     */
+
+
+    private static boolean transactionDeleteGroupMember(Transaction tx, String username, String group, String admin) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("username", username);
+        parameters.put("admin", admin);
+        parameters.put("group", group);
+        String eliminaMembro = "MATCH (u:User{username:$username})-[b:BE_PART]->(gr:Group{name:$group, admin:$admin})\n" +
+                " DELETE b";
+        tx.run(eliminaMembro, parameters);
+
+        return true;
+    }
+
+    /**
+     * La funzione crea o elimina un post da un gruppo
+     * @param newPost
+     * @return true se ha creato o eliminato correttamente, false altrimenti
+     */
+
+    public static boolean addDeletePost(final PostBean newPost, final String type) {
+        try (Session session = driver.session()) {
+
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) {
+                    if(type.equals("add"))
+                        return transactionAddPost(tx, newPost);
+                    else
+                        return transactionDeletePost(tx, newPost);
+                }
+            });
+
+
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  false;
+        }
+    }
+
+
+    /**
+     * La funzione crea un nuovo post in un gruppo
+     * @param tx
+     * @param post
+     * @return true se ha creato correttamente il gruppo
+     * @return false altrimenti
+     */
+    private static Boolean transactionAddPost(Transaction tx, PostBean post) {
+
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("group", post.getGroup());
+        parameters.put("timestamp", post.getTimestamp().toString());
+        parameters.put("admin", post.getAdmin());
+        parameters.put("author", post.getAuthor());
+        parameters.put("text", post.getText());
+
+
+        Result result = tx.run("MATCH (u:User {username:$author})-[b:BE_PART]->(g:Group{name:$group, admin:$admin}) return b"
+                , parameters);
+
+        //Anche senza va bene lo stesso
+        if (result.hasNext()) {
+            result = tx.run("MATCH (u:User{username:$author}),(gr:Group{name:$group, admin:$admin})" +
+                            " CREATE (u)-[p:POST{timestamp:$timestamp, text:$text}]->(gr)" +
+                            " RETURN p"
+                    , parameters);
+
+            if (result.hasNext()) {
+                System.out.println("Ho aggiunto il nuovo post");
+                return true;
+            }
+            return false;
+        }
+        return false;
+
+    }
+
+
+
+    /**
+     * La funzione elimina un un post
+     * @param tx
+     * @param delPost
+     * @return true se ha eliminato correttamente il gruppo, false altrimenti
+     */
+
+
+    private static Boolean transactionDeletePost(Transaction tx, PostBean delPost) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("admin", delPost.getAdmin());
+        parameters.put("group", delPost.getGroup());
+        parameters.put("author", delPost.getAuthor());
+        parameters.put("timestamp", delPost.getTimestamp());
+        String eliminaPost = "MATCH (u:User{username:$author})-[p:POST{timestamp:$timestamp}]\n" +
+                "->(gr:Group{name:$group, admin:$admin})\n" +
+                " DELETE p";
+        tx.run(eliminaPost, parameters);
+
+        return true;
+    }
+
+
+    /**
+     * La funzione restituisce la lista dei post ad un gruppo limitato in base al parametro
+     * @param group
+     * @param admin
+     * @param limit
+     * @return Lista dei post di un gruppo
+     */
+    public static List<PostBean> showGroupsPosts(final String group, final String admin, final int limit)
+    {
+        try(Session session=driver.session())
+        {
+
+            return session.readTransaction(new TransactionWork<List>()
+            {
+                @Override
+                public List<PostBean> execute(Transaction tx)
+                {
+                    return transactionShowGroupsPosts(tx, group, admin, limit);
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  null;
+        }
+
+    }
+
+    /**
+     * La funzione restituisce la lista dei post ad un gruppo limitato in base al parametro
+     * @param tx
+     * @param group
+     * @param admin
+     * @param limit
+     * @return Lista dei post di un gruppo
+     */
+    private static List<PostBean> transactionShowGroupsPosts(Transaction tx, String group, String admin, int limit) {
+        List<PostBean> posts = new ArrayList<>();
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("group", group);
+        parameters.put("admin", admin);
+        parameters.put("limit", limit);
+        Result result = tx.run("MATCH (u:User)-[p:POST]->(gr:Group{name:$group, admin:$admin}) " +
+                " RETURN u,p,gr ORDER BY p.timestamp DESC", parameters);
+
+        while (result.hasNext()) {
+            Record record = result.next();
+            List<Pair<String, Value>> values = record.fields();
+            PostBean post = new PostBean();
+            for (Pair<String, Value> nameValue : values) {
+                if ("p".equals(nameValue.key())) {
+                    Value value = nameValue.value();
+                    String text = value.get("text").asString();
+                    String timestamp = value.get("timestamp").asString();
+                    post.setText(text);
+                    post.setTimestamp(timestamp);
+                }
+
+                if ("u".equals(nameValue.key())) {
+                    Value value = nameValue.value();
+                    String author = value.get("username").asString();
+                    post.setAuthor(author);
+
+                }
+
+
+
+            }
+            //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
+            post.setGroup(group);
+            post.setAdmin(admin);
+            posts.add(post);
+        }
+
+        return posts;
 
     }
 

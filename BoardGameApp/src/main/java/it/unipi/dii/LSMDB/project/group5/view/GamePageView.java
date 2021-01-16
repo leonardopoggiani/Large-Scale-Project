@@ -2,11 +2,10 @@ package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
-import it.unipi.dii.LSMDB.project.group5.bean.RateBean;
+import it.unipi.dii.LSMDB.project.group5.bean.RatingBean;
 import it.unipi.dii.LSMDB.project.group5.bean.ReviewBean;
 import it.unipi.dii.LSMDB.project.group5.cache.GamesCache;
-import it.unipi.dii.LSMDB.project.group5.controller.GamesReviewsRatesDBController;
-import it.unipi.dii.LSMDB.project.group5.controller.UpdateDatabaseDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.GamesPagesDBController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -130,14 +129,14 @@ public class GamePageView {
     void setGameFields() throws ExecutionException {
         // setto i campi del gioco
 
-        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+        GamesPagesDBController controller = new GamesPagesDBController();
         GameBean currentGame = cache.getDataIfPresent(game);
         logger.info("show " + currentGame);
         if(currentGame == null || currentGame.getName() == null) {
-            logger.log(Level.WARNING, "cache miss");
+            logger.log(Level.INFO, "cache miss");
             currentGame = controller.showGame(game);
         } else {
-            logger.log(Level.WARNING, "cache hit");
+            logger.log(Level.INFO, "cache hit");
         }
 
         if( (currentGame.getImageUrl() != null) && !currentGame.getImageUrl().equals("") ) {
@@ -234,9 +233,9 @@ public class GamePageView {
     }
 
     private void setReviews(String game) {
-        GamesReviewsRatesDBController controller = new GamesReviewsRatesDBController();
+        GamesPagesDBController controller = new GamesPagesDBController();
 
-        List<ReviewBean> reviews = controller.neo4jListGamesReviews(game,3);
+        List<ReviewBean> reviews = controller.listGamesReviews(game,3);
         System.out.println("Numero di review: " + reviews.size());
 
         if(!reviews.isEmpty()) {
@@ -260,10 +259,10 @@ public class GamePageView {
 
     @FXML
     void postReview() {
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
+        GamesPagesDBController controller = new GamesPagesDBController();
 
         ReviewBean toAdd = new ReviewBean(review.getText(), title.getText(), LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()));
-        controller.Neo4jAddReview(toAdd);
+        controller.addReview(toAdd);
 
         review.setText("");
         setReviews(game);
@@ -280,21 +279,21 @@ public class GamePageView {
 
         ReviewBean review = new ReviewBean(reviewDaCancellare.getText(), game, autore.getText(), Timestamp.valueOf(timestamp.getText()));
 
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
-        controller.Neo4jDeleteReview(review);
+        GamesPagesDBController controller = new GamesPagesDBController();
+        controller.deleteReview(review);
 
         setReviews(game);
     }
 
     @FXML
     void addVote() {
-        UpdateDatabaseDBController controller = new UpdateDatabaseDBController();
 
-        RateBean newRate = new RateBean(LoginPageView.getLoggedUser(), rate.getValue(), game, new Timestamp(System.currentTimeMillis()));
-        boolean ret = controller.Neo4jAddRating(newRate);
+        GamesPagesDBController controller = new GamesPagesDBController();
+        RatingBean newRate = new RatingBean(LoginPageView.getLoggedUser(), rate.getValue(), game, new Timestamp(System.currentTimeMillis()));
+        boolean ret = controller.addRating(newRate);
 
         if(ret) {
-            double votoMedio = controller.MongoDBgetAvgRating(newRate.getGame());
+            double votoMedio = controller.getAvgRating(newRate.getGame());
             votes1.setProgress(votoMedio / 10);
             votes.setText(String.valueOf(Math.round(votoMedio)));
             rate.setValue(0);

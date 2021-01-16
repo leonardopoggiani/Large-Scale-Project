@@ -4,14 +4,13 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
-import it.unipi.dii.LSMDB.project.group5.view.LoginPageView;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPagesDBController;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class ArticlesCache {
-    ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
+    ArticlesPagesDBController controller = new ArticlesPagesDBController();
 
     //Singleton
     private static ArticlesCache instance;
@@ -41,7 +40,7 @@ public class ArticlesCache {
     }
 
     private ArticleBean cercaArticoli(String title) {
-        return controller.mongoDBshowArticle(title, author);
+        return controller.showArticleDetails(title, author);
     }
 
     public ArticleBean getDataIfPresent(String titolo) throws ExecutionException {

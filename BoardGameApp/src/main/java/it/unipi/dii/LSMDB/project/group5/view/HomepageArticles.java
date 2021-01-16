@@ -1,23 +1,25 @@
 package it.unipi.dii.LSMDB.project.group5.view;
-import java.util.concurrent.*;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
+import it.unipi.dii.LSMDB.project.group5.controller.ArticlesPagesDBController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.controller.ArticlesCommentsLikesDBController;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 public class HomepageArticles {
@@ -232,12 +234,12 @@ public class HomepageArticles {
 
     @FXML
     void setSuggestedArticles() throws IOException, ExecutionException {
-        ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
+        ArticlesPagesDBController home = new ArticlesPagesDBController();
 
         if (savedTitles.isEmpty()) {
             // non ho salvato i titoli degli articoli da mostrare
             logger.info("cache vuota");
-            List<ArticleBean> list = home.neo4jListSuggestedArticles(LoginPageView.getLoggedUser());
+            List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 10);
             System.out.println("Lunghezza lista " + list.size());
             showArticles(list);
         } else {
@@ -267,7 +269,7 @@ public class HomepageArticles {
     }
 
     private void showArticles(List<ArticleBean> list) {
-        ArticlesCommentsLikesDBController home = new ArticlesCommentsLikesDBController();
+        ArticlesPagesDBController home = new ArticlesPagesDBController();
 
         int numComments = 0;
         int numLikes = 0;
@@ -290,9 +292,9 @@ public class HomepageArticles {
                     savedTitles.add(a.getTitle());
                     savedArticles.put(a.getTitle(), a.getAuthor());
 
-                    numComments = home.neo4jCountComments(a.getTitle(), a.getAuthor());
-                    numLikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "like");
-                    numUnlikes = home.neo4jCountLikes(a.getTitle(), a.getAuthor(), "dislike");
+                    numComments = home.countComments(a.getTitle(), a.getAuthor());
+                    numLikes = home.countLikes(a.getTitle(), a.getAuthor(), "like");
+                    numUnlikes = home.countLikes(a.getTitle(), a.getAuthor(), "dislike");
 
                     ar.setText(a.getTitle());
                     aut.setText(a.getAuthor());
@@ -381,7 +383,7 @@ public class HomepageArticles {
 
     @FXML
     void filterResearch () throws IOException {
-        ArticlesCommentsLikesDBController controller = new ArticlesCommentsLikesDBController();
+        ArticlesPagesDBController controller = new ArticlesPagesDBController();
 
         List<ArticleBean> filteredArticles = Lists.newArrayList();
         List<ArticleBean> sortedList = Lists.newArrayList();

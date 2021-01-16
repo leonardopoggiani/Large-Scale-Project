@@ -107,7 +107,7 @@ public class SignupPageView {
 
         logger.info("Registrazione di " + username);
         UserBean u = new UserBean(username,password,categoria1,categoria2,age,"normalUser");
-        neo.neo4jRegisterUserController(u);
+        neo.registerUser(u);
         logger.info("Registrazione completata");
         goToLogin();
     }

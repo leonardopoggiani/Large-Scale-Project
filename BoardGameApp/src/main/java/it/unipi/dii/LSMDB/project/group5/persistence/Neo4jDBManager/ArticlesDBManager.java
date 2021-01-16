@@ -22,7 +22,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * @param username username utente
      * @return Lista degli articoli suggeriti
      */
-    public static List<ArticleBean> searchSuggestedArticles(final String username)
+    public static List<ArticleBean> searchSuggestedArticles(final String username, final int limit)
     {
         try(Session session=driver.session())
         {
@@ -32,7 +32,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 @Override
                 public List<ArticleBean> execute(Transaction tx)
                 {
-                    return transactionSearchSuggestedArticles(tx, username);
+                    return transactionSearchSuggestedArticles(tx, username, limit);
                 }
             });
         }
@@ -48,26 +48,27 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * @param username username utente
      * @return Lista degli articoli suggeriti
      */
-    private static List<ArticleBean> transactionSearchSuggestedArticles(Transaction tx, String username)
+    private static List<ArticleBean> transactionSearchSuggestedArticles(Transaction tx, String username, int limit)
     {
         List<ArticleBean> articles = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         int quantiInflu= 0;
         parameters.put("username", username);
         parameters.put("role", "influencer");
+        parameters.put("limit", limit);
         /*String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:$role})" +
                 "RETURN f";*/
-        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article)" +
-                "RETURN a, i, p ORDER BY p.timestamp";
+        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article) " +
+                " RETURN a, i, p ORDER BY p.timestamp LIMIT $limit";
 
-        String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User)" +
-                "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
-                "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT 6";
+        String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User) " +
+                " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
+                " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +
+                " RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT $limit ";
 
         Result result;
         quantiInflu = UsersDBManager.transactionCountUsers(tx,username,"influencer");
-        if(quantiInflu < 0)
+        if(quantiInflu < 3)
         {
             result = tx.run(nienteAmici, parameters);
             System.out.println("Pochi Influencer");
@@ -99,9 +100,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 }
                 if ("p".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    Value timestamp = value.get("timestamp");
-                    System.out.println("Timestamp " + timestamp);
-                    article.setTimestamp(new Timestamp(timestamp.asLong()));
+                    String timestamp = value.get("timestamp").asString();
+                    System.out.println(timestamp);
+                    article.setTimestamp(Timestamp.valueOf(timestamp));
 
                 }
 
@@ -111,20 +112,6 @@ public class ArticlesDBManager extends Neo4jDBManager {
             System.out.println("NELLA DBMANAGER");
             articles.add(article);
         }
-
-        ArticleBean a = new ArticleBean("Un articolo","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean b = new ArticleBean("Ammazza che articolone","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean c = new ArticleBean("Non c'entra niente","francesca",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean d = new ArticleBean("Un articolo3","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean e = new ArticleBean("Un articolo4","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-        ArticleBean f = new ArticleBean("Un articolo5","leonardo",new Timestamp(System.currentTimeMillis()),"Spirit island");
-
-        articles.add(a);
-        articles.add(b);
-        articles.add(c);
-        articles.add(d);
-        articles.add(e);
-        articles.add(f);
 
         return articles;
 
@@ -169,16 +156,18 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("author", newArt.getAuthor());
         parameters.put("timestamp", newArt.getTimestamp().toString());
         parameters.put("title", newArt.getTitle());
-        parameters.put("game", newArt.getGame());
+        parameters.put("game1", newArt.getListGame().get(0));
+        parameters.put("game2", newArt.getListGame().get(1));
         String checkArticle = "MATCH (a:Article{name:$title})<-[p:PUBLISHED]-(u:User{username:$author})" +
-                "RETURN a";
+                " RETURN a";
         Result result = tx.run(checkArticle, parameters);
         if (result.hasNext()) {
             return false;
         }
 
-        result = tx.run("MATCH(u:User {username:$author}), (g:Game{name:$game})" +
-                        "CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})-[r:REFERRED]->(g) " +
+        result = tx.run("MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2)" +
+                        "CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})" +
+                        "CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) " +
                         "return a"
                 , parameters);
         if (result.hasNext()) {
@@ -229,8 +218,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("author", author);
         parameters.put("title", title);
 
-        tx.run("MATCH (ua:User {username:$author})-[p:PUBLISHED]->(a:Article{name:$title})-[r:REFERRED]-(g:Game) " +
-                        "DELETE p,a,r "
+        tx.run("MATCH (a:Article{name:$title})<-[:PUBLISHED]-(u:User{username:$author})" +
+                        " DETACH DELETE a "
                 , parameters);
 
         return true;

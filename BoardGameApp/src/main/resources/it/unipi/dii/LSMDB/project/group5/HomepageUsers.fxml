@@ -10,33 +10,56 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageUsers">
+<SplitPane dividerPositions="0.3101529902642559" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="812.0" prefWidth="1051.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageUsers">
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
-            <Button layoutX="42.0" layoutY="91.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
-            <Avatar layoutX="87.0" layoutY="24.0" />
-            <Line endX="100.0" layoutX="105.0" layoutY="144.0" startX="-100.0" />
-            <Text layoutX="49.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
+            <Button layoutX="53.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
+            <Avatar layoutX="87.0" layoutY="20.0" onMouseClicked="#goToSettings" radius="30.0">
+               <image>
+                  <Image url="@../../../../../../img/avatar.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Avatar>
+            <Text layoutX="49.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research">
+               <font>
+                  <Font size="17.0" />
+               </font></Text>
             <Button cancelButton="true" layoutX="76.0" layoutY="423.0" mnemonicParsing="false" text="Logout" />
-            <Button cancelButton="true" layoutX="76.0" layoutY="374.0" mnemonicParsing="false" text="Search" />
-            <CheckBox layoutX="51.0" layoutY="187.0" mnemonicParsing="false" text="Followed users" />
-            <CheckBox layoutX="51.0" layoutY="220.0" mnemonicParsing="false" text="Suggested users" />
-            <CheckBox layoutX="51.0" layoutY="251.0" mnemonicParsing="false" text="Suggested influencer" />
-            <TextField layoutX="106.0" layoutY="309.0" prefHeight="26.0" prefWidth="103.0" />
+            <Button cancelButton="true" layoutX="76.0" layoutY="374.0" mnemonicParsing="false" onAction="#filterUsers" text="Search" />
+            <CheckBox fx:id="showfollowed" layoutX="51.0" layoutY="187.0" mnemonicParsing="false" onAction="#showFollowedUsers" text="Followed users" />
+            <CheckBox fx:id="showusers" layoutX="51.0" layoutY="220.0" mnemonicParsing="false" onAction="#showSuggestedUsers" text="Suggested users" />
+            <CheckBox fx:id="showinfluencer" layoutX="51.0" layoutY="251.0" mnemonicParsing="false" onAction="#showSuggestedInfluencers" text="Suggested influencer" />
+            <TextField fx:id="name" layoutX="106.0" layoutY="309.0" prefHeight="26.0" prefWidth="103.0" />
             <Text layoutX="26.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+            <Button fx:id="search" layoutX="250.0" layoutY="540.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
+            <Text layoutX="88.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Promote a user">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <TextField fx:id="searchuser" layoutX="122.0" layoutY="543.0" prefHeight="26.0" prefWidth="103.0" />
+            <Text layoutX="54.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search " />
+            <Text fx:id="searched" layoutX="129.0" layoutY="622.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="79.59999999999968" />
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="151.0" layoutY="643.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="promote" layoutX="141.0" layoutY="697.0" mnemonicParsing="false" onMouseClicked="#follow" text="Promote" />
          </children>
       </AnchorPane>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="492.0">
+      <AnchorPane fx:id="anchro" minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="492.0">
          <children>
             <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
-            <BottomNavigation layoutX="51.0" layoutY="6.0">
+            <BottomNavigation layoutX="161.0" layoutY="3.0" prefHeight="26.0" prefWidth="398.0">
                <actionItems>
                   <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
                      <graphic>
@@ -58,136 +81,141 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToFriends" text="Statistics">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
                </actionItems>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <Text layoutX="127.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Followed users">
+            <Text layoutX="237.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Followed users">
                <font>
                   <Font size="26.0" />
                </font></Text>
-            <Text layoutX="132.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested users">
+            <Text layoutX="255.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested users">
                <font>
                   <Font size="22.0" />
                </font></Text>
-            <Avatar layoutX="38.0" layoutY="118.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="145.0" layoutY="118.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="264.0" layoutY="118.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="378.0" layoutY="118.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="41.0" layoutY="238.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="153.0" layoutY="238.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="272.0" layoutY="238.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="386.0" layoutY="238.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="26.0" layoutY="363.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="138.0" layoutY="363.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="257.0" layoutY="363.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="371.0" layoutY="363.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="40.0" layoutY="478.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="152.0" layoutY="478.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="271.0" layoutY="478.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Avatar layoutX="385.0" layoutY="478.0">
-               <image>
-                  <Image url="@../../img/favicon.png" />
-               </image>
-            </Avatar>
-            <Text layoutX="40.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="149.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="266.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="383.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="41.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="150.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="267.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="384.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="27.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="136.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="253.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="370.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="41.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="151.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="267.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="384.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Button layoutX="25.0" layoutY="154.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="133.0" layoutY="154.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="251.0" layoutY="158.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="368.0" layoutY="158.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="34.0" layoutY="274.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="142.0" layoutY="274.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="260.0" layoutY="278.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="377.0" layoutY="278.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="18.0" layoutY="399.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="126.0" layoutY="399.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="244.0" layoutY="403.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="361.0" layoutY="403.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="25.0" layoutY="514.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="133.0" layoutY="514.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="251.0" layoutY="518.0" mnemonicParsing="false" text="Button" />
-            <Button layoutX="368.0" layoutY="518.0" mnemonicParsing="false" text="Button" />
-            <Text layoutX="101.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested influencers">
+            <Text layoutX="211.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested influencers">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
+            <Text fx:id="username1" layoutX="85.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="username2" layoutX="219.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="username3" layoutX="419.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="username4" layoutX="534.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="85.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="219.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="419.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="534.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="username5" layoutX="85.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="username6" layoutX="219.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="username7" layoutX="419.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="username8" layoutX="534.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="85.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="219.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="419.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="534.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="suggested1" layoutX="84.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="suggested2" layoutX="218.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="suggested3" layoutX="418.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="suggested4" layoutX="533.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="85.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="419.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="534.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="219.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="suggested5" layoutX="84.0" layoutY="581.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="suggested6" layoutX="218.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="suggested7" layoutX="418.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="suggested8" layoutX="533.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="85.0" layoutY="591.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="419.0" layoutY="591.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="534.0" layoutY="591.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="219.0" layoutY="591.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avataruser.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="unfollow1" layoutX="65.0" layoutY="186.0" mnemonicParsing="false" onMouseClicked="#unfollow" text="Unfollow" />
+            <Button fx:id="unfollow2" layoutX="202.0" layoutY="186.0" mnemonicParsing="false" onMouseClicked="#unfollow" text="Unfollow" />
+            <Button fx:id="unfollow3" layoutX="402.0" layoutY="186.0" mnemonicParsing="false" onMouseClicked="#unfollow" text="Unfollow" />
+            <Button fx:id="unfollow4" layoutX="517.0" layoutY="186.0" mnemonicParsing="false" onMouseClicked="#unfollow" text="Unfollow" />
+            <Button fx:id="unfollow5" layoutX="65.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#unfollow" text="Unfollow" />
+            <Button fx:id="unfollow6" layoutX="202.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#unfollow" text="Unfollow" />
+            <Button fx:id="unfollow7" layoutX="402.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#unfollow" text="Unfollow" />
+            <Button fx:id="unfollow8" layoutX="517.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#unfollow" text="Unfollow" />
+            <Button fx:id="followuser1" layoutX="72.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
+            <Button fx:id="followuser2" layoutX="209.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
+            <Button fx:id="followuser3" layoutX="409.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
+            <Button fx:id="followuser4" layoutX="524.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
+            <Button fx:id="followinfluencer1" layoutX="72.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
+            <Button fx:id="followinfluencer2" layoutX="209.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
+            <Button fx:id="followinfluencer3" layoutX="409.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
+            <Button fx:id="followinfluencer4" layoutX="524.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
          </children>
       </AnchorPane>
    </items>

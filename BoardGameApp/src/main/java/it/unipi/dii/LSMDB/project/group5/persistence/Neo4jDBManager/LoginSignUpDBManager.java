@@ -1,5 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
+import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
@@ -12,15 +14,11 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
 
     /**
      * La funzione registra un nuovo utente
-     * @param password
-     * @param category1
-     * @param category2
-     * @param username
-     * @param role
+     * @param user
      * @return 0 se non esiste un utente con lo stesso username
      * @return 1 altrimenti
      */
-     public static int registerUser(final String username, final String password, final String category1, final String category2, final int age, final String role)
+     public static int registerUser(final UserBean user)
      {
          try(Session session = driver.session())
          {
@@ -29,7 +27,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
                      @Override
                      public Integer execute(Transaction tx)
                      {
-                         return createUserNode(tx, username, password, category1, category2, age, role);
+                         return createUserNode(tx,user);
                      }
                  }
              );
@@ -46,28 +44,23 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
     /**
      * La funzione crea un nodo utente nel database controllando che non esista uno stesso username
      * @param tx
-     * @param password
-     * @param category1
-     * @param category2
-     * @param username
-     * @param role
-     * @return 0 se non esiste un utente con lo stesso username
-     * @return 1 altrimenti
+     * @param user
+     * @return 0 se l'iscrizione va a buon fine
+     * @return -1 altrimenti
      */
-    private static int createUserNode(Transaction tx,String username, String password, String category1,String category2, int age, String role)
+    private static int createUserNode(Transaction tx, UserBean user)
     {
         HashMap<String,Object> parameters = new HashMap<>();
-        parameters.put("username",username);
-        parameters.put("password",password);
-        parameters.put("category1",category1);
-        parameters.put("category2",category2);
-        parameters.put("age",age);
-        parameters.put("role",role);
-        if(!UserPresent(tx,username)){
-            tx.run("CREATE(u:User{username:$username,password:$password,category1: $category1, category2:$category2,age:$age, role:$role})",parameters);
+        parameters.put("username", user.getUsername());
+        parameters.put("password", user.getPassword());
+        parameters.put("category1", user.getCategory1());
+        parameters.put("category2", user.getCategory2());
+        parameters.put("role", user.getRole());
+        if(!UserPresent(tx, user.getUsername())){
+            tx.run("CREATE(u:User{username:$username,password:$password,category1: $category1, category2:$category2, role:$role})",parameters);
             return 0;
         }
-        return 1;
+        return -1;
     }
 
 
@@ -153,6 +146,15 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
         }
         return role;
     }
+
+    public static String passwordEncryption(String passToEncrypt)
+    {
+        String salt = "randomSalt";
+        String encryptedPassword = DigestUtils.sha256Hex(passToEncrypt+salt);
+        System.out.println("ENCRYPTION | encrypt-pw: " + encryptedPassword);
+        return encryptedPassword;
+    }
+
 
 }
 

@@ -20,7 +20,7 @@ public class    GamesDBManager extends Neo4jDBManager{
      * @return Lista degli articoli suggeriti
      */
 
-    public static List<GameBean> searchSuggestedGames(final String username)
+    public static List<GameBean> searchSuggestedGames(final String username, final int limit)
     {
         try(Session session=driver.session())
         {
@@ -29,7 +29,7 @@ public class    GamesDBManager extends Neo4jDBManager{
                 @Override
                 public List<GameBean> execute(Transaction tx)
                 {
-                    return transactionSearchSuggestedGames(tx, username);
+                    return transactionSearchSuggestedGames(tx, username, limit);
                 }
             });
         }
@@ -43,15 +43,16 @@ public class    GamesDBManager extends Neo4jDBManager{
      * @param username
      * @return Lista degli articoli suggeriti
      */
-    private static List<GameBean> transactionSearchSuggestedGames(Transaction tx, String username)
+    private static List<GameBean> transactionSearchSuggestedGames(Transaction tx, String username, int limit)
     {
         List<GameBean> infoGames = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username", username);
-        Result result=tx.run("MATCH (g:Game),(u:User)" +
-                "WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2)" +
-                "OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
-                "RETURN g,u LIMIT 6", parameters);
+        parameters.put("limit", limit);
+        Result result=tx.run("MATCH (g:Game),(u:User) " +
+                " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
+                " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +
+                " RETURN g,u LIMIT $limit ", parameters);
 
         while(result.hasNext())
         {
@@ -122,7 +123,7 @@ public class    GamesDBManager extends Neo4jDBManager{
         parameters.put("category1", newGame.getCategory1());
         parameters.put("category2", newGame.getCategory2());
         String checkGame = "MATCH (g:Game{name:$name})" +
-                "RETURN g";
+                " RETURN g";
         Result result = tx.run(checkGame, parameters);
         if (result.hasNext()) {
             return false;
@@ -175,19 +176,17 @@ public class    GamesDBManager extends Neo4jDBManager{
         parameters.put("name", name);
         List<ArticleBean> articleDelete = new ArrayList<>();
 
-        String eliminaReferred = "MATCH (a)-[r:REFERRED]->(g:Game{name:$name})\n" +
-                "DELETE r,a";
-        String eliminaReviews = "MATCH (a)-[r:REVIEWED]->(g:Game{name:$name})\n" +
-                "DELETE r,a";
-        String eliminaRatings = "MATCH (a)-[r:RATED]->(g:Game{name:$name})\n" +
-                "DELETE r,a";
-        String eliminaGame = "(g:Game{name:$name})\n" +
-                "DELETE g";
-        Result result = tx.run(eliminaReferred, parameters);
 
-        result = tx.run(eliminaReviews, parameters);
-        result = tx.run(eliminaRatings, parameters);
-        result = tx.run(eliminaGame, parameters);
+        //Elimino il gruppo, con tutti i suoi post, be_part, referred
+        String eliminaGroups = "MATCH (gr:Group)-[:REFERRED]->(g:Game{name:$name})" +
+                " DETACH DELETE gr";
+        //Elimino il gioco e tutto quello che è collegato ad esso
+        String eliminaTutto = "MATCH (g:Game{name:$name}) " +
+                " DETACH DELETE g";
+
+        Result result = tx.run(eliminaGroups, parameters);
+        result = tx.run(eliminaTutto, parameters);
+
 
 
         return true;

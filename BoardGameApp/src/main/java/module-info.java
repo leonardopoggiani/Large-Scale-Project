@@ -15,10 +15,12 @@ module org.openjfx {
     requires com.github.benmanes.caffeine;
     requires org.checkerframework.checker.qual;
     requires ehcache;
+    requires org.apache.commons.codec;
 
     opens it.unipi.dii.LSMDB.project.group5.view to javafx.fxml;
     opens it.unipi.dii.LSMDB.project.group5 to javafx.fxml;
     opens it.unipi.dii.LSMDB.project.group5.bean to javafx.base;
+    opens it.unipi.dii.LSMDB.project.group5.view.tablebean to javafx.base;
 
     exports it.unipi.dii.LSMDB.project.group5;
 }

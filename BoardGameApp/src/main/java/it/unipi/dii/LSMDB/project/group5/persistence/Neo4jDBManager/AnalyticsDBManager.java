@@ -214,10 +214,10 @@ public class AnalyticsDBManager extends Neo4jDBManager{
         System.out.println(datePar);*/
 
 
-        String versatileNormalUser = "MATCH (u:User {role:\"normalUser\"})-[:REVIEWED]->(g: Game)\n" +
-                "RETURN u.username AS username, COUNT(DISTINCT g.category1) AS numeroCategorie\n" +
-                "ORDER BY numeroCategorie DESC \n" +
-                "LIMIT 3";
+        String versatileNormalUser = "MATCH (u:User {role:\"normalUser\"})-[:REVIEWED]->(g: Game)" +
+                " RETURN u.username AS username, COUNT(DISTINCT g.category1) AS numeroCategorie" +
+                " ORDER BY numeroCategorie DESC " +
+                " LIMIT 3";
 
         Result result = tx.run(versatileNormalUser);
 

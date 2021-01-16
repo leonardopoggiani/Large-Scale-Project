@@ -97,11 +97,11 @@ public class LikesDBManager extends Neo4jDBManager {
      * La funzione aggiunge un like or dislike ad un articolo
      * @param tx
      * @param like
-     * @return 2 se ha aggiunto un like(dislike)
-     * @return 1 se ha eliminato un like(dislike)
-     * @return 0 altrimenti
+     * @return 1 se ha aggiunto un like(dislike)
+     * @return 0 se ha eliminato un like(dislike)
+     * @return -1 altrimenti
      */
-    private static Integer transactionAddLike(Transaction tx, LikeBean like) {
+    private static int transactionAddLike(Transaction tx, LikeBean like) {
 
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("authorLike", like.getAuthor());
@@ -110,24 +110,24 @@ public class LikesDBManager extends Neo4jDBManager {
         parameters.put("authorArt", like.getAuthorArt());
         parameters.put("title", like.getTitleArt());
 
-        Result result0 = tx.run("MATCH (ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) return l"
+        Result result = tx.run("MATCH (ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) return l"
                 , parameters);
 
-        if (result0.hasNext()) {
-            System.out.println("Trovato sto per eliminare");
-            Result result1 = tx.run("MATCH (a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) delete l"
+        if (result.hasNext()) {
+
+            result = tx.run("MATCH (a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) delete l"
                     , parameters);
-            System.out.println("Ho eliminato");
+
             return 1;
 
         } else {
 
-            Result result = tx.run("MATCH(u:User {username:$authorLike}),(ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title}) " +
+            result = tx.run("MATCH(u:User {username:$authorLike}),(ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title}) " +
                             "CREATE (u)-[l:LIKED{timestamp:$timestamp, type:$type}]->(a) " +
                             "return l"
                     , parameters);
             if (result.hasNext()) {
-                System.out.println("Ho aggiunto");
+
                 return 2;
             }
             return 0;

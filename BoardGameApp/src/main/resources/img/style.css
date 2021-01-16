@@ -1,5 +1,5 @@
 .root {
-    -fx-background-image: url("https://i.pinimg.com/originals/37/71/60/37716068933bae2f9b11ff90bc91b015.png");
+    -fx-background-image: url("sfondo.png");
     -fx-background-repeat: repeat;
     -fx-background-size: 1200 600;
     -fx-background-position: center center;
@@ -7,7 +7,7 @@
 }
 
 #anchor {
-    -fx-background-image: url("https://i.pinimg.com/originals/37/71/60/37716068933bae2f9b11ff90bc91b015.png");
+    -fx-background-image: url("sfondo.png");
     -fx-background-repeat: repeat;
     -fx-background-size: 1200 600;
     -fx-background-position: center center;
@@ -15,9 +15,21 @@
 }
 
 #scroll {
-    -fx-background-image: url("https://i.pinimg.com/originals/37/71/60/37716068933bae2f9b11ff90bc91b015.png");
+    -fx-background-image: url("sfondo.png");
     -fx-background-repeat: repeat;
     -fx-background-size: 1200 600;
     -fx-background-position: center center;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.titledPane {
+    -fx-background-image: url("sfondo.jpg");
+    -fx-border-radius: 30;
+}
+
+.button {
+    -fx-border-radius: 30;
+}
+.button:hover {
+    -fx-opacity: 20;
 }
