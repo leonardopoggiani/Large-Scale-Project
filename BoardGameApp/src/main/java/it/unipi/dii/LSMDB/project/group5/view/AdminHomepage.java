@@ -1,17 +1,14 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
-import com.google.common.collect.Lists;
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.*;
-import it.unipi.dii.LSMDB.project.group5.controller.AnalyticsDBController;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.AnalyticsDBManager;
-import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.ArticleDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
@@ -85,6 +82,9 @@ public class AdminHomepage {
     LineChart activity;
 
     @FXML
+    BarChart age;
+
+    @FXML
     void initialize() {
         categories.setItems(categorie);
 
@@ -95,7 +95,55 @@ public class AdminHomepage {
         displayUserChart();
         displayLeastRecentlyLoggedUsers();
         displayActivityChart();
+        displayUserAge();
 
+    }
+
+    private void displayUserAge() {
+        List<AgeBean> lista = AnalyticsDBManager.getUsersForAge();
+        BarChart.Series series = new BarChart.Series();
+        series.setName("User age");
+
+        int quantiPrima = 0;
+        int quantiSeconda = 0;
+        int quantiTerza = 0;
+        int quantiQuarta = 0;
+        int quantiQuinta = 0;
+
+        String prima = "0/21";
+        String seconda = "22/35";
+        String terza = "36/50";
+        String quarta = "51/70";
+        String quinta = "71+";
+
+        for(int i = 0; i < lista.size(); i++) {
+
+            if(lista.get(i).getAge() <= 21) {
+                quantiPrima += lista.get(i).getNumUser();
+            } else if(lista.get(i).getAge() >= 22 && lista.get(i).getAge() <= 35 ){
+                quantiSeconda += lista.get(i).getNumUser();
+            } else if(lista.get(i).getAge() >= 36 && lista.get(i).getAge() <= 50 ){
+                System.out.println("age: " + lista.get(i).getAge());
+                quantiTerza += lista.get(i).getNumUser();
+            }else if(lista.get(i).getAge() >= 51 && lista.get(i).getAge() <= 70 ){
+                quantiQuarta += lista.get(i).getNumUser();
+            }else if(lista.get(i).getAge() >= 71){
+                quantiQuinta += lista.get(i).getNumUser();
+            }
+
+        }
+
+        System.out.println("prima " + quantiPrima + ", seconda " + quantiSeconda + ", terza " + quantiTerza + ", quarta " + quantiQuarta + ", quinta " + quantiQuinta);
+
+        series.getData().add(new BarChart.Data(prima, quantiPrima));
+        series.getData().add(new BarChart.Data(seconda, quantiSeconda));
+        series.getData().add(new BarChart.Data(terza, quantiTerza));
+        series.getData().add(new BarChart.Data(quarta, quantiQuarta));
+        series.getData().add(new BarChart.Data(quinta, quantiQuinta));
+
+        age.setBarGap(3);
+        age.setCategoryGap(20);
+        age.getData().add(series);
     }
 
     private void displayActivityChart() {
