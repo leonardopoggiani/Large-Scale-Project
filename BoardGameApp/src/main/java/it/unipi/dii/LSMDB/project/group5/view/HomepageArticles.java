@@ -113,7 +113,7 @@ public class HomepageArticles {
 
     ArticlesCache cache = ArticlesCache.getInstance();
     private static HashMap<String,String> savedArticles = Maps.newHashMap();
-    private static List<String> savedTitles = Lists.newArrayList();
+    private static List<Integer> savedID = Lists.newArrayList();
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
@@ -141,8 +141,12 @@ public class HomepageArticles {
 
     private static String autore;
     private static String timestamp;
-    private static String articolo;
+    private static int id;
     private static String titolo;
+
+    public static int getId() {
+        return id;
+    }
 
     @FXML
     void initialize() throws IOException, ExecutionException {
@@ -236,26 +240,25 @@ public class HomepageArticles {
     void setSuggestedArticles() throws IOException, ExecutionException {
         ArticlesPagesDBController home = new ArticlesPagesDBController();
 
-        if (savedTitles.isEmpty()) {
+        if (savedID.isEmpty()) {
             // non ho salvato i titoli degli articoli da mostrare
             logger.info("cache vuota");
-            List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 10);
+            List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
             System.out.println("Lunghezza lista " + list.size());
             showArticles(list);
         } else {
             int i = 0;
             logger.info("cache piena");
-            for (String titolo : savedTitles) {
-                if (i < savedTitles.size()) {
-                    String autore = savedArticles.get(titolo);
-                    cache.setAuthor(autore);
-                    ArticleBean a = cache.getDataIfPresent(titolo);
+            for (Integer id : savedID) {
+                if (i < savedID.size()) {
+                    ArticleBean a = cache.getDataIfPresent(id);
                     if (a != null && a.getTitle() != null) {
                         TitledPane ar = chooseArticle(i);
                         Text au = chooseAuthor(i);
                         Text ti = chooseTimestamp(i);
                         Text st = chooseStatistics(i);
 
+                        au.setId(String.valueOf(a.getId()));
                         ar.setText(a.getTitle());
                         au.setText(a.getAuthor());
                         ti.setText(String.valueOf(a.getTimestamp()));
@@ -289,7 +292,7 @@ public class HomepageArticles {
                     ArticleBean a = list.get(i);
 
                     // caching
-                    savedTitles.add(a.getTitle());
+                    savedID.add(a.getId());
                     savedArticles.put(a.getTitle(), a.getAuthor());
 
                     numComments = home.countComments(a.getTitle(), a.getAuthor());
@@ -375,10 +378,7 @@ public class HomepageArticles {
 
         autore = a.getText();
         timestamp = ts.getText();
-        titolo = ar.getText();
-
         App.setRoot("ArticlePageView");
-
     }
 
     @FXML
@@ -520,9 +520,6 @@ public class HomepageArticles {
     public static String getTitolo() {
         return titolo;
     }
-    public static String getArticolo() {
-        return articolo;
-    }
 
     public static void setAuthor(String author) {
         autore = author;
@@ -532,9 +529,6 @@ public class HomepageArticles {
     }
     public static void setTitle(String title) {
         titolo = title;
-    }
-    public static void setArticle(String article) {
-        articolo = article;
     }
 
 }

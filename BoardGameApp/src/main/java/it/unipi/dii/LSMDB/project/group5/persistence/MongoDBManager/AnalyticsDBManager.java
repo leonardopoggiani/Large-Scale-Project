@@ -83,9 +83,10 @@ public class AnalyticsDBManager {
         Bson projection = project(fields(excludeId(), computed("country", "$_id"), include("count")));
         Bson group = group("$country", sum("count", 1L));
         Bson match = match(and(ne("country", null), ne("country", "")));
+        Bson sort = sort(descending("count"));
 
        List<CountryBean> ret = new ArrayList<CountryBean>();
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( group, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(group, projection,match,sort)).iterator()) {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -180,9 +181,9 @@ public class AnalyticsDBManager {
             .append("day", new Document ("$dayOfMonth", "$date"))
                 .append("year", new Document ("$year", "$date")))
         .append("count", new Document("$sum", 1L)));
+        Bson sort = sort(descending("count"));
 
-
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, group, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, group, projection,sort)).iterator()) {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
@@ -193,11 +194,10 @@ public class AnalyticsDBManager {
                 ActivityBean a = new ActivityBean();
                 a.setDate(d);
                 a.setNumUser(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
-
+                ret.add(a);
             }
         }
         return ret;
-
     }
 
     public static List<InfluencerInfoBean> numberOfArticlesPublishedInASpecifiedPeriod (String start){

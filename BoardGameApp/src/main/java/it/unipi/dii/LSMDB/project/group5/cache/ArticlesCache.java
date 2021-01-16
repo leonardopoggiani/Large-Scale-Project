@@ -14,9 +14,7 @@ public class ArticlesCache {
 
     //Singleton
     private static ArticlesCache instance;
-    LoadingCache<String, ArticleBean> cache;
-    private String author;
-
+    LoadingCache<Integer, ArticleBean> cache;
 
     public static ArticlesCache getInstance() {
         if (instance == null) {
@@ -30,31 +28,25 @@ public class ArticlesCache {
                 .newBuilder()
                 .maximumSize(50)
                 .expireAfterAccess(20, TimeUnit.MINUTES)
-                .build(new CacheLoader<String, ArticleBean>() {
+                .build(new CacheLoader<Integer, ArticleBean>() {
                     @Override
-                    public ArticleBean load(String title) throws Exception {
-                        return cercaArticoli(title);
+                    public ArticleBean load(Integer id) throws Exception {
+                        return cercaArticoli(id);
                     }
-
                 });
     }
 
-    private ArticleBean cercaArticoli(String title) {
-        return controller.showArticleDetails(title, author);
+    private ArticleBean cercaArticoli(int id) {
+        return controller.showArticleDetails(id);
     }
 
-    public ArticleBean getDataIfPresent(String titolo) throws ExecutionException {
-        ArticleBean a = cache.get(titolo);
+    public ArticleBean getDataIfPresent(int id) throws ExecutionException {
+        ArticleBean a = cache.get(id);
         if(a.getTitle() == null){
-            cache.put(titolo,cercaArticoli(titolo));
+            cache.put(id,cercaArticoli(id));
         }
         return a;
     }
-
-    public void setAuthor(String autore) {
-        this.author = autore;
-    }
-
 
     public void invalidaCache() {
         cache.invalidateAll();

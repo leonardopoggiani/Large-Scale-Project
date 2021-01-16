@@ -120,21 +120,21 @@ public class ArticlePageView {
     void setArticleFields() throws IOException, ExecutionException {
         ArticlesPagesDBController article = new ArticlesPagesDBController();
 
-        cache.setAuthor(HomepageArticles.getAuthor());
-        ArticleBean a = cache.getDataIfPresent(HomepageArticles.getTitolo());
+        ArticleBean a = cache.getDataIfPresent(HomepageArticles.getId());
 
         if(a == null || a.getTitle() == null) {
            logger.log(Level.WARNING, "cache miss");
-           a = article.showArticleDetails(HomepageArticles.getTitolo(), HomepageArticles.getAuthor());
+           a = article.showArticleDetails(HomepageArticles.getId());
+           System.out.println(a);
         } else {
            logger.log(Level.WARNING, "cache hit");
         }
 
-        author.setText(HomepageArticles.getAuthor());
-        titolo.setText(HomepageArticles.getTitolo());
-        data.setText(HomepageArticles.getTimestamp());
-        numberlike.setText(String.valueOf(article.countLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"like")));
-        numberunlike.setText(String.valueOf(article.countLikes(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(),"dislike")));
+        author.setText(a.getAuthor());
+        titolo.setText(a.getTitle());
+        data.setText((a.getTimestamp() == null) ? new Timestamp(System.currentTimeMillis()).toString() : a.getTimestamp().toString());
+        numberlike.setText(String.valueOf(article.countLikes(a.getTitle(), a.getAuthor(),"like")));
+        numberunlike.setText(String.valueOf(article.countLikes(a.getTitle(), a.getAuthor(),"dislike")));
         articlebody.setText(a.getText());
 
         setComments();
