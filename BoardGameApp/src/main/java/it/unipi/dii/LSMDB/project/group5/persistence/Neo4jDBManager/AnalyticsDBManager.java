@@ -167,10 +167,10 @@ public class AnalyticsDBManager extends Neo4jDBManager{
         System.out.println(datePar);*/
 
 
-        String query = "MATCH (u:User {role:\"influencer\"})-[:PUBLISHED]->(a:Article)-[:REFERRED]->(g: Game)\n" +
-                "RETURN u.username AS influencer, COUNT(DISTINCT g.category1) AS numeroCategorie\n" +
-                "ORDER BY numeroCategorie DESC \n" +
-                "LIMIT 3";
+        String query = "MATCH (u:User {role:\"influencer\"})-[:PUBLISHED]->(a:Article)-[:REFERRED]->(g: Game)" +
+                " RETURN u.username AS influencer, COUNT(DISTINCT g.category1) AS numeroCategorie" +
+                " ORDER BY numeroCategorie DESC " +
+                " LIMIT 3";
         Result result = tx.run(query);
 
         while(result.hasNext())
@@ -236,8 +236,4 @@ public class AnalyticsDBManager extends Neo4jDBManager{
         return versatileNormalUsers;
 
     }
-
-
-
-
 }

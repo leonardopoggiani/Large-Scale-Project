@@ -51,11 +51,12 @@ public class LoginPageView {
     @FXML
     void loginResult() throws IOException {
         if(validateLogin()) {
-            //if(loggedRole.equals("admin")){
-            App.setRoot("adminHomepage");
-            //} else {
-                //   App.setRoot("HomepageArticles");
-            //}
+            if(loggedRole.equals("admin")){
+                App.setRoot("adminHomepage");
+            } else {
+                // App.setRoot("HomepageArticles");
+                App.setRoot("adminHomepage");
+            }
             logger.info("Login correttamente effettuato");
         } else {
             logger.info("Login non corretto");

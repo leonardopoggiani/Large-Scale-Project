@@ -262,13 +262,13 @@ public class ArticleDBManager {
 
     private static ArticleBean fillArticleFields (Document next, boolean unwind){
         ArticleBean a = new ArticleBean();
-        a.setId(Integer.parseInt(next.get("id").toString()));
+        a.setId(Integer.parseInt((next.get("id") == null) ? "0" : (next.get("id").toString())));
         a.setAuthor(next.get("author").toString());
         a.setTitle(next.get("title").toString());
         //System.out.println("Titolo " + next.get("title").toString());
         Timestamp t = convertStringToTimestamp(next.get("timestamp").toString());
         a.setTimestamp(t);
-        a.setText(next.get("body").toString());
+        a.setText((next.get("body") == null) ? "" : (next.get("body").toString()));
         a.setNumberComments(next.get("num_comments")==null ? 0: Integer.parseInt(next.get("num_comments").toString()));
         a.setNumberLikes(next.get("num_like")==null ? 0: Integer.parseInt(next.get("num_like").toString()));
         a.setNumberDislikes(next.get("num_dislike")==null ? 0: Integer.parseInt(next.get("num_dislike").toString()));
@@ -299,10 +299,10 @@ public class ArticleDBManager {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         List<String> games = a.getListGame();
 
+        System.out.println("add " + a);
         Document doc = new Document("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", "2019-11-20 00:00:00" /*a.getTimestamp().toString()*/)
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
-
 
         try{
             collection.insertOne(doc);

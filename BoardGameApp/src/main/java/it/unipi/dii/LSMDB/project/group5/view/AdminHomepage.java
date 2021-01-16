@@ -1,19 +1,16 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
-import com.google.common.collect.Lists;
 import it.unipi.dii.LSMDB.project.group5.App;
-import it.unipi.dii.LSMDB.project.group5.bean.CategoryBean;
-import it.unipi.dii.LSMDB.project.group5.bean.CountryBean;
-import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
-import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
-import it.unipi.dii.LSMDB.project.group5.controller.AnalyticsDBController;
+import it.unipi.dii.LSMDB.project.group5.bean.*;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.AnalyticsDBManager;
-import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.ArticleDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
 
@@ -42,28 +39,14 @@ public class AdminHomepage {
             "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
 
     ObservableList<String> gameStatistic = FXCollections.observableArrayList("Least rated game per category", "Least rated game per year");
+
     ObservableList<String> year = FXCollections.observableArrayList("2020","2019","2018","2017","2016",
             "2015","2014","2013","2012","2011","2010","2009","2008","2007","2006","2005","2004","2003","2002","2001","2000",
             "1999","1998","1997","1996","1995","1994", "1993","1992","1991","1990","1989","1988","1987","1986","1985",
             "1984","1983","1982","1981");
 
     @FXML
-    ComboBox games;
-
-    @FXML
     ComboBox categories;
-
-    @FXML
-    ComboBox choosenCategory;
-
-    @FXML
-    Text game1;
-
-    @FXML
-    Text game2;
-
-    @FXML
-    Text game3;
 
     @FXML
     Text category1;
@@ -96,19 +79,82 @@ public class AdminHomepage {
     Text user5;
 
     @FXML
+    LineChart activity;
+
+    @FXML
+    BarChart age;
+
+    @FXML
     void initialize() {
-        games.setItems(gameStatistic);
         categories.setItems(categorie);
 
-        game1.setText("");
-        game2.setText("");
-        game3.setText("");
         category1.setText("");
         category2.setText("");
         category3.setText("");
 
         displayUserChart();
         displayLeastRecentlyLoggedUsers();
+        displayActivityChart();
+        displayUserAge();
+
+    }
+
+    private void displayUserAge() {
+        List<AgeBean> lista = AnalyticsDBManager.getUsersForAge();
+        BarChart.Series series = new BarChart.Series();
+        series.setName("User age");
+
+        int quantiPrima = 0;
+        int quantiSeconda = 0;
+        int quantiTerza = 0;
+        int quantiQuarta = 0;
+        int quantiQuinta = 0;
+
+        String prima = "0/21";
+        String seconda = "22/35";
+        String terza = "36/50";
+        String quarta = "51/70";
+        String quinta = "71+";
+
+        for(int i = 0; i < lista.size(); i++) {
+
+            if(lista.get(i).getAge() <= 21) {
+                quantiPrima += lista.get(i).getNumUser();
+            } else if(lista.get(i).getAge() >= 22 && lista.get(i).getAge() <= 35 ){
+                quantiSeconda += lista.get(i).getNumUser();
+            } else if(lista.get(i).getAge() >= 36 && lista.get(i).getAge() <= 50 ){
+                System.out.println("age: " + lista.get(i).getAge());
+                quantiTerza += lista.get(i).getNumUser();
+            }else if(lista.get(i).getAge() >= 51 && lista.get(i).getAge() <= 70 ){
+                quantiQuarta += lista.get(i).getNumUser();
+            }else if(lista.get(i).getAge() >= 71){
+                quantiQuinta += lista.get(i).getNumUser();
+            }
+
+        }
+
+        System.out.println("prima " + quantiPrima + ", seconda " + quantiSeconda + ", terza " + quantiTerza + ", quarta " + quantiQuarta + ", quinta " + quantiQuinta);
+
+        series.getData().add(new BarChart.Data(prima, quantiPrima));
+        series.getData().add(new BarChart.Data(seconda, quantiSeconda));
+        series.getData().add(new BarChart.Data(terza, quantiTerza));
+        series.getData().add(new BarChart.Data(quarta, quantiQuarta));
+        series.getData().add(new BarChart.Data(quinta, quantiQuinta));
+
+        age.setBarGap(3);
+        age.setCategoryGap(20);
+        age.getData().add(series);
+    }
+
+    private void displayActivityChart() {
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Users login");
+        List<ActivityBean> statistiche = AnalyticsDBManager.getActivitiesStatisticsTotal();
+
+        for(int i = 0; i < statistiche.size(); i++) {
+            series.getData().add(new XYChart.Data(statistiche.get(i).getDate(),statistiche.get(i).getNumUser()));
+        }
+        activity.getData().add(series);
     }
 
     private void displayLeastRecentlyLoggedUsers() {
@@ -139,61 +185,6 @@ public class AdminHomepage {
     @FXML
     void goToUsers() throws IOException {
         App.setRoot("adminUsers");
-    }
-
-    @FXML
-    void displayGameStatisticResult() {
-        String statistic = gameStatistic.get(games.getSelectionModel().getSelectedIndex());
-        if(statistic.equals("Least rated game per category")) {
-            choosenCategory.setItems(categorie);
-        } else if(statistic.equals("Least rated game per year")) {
-            choosenCategory.setItems(year);
-        } else {
-
-        }
-    }
-
-    private Text chooseGame(int i) {
-        return switch(i) {
-            case 0 -> game1;
-            case 1 -> game2;
-            case 2 -> game3;
-            default -> new Text();
-        };
-    }
-
-    @FXML
-    void displayCategoryStatisticResult() {
-        AnalyticsDBController controller = new AnalyticsDBController();
-
-        if(gameStatistic.get(games.getSelectionModel().getSelectedIndex()).equals("Least rated game per category")) {
-            List<GameBean> lista = AnalyticsDBManager.showLeastRatedGames("category", categorie.get(choosenCategory.getSelectionModel().getSelectedIndex()));
-
-            logger.info("least rated game category, size " + lista.size());
-
-            for (int i = 0; i < 3; i++) {
-                Text game_i = chooseGame(i);
-                if (i < lista.size()) {
-                    logger.info("game " + lista.get(i).getName());
-                    game_i.setText(lista.get(i).getName());
-                } else {
-                    game_i.setText("");
-                }
-            }
-        } else {
-            List<GameBean> lista = AnalyticsDBManager.showLeastRatedGames("year", year.get(choosenCategory.getSelectionModel().getSelectedIndex()));
-
-            logger.info("least rated game year");
-
-            for (int i = 0; i < 3; i++) {
-                Text game_i = chooseGame(i);
-                if (i < lista.size()) {
-                    game_i.setText(lista.get(i).getName());
-                } else {
-                    game_i.setText("");
-                }
-            }
-        }
     }
 
     @FXML

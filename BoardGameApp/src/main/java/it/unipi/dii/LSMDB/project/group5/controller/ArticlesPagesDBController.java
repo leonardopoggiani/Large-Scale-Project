@@ -84,11 +84,11 @@ public class ArticlesPagesDBController {
             if(!ArticlesDBManager.addArticle(a));
             {
                 //DeleteArticleMongoDB
-                logger.severe("NEO4J | Articolo " + a.getTitle() + "non aggiunto!");
+                logger.severe("NEO4J | Articolo " + a.getTitle() + " non aggiunto!");
             }
             return true;
         }
-        logger.severe("MONGODB | Articolo " + a.getTitle() + "non aggiunto!");
+        logger.severe("MONGODB | Articolo " + a.getTitle() + " non aggiunto!");
         return  false;
 
     }
