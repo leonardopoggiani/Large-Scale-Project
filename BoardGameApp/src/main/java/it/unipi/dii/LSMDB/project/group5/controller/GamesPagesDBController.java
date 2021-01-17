@@ -53,11 +53,16 @@ public class GamesPagesDBController {
 
         boolean ret = ReviewsDBManager.addReview(newRev);
         if(ret){
-            GameDBManager.updateNumReviews(1, newRev.getGame());
+            if(!GameDBManager.updateNumReviews(1, newRev.getGame()))
+            {
+                logger.severe("MONGODB | Numero delle reviews non incrementato!");
+                return false;
+            }
+            return true;
         }
 
+        logger.severe("MONGODB NEO4J | Review non aggiunta!");
         return ret;
-
     }
 
 
@@ -66,6 +71,7 @@ public class GamesPagesDBController {
         boolean ret = RatingsDBManager.addRating(newRating);
         if (ret){
             GameDBManager.updateRating(newRating.getVote(), newRating.getGame());
+
         }
         return ret;
     }
