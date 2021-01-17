@@ -28,6 +28,24 @@ public class GamesPagesDBController {
     }
 
 
+    //PRIMA MONGODB, POI NEO4J
+    public boolean addGame(GameBean newGame) {
+
+
+        /*if(GameDBManager.addGame(newGame)){
+            if(!GamesDBManager.addGame(newGame))
+            {
+                logger.severe("NEO4J | Game " + newGame.getName() + " non aggiunto!");
+                return false;
+            }
+            return true;
+        }
+        logger.severe("MONGODB NEO4J | Game " + newGame.getName() + " non aggiunto!");
+        return false;*/
+        return true;
+    }
+
+
 
 
 

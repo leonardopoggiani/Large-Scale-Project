@@ -41,6 +41,7 @@ public class GroupsPagesDBController {
 
 
     public boolean addGroup(GroupBean newGroup) {
+
         return GroupsPostsDBManager.addGroup(newGroup);
     }
 
