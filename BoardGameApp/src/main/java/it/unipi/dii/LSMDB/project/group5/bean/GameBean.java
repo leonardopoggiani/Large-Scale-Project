@@ -1,5 +1,7 @@
 package it.unipi.dii.LSMDB.project.group5.bean;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
 public class GameBean {
@@ -41,6 +43,32 @@ public class GameBean {
         this.name = name;
         this.avgRating = rating;
         this.numVotes = votes;
+    }
+
+    public GameBean(String name, int year, String category, String minPlayers, String maxPlayers, String publisher, String minage, String maxage, boolean selected) {
+        this.name = name;
+        this.year = year;
+        this.listCategory = Lists.newArrayList();
+        this.listCategory.add(category);
+        this.minPlayers = Integer.parseInt(minPlayers);
+        this.maxPlayers = Integer.parseInt(maxPlayers);
+        this.publisher = Lists.newArrayList();
+        this.publisher.add(publisher);
+        this.minAge = Integer.parseInt(minage);
+        this.maxAge = Integer.parseInt(maxage); cooperative = selected;
+        this.description = "";
+        this.category1 = "";
+        this.category2 = "";
+        this.expansion = Lists.newArrayList();
+        this.imageUrl= "";
+        this.rules = "";
+        this.url = "";
+        this.complexity = 0.0;
+        this.avgRating = 0.0;
+        this.numVotes = 0;
+        this.numReviews = 0;
+        this.category1 = category;
+        this.category2 = "";
     }
 
     public List<String> getListCategory() {

@@ -133,7 +133,7 @@ public class AnalyticsDBManager {
         List<CategoryBean> ret = new ArrayList<CategoryBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson unwind = unwind("$category");
-        Bson group = group("category", sum("count", 1L));
+        Bson group = group("$category", sum("count", 1L));
         Bson match = match(and(ne("category", null),(ne("category", ""))));
         Bson limit = limit(6);
         Bson projection2 = project(fields(excludeId(), computed("category", "$_id"), include("count")));
@@ -143,7 +143,7 @@ public class AnalyticsDBManager {
             while (cursor.hasNext()) {
 
                 Document next = cursor.next();
-                //System.out.println(next.toJson());
+                // System.out.println(next.toJson());
                 CategoryBean g = new CategoryBean();
                 g.setName(next.get("category").toString());
                 g.setTotGames(Integer.parseInt(next.get("count") == null ? "0" : next.get("count").toString()));

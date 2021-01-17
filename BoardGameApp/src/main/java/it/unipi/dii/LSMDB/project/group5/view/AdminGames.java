@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -42,7 +43,7 @@ public class AdminGames {
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
             "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
 
-    ObservableList<String> year = FXCollections.observableArrayList("2020","2019","2018","2017","2016",
+    ObservableList<String> years = FXCollections.observableArrayList("2020","2019","2018","2017","2016",
             "2015","2014","2013","2012","2011","2010","2009","2008","2007","2006","2005","2004","2003","2002","2001","2000",
             "1999","1998","1997","1996","1995","1994", "1993","1992","1991","1990","1989","1988","1987","1986","1985",
             "1984","1983","1982","1981");
@@ -70,6 +71,39 @@ public class AdminGames {
 
     @FXML
     ImageView tic;
+
+    @FXML
+    Text text;
+
+    @FXML
+    TextField name;
+
+    @FXML
+    TextField year;
+
+    @FXML
+    ComboBox category;
+
+    @FXML
+    TextField minplayer;
+
+    @FXML
+    TextField maxplayer;
+
+    @FXML
+    TextField publisher;
+
+    @FXML
+    TextField minage;
+
+    @FXML
+    TextField maxage;
+
+    @FXML
+    CheckBox cooperative;
+
+    @FXML
+    Button add;
 
     @FXML
     void returnToStatistics() throws IOException {
@@ -101,17 +135,18 @@ public class AdminGames {
         game2.setText("");
         game3.setText("");
 
+        category.setItems(categorie);
+
     }
 
     @FXML
     void displayGameStatisticResult() {
+        choosenCategory.getSelectionModel().select(0);
         String statistic = gameStatistic.get(games.getSelectionModel().getSelectedIndex());
         if(statistic.equals("Least rated game per category")) {
             choosenCategory.setItems(categorie);
-        } else if(statistic.equals("Least rated game per year")) {
-            choosenCategory.setItems(year);
         } else {
-
+            choosenCategory.setItems(years);
         }
     }
 
@@ -127,31 +162,39 @@ public class AdminGames {
 
     @FXML
     void displayCategoryStatisticResult() {
-        if(gameStatistic.get(games.getSelectionModel().getSelectedIndex()).equals("Least rated game per category")) {
-            List<GameBean> lista = controller.showLeastRatedGames("category", categorie.get(choosenCategory.getSelectionModel().getSelectedIndex()));
+        if(choosenCategory.getSelectionModel().getSelectedIndex() != -1){
 
-            logger.info("least rated game category, size " + lista.size());
+            if(gameStatistic.get(games.getSelectionModel().getSelectedIndex()).equals("Least rated game per category"))
+            {
 
-            for (int i = 0; i < 3; i++) {
-                Text game_i = chooseGame(i);
-                if (i < lista.size()) {
-                    logger.info("game " + lista.get(i).getName());
-                    game_i.setText(lista.get(i).getName() + ", votes: " + lista.get(i).getNumVotes());
-                } else {
-                    game_i.setText("");
+                List<GameBean> lista = controller.showLeastRatedGames("category", categorie.get(choosenCategory.getSelectionModel().getSelectedIndex()));
+
+                logger.info("least rated game category, size " + lista.size());
+
+                for (int i = 0; i < 3; i++) {
+                    Text game_i = chooseGame(i);
+                    if (i < lista.size()) {
+                        logger.info("game " + lista.get(i).getName());
+                        game_i.setText(lista.get(i).getName() + ", votes: " + lista.get(i).getNumVotes());
+                    } else {
+                        game_i.setText("");
+                    }
+
                 }
             }
         } else {
-            List<GameBean> lista = controller.showLeastRatedGames("year", year.get(choosenCategory.getSelectionModel().getSelectedIndex()));
+            if(choosenCategory.getSelectionModel().getSelectedIndex() != -1){
+                List<GameBean> lista = controller.showLeastRatedGames("year", years.get(choosenCategory.getSelectionModel().getSelectedIndex()));
 
-            logger.info("least rated game year");
+                logger.info("least rated game year");
 
-            for (int i = 0; i < 3; i++) {
-                Text game_i = chooseGame(i);
-                if (i < lista.size()) {
-                    game_i.setText(lista.get(i).getName() + ", votes: " + lista.get(i).getNumVotes());
-                } else {
-                    game_i.setText("");
+                for (int i = 0; i < 3; i++) {
+                    Text game_i = chooseGame(i);
+                    if (i < lista.size()) {
+                        game_i.setText(lista.get(i).getName() + ", votes: " + lista.get(i).getNumVotes());
+                    } else {
+                        game_i.setText("");
+                    }
                 }
             }
         }
@@ -162,7 +205,8 @@ public class AdminGames {
         GamesPagesDBController gameController = new GamesPagesDBController();
         GameBean gioco = gameController.showGame(delete.getText());
 
-        if(gioco != null) {
+        logger.info("gioco: " + gioco);
+        if(gioco != null && gioco.getName() != null) {
             remove.setDisable(false);
             tic.setVisible(true);
         } else {
@@ -174,7 +218,24 @@ public class AdminGames {
     @FXML
     private void removeGame(){
         GamesPagesDBController gameController = new GamesPagesDBController();
-        gameController.deleteGame(delete.getText());
+        if(gameController.deleteGame(delete.getText()) ) {
+            text.setVisible(true);
+            delete.setText("");
+        } else {
+            delete.setStyle("-fx-background-color: red;");
+        }
+    }
+
+    @FXML
+    private void addGame(){
+        GamesPagesDBController gameController = new GamesPagesDBController();
+        if(gameController.addGame(new GameBean(name.getText(), Integer.parseInt(year.getText()), categorie.get(category.getSelectionModel().getSelectedIndex()),
+                minplayer.getText(), maxplayer.getText(), publisher.getText(), minage.getText(), maxage.getText(), cooperative.isSelected())))
+        {
+            add.setStyle("-fx-background-color: green;");
+        } else {
+            add.setStyle("-fx-background-color: red;");
+        }
     }
 
 }

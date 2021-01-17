@@ -60,9 +60,9 @@
                   <AnchorPane />
                </children>
             </Group>
-            <PieChart fx:id="pie" layoutX="61.0" layoutY="624.0" prefHeight="238.0" prefWidth="449.0" title="Distribution per category" />
+            <PieChart fx:id="pie" layoutX="11.0" layoutY="563.0" prefHeight="338.0" prefWidth="547.0" title="Distribution per category" />
             <PieChart fx:id="userpie" layoutX="635.0" layoutY="2.0" prefHeight="279.0" prefWidth="726.0" title="User distribution per country" />
-            <LineChart fx:id="activity" layoutX="85.0" layoutY="289.0" prefHeight="298.0" prefWidth="1166.0" title="Last login distribution">
+            <LineChart fx:id="activity" layoutX="85.0" layoutY="272.0" prefHeight="315.0" prefWidth="1166.0" title="Last login distribution">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -70,7 +70,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </LineChart>
-            <BarChart fx:id="age" layoutX="545.0" layoutY="581.0" prefHeight="324.0" prefWidth="782.0" title="User distribution per age">
+            <BarChart fx:id="age" layoutX="539.0" layoutY="579.0" prefHeight="328.0" prefWidth="797.0" title="User distribution per age">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>

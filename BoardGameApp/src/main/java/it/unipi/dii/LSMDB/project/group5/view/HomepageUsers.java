@@ -213,6 +213,11 @@ public class HomepageUsers {
     }
 
     @FXML
+    void goToStatistics() throws IOException {
+        App.setRoot("HomepageModeratorAnalytics");
+    }
+
+    @FXML
     void logout() throws IOException {
         App.setRoot("LoginPageView");
         LoginPageView.logout();

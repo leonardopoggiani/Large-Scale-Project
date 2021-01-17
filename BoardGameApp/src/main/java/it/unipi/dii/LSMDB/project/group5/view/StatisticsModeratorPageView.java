@@ -1,11 +1,14 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
+import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.InfluencerInfoBean;
 import it.unipi.dii.LSMDB.project.group5.bean.VersatileUser;
 import it.unipi.dii.LSMDB.project.group5.controller.AnalyticsDBController;
 import javafx.fxml.FXML;
+import javafx.scene.control.TitledPane;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.List;
 
 public class StatisticsModeratorPageView {
@@ -40,24 +43,79 @@ public class StatisticsModeratorPageView {
     Text versatile3;
 
     @FXML
+    void returnToHomepage() throws IOException {
+        App.setRoot("HomepageArticles");
+    }
+
+    private Text chooseInfluencer(int i){
+        return switch (i) {
+            case 1 -> influencer1;
+            case 2 -> influencer2;
+            case 3 -> influencer3;
+            default -> new Text();
+        };
+    }
+
+    private Text chooseDislike(int i){
+        return switch (i) {
+            case 1 -> dislike1;
+            case 2 -> dislike2;
+            case 3 -> dislike3;
+            default -> new Text();
+        };
+
+    }
+
+    private Text chooseVersatile(int i){
+        return switch (i) {
+            case 1 -> versatile1;
+            case 2 -> versatile2;
+            case 3 -> versatile3;
+            default -> new Text();
+        };
+
+    }
+
+    @FXML
     void initialize() {
         List<InfluencerInfoBean> list = controller.getNumLikeForEachInfluencer();
 
-        influencer1.setText(list.get(0).getInfluencer() + ": " + list.get(0).getCount());
-        influencer2.setText(list.get(1).getInfluencer() + ": " + list.get(1).getCount());
-        influencer3.setText(list.get(2).getInfluencer() + ": " + list.get(2).getCount());
+        for(int i = 0; i < 3; i++){
+            Text modify = chooseInfluencer(i + 1);
+            if(i < list.size()) {
+                modify.setText(list.get(i).getInfluencer() + " - " + list.get(i).getCount());
+            } else {
+                modify.setText("");
+            }
+         }
+
 
         list = controller.getNumDisLikeForEachInfluencer();
 
-        dislike1.setText(list.get(0).getInfluencer() + ": " + list.get(0).getCount());
-        dislike2.setText(list.get(1).getInfluencer() + ": " + list.get(1).getCount());
-        dislike3.setText(list.get(2).getInfluencer() + ": " + list.get(2).getCount());
+        for(int i = 0; i < 3; i++){
+            Text modify = chooseDislike(i + 1);
+            if(i < list.size()) {
+                modify.setText(list.get(i).getInfluencer() + " - " + list.get(i).getCount());
+            } else {
+                modify.setText("");
+            }
+        }
 
         List<VersatileUser> listUser = controller.mostVersatileUsers("normalUser");
 
-        versatile1.setText(listUser.get(0).getUsername() + ": " + listUser.get(0).getHowManyCategories());
-        versatile2.setText(listUser.get(1).getUsername() + ": " + listUser.get(1).getHowManyCategories());
-        versatile3.setText(listUser.get(2).getUsername() + ": " + listUser.get(2).getHowManyCategories());
+        for(int i = 0; i < 3; i++){
+            Text modify = chooseVersatile(i + 1);
+            if(i < listUser.size()) {
+                modify.setText(listUser.get(i).getUsername() + " - " + listUser.get(i).getHowManyCategories());
+            } else {
+                modify.setText("");
+            }
+        }
+
+    }
+
+    @FXML
+    void promote() {
 
     }
     

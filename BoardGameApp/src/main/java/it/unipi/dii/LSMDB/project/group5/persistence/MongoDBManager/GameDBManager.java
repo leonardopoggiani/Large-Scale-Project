@@ -345,7 +345,7 @@ public class GameDBManager {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         List<String> categories = g.getListCategory();
 
-        //System.out.println("add " + a);
+        // System.out.println("add " + a);
         Document doc = new Document("name", g.getName()).append("year", g.getYear()).append("category", categories ).append("description", g.getDescription())
                 .append("publisher", g.getPublisher()).append("url", g.getUrl()).append("image_url", g.getImageUrl())
                 .append("rules_url", g.getRules()).append("min_players", g.getMinPlayers()).append("max_players", g.getMaxPlayers())

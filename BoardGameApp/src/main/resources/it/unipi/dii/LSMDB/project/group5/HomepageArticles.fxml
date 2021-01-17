@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.30424242424242426" maxHeight="400" maxWidth="800" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="827.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageArticles">
+<SplitPane dividerPositions="0.30424242424242426" maxHeight="400" maxWidth="800" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="827.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageArticles">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
@@ -71,7 +71,7 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton disable="true" onMouseClicked="#goToFriends" prefHeight="66.0" prefWidth="109.0" text="Statistics">
+                  <BottomNavigationButton disable="true" onMouseClicked="#goToStatistics" prefHeight="66.0" prefWidth="109.0" text="Statistics">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>

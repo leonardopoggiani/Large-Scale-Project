@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+@SuppressWarnings("checkstyle:Indentation")
 public class AdminHomepage {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
@@ -36,7 +37,7 @@ public class AdminHomepage {
             "Fighting:1046","Movies/TV/Radio Theme:1064","Bluffing:1023",
             "Zombies:2481","Medieval:1035","Negotiation:1026","World War II: 1049",
             "Spies/Secret Agents:1081","Deduction:1039","Murder/Mystery:1040",
-            "Aviation/Flight:2650","Modern Warfare:1069","Territory Building:1086",
+            "Aviation/Flight:2650","Territory Building:1086","Modern Warfare:1069",
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
             "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
 
@@ -98,17 +99,45 @@ public class AdminHomepage {
         displayActivityChart();
         displayUserAge();
         displayVersatileInfluencer();
+        displayCategoryDistribution();
 
+    }
+
+
+    private void displayCategoryDistribution() {
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList();
+
+        List<CategoryBean> categoryInfo2 = controller.getGamesDistribution();
+        logger.info("info " + categoryInfo2);
+
+        for(int i = 0; i < categoryInfo2.size(); i++) {
+            pieChartData.add(new PieChart.Data(categoryInfo2.get(i).getName(), categoryInfo2.get(i).getTotGames()));
+
+            if(i == 4) {
+                break;
+            }
+        }
+
+        pie.setData(pieChartData);
     }
 
     private void displayVersatileInfluencer() {
         List<VersatileUser> list = controller.showMostVersatileInfluencer(5);
 
-        primo.setText(list.get(0).getUsername() + ", " + list.get(0).getHowManyCategories());
-        primo.setText(list.get(1).getUsername() + ", " + list.get(1).getHowManyCategories());
-        primo.setText(list.get(2).getUsername() + ", " + list.get(2).getHowManyCategories());
-        primo.setText(list.get(3).getUsername() + ", " + list.get(3).getHowManyCategories());
-        primo.setText(list.get(4).getUsername() + ", " + list.get(4).getHowManyCategories());
+        if (list != null && list.size() != 0) {
+          primo.setText(list.get(0).getUsername() + ", " + list.get(0).getHowManyCategories());
+          secondo.setText(list.get(1).getUsername() + ", " + list.get(1).getHowManyCategories());
+          terzo.setText(list.get(2).getUsername() + ", " + list.get(2).getHowManyCategories());
+          quarto.setText(list.get(3).getUsername() + ", " + list.get(3).getHowManyCategories());
+          quinto.setText(list.get(4).getUsername() + ", " + list.get(4).getHowManyCategories());
+        } else {
+            primo.setText("");
+            secondo.setText("");
+            terzo.setText("");
+            quarto.setText("");
+            quinto.setText("");
+        }
 
     }
 
@@ -196,17 +225,6 @@ public class AdminHomepage {
         category2.setText(String.valueOf(categoryInfo.getAvgRatingTot()));
         category3.setText(String.valueOf(categoryInfo.getNumRatesTot()));
 
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList();
-
-        List<CategoryBean> categoryInfo2 = controller.getGamesDistribution();
-        for(int i = 0; i < categoryInfo2.size(); i++) {
-            logger.info(categoryInfo2.get(i).getCountry());
-            pieChartData.add(new PieChart.Data(lista.get(i).getCountry(), lista.get(i).getNumUser()));
-
-            if(i == 4)
-                break;
-        }
     }
 
     @FXML

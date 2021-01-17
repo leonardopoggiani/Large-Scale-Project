@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane id="anchor" dividerPositions="0.2523364485981308" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1179.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGames">
+<SplitPane id="anchor" dividerPositions="0.2523364485981308" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="1179.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.HomepageGames">
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
@@ -70,7 +70,7 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToFriends" prefHeight="66.0" prefWidth="151.0" text="Statistics">
+                  <BottomNavigationButton onMouseClicked="#goToStatistics" prefHeight="66.0" prefWidth="151.0" text="Statistics">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>
