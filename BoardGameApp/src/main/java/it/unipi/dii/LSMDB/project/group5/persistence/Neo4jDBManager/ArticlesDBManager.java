@@ -170,10 +170,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
                         " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) " +
                         " return a "
                 , parameters);
-        if (result.hasNext()) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
