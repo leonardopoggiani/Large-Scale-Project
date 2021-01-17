@@ -63,8 +63,6 @@ public class GamesPagesDBController {
         return ret;
     }
 
-
-
     //ONLY MONGODB
     public double getAvgRating(String game){
         return GameDBManager.getAvgRating(game);

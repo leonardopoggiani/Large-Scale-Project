@@ -22,8 +22,7 @@
    <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="661.0" prefWidth="1230.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="261.0" layoutY="95.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="51.0" layoutY="95.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="51.0" layoutY="104.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
             <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
             <BottomNavigation layoutX="51.0" layoutY="6.0" prefHeight="66.0" prefWidth="339.0">
                <actionItems>
@@ -44,9 +43,8 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <Group layoutX="277.0" layoutY="141.0">
+            <Group layoutX="74.0" layoutY="136.0">
                <children>
-                  <ComboBox fx:id="categories" onAction="#displayCategoryInfo" prefHeight="30.0" prefWidth="161.0" promptText="Choose statistics" />
                   <Text fx:id="category1" layoutX="120.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
                   <Text fx:id="category2" layoutX="120.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
                   <Text fx:id="category3" layoutX="120.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
@@ -62,16 +60,9 @@
                   <AnchorPane />
                </children>
             </Group>
-            <PieChart fx:id="pie" layoutX="668.0" layoutY="23.0" prefHeight="237.0" prefWidth="442.0" title="Distribution per category" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="45.0" layoutY="331.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <PieChart fx:id="userpie" layoutX="22.0" layoutY="581.0" prefHeight="279.0" prefWidth="548.0" title="User distribution per country" />
-            <Text layoutX="62.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least recently logged user" />
-            <Text fx:id="user1" layoutX="62.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text fx:id="user2" layoutX="62.0" layoutY="436.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text fx:id="user3" layoutX="63.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text fx:id="user4" layoutX="62.0" layoutY="486.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text fx:id="user5" layoutX="61.0" layoutY="511.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <LineChart fx:id="activity" layoutX="355.0" layoutY="291.0" prefHeight="297.0" prefWidth="878.0" title="Last login distribution">
+            <PieChart fx:id="pie" layoutX="61.0" layoutY="624.0" prefHeight="238.0" prefWidth="449.0" title="Distribution per category" />
+            <PieChart fx:id="userpie" layoutX="511.0" layoutY="1.0" prefHeight="279.0" prefWidth="726.0" title="User distribution per country" />
+            <LineChart fx:id="activity" layoutX="85.0" layoutY="289.0" prefHeight="298.0" prefWidth="1166.0" title="Last login distribution">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -87,6 +78,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
+            <ComboBox fx:id="categories" layoutX="68.0" layoutY="111.0" onAction="#displayCategoryInfo" prefHeight="30.0" prefWidth="161.0" promptText="Choose statistics" />
          </children>
       </AnchorPane>
    </items>
