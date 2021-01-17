@@ -127,19 +127,19 @@ public class AnalyticsDBManager extends Neo4jDBManager{
     /**
      * La funzione trova gli infuencer che hanno scritto articoli su più categorie diverse
      * o gli utenti standard che hanno scritto recensioni sul maggior numero di categorie diverse
-     * @param type
+     * @param type normalUser o influencer
      * @return Lista degl username e numero di categorie
      */
-    public static List<VersatileUser> versatileUsers(String type) {
+    public static List<VersatileUser> mostVersatileUsers(String type) {
         try (Session session = driver.session()) {
             return session.readTransaction(new TransactionWork<List>() {
                 @Override
                 public List<VersatileUser> execute(Transaction tx) {
 
                     if(type.equals("influencer"))
-                        return transactionVersatileInfluencers(tx);
+                        return transactionMostVersatileInfluencer(tx);
                     else
-                        return transactionVersatileNormalUser(tx);
+                        return transactionMostVersatileNormalUser(tx);
                 }
             });
 
@@ -153,7 +153,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
      * @param tx
      * @return Lista degli username degli influencer e il numero di categorie
      */
-    private static List<VersatileUser> transactionVersatileInfluencers(Transaction tx)
+    private static List<VersatileUser> transactionMostVersatileInfluencer(Transaction tx)
     {
         List<VersatileUser> versatileInfluencer = new ArrayList<>();
 
@@ -200,7 +200,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
      * @param tx
      * @return Lista degli username e il numero di categorie
      */
-    private static List<VersatileUser> transactionVersatileNormalUser(Transaction tx)
+    private static List<VersatileUser> transactionMostVersatileNormalUser(Transaction tx)
     {
         List<VersatileUser> versatileNormalUsers = new ArrayList<>();
         VersatileUser temp = new VersatileUser();
