@@ -1,5 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
+import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 
@@ -495,5 +496,4 @@ public class UsersDBManager extends Neo4jDBManager{
 
         return false;
     }
-
 }
