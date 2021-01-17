@@ -79,7 +79,8 @@ public class ArticlesPagesDBController {
     //MONGODB PRIMA, NEO4J DOPO
     public boolean addArticle(ArticleBean a)
     {
-        if(ArticleDBManager.addArticle(a))
+        int id = ArticleDBManager.addArticle(a);
+        if(id!=-1)
         {
             if(!ArticlesDBManager.addArticle(a));
             {

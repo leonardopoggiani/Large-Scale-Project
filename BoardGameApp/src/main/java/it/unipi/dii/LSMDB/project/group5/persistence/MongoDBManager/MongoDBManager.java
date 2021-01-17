@@ -14,7 +14,7 @@ public class MongoDBManager {
         try{
             mongoClient = MongoClients.create("mongodb://localhost:27017");
             //database = mongoClient.getDatabase("Project");
-            database = mongoClient.getDatabase("project");
+            database = mongoClient.getDatabase("Project");
             return true;
         }
         catch (Exception ex){

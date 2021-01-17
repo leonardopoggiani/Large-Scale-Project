@@ -3,6 +3,7 @@ package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -255,6 +256,8 @@ public class ArticleDBManager {
                 ret = (next.get("num_dislike") == null) ? 0 :Integer.parseInt(articles.get("num_dislike").toString());
 
             }
+        }catch(Exception ex){
+            return -1;
         }
 
         return ret;
@@ -295,24 +298,63 @@ public class ArticleDBManager {
         return timestamp;
     }
 
-    public static boolean addArticle (ArticleBean a){
+    public static int addArticle (ArticleBean a){
         MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         List<String> games = a.getListGame();
+        int id = getLastIdUsed();
+        if (id==-1){
+            System.err.println("Unable to reach MongoDB");
+            return -1;
+        }
+
 
         System.out.println("add " + a);
-        Document doc = new Document("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
+        Document doc = new Document("id", id).append("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
 
         try{
             collection.insertOne(doc);
 
-            return true;
+            return id;
         }catch (Exception ex){
-            System.out.println(ex.getMessage());
+            System.err.println(ex.getMessage());
 
+            return -1;
+        }
+    }
+
+    private static int getLastIdUsed(){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
+
+        Bson sort = descending("id");
+        int ret = 0;
+
+        try(MongoCursor<Document> cursor = collection.find().sort(sort).limit(1).iterator()) {
+
+            while (cursor.hasNext()) {
+                Document next = cursor.next();
+                //System.out.println(next.toJson());
+                ret = (Integer.parseInt(next.get("id").toString()));
+
+            }
+        }catch(Exception ex){
+            System.err.println("Unable to reach MongoDB");
+            return -1;
+        }
+
+        return ret;
+
+    }
+
+    public static boolean deleteArticle (int id){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
+
+        DeleteResult dr = collection.deleteOne(eq("id", id));
+        if (dr.getDeletedCount() == 0 || !dr.wasAcknowledged()){
             return false;
         }
+        return true;
     }
 }
 

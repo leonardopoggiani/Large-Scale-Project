@@ -12,6 +12,7 @@ import it.unipi.dii.LSMDB.project.group5.bean.*;
 import java.sql.Timestamp;
 import java.util.*;
 
+import static com.mongodb.client.model.Accumulators.avg;
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
@@ -128,6 +129,28 @@ public class AnalyticsDBManager {
         return ret;
     }
 
+    public static CategoryBean gamesDistribution (){
+        CategoryBean ret = new CategoryBean();
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        Bson unwind = unwind("$category");
+        Bson group = group("category", sum("count", 1L));
+        Bson match = match(and(ne("category", null),(ne("category", ""))));
+        Bson limit = limit(6);
+        Bson projection2 = project(fields(excludeId(), computed("category", "$_id"), include("count")));
+
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2)).iterator()) {
+
+            while (cursor.hasNext()) {
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                ret.setName(next.get("category").toString());
+                ret.setTotGames(Integer.parseInt(next.get("count") == null ? "0" : next.get("count").toString()));
+            }
+        }
+        return ret;
+    }
+
+
     public static List<UserBean> showLessRecentLoggedUsers (){
         List<UserBean> ret = new ArrayList<UserBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
@@ -196,6 +219,69 @@ public class AnalyticsDBManager {
                 a.setDate(d);
                 a.setNumUser(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
                 ret.add(a);
+            }
+        }
+        return ret;
+    }
+
+
+    public static List<ActivityBean> dailyAvgLoginForCountry (){
+
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        List<ActivityBean> ret = new ArrayList<ActivityBean>();
+
+        Bson projection1 = project(fields(excludeId(), computed("date", new Document("$toDate", "$last_login")), include("username", "country")));
+        Bson match = match(ne("date", null));
+        Bson match1 = match(and(ne("country", ""), ne("country", null)));
+        Bson projection = project(fields(excludeId(), computed("country", "$_id" ), include("avg")));
+        Bson group = new Document("$group", new Document ("_id", new Document("month" ,new Document("$month", "$date"))
+                .append("day", new Document ("$dayOfMonth", "$date"))
+                .append("year", new Document ("$year", "$date"))
+                .append("country", "$country"))
+                .append("count", new Document("$sum", 1L)));
+        Bson group2 = group("$_id.country", avg("avg", "$count"));
+        Bson sort = sort(descending("avg"));
+
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, match1, group, group2, projection,sort)).iterator()) {
+
+            while (cursor.hasNext()) {
+                System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                ActivityBean a = new ActivityBean();
+                a.setCountry(next.get("country").toString());
+                a.setAvgLogin(next.get("avg") == null ? 0.0 : Double.parseDouble((next.get("count").toString())));
+                ret.add(a);
+            }
+        }
+        return ret;
+    }
+
+    public static List<ActivityBean> dailyAvgLoginForAgeRange (int startRange, int endRange){
+
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        List<ActivityBean> ret = new ArrayList<ActivityBean>();
+
+        Bson projection1 = project(fields(excludeId(), computed("date", new Document("$toDate", "$last_login")), include("username", "age")));
+        Bson match = match(ne("date", null));
+        Bson match1 = match(and(lte("age", endRange), gte("age", startRange)));
+        Bson projection = project(fields(excludeId(), /*computed("age", "$_id" ),*/ include("avg")));
+        Bson group = new Document("$group", new Document ("_id", new Document("month" ,new Document("$month", "$date"))
+                .append("day", new Document ("$dayOfMonth", "$date"))
+                .append("year", new Document ("$year", "$date"))
+                )
+                .append("count", new Document("$sum", 1L)));
+        Bson group2 = group("$_id", avg("avg", "$count"));
+        Bson sort = sort(descending("avg"));
+
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, match1, group, group2, projection,sort)).iterator()) {
+
+            while (cursor.hasNext()) {
+                System.out.println(cursor.next().toJson());
+                /*Document next = cursor.next();
+                ActivityBean a = new ActivityBean();
+                a.setCountry(next.get("country").toString());
+                a.setAvgLogin(next.get("avg") == null ? 0.0 : Double.parseDouble((next.get("count").toString())));
+                ret.add(a);*/
             }
         }
         return ret;

@@ -1,6 +1,8 @@
 package it.unipi.dii.LSMDB.project.group5.controller;
 
 
+import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.UserDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.UsersDBManager;
 
 import java.util.List;
@@ -38,5 +40,9 @@ public class UsersPagesDBController {
     public  boolean promoteDemoteUser(String username, String role)
     {
         return  UsersDBManager.promoteDemoteUser(username, role);
+    }
+
+    public UserBean showUser(String text) {
+        return UserDBManager.showUser(text);
     }
 }
