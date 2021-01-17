@@ -1,7 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
 import it.unipi.dii.LSMDB.project.group5.controller.*;
-import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.LoginSignupDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.MongoDBManager;
 
 public class Main {
@@ -80,7 +79,8 @@ public class Main {
         ud.Neo4jAddDeletePost(post2, "delete");
         grpos.showGroupsPost("Gruppo brutto", "Gaia5");*/
         //ProvaVersatile.showMostVersatileInfluencer(3);
-        System.out.println(LoginSignupDBManager.passwordEncryption("cane"));
+        //System.out.println(LoginSignupDBManager.passwordEncryption("cane"));
+        uDB.promoteDemoteUser("Gaia5", "normalUser");
         Neo4jDBManager.close();
 
 

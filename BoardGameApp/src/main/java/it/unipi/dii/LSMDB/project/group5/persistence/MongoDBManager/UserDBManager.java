@@ -60,4 +60,20 @@ public class UserDBManager extends MongoDBManager {
         return u;
     }
 
+    public static boolean promoteDemoteUser(String username, String role) {
+        //System.out.println("Nella update login");
+        MongoCollection<Document> collection = getCollection("Users");
+        Document setRole = new Document();
+        setRole.append("role",role);
+        Document update = new Document();
+        update.append("$set", setRole);
+        try {
+            collection.updateOne(eq("username", username), update);
+
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
 }
