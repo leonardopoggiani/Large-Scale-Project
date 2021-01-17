@@ -32,6 +32,7 @@ public class LoginPageView {
             loggedRole = neo.loginUser(username,password);
 
             if(loggedRole != null && !loggedRole.equals("fallito")){
+                System.out.println(loggedRole);
                 logged = 1;
                 loggedUser = username;
                 ret = true;
@@ -54,8 +55,8 @@ public class LoginPageView {
             if(loggedRole.equals("admin")){
                 App.setRoot("adminHomepage");
             } else {
-                // App.setRoot("HomepageArticles");
-                App.setRoot("adminHomepage");
+                App.setRoot("HomepageArticles");
+                //App.setRoot("adminHomepage");
             }
             logger.info("Login correttamente effettuato");
         } else {

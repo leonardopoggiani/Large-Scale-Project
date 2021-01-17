@@ -1,13 +1,11 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
 import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.neo4j.driver.Record;
-import org.neo4j.driver.*;
-import org.neo4j.driver.util.Pair;
+import org.neo4j.driver.Session;
+import org.neo4j.driver.Transaction;
+import org.neo4j.driver.TransactionWork;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class LoginSignUpDBManager extends Neo4jDBManager {
 
@@ -48,19 +46,18 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      * @return 0 se l'iscrizione va a buon fine
      * @return -1 altrimenti
      */
+
     private static int createUserNode(Transaction tx, UserBean user)
     {
         HashMap<String,Object> parameters = new HashMap<>();
         parameters.put("username", user.getUsername());
-        parameters.put("password", user.getPassword());
         parameters.put("category1", user.getCategory1());
         parameters.put("category2", user.getCategory2());
         parameters.put("role", user.getRole());
-        if(!UserPresent(tx, user.getUsername())){
-            tx.run("CREATE(u:User{username:$username,password:$password,category1: $category1, category2:$category2, role:$role})",parameters);
-            return 0;
-        }
-        return -1;
+
+        tx.run("CREATE(u:User{username:$username,category1: $category1, category2:$category2, role:$role})",parameters);
+        return 0;
+
     }
 
 
@@ -71,6 +68,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      * @return 0 se non esiste un utente con lo stesso username
      * @return 1 altrimenti
      */
+    /*
     protected static boolean UserPresent(Transaction tx,String username)
     {
         HashMap<String,Object> parameters =new HashMap<>();
@@ -80,7 +78,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
             return true;
         return false;
     }
-
+    */
     /**
      * La funzione esergue la query per il login di un utente controllando username e password
      * @param username
@@ -88,7 +86,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      * @return 0 se non esiste un utente con lo stesso username
      * @return 1
      */
-
+    /*
     public static String loginUser(final String username,final String password)
     {
 
@@ -112,7 +110,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
             return  null;
         }
 
-    }
+    }*/
     /**
      * La funzione controlla username e password nel database
      * @param tx
@@ -120,6 +118,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
      * @param password
      * @return  restituisce il ruolo dell'utente se lo trova altrimenti null
      */
+    /*
     private static String matchUser(Transaction tx,String username,String password) {
         HashMap<String, Object> parameters = new HashMap<>();
         String role = "NA";
@@ -147,13 +146,7 @@ public class LoginSignUpDBManager extends Neo4jDBManager {
         return role;
     }
 
-    public static String passwordEncryption(String passToEncrypt)
-    {
-        String salt = "randomSalt";
-        String encryptedPassword = DigestUtils.sha256Hex(passToEncrypt+salt);
-        System.out.println("ENCRYPTION | encrypt-pw: " + encryptedPassword);
-        return encryptedPassword;
-    }
+    */
 
 
 }

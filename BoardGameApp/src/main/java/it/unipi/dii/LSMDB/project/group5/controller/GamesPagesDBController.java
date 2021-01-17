@@ -36,11 +36,13 @@ public class GamesPagesDBController {
             if(!GamesDBManager.addGame(newGame))
             {
                 logger.severe("NEO4J | Game " + newGame.getName() + " non aggiunto!");
-                return false;
+                GamesDBManager.deleteGame(newGame.getName());
+                logger.info("MONGODB | Gioco " + newGame.getName() + " rimosso da mongoDB!");
+                return  false;
             }
             return true;
         }
-        logger.severe("MONGODB NEO4J | Game " + newGame.getName() + " non aggiunto!");
+
         return false;
     }
 
@@ -52,13 +54,12 @@ public class GamesPagesDBController {
         if(ret){
             if(!GameDBManager.updateNumReviews(1, newRev.getGame()))
             {
-                logger.severe("MONGODB | Numero delle reviews non incrementato!");
+                logger.severe("MONGODB | Numero reviews di " + newRev.getGame() +" non incrementato!");
                 return false;
             }
             return true;
         }
 
-        logger.severe("MONGODB NEO4J | Review non aggiunta!");
         return ret;
     }
 
@@ -67,9 +68,14 @@ public class GamesPagesDBController {
 
         boolean ret = RatingsDBManager.addRating(newRating);
         if (ret){
-            GameDBManager.updateRating(newRating.getVote(), newRating.getGame());
-
+            if(!GameDBManager.updateRating(newRating.getVote(), newRating.getGame()))
+            {
+                logger.severe("MONGODB | Numero di rating di "+ newRating.getGame() +" non aggiornato!");
+                return false;
+            }
+            return  true;
         }
+
         return ret;
     }
 
@@ -85,17 +91,13 @@ public class GamesPagesDBController {
           }
           return true;
       }
-      logger.severe("NEO4J MONGODB | Game " + game + " non eliminato!");
+
       return false;
     }
 
     public boolean deleteReview(ReviewBean review) {
-        if(ReviewsDBManager.deleteReview(review))
-        {
-            return true;
-        }
-        logger.severe("NEO4J | Review " + review + " non eliminato!");
-        return false;
+         return  ReviewsDBManager.deleteReview(review);
+
     }
 
     //ONLY MONGODB

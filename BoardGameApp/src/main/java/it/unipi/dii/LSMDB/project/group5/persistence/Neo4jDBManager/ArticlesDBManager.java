@@ -175,19 +175,18 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
     /**
      * La funzione elimina un articolo
-     * @param author autore articolo
-     * @param title titol articolo
+     * @param idArt dell' articolo
      * @return true se ha eliminato correttamente l'articolo
      * @return false altrimenti
      */
 
-    public static boolean deleteArticle(final String author, final String title) {
+    public static boolean deleteArticle(final int idArt) {
         try {
             Session session = driver.session();
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    return transactionDeleteArticle(tx, author, title);
+                    return transactionDeleteArticle(tx, idArt);
                 }
             });
 
@@ -204,18 +203,16 @@ public class ArticlesDBManager extends Neo4jDBManager {
     /**
      * La funzione elimina un articolo
      * @param tx transaction
-     * @param author autore articolo
-     * @param title titolo articolo
+     * @param idArt id articolo
      * @return true se ha eliminato correttamente l'articolo
      * @return false altrimenti
      */
 
-    private static boolean transactionDeleteArticle(Transaction tx, String author, String title) {
+    private static boolean transactionDeleteArticle(Transaction tx, int idArt) {
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("author", author);
-        parameters.put("title", title);
+        parameters.put("id", idArt);
 
-        tx.run("MATCH (a:Article{name:$title})<-[:PUBLISHED]-(u:User{username:$author})" +
+        tx.run("MATCH (a:Article{id:$id})" +
                         " DETACH DELETE a "
                 , parameters);
 

@@ -1,8 +1,8 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
 import it.unipi.dii.LSMDB.project.group5.controller.*;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.LoginSignupDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.MongoDBManager;
-import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.ProvaVersatile;
 
 public class Main {
 
@@ -79,8 +79,8 @@ public class Main {
         grpos.showGroupsPost("Gruppo brutto", "Gaia5");
         ud.Neo4jAddDeletePost(post2, "delete");
         grpos.showGroupsPost("Gruppo brutto", "Gaia5");*/
-        ProvaVersatile.showMostVersatileInfluencer(3);
-        System.out.println(ProvaVersatile.showMostVersatileInfluencer(3));
+        //ProvaVersatile.showMostVersatileInfluencer(3);
+        System.out.println(LoginSignupDBManager.passwordEncryption("cane"));
         Neo4jDBManager.close();
 
 
