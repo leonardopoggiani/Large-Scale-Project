@@ -31,6 +31,7 @@ public class UsersPagesDBController {
 
     public  boolean deleteUser(String username)
     {
+        //PRIMA IN MONGODB
         return  UsersDBManager.deleteUser(username);
     }
 

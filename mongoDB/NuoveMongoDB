@@ -36,3 +36,8 @@ where r.status = "dislike"
 return u.name, count(r) as likeCount 
 order by likeCount desc 
 limit 3
+
+
+
+//Media dei login giornalieri per fascia d'età
+//Media dei login giornalieri per ogni country
