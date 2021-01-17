@@ -1,15 +1,15 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.bean.PostBean;
 import it.unipi.dii.LSMDB.project.group5.controller.*;
-
-import java.sql.Timestamp;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.MongoDBManager;
+import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.ProvaVersatile;
 
 public class Main {
 
     public static void main( String[] args ) throws Exception {
 
         Neo4jDBManager.InitializeDriver();
+        MongoDBManager.createConnection();
 
 
 
@@ -52,7 +52,7 @@ public class Main {
         boolean ret = ArticlesDBManager.addArticle(b);
         System.out.println(ret);*/
 
-        PostBean post = new PostBean();
+        /*PostBean post = new PostBean();
         post.setGroup("Gruppo brutto");
         post.setAdmin("Gaia5");
         post.setAuthor("Gaia5");
@@ -66,7 +66,7 @@ public class Main {
         post2.setAuthor("sara");
         //post2.setTimestamp(new Timestamp(System.currentTimeMillis()));
         post2.setText("Ci siete amici miei??");
-        //ud.Neo4jAddDeletePost(post, "add");
+        //ud.Neo4jAddDeletePost(post, "add");*/
 
         //grpos.showGroupsPost("Gruppo brutto", "Gaia5");
 
@@ -79,6 +79,8 @@ public class Main {
         grpos.showGroupsPost("Gruppo brutto", "Gaia5");
         ud.Neo4jAddDeletePost(post2, "delete");
         grpos.showGroupsPost("Gruppo brutto", "Gaia5");*/
+        ProvaVersatile.showMostVersatileInfluencer(3);
+        System.out.println(ProvaVersatile.showMostVersatileInfluencer(3));
         Neo4jDBManager.close();
 
 
