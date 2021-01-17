@@ -39,7 +39,16 @@ public class UsersPagesDBController {
 
     public  boolean promoteDemoteUser(String username, String role)
     {
-        return  UsersDBManager.promoteDemoteUser(username, role);
+        if(UsersDBManager.promoteDemoteUser(username, role))
+        {
+            if(!UserDBManager.promoteDemoteUser(username, role))
+            {
+                logger.severe("MONGODB | Ruolo dell'utente " + username +" non aggiornato!");
+                return false;
+            }
+            return  true;
+        }
+        return  false;
     }
 
     public UserBean showUser(String text) {
