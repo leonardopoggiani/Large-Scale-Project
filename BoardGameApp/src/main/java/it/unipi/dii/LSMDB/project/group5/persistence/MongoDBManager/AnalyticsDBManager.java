@@ -267,12 +267,12 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(group, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
-                /*Document next = cursor.next();
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
                 InfluencerInfoBean a = new InfluencerInfoBean();
                 a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
                 a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
-                ret.add(a);*/
+                ret.add(a);
 
             }
         }
@@ -290,12 +290,12 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(group, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
-                /*Document next = cursor.next();
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
                 InfluencerInfoBean a = new InfluencerInfoBean();
                 a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
                 a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
-                ret.add(a);*/
+                ret.add(a);
 
             }
         }
