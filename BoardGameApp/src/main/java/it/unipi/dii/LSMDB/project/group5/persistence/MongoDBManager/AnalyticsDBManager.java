@@ -141,8 +141,9 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2)).iterator()) {
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
+
                 Document next = cursor.next();
+                //System.out.println(next.toJson());
                 ret.setName(next.get("category").toString());
                 ret.setTotGames(Integer.parseInt(next.get("count") == null ? "0" : next.get("count").toString()));
             }
@@ -160,8 +161,9 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( sort, projection)).iterator()) {
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
+
                 Document next = cursor.next();
+                System.out.println(next.toJson());
                 UserBean u = fillUserFields(next);
                 ret.add(u);
             }
@@ -205,16 +207,19 @@ public class AnalyticsDBManager {
             .append("day", new Document ("$dayOfMonth", "$date"))
                 .append("year", new Document ("$year", "$date")))
         .append("count", new Document("$sum", 1L)));
-        Bson sort = sort(descending("count"));
+        Bson sort1 = sort(ascending("date.day"));
+        Bson sort2 = sort(ascending("date.month"));
+        Bson sort3 = sort(ascending("date.year"));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, group, projection,sort)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, group, projection,sort1, sort2, sort3)).iterator()) {
 
             while (cursor.hasNext()) {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 Document date = (Document) next.get("date");
                 String d = date.get("year")+"-"+date.get("month")+"-"+date.get("day");
-                System.out.println(d + " " + next.get("count"));
+                //System.out.println(d + " " + next.get("count"));
+                //System.out.println(next.toJson());
                 ActivityBean a = new ActivityBean();
                 a.setDate(d);
                 a.setNumUser(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
@@ -276,12 +281,12 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, match1, group, group2, projection,sort)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
-                /*Document next = cursor.next();
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
                 ActivityBean a = new ActivityBean();
                 a.setCountry(next.get("country").toString());
                 a.setAvgLogin(next.get("avg") == null ? 0.0 : Double.parseDouble((next.get("count").toString())));
-                ret.add(a);*/
+                ret.add(a);
             }
         }
         return ret;

@@ -154,7 +154,7 @@ public class GameDBManager {
 
     public static boolean updateRating(double rate, String game){
         int votes = getNumVotes(game);
-        double avg = getAvgRating(game);
+         double avg = getAvgRating(game);
         double newAvg = (avg*votes + rate)/(votes+1);
         if(!updateNumVotes(votes+1, game)){
             return false;
