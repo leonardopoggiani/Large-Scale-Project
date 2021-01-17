@@ -13,7 +13,7 @@ public class AnalyticsDBController {
     public List<VersatileUser> showMostVersatileInfluencer(int limit)
     {
         return showMostVersatileInfluencer(limit);
-    } // moderatore
+    } // statistiche generali
 
     public List<GameBean> showLeastRatedGames(String mode, String value)
     {
@@ -70,6 +70,11 @@ public class AnalyticsDBController {
     public List<VersatileUser> mostVersatileUsers(String type)
     {
         return mostVersatileUsers(type);
+    } // moderatore promuove utenti
+
+    public CategoryBean getGamesDistribution()
+    {
+        return AnalyticsDBManager.gamesDistribution();
     } // moderatore promuove utenti
 
 }

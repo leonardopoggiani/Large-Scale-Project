@@ -138,7 +138,7 @@ public class AnalyticsDBManager {
         Bson limit = limit(6);
         Bson projection2 = project(fields(excludeId(), computed("category", "$_id"), include("count")));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2,limit)).iterator()) {
 
             while (cursor.hasNext()) {
 

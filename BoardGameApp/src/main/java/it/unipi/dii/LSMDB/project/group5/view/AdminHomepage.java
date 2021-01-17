@@ -72,6 +72,21 @@ public class AdminHomepage {
     BarChart age;
 
     @FXML
+    Text primo;
+
+    @FXML
+    Text secondo;
+
+    @FXML
+    Text terzo;
+
+    @FXML
+    Text quarto;
+
+    @FXML
+    Text quinto;
+
+    @FXML
     void initialize() {
         categories.setItems(categorie);
 
@@ -82,6 +97,18 @@ public class AdminHomepage {
         displayUserChart();
         displayActivityChart();
         displayUserAge();
+        displayVersatileInfluencer();
+
+    }
+
+    private void displayVersatileInfluencer() {
+        List<VersatileUser> list = controller.showMostVersatileInfluencer(5);
+
+        primo.setText(list.get(0).getUsername() + ", " + list.get(0).getHowManyCategories());
+        primo.setText(list.get(1).getUsername() + ", " + list.get(1).getHowManyCategories());
+        primo.setText(list.get(2).getUsername() + ", " + list.get(2).getHowManyCategories());
+        primo.setText(list.get(3).getUsername() + ", " + list.get(3).getHowManyCategories());
+        primo.setText(list.get(4).getUsername() + ", " + list.get(4).getHowManyCategories());
 
     }
 
@@ -169,7 +196,17 @@ public class AdminHomepage {
         category2.setText(String.valueOf(categoryInfo.getAvgRatingTot()));
         category3.setText(String.valueOf(categoryInfo.getNumRatesTot()));
 
-        // pie.setData();
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList();
+
+        List<CategoryBean> categoryInfo2 = controller.getGamesDistribution();
+        for(int i = 0; i < categoryInfo2.size(); i++) {
+            logger.info(categoryInfo2.get(i).getCountry());
+            pieChartData.add(new PieChart.Data(lista.get(i).getCountry(), lista.get(i).getNumUser()));
+
+            if(i == 4)
+                break;
+        }
     }
 
     @FXML

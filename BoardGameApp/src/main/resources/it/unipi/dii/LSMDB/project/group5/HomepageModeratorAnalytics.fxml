@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="920.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.View.StatisticsModeratorPageView">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="713.0" prefWidth="918.0">
          <children>
@@ -16,10 +16,9 @@
             <TextField layoutX="313.0" layoutY="297.0" />
             <Button layoutX="359.0" layoutY="338.0" mnemonicParsing="false" text="Promote" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0ab7e8" height="236.0" layoutX="14.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="241.0" />
-            <Text layoutX="49.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="49.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text layoutX="49.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <ComboBox layoutX="60.0" layoutY="17.0" prefWidth="150.0" />
+            <Text fx:id="influencer1" layoutX="49.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="influencer2" layoutX="49.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="influencer3" layoutX="49.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0ab7e8" height="236.0" layoutX="15.0" layoutY="264.0" stroke="BLACK" strokeType="INSIDE" width="241.0" />
             <Text layoutX="50.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <Text layoutX="50.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
@@ -35,6 +34,7 @@
             <Text layoutX="550.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <Text layoutX="550.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <ComboBox layoutX="561.0" layoutY="17.0" prefWidth="150.0" />
+            <Text layoutX="25.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top 3 liked influencer" />
          </children></AnchorPane>
   </content>
 </ScrollPane>
