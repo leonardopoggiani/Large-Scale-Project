@@ -2,6 +2,7 @@ package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.*;
+import it.unipi.dii.LSMDB.project.group5.controller.AnalyticsDBController;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.AnalyticsDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
 public class AdminHomepage {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
+    AnalyticsDBController controller = new AnalyticsDBController();
 
     ObservableList<String> categorie = FXCollections.observableArrayList(
             "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
@@ -64,21 +66,6 @@ public class AdminHomepage {
     PieChart userpie;
 
     @FXML
-    Text user1;
-
-    @FXML
-    Text user2;
-
-    @FXML
-    Text user3;
-
-    @FXML
-    Text user4;
-
-    @FXML
-    Text user5;
-
-    @FXML
     LineChart activity;
 
     @FXML
@@ -93,14 +80,13 @@ public class AdminHomepage {
         category3.setText("");
 
         displayUserChart();
-        displayLeastRecentlyLoggedUsers();
         displayActivityChart();
         displayUserAge();
 
     }
 
     private void displayUserAge() {
-        List<AgeBean> lista = AnalyticsDBManager.getUsersForAge();
+        List<AgeBean> lista = controller.getUsersForAge();
         BarChart.Series series = new BarChart.Series();
         series.setName("User age");
 
@@ -123,7 +109,6 @@ public class AdminHomepage {
             } else if(lista.get(i).getAge() >= 22 && lista.get(i).getAge() <= 35 ){
                 quantiSeconda += lista.get(i).getNumUser();
             } else if(lista.get(i).getAge() >= 36 && lista.get(i).getAge() <= 50 ){
-                System.out.println("age: " + lista.get(i).getAge());
                 quantiTerza += lista.get(i).getNumUser();
             }else if(lista.get(i).getAge() >= 51 && lista.get(i).getAge() <= 70 ){
                 quantiQuarta += lista.get(i).getNumUser();
@@ -132,8 +117,6 @@ public class AdminHomepage {
             }
 
         }
-
-        System.out.println("prima " + quantiPrima + ", seconda " + quantiSeconda + ", terza " + quantiTerza + ", quarta " + quantiQuarta + ", quinta " + quantiQuinta);
 
         series.getData().add(new BarChart.Data(prima, quantiPrima));
         series.getData().add(new BarChart.Data(seconda, quantiSeconda));
@@ -149,21 +132,12 @@ public class AdminHomepage {
     private void displayActivityChart() {
         XYChart.Series series = new XYChart.Series();
         series.setName("Users login");
-        List<ActivityBean> statistiche = AnalyticsDBManager.getActivitiesStatisticsTotal();
+        List<ActivityBean> statistiche = controller.getActivitiesStatisticsTotal();
 
         for(int i = 0; i < statistiche.size(); i++) {
             series.getData().add(new XYChart.Data(statistiche.get(i).getDate(),statistiche.get(i).getNumUser()));
         }
         activity.getData().add(series);
-    }
-
-    private void displayLeastRecentlyLoggedUsers() {
-        List<UserBean> utenti = AnalyticsDBManager.showLessRecentLoggedUsers();
-        user1.setText((utenti.get(0) == null) ? "" : utenti.get(0).getName() + " / " + utenti.get(0).getLastLogin().toString());
-        user1.setText((utenti.get(1) == null) ? "" : utenti.get(1).getName() +  " / " + utenti.get(1).getLastLogin().toString());
-        user1.setText((utenti.get(2) == null) ? "" : utenti.get(2).getName() +  " / " + utenti.get(2).getLastLogin().toString());
-        user1.setText((utenti.get(3) == null) ? "" : utenti.get(3).getName() +  " / " + utenti.get(3).getLastLogin().toString());
-        user1.setText((utenti.get(4) == null) ? "" : utenti.get(4).getName() +  " / " + utenti.get(4).getLastLogin().toString());
     }
 
     @FXML
@@ -189,7 +163,7 @@ public class AdminHomepage {
 
     @FXML
     void displayCategoryInfo() {
-        CategoryBean categoryInfo = AnalyticsDBManager.getCategoryInfo(categorie.get(categories.getSelectionModel().getSelectedIndex()));
+        CategoryBean categoryInfo = controller.getCategoryInfo(categorie.get(categories.getSelectionModel().getSelectedIndex()));
 
         category1.setText(String.valueOf(categoryInfo.getTotGames()));
         category2.setText(String.valueOf(categoryInfo.getAvgRatingTot()));
@@ -200,7 +174,7 @@ public class AdminHomepage {
 
     @FXML
     void displayUserChart() {
-        List<CountryBean> lista = AnalyticsDBManager.getUsersFromCountry();
+        List<CountryBean> lista = controller.getUsersFromCountry();
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList();
 

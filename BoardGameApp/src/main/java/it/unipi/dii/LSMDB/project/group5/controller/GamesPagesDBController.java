@@ -28,6 +28,23 @@ public class GamesPagesDBController {
     }
 
 
+    //PRIMA MONGODB, POI NEO4J
+    public boolean addGame(GameBean newGame) {
+
+
+        if(GameDBManager.addGame(newGame)){
+            if(!GamesDBManager.addGame(newGame))
+            {
+                logger.severe("NEO4J | Game " + newGame.getName() + " non aggiunto!");
+                return false;
+            }
+            return true;
+        }
+        logger.severe("MONGODB NEO4J | Game " + newGame.getName() + " non aggiunto!");
+        return false;
+    }
+
+
 
 
 
@@ -54,16 +71,20 @@ public class GamesPagesDBController {
     }
 
 
-    public boolean deleteReview(ReviewBean rev) {
+    public boolean deleteGame(String game) {
 
-        boolean ret  = ReviewsDBManager.deleteReview(rev);
-        if(ret){
-            GameDBManager.updateNumReviews(-1, rev.getGame());
-        }
-        return ret;
+      if(GameDBManager.deleteGame(game))
+      {
+          if(!GamesDBManager.deleteGame(game))
+          {
+              logger.severe("NEO4J | Game " + game + " non eliminato!");
+              return false;
+          }
+          return true;
+      }
+      logger.severe("NEO4J MONGODB | Game " + game + " non eliminato!");
+      return false;
     }
-
-
 
     //ONLY MONGODB
     public double getAvgRating(String game){

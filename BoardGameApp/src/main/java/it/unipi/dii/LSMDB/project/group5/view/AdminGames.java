@@ -3,11 +3,16 @@ package it.unipi.dii.LSMDB.project.group5.view;
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.controller.AnalyticsDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.GamesPagesDBController;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.AnalyticsDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -17,6 +22,7 @@ import java.util.logging.Logger;
 public class AdminGames {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
+    AnalyticsDBController controller = new AnalyticsDBController();
 
     ObservableList<String> gameStatistic = FXCollections.observableArrayList("Least rated game per category", "Least rated game per year");
 
@@ -55,6 +61,15 @@ public class AdminGames {
 
     @FXML
     Text game3;
+
+    @FXML
+    TextField delete;
+
+    @FXML
+    Button remove;
+
+    @FXML
+    ImageView tic;
 
     @FXML
     void returnToStatistics() throws IOException {
@@ -112,10 +127,8 @@ public class AdminGames {
 
     @FXML
     void displayCategoryStatisticResult() {
-        AnalyticsDBController controller = new AnalyticsDBController();
-
         if(gameStatistic.get(games.getSelectionModel().getSelectedIndex()).equals("Least rated game per category")) {
-            List<GameBean> lista = AnalyticsDBManager.showLeastRatedGames("category", categorie.get(choosenCategory.getSelectionModel().getSelectedIndex()));
+            List<GameBean> lista = controller.showLeastRatedGames("category", categorie.get(choosenCategory.getSelectionModel().getSelectedIndex()));
 
             logger.info("least rated game category, size " + lista.size());
 
@@ -129,7 +142,7 @@ public class AdminGames {
                 }
             }
         } else {
-            List<GameBean> lista = AnalyticsDBManager.showLeastRatedGames("year", year.get(choosenCategory.getSelectionModel().getSelectedIndex()));
+            List<GameBean> lista = controller.showLeastRatedGames("year", year.get(choosenCategory.getSelectionModel().getSelectedIndex()));
 
             logger.info("least rated game year");
 
@@ -145,8 +158,23 @@ public class AdminGames {
     }
 
     @FXML
-    private void search() {
+    private void searchGame() {
+        GamesPagesDBController gameController = new GamesPagesDBController();
+        GameBean gioco = gameController.showGame(delete.getText());
 
+        if(gioco != null) {
+            remove.setDisable(false);
+            tic.setVisible(true);
+        } else {
+            remove.setDisable(true);
+            tic.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void removeGame(){
+        GamesPagesDBController gameController = new GamesPagesDBController();
+        // gameController.deleteGame(delete.getText());
     }
 
 }
