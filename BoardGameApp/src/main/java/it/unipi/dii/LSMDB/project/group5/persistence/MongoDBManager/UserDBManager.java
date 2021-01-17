@@ -2,6 +2,7 @@ package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
 import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
 
@@ -32,7 +33,7 @@ public class UserDBManager extends MongoDBManager {
     }
 
     public static boolean updateLogin(String username) {
-        System.out.println("Nella update login");
+        //System.out.println("Nella update login");
         MongoCollection<Document> collection = getCollection("Users");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Document setLastLogin = new Document();
@@ -58,6 +59,16 @@ public class UserDBManager extends MongoDBManager {
         u.setCountry(next.get("country")==null? "Non specificato" : next.get("country").toString());
         u.setUpdated((next.get("updated")==null)? new Timestamp(System.currentTimeMillis()) : convertStringToTimestamp(next.get("updated").toString()));;
         return u;
+    }
+
+    public static boolean deleteUser (String username){
+        MongoCollection<Document> collection = getCollection("Users");
+
+        DeleteResult dr = collection.deleteOne(eq("username", username));
+        if (dr.getDeletedCount() == 0 || !dr.wasAcknowledged()){
+            return false;
+        }
+        return true;
     }
 
 

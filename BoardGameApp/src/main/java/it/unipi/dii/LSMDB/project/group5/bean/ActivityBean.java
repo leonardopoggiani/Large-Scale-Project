@@ -3,6 +3,24 @@ package it.unipi.dii.LSMDB.project.group5.bean;
 public class ActivityBean {
     private String date;
     private int numUser;
+    private double avgLogin;
+    private String country;
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public double getAvgLogin() {
+        return avgLogin;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setAvgLogin(double avgLogin) {
+        this.avgLogin = avgLogin;
+    }
 
     public void setNumUser(int numUser) {
         this.numUser = numUser;

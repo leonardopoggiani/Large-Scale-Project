@@ -62,6 +62,7 @@ public class Main {
         //AnalyticsDBManager.distinctGamesInArticlesPublishedInASpecifiedPeriod("2020-01-12 00:00:00");
         //AnalyticsDBManager.getNumLikeForEachInfluencer();
         //AnalyticsDBManager.getNumDislikeForEachInfluencer();
+        AnalyticsDBManager.dailyAvgLoginForAgeRange(18,30);
 
         /*ArticleBean a = new ArticleBean();
         List<String> list1 = new ArrayList<>();
