@@ -16,7 +16,7 @@ public class LoginPageView {
     Logger logger =  Logger.getLogger(this.getClass().getName());
     private static String loggedUser;
     private static String loggedRole;
-    LoginSignUpDBController neo = new LoginSignUpDBController();
+    LoginSignUpDBController controller = new LoginSignUpDBController();
     private static int logged = -1;
 
     @FXML
@@ -29,9 +29,9 @@ public class LoginPageView {
         boolean ret = false;
 
         if(username != null && password != null ){
-            loggedRole = neo.loginUser(username,password);
+            loggedRole = controller.loginUser(username,password);
 
-            if(loggedRole != null && !loggedRole.equals("fallito")){
+            if(loggedRole != null && !loggedRole.equals("fallito") && !loggedRole.equals("NA")){
                 logged = 1;
                 loggedUser = username;
                 ret = true;
@@ -54,8 +54,8 @@ public class LoginPageView {
             if(loggedRole.equals("admin")){
                 App.setRoot("adminHomepage");
             } else {
-                // App.setRoot("HomepageArticles");
-                App.setRoot("adminHomepage");
+                App.setRoot("HomepageArticles");
+                //App.setRoot("adminHomepage");
             }
             logger.info("Login correttamente effettuato");
         } else {

@@ -82,41 +82,36 @@ public class ArticlesPagesDBController {
         int id = ArticleDBManager.addArticle(a);
         if(id!=-1)
         {
-            if(!ArticlesDBManager.addArticle(a));
+            if(!ArticlesDBManager.addArticle(a))
             {
-                //DeleteArticleMongoDB
-                logger.severe("NEO4J | Articolo " + a.getTitle() + " non aggiunto!");
+                logger.severe("NEO4J | Articolo " + id + " non aggiunto in Neo4j!");
+                ArticleDBManager.deleteArticle(id);
+                logger.info("MONGODB | Articolo " + id + " rimosso da mongoDB!");
+                return  false;
             }
             return true;
         }
-        logger.severe("MONGODB | Articolo " + a.getTitle() + " non aggiunto!");
+
         return  false;
 
     }
 
 
-    public boolean deleteArticle(String author, String title)
+    public boolean deleteArticle(int idArt)
     {
         //DELETE MONGODB
-        if(true)
+        if(ArticleDBManager.deleteArticle(idArt))
         {
             //DELETE NEO4J
-            if(!ArticlesDBManager.deleteArticle(author, title))
+            if(!ArticlesDBManager.deleteArticle(idArt))
             {
-                //SE VA MALE RIPROVO AD ELIMINARE DA NEO4J
-                if(!ArticlesDBManager.deleteArticle(author, title))
-                {
-                    //SE VA MALE DI NUOVO ESCO
-                    //SOSTITUIRE CON ID DELL'ARTICOLO
-                    logger.severe("NEO4J | Articolo " + title + "non eliminato!");
-                    return false;
-                }
-                return  true;
+                logger.severe("NEO4J | Articolo " + idArt + " ancora in Neo4j!");
+                return false;
             }
+
             return  true;
         }
-        //SOSTITUIRE CON ID DELL'ARTICOLO
-        logger.severe("NEO4J MONGODB | Articolo" + title +"non eliminato!");
+
         return  false;
     }
 
@@ -127,13 +122,12 @@ public class ArticlesPagesDBController {
         if (ret){
             if(!ArticleDBManager.updateNumComments(1, newComm.getId()))
             {
-                logger.severe("MONGODB | Numero dei commenti non incrementato!");
+                logger.severe("MONGODB | Numero dei commenti dell'articolo "+ newComm.getId() + " non incrementato!");
                 return false;
             }
             return  ret;
         }
-        logger.severe("NEO4J | Commento: " + newComm.getAuthor() + " | " + newComm.getTimestamp() +
-                " non aggiunto!");
+
         return false;
 
     }
@@ -145,27 +139,24 @@ public class ArticlesPagesDBController {
             if (ret == 0){
                 if(like.getType().equals("like")){
                     if(!ArticleDBManager.updateNumLike(-1, like.getId()))
-                        logger.severe("MONGODB | Numero dei like non decrementato!");
+                        logger.severe("MONGODB | Numero dei like di " + like.getId() +" non decrementato!");
                 }else {
                     if(!ArticleDBManager.updateNumDislike(-1, like.getId()))
-                        logger.severe("MONGODB | Numero dei dislike non decrementato!");
+                        logger.severe("MONGODB | Numero dei dislike di " + like.getId() +" non decrementato!");
 
                 }
             }else {
                 if(like.getType().equals("like")){
                     if(!ArticleDBManager.updateNumLike(1, like.getId()))
-                        logger.severe("MONGODB | Numero dei like non incrementato!");
+                        logger.severe("MONGODB | Numero dei like dell'articolo " + like.getId() +" non incrementato!");
                 }else {
                     if(!ArticleDBManager.updateNumDislike(1, like.getId()))
-                        logger.severe("MONGODB | Numero dei dislike non incrementato!");
+                        logger.severe("MONGODB | Numero dei dislike dell'articolo " + like.getId() +" non incrementato!");
 
                 }
             }
 
         }
-        else
-            logger.severe("NEO4J  | Like non aggiunto!");
-
 
         return ret;
 
@@ -176,12 +167,12 @@ public class ArticlesPagesDBController {
         boolean ret  = CommentsDBManager.deleteComment(comm);
         if (ret){
             if(!ArticleDBManager.updateNumComments(-1, comm.getId() ))
-                logger.severe("MONGODB | Numero dei commenti articolo: " + comm.getTitleArt()+" non decrementato!");
+                logger.severe("MONGODB | Numero dei commenti articolo: " + comm.getId() +" non decrementato!");
 
             return true;
         }
 
-        logger.severe("NEO4J | Commento: " + comm.getAuthor() + " | " + comm.getTimestamp() + " non aggiunto!");
+
         return  false;
     }
 }
