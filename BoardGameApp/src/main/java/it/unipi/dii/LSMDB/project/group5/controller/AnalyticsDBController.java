@@ -18,7 +18,7 @@ public class AnalyticsDBController {
     public List<GameBean> showLeastRatedGames(String mode, String value)
     {
         return AnalyticsDBManager.showLeastRatedGames(mode, value);
-    } // admin rimuove giochileoanrdo
+    } // admin rimuove giochi
 
     public List<CountryBean> getUsersFromCountry()
     {
@@ -71,8 +71,6 @@ public class AnalyticsDBController {
     {
         return mostVersatileUsers(type);
     } // moderatore promuove utenti
-
-
 
 }
 

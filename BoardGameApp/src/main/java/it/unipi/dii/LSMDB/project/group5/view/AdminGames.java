@@ -136,7 +136,7 @@ public class AdminGames {
                 Text game_i = chooseGame(i);
                 if (i < lista.size()) {
                     logger.info("game " + lista.get(i).getName());
-                    game_i.setText(lista.get(i).getName());
+                    game_i.setText(lista.get(i).getName() + ", votes: " + lista.get(i).getNumVotes());
                 } else {
                     game_i.setText("");
                 }
@@ -149,7 +149,7 @@ public class AdminGames {
             for (int i = 0; i < 3; i++) {
                 Text game_i = chooseGame(i);
                 if (i < lista.size()) {
-                    game_i.setText(lista.get(i).getName());
+                    game_i.setText(lista.get(i).getName() + ", votes: " + lista.get(i).getNumVotes());
                 } else {
                     game_i.setText("");
                 }
@@ -174,7 +174,7 @@ public class AdminGames {
     @FXML
     private void removeGame(){
         GamesPagesDBController gameController = new GamesPagesDBController();
-        // gameController.deleteGame(delete.getText());
+        gameController.deleteGame(delete.getText());
     }
 
 }

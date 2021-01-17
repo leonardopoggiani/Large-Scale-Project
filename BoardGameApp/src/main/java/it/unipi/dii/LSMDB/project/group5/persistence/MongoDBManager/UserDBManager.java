@@ -2,16 +2,26 @@ package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
+import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import org.bson.Document;
 import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
+import org.bson.conversions.Bson;
+import org.neo4j.driver.Result;
+import org.neo4j.driver.Session;
+import org.neo4j.driver.Transaction;
+import org.neo4j.driver.TransactionWork;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Projections.excludeId;
+import static com.mongodb.client.model.Projections.fields;
 import static it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.ArticleDBManager.*;
 
 
@@ -71,5 +81,23 @@ public class UserDBManager extends MongoDBManager {
         return true;
     }
 
+    public static UserBean showUser(String username) {
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+
+        Bson projection = (fields( excludeId()));
+        Bson match =  (eq("username",username));
+
+        UserBean u = new UserBean();
+
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
+            while(cursor.hasNext()){
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                u = fillUserFields(next);
+            }
+            cursor.close();
+        }
+        return u;
+    }
 
 }

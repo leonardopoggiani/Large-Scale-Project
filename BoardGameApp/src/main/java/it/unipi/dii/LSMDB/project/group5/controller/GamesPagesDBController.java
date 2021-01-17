@@ -45,9 +45,6 @@ public class GamesPagesDBController {
     }
 
 
-
-
-
     //PRIMA NEO4J, POI MONGODB
     public boolean addReview(ReviewBean newRev) {
 
@@ -84,6 +81,15 @@ public class GamesPagesDBController {
       }
       logger.severe("NEO4J MONGODB | Game " + game + " non eliminato!");
       return false;
+    }
+
+    public boolean deleteReview(ReviewBean review) {
+        if(ReviewsDBManager.deleteReview(review))
+        {
+            return true;
+        }
+        logger.severe("NEO4J | Review " + review + " non eliminato!");
+        return false;
     }
 
     //ONLY MONGODB
@@ -124,7 +130,6 @@ public class GamesPagesDBController {
     }
 
 
-
     /*
     public int countReviews(String name) {
         return countReviews(name);
@@ -143,6 +148,5 @@ public class GamesPagesDBController {
 
 
     }*/
-
 
 }
