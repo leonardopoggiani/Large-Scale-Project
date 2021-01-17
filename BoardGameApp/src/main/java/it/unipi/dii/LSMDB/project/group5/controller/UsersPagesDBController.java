@@ -14,6 +14,7 @@ public class UsersPagesDBController {
 
     public UsersPagesDBController(){};
 
+    //ONLY MONGODB
     public  List<String> listUsers(String username, String type)
     {
        return UsersDBManager.listUsers(username, type);
@@ -26,17 +27,34 @@ public class UsersPagesDBController {
 
     }
 
+    public UserBean showUser(String text) {
+        return UserDBManager.showUser(text);
+    }
+
     public  boolean addRemoveFollow(String username1, String username2, String type)
     {
         return  UsersDBManager.addRemoveFollow(username1,username2,type);
     }
 
+
     public  boolean deleteUser(String username)
     {
-        //PRIMA IN MONGODB
-        return  UsersDBManager.deleteUser(username);
+
+        if(UserDBManager.deleteUser(username))
+        {
+            if(!UsersDBManager.deleteUser(username))
+            {
+                logger.severe("NEO4J | Utente " + username +" non eliminato in Neo4j!");
+                return false;
+            }
+            return  true;
+        }
+        return  false;
     }
 
+
+
+    //NEO4J, POI MONGODB
     public  boolean promoteDemoteUser(String username, String role)
     {
         if(UsersDBManager.promoteDemoteUser(username, role))
@@ -51,7 +69,5 @@ public class UsersPagesDBController {
         return  false;
     }
 
-    public UserBean showUser(String text) {
-        return UserDBManager.showUser(text);
-    }
+
 }
