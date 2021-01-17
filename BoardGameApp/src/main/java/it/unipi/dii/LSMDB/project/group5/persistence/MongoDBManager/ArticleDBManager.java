@@ -300,7 +300,7 @@ public class ArticleDBManager {
         List<String> games = a.getListGame();
 
         System.out.println("add " + a);
-        Document doc = new Document("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", "2019-11-20 00:00:00" /*a.getTimestamp().toString()*/)
+        Document doc = new Document("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
 

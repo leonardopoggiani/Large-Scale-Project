@@ -2,6 +2,7 @@ package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.result.DeleteResult;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -338,6 +339,39 @@ public class GameDBManager {
         }
 
         return g;
+    }
+
+    public static boolean addGame (GameBean g){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+        List<String> categories = g.getListCategory();
+
+        //System.out.println("add " + a);
+        Document doc = new Document("name", g.getName()).append("year", g.getYear()).append("category", categories ).append("description", g.getDescription())
+                .append("publisher", g.getPublisher()).append("url", g.getUrl()).append("image_url", g.getImageUrl())
+                .append("rules_url", g.getRules()).append("min_players", g.getMinPlayers()).append("max_players", g.getMaxPlayers())
+                .append("min_age", g.getMinAge()).append("max_age", g.getMaxAge()).append("min_time", g.getMinTime()).append("max_time", g.getMaxTime())
+                .append("cooperative", g.isCooperative()).append("expansion", g.getExpansion()).append("num_votes", g.getNumVotes())
+                .append("avg_rating", g.getAvgRating()).append("num_reviews", g.getNumReviews()).append("complexity", g.getComplexity());
+
+        try{
+            collection.insertOne(doc);
+
+            return true;
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+
+            return false;
+        }
+    }
+
+    public static boolean deleteGame (String game){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+
+        DeleteResult dr = collection.deleteOne(eq("name", game));
+        if (dr.getDeletedCount() == 0 || !dr.wasAcknowledged()){
+            return false;
+        }
+        return true;
     }
 
 
