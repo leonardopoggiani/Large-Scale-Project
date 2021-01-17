@@ -54,15 +54,15 @@ public class Main {
        //AnalyticsDBManager.getUsersFromCountry();
 
         //AnalyticsDBManager.showLeastRatedGames("category", "Card Game:1002");
-        AnalyticsDBManager.getCategoryInfo("Card Game:1002");
+        //AnalyticsDBManager.getCategoryInfo("Card Game:1002");
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.showLessRecentLoggedUsers();
         //org.openjfx.DBManager.MongoDBManager.AnalyticsDBManager.getUsersForAge();
-        //AnalyticsDBManager.getActivitiesStatisticsTotal();
+        AnalyticsDBManager.getActivitiesStatisticsTotal();
         //AnalyticsDBManager.numberOfArticlesPublishedInASpecifiedPeriod("2020-01-12 00:00:00");
         //AnalyticsDBManager.distinctGamesInArticlesPublishedInASpecifiedPeriod("2020-01-12 00:00:00");
         //AnalyticsDBManager.getNumLikeForEachInfluencer();
         //AnalyticsDBManager.getNumDislikeForEachInfluencer();
-        AnalyticsDBManager.dailyAvgLoginForAgeRange(18,30);
+        //AnalyticsDBManager.dailyAvgLoginForAgeRange(18,30);
 
         /*ArticleBean a = new ArticleBean();
         List<String> list1 = new ArrayList<>();
