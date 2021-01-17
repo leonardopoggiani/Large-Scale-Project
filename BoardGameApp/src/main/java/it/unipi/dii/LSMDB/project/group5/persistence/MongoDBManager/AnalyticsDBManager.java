@@ -129,8 +129,8 @@ public class AnalyticsDBManager {
         return ret;
     }
 
-    public static CategoryBean gamesDistribution (){
-        CategoryBean ret = new CategoryBean();
+    public static List<CategoryBean> gamesDistribution (){
+        List<CategoryBean> ret = new ArrayList<CategoryBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson unwind = unwind("$category");
         Bson group = group("category", sum("count", 1L));
@@ -144,8 +144,10 @@ public class AnalyticsDBManager {
 
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                ret.setName(next.get("category").toString());
-                ret.setTotGames(Integer.parseInt(next.get("count") == null ? "0" : next.get("count").toString()));
+                CategoryBean g = new CategoryBean();
+                g.setName(next.get("category").toString());
+                g.setTotGames(Integer.parseInt(next.get("count") == null ? "0" : next.get("count").toString()));
+                ret.add(g);
             }
         }
         return ret;
