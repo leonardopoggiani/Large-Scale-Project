@@ -65,7 +65,7 @@ public class Main {
         //AnalyticsDBManager.getNumDislikeForEachInfluencer();
         //AnalyticsDBManager.dailyAvgLoginForAgeRange(18,30);
 
-        /*ArticleBean a = new ArticleBean();
+        ArticleBean a = new ArticleBean();
         List<String> list1 = new ArrayList<>();
         list1.add("Monopoli");
         list1.add("Sherlock");
@@ -77,7 +77,7 @@ public class Main {
         a.setText("NON LO SO");
         a.setNumberDislikes(1);
         a.setNumberLikes(14);
-        boolean ret = ArticleDBManager.addArticle(a);*/
+        ArticleDBManager.addArticle(a);
 
 
         MongoDBManager.close();

@@ -10,9 +10,9 @@ import java.util.HashMap;
 public class RatingsDBManager extends Neo4jDBManager {
 
     /**
-     * La funzione conta i rates ad un gioco
+     * La funzione conta i rating ad un gioco
      * @param name
-     * @return Numero dei rates ad un gioco
+     * @return Numero dei rating ad un gioco
      */
 
     public static int countRatings(final String name)
@@ -103,17 +103,16 @@ public class RatingsDBManager extends Neo4jDBManager {
 
     /**
      * La funzione aggiunge un rating ad un gioco
-     * @param newRate
+     * @param newRating
      * @return true se ha aggiunto correttamente il rating
      * @return false altrimenti
      */
-    public static boolean addRating(final RatingBean newRate) {
+    public static boolean addRating(final RatingBean newRating) {
         try (Session session = driver.session()) {
-            boolean res;
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    return transactionAddRating(tx, newRate);
+                    return transactionAddRating(tx, newRating);
                 }
             });
 
@@ -128,18 +127,18 @@ public class RatingsDBManager extends Neo4jDBManager {
 
     /**
      * La funzione aggiunge un rating ad un gioco
-     * @param tx
-     * @param newRate
+     * @param tx transaction
+     * @param newRating nuovo rating
      * @return true se ha aggiunto correttamente il rating
      * @return false altrimenti
      */
 
-    private static boolean transactionAddRating(Transaction tx, RatingBean newRate) {
+    private static boolean transactionAddRating(Transaction tx, RatingBean newRating) {
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("author", newRate.getAuthor());
-        parameters.put("vote", newRate.getVote());
-        parameters.put("timestamp", newRate.getTimestamp().toString());
-        parameters.put("game", newRate.getGame());
+        parameters.put("author", newRating.getAuthor());
+        parameters.put("vote", newRating.getVote());
+        parameters.put("timestamp", newRating.getTimestamp().toString());
+        parameters.put("game", newRating.getGame());
 
         Result result0 = tx.run("MATCH (u:User {username:$author})-[r:RATED]->(g:Game{name:$game})" +
                 "return r", parameters);

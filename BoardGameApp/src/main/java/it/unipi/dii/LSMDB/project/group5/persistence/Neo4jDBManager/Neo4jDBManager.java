@@ -20,7 +20,7 @@ public class Neo4jDBManager  {
             return true;
         }
         catch (Exception ex){
-            System.out.println(ex.getMessage());
+            System.err.println(ex.getMessage());
             return false;
         }
     }
