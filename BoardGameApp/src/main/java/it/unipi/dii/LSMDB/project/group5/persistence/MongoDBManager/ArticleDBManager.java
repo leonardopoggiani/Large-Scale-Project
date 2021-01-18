@@ -4,6 +4,7 @@ package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -152,7 +153,11 @@ public class ArticleDBManager {
         Document query = new Document();
         query.append("id", id);
         try{
-            collection.updateOne(query, update);
+            UpdateResult res = collection.updateOne(query, update);
+            if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
+                System.err.println("Unable to update MongoDB");
+                return false;
+            }
 
             return true;
         }
@@ -174,7 +179,11 @@ public class ArticleDBManager {
         query.append("id", id);
 
         try{
-            collection.updateOne(query, update);
+            UpdateResult res = collection.updateOne(query, update);
+            if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
+                System.err.println("Unable to update MongoDB");
+                return false;
+            }collection.updateOne(query, update);
 
             return true;
         }
@@ -194,7 +203,11 @@ public class ArticleDBManager {
         Document query = new Document();
         query.append("id", id);
         try{
-            collection.updateOne(query, update);
+            UpdateResult res = collection.updateOne(query, update);
+            if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
+                System.err.println("Unable to update MongoDB");
+                return false;
+            }
 
             return true;
         }
@@ -218,6 +231,9 @@ public class ArticleDBManager {
                 ret = (next.get("num_comments") == null) ? 0 :Integer.parseInt(next.get("num_comments").toString());
 
             }
+        }catch(Exception ex){
+            System.err.println("Unable to reach MongoDB");
+            return -1;
         }
 
         return ret;
@@ -237,6 +253,9 @@ public class ArticleDBManager {
                 ret = (next.get("num_like") == null) ? 0 :Integer.parseInt(next.get("num_like").toString());
 
             }
+        }catch(Exception ex){
+            System.err.println("Unable to reach MongoDB");
+            return -1;
         }
 
         return ret;
@@ -258,6 +277,7 @@ public class ArticleDBManager {
 
             }
         }catch(Exception ex){
+            System.err.println("Unable to reach MongoDB");
             return -1;
         }
 
@@ -287,7 +307,7 @@ public class ArticleDBManager {
         return a;
     }
 
-    public static Timestamp convertStringToTimestamp(String time){
+    protected static Timestamp convertStringToTimestamp(String time){
         Timestamp timestamp = null;
         try {
             //Date format from Scraping
@@ -326,7 +346,10 @@ public class ArticleDBManager {
                 .append("games", games);
 
         try{
-            collection.insertOne(doc);
+            InsertOneResult insert= collection.insertOne(doc);
+            if (!insert.wasAcknowledged()){
+                return -1;
+            }
 
             return id;
         }catch (Exception ex){

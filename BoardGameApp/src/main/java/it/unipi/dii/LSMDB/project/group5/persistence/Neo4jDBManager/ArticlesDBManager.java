@@ -109,7 +109,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
             }
 
-            System.out.println("NELLA DBMANAGER");
+
             articles.add(article);
         }
 
@@ -157,21 +157,27 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("timestamp", newArt.getTimestamp().toString());
         parameters.put("title", newArt.getTitle());
         parameters.put("game1", newArt.getListGame().get(0));
-        parameters.put("game2", (newArt.getListGame().size() != 2) ? "" : newArt.getListGame().get(1));
-
-        String checkArticle = "MATCH (a:Article{name:$title})<-[p:PUBLISHED]-(u:User{username:$author})" +
-                " RETURN a";
-        Result result = tx.run(checkArticle, parameters);
-        if (result.hasNext()) {
-            return false;
+        parameters.put("game2", (newArt.getListGame().size() == 2) ? "" : newArt.getListGame().get(1));
+        String query = "";
+        
+        if(newArt.getListGame().size() == 1)
+        {
+            query = "MATCH(u:User {username:$author}), (g1:Game{name:$game1})" +
+                    " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})" +
+                    " CREATE (g1)<-[:REFERRED]-(a)" +
+                    " return a ";
         }
+        else
+            query = "MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) " +
+                    " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title}) " +
+                    " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) " +
+                    " return a ";
 
-        result = tx.run("MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) " +
-                        " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title}) " +
-                        " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) " +
-                        " return a "
-                , parameters);
-        return true;
+        Result result = tx.run(query, parameters);
+        if(result.hasNext())
+            return true;
+
+        return false;
     }
 
     /**

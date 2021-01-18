@@ -106,7 +106,7 @@ public class ArticlesPagesDBController {
             //DELETE NEO4J
             if(!ArticlesDBManager.deleteArticle(idArt))
             {
-                logger.severe("NEO4J | Articolo " + idArt + " ancora in Neo4j!");
+                logger.severe("NEO4J | Articolo " + idArt + " non eliminato da Neo4j!");
                 return false;
             }
 

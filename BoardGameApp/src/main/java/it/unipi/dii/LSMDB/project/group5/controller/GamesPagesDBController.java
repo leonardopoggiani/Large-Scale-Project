@@ -35,8 +35,8 @@ public class GamesPagesDBController {
         if(GameDBManager.addGame(newGame)){
             if(!GamesDBManager.addGame(newGame))
             {
-                logger.severe("NEO4J | Game " + newGame.getName() + " non aggiunto!");
-                GamesDBManager.deleteGame(newGame.getName());
+                logger.severe("NEO4J | Gioco " + newGame.getName() + " non aggiunto!");
+                GameDBManager.deleteGame(newGame.getName());
                 logger.info("MONGODB | Gioco " + newGame.getName() + " rimosso da mongoDB!");
                 return  false;
             }

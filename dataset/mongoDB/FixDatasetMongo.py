@@ -89,6 +89,7 @@ def fixUsers(file):
     'scraped_at', '_id.$oid'], axis=1, inplace=True)
     df['age'] =  np.random.randint(18,70, size=len(df))
     df['password'] = 'eae453819442937c9a7e02d0e8e6265d9659950f38adf026ada8f1ac13ba65f2'
+    df['role'] = 'normalUser'
 
     result = df.to_json(orient="records", double_precision=0, date_format= 'iso')
     parsed = json.loads(result)
