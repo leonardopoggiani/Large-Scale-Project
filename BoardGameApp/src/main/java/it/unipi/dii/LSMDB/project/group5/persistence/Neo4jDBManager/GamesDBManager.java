@@ -100,7 +100,6 @@ public class    GamesDBManager extends Neo4jDBManager{
                 }
             });
 
-
         }
         catch (Exception ex)
         {
@@ -120,7 +119,7 @@ public class    GamesDBManager extends Neo4jDBManager{
     private static boolean transactionAddArticle(Transaction tx, GameBean newGame) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", newGame.getName());
-        parameters.put("category1", newGame.getCategory1());
+        parameters.put("category1", newGame.getCategory1() );
         parameters.put("category2", newGame.getCategory2());
         String checkGame = "MATCH (g:Game{name:$name})" +
                 " RETURN g";

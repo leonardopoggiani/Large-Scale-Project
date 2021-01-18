@@ -153,6 +153,11 @@ public class HomepageGames {
         App.setRoot("ProfileSettingsPageView");
     }
 
+    @FXML
+    void goToStatistics() throws IOException {
+        App.setRoot("HomepageModeratorAnalytics");
+    }
+
     private Text chooseNumberOfRating(int i){
         return switch (i) {
             case 1 -> number1;

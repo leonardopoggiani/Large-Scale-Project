@@ -123,6 +123,11 @@ public class HomepageGroups {
     }
 
     @FXML
+    void goToStatistics() throws IOException {
+        App.setRoot("HomepageModeratorAnalytics");
+    }
+
+    @FXML
     void goToSettings() throws IOException {
         App.setRoot("ProfileSettingsPageView");
     }

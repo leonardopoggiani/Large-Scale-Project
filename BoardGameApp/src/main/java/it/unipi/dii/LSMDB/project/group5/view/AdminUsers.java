@@ -37,6 +37,9 @@ public class AdminUsers {
     Text user5;
 
     @FXML
+    Text text;
+
+    @FXML
     TextField deleting;
 
     @FXML
@@ -73,11 +76,11 @@ public class AdminUsers {
 
     private void displayLeastRecentlyLoggedUsers() {
         List<UserBean> utenti = controller.showLessRecentLoggedUsers();
-        user1.setText((utenti.get(0) == null) ? "" : utenti.get(0).getName() + " / " + utenti.get(0).getLastLogin().toString());
-        user2.setText((utenti.get(1) == null) ? "" : utenti.get(1).getName() +  " / " + utenti.get(1).getLastLogin().toString());
-        user3.setText((utenti.get(2) == null) ? "" : utenti.get(2).getName() +  " / " + utenti.get(2).getLastLogin().toString());
-        user4.setText((utenti.get(3) == null) ? "" : utenti.get(3).getName() +  " / " + utenti.get(3).getLastLogin().toString());
-        user5.setText((utenti.get(4) == null) ? "" : utenti.get(4).getName() +  " / " + utenti.get(4).getLastLogin().toString());
+        user1.setText((utenti.get(0) == null) ? "" : (utenti.get(0).getUsername() + " / " + utenti.get(0).getLastLogin().toString()));
+        user2.setText((utenti.get(1) == null) ? "" : (utenti.get(1).getUsername() +  " / " + utenti.get(1).getLastLogin().toString()));
+        user3.setText((utenti.get(2) == null) ? "" : (utenti.get(2).getUsername() +  " / " + utenti.get(2).getLastLogin().toString()));
+        user4.setText((utenti.get(3) == null) ? "" : (utenti.get(3).getUsername() +  " / " + utenti.get(3).getLastLogin().toString()));
+        user5.setText((utenti.get(4) == null) ? "" : (utenti.get(4).getUsername() +  " / " + utenti.get(4).getLastLogin().toString()));
     }
 
     @FXML
@@ -98,6 +101,12 @@ public class AdminUsers {
     private void removeUser() {
         UsersPagesDBController userController = new UsersPagesDBController();
         boolean ret = userController.deleteUser(deleting.getText());
+        if(ret) {
+            text.setVisible(true);
+            remove.setText("");
+        } else {
+            remove.setStyle("-fx-background-color: red;");
+        }
     }
 
 }

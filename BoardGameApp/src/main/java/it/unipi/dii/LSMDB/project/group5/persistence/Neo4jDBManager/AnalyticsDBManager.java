@@ -187,9 +187,6 @@ public class AnalyticsDBManager extends Neo4jDBManager{
             versatileInfluencer.add(temp);
         }
 
-        System.out.println(versatileInfluencer.size());
-        System.out.println(versatileInfluencer.get(0).toString());
-        System.out.println(versatileInfluencer.get(1).toString());
         return versatileInfluencer;
 
     }

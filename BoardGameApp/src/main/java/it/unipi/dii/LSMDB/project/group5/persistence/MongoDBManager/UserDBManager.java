@@ -21,6 +21,7 @@ public class UserDBManager extends MongoDBManager {
 
     protected static UserBean fillUserFields(Document next) {
         UserBean u = new UserBean();
+        u.setUsername((next.get("username")==null)?"": next.get("username").toString());
         u.setName((next.get("name")==null)?"": next.get("name").toString());
         u.setSurname((next.get("surname")==null)?"":next.get("surname").toString());
         u.setAge((next.get("age")==null) ? 18: Integer.parseInt(next.get("age").toString()));
