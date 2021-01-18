@@ -369,8 +369,9 @@ public class ArticleDBManager {
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
-                //System.out.println(next.toJson());
-                ret = (Integer.parseInt(next.get("id").toString()));
+                System.out.println(next.toJson());
+                int old = (Integer.parseInt(next.get("id").toString()));
+                ret = old+1;
 
             }
         }catch(Exception ex){

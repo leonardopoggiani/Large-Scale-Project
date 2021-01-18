@@ -90,7 +90,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
                     Value value = nameValue.value();
                     title = value.get("title").asString();
                     article.setTitle(title);
-                    article.setId(value.get("id").asInt());
+                    article.setId(value.get("idArt").asInt());
 
                 }
                 if ("i".equals(nameValue.key())) {
@@ -155,10 +155,11 @@ public class ArticlesDBManager extends Neo4jDBManager {
     private static boolean transactionAddArticle(Transaction tx, ArticleBean newArt) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", newArt.getAuthor());
+        parameters.put("id", newArt.getId());
         parameters.put("timestamp", newArt.getTimestamp().toString());
         parameters.put("title", newArt.getTitle());
         parameters.put("game1", newArt.getListGame().get(0));
-        parameters.put("game2", (newArt.getListGame().size() == 2) ? "" : newArt.getListGame().get(1));
+        parameters.put("game2", (newArt.getListGame().size() == 2) ? newArt.getListGame().get(1) : "" );
         String query = "";
 
         System.out.println(newArt);
@@ -167,13 +168,13 @@ public class ArticlesDBManager extends Neo4jDBManager {
             System.out.println("uno");
             query =
                 "MATCH(u:User {username:$author}), (g1:Game{name:$game1})"
-                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{id:$id, title:$title})"
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{idArt:$id, title:$title})"
                     + " CREATE (g1)<-[:REFERRED]-(a)"
                     + " return a ";
         } else {
             query =
                 "MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) "
-                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{id:$id, title:$title}) "
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{idArt:$id, title:$title}) "
                     + " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) "
                     + " return a ";
         }
