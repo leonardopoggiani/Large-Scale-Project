@@ -113,9 +113,6 @@ public class AdminGames {
     PieChart pie;
 
     @FXML
-    PieChart userpie;
-
-    @FXML
     void returnToStatistics() throws IOException {
         App.setRoot("adminHomepage");
     }
@@ -271,22 +268,21 @@ public class AdminGames {
 
     @FXML
     void displayUserChart() {
-        List<CountryBean> lista = controller.getUsersFromCountry();
+        List<CategoryBean> lista = controller.getGamesDistribution();
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList();
 
         for(int i = 0; i < lista.size(); i++) {
-            logger.info(lista.get(i).getCountry());
-            pieChartData.add(new PieChart.Data(lista.get(i).getCountry(), lista.get(i).getNumUser()));
+            pieChartData.add(new PieChart.Data(lista.get(i).getName(), lista.get(i).getTotGames()));
 
             if(i == 4)
                 break;
         }
 
-        userpie.setData(pieChartData);
-        userpie.setLabelsVisible(true);
-        userpie.setLabelLineLength(10);
-        userpie.setLegendSide(Side.LEFT);
+        pie.setData(pieChartData);
+        pie.setLabelsVisible(true);
+        pie.setLabelLineLength(10);
+        pie.setLegendSide(Side.LEFT);
     }
 
 }

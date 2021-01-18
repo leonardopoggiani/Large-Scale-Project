@@ -167,7 +167,7 @@ public class AnalyticsDBManager {
             while (cursor.hasNext()) {
 
                 Document next = cursor.next();
-                System.out.println(next.toJson());
+                // System.out.println(next.toJson());
                 UserBean u = fillUserFields(next);
                 ret.add(u);
             }

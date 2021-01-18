@@ -120,7 +120,7 @@ public class AdminHomepage {
         pie1.setCategoryGap(20);
         pie1.getData().add(series);
 
-        List<ActivityBean> lista1 = controller.getDailyAvgLoginForAgeRange(18,90);
+        /*List<ActivityBean> lista1 = controller.getDailyAvgLoginForAgeRange(18,90);
         BarChart.Series series1 = new BarChart.Series();
 
         for(int i = 0; i < lista1.size(); i++) {
@@ -134,7 +134,7 @@ public class AdminHomepage {
 
         pie2.setBarGap(3);
         pie2.setCategoryGap(20);
-        pie2.getData().add(series1);
+        pie2.getData().add(series1);*/
 
     }
 
