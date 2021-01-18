@@ -159,23 +159,29 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("game1", newArt.getListGame().get(0));
         parameters.put("game2", (newArt.getListGame().size() == 2) ? "" : newArt.getListGame().get(1));
         String query = "";
-        
-        if(newArt.getListGame().size() == 1)
-        {
-            query = "MATCH(u:User {username:$author}), (g1:Game{name:$game1})" +
-                    " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})" +
-                    " CREATE (g1)<-[:REFERRED]-(a)" +
-                    " return a ";
+
+        System.out.println(newArt);
+
+        if (newArt.getListGame().size() == 1 || newArt.getListGame().get(1).equals("")) {
+            System.out.println("uno");
+            query =
+                "MATCH(u:User {username:$author}), (g1:Game{name:$game1})"
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})"
+                    + " CREATE (g1)<-[:REFERRED]-(a)"
+                    + " return a ";
+        } else {
+            query =
+                "MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) "
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title}) "
+                    + " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) "
+                    + " return a ";
         }
-        else
-            query = "MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) " +
-                    " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title}) " +
-                    " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) " +
-                    " return a ";
+
 
         Result result = tx.run(query, parameters);
-        if(result.hasNext())
+        if(result.hasNext()) {
             return true;
+        }
 
         return false;
     }
