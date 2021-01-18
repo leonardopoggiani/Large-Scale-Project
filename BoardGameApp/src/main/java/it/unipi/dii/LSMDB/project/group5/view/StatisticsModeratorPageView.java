@@ -2,10 +2,15 @@ package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.InfluencerInfoBean;
+import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
 import it.unipi.dii.LSMDB.project.group5.bean.VersatileUser;
 import it.unipi.dii.LSMDB.project.group5.controller.AnalyticsDBController;
+import it.unipi.dii.LSMDB.project.group5.controller.UsersPagesDBController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -41,6 +46,30 @@ public class StatisticsModeratorPageView {
 
     @FXML
     Text versatile3;
+
+    @FXML
+    TextField promotion;
+
+    @FXML
+    TextField declass;
+
+    @FXML
+    Text promotetext;
+
+    @FXML
+    ImageView promotetic;
+
+    @FXML
+    Button promotebutton;
+
+    @FXML
+    Text declasstext;
+
+    @FXML
+    ImageView declasstic;
+
+    @FXML
+    Button downgradebutton;
 
     @FXML
     void returnToHomepage() throws IOException {
@@ -116,6 +145,40 @@ public class StatisticsModeratorPageView {
 
     @FXML
     void promote() {
+        UsersPagesDBController controllerUser = new UsersPagesDBController();
+        UserBean toBePromoted = controllerUser.showUser(promotion.getText());
+
+        if(toBePromoted != null && toBePromoted.getUsername() != null) {
+            if(controllerUser.promoteDemoteUser(toBePromoted.getUsername(), "influencer")){
+                promotetext.setVisible(true);
+                promotion.setText("");
+                promotebutton.setDisable(true);
+                promotetic.setVisible(false);
+            }
+        }
+    }
+
+    @FXML
+    void searchUserForPromotion() {
+        UsersPagesDBController controllerUser = new UsersPagesDBController();
+        UserBean toBePromoted = controllerUser.showUser(promotion.getText());
+
+        if(toBePromoted != null && toBePromoted.getUsername() != null) {
+            promotebutton.setDisable(false);
+            promotetic.setVisible(true);
+        } else {
+            promotebutton.setDisable(true);
+            promotetic.setVisible(false);
+        }
+    }
+
+    @FXML
+    void searchUserForDowngrade() {
+
+    }
+
+    @FXML
+    void downgrade() {
 
     }
     
