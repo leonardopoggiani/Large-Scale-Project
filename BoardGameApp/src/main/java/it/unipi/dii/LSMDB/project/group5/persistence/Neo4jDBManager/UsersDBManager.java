@@ -1,6 +1,5 @@
 package it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager;
 
-import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 
@@ -172,16 +171,23 @@ public class UsersDBManager extends Neo4jDBManager{
         String searchForFriendsInflu = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
                 " WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
 
-        String searchForArticlesFollowersInflu = "MATCH (u:User)-[f:FOLLOW]->(u2:User{role:$role})-[p:PUBLISHED]->(a:Article)" +
-                " RETURN u2.username AS suggestion ,COUNT(f) AS quantiFollowers, COUNT(p) AS quantiArticoli ORDER BY quantiFollowers DESC, quantiArticoli DESC LIMIT 4";
+        String searchForArticlesFollowersInflu = "MATCH (u:User)-[f:FOLLOW]->(u2:User{role:$role}), (me:User{username:$username})" +
+                " WHERE NOT (me)-[:FOLLOW]->(u2) " +
+                " RETURN u2.username AS suggestion ,COUNT(f) AS quantiFollowers" +
+                " ORDER BY quantiFollowers DESC" +
+                " LIMIT 4";
 
         String searchForFriendsNormal = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
-                " WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (tizio)-[:FOLLOW]->(friend) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
+                " WHERE NOT((me)-[:FOLLOW]->(tizio)) AND" +
+                " (tizio)-[:FOLLOW]->(friend) AND" +
+                " (friend)-[:FOLLOW]->(tizio) AND" +
+                " NOT tizio.username=$username RETURN tizio.username AS suggestion";
 
         String searchForCategoryNormal = "MATCH (ub:User{username:$username}),(ua:User{role:$role})" +
-                " WHERE (ub.category1=ua.category1 or ub.category1=ua.category2)" +
-                " or (ub.category2=ua.category1 or ub.category2=ua.category2)" +
-                " AND NOT(ua.username=$username)" +
+                " WHERE  NOT(ua.username=$username) AND" +
+                " ((ub.category1=ua.category1 or ub.category1=ua.category2)" +
+                " OR (ub.category2=ua.category1 or ub.category2=ua.category2))" +
+                " AND NOT (ub)-[:FOLLOW]->(ua)" +
                 " RETURN ua.username AS suggestion";
 
         int quantiAmici = transactionCountUsers(tx,username, "normalUser");
@@ -203,7 +209,7 @@ public class UsersDBManager extends Neo4jDBManager{
         }
         else
         {
-            if(role.equals("normalUser"))
+            if(role.equals("influencer"))
             {
                 result = tx.run(searchForArticlesFollowersInflu, parameters);
                 System.out.println("uso searchForArticlesFollowersInflu ");
@@ -419,27 +425,9 @@ public class UsersDBManager extends Neo4jDBManager{
                 " DETACH DELETE u";
         String eliminaGroup = "MATCH (gr:Group{admin:$username})" +
                 " DETACH DELETE gr";
-        /*String eliminaReviews = "MATCH (u:User{username:$username})-[r:REVIEWED]->(g) " +
-                " DELETE r";
-        String eliminaRatings = "MATCH (u:User{username:$username})-[r:RATED]->(g)" +
-                " DELETE r";
-        String eliminaPosts = "(u:User{username:$username})-[p:POST]->(gr:Group)" +
-                " DELETE p";
 
-        String eliminaPublished = "MATCH (u:User{username:$username})-[p:PUBLISHED]->(a)" +
-                " DELETE p";
-
-        String eliminaGame = "(u:User{username:$username}) " +
-                " DELETE u";
-        Result result = tx.run(eliminaReviews, parameters);
-        result = tx.run(eliminaRatings, parameters);
-        result = tx.run(eliminaPosts, parameters);
-        result = tx.run(eliminaBepartGroup, parameters);
-        result = tx.run(eliminaPublished, parameters);
-        result = tx.run(eliminaGame, parameters);*/
         Result result = tx.run(eliminaTutto, parameters);
         result = tx.run(eliminaGroup, parameters);
-
 
         return true;
     }

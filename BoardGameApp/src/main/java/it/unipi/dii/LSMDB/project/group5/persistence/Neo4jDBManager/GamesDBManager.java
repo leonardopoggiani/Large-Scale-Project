@@ -183,10 +183,8 @@ public class    GamesDBManager extends Neo4jDBManager{
         String eliminaTutto = "MATCH (g:Game{name:$name}) " +
                 " DETACH DELETE g";
 
-        Result result = tx.run(eliminaGroups, parameters);
-        result = tx.run(eliminaTutto, parameters);
-
-
+        tx.run(eliminaGroups, parameters);
+        tx.run(eliminaTutto, parameters);
 
         return true;
     }
