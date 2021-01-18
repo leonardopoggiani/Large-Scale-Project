@@ -37,4 +37,9 @@ public class ActivityBean {
     public String getDate() {
         return date;
     }
+
+    @Override
+    public String toString() {
+        return date + ", " + numUser + ", " + avgLogin + ", " + country;
+    }
 }

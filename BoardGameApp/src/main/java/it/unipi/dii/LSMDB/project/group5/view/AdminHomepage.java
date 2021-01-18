@@ -103,15 +103,15 @@ public class AdminHomepage {
     }
 
     private void displayLoginChart() {
-        List<ActivityBean> list = controller.getDailyAvgLoginForCountry();
+        List<ActivityBean> lista = controller.getDailyAvgLoginForCountry();
         BarChart.Series series = new BarChart.Series();
-        series.setName("User age");
+        series.setName("Average login");
 
+        for(int i = 0; i < lista.size(); i++) {
+            series.getData().add(new BarChart.Data(lista.get(i).getCountry(), lista.get(i).getAvgLogin()));
+            logger.info(lista.get(i).getCountry() + " / " + lista.get(i).getAvgLogin());
 
-
-        for(int i = 0; i < list.size(); i++) {
-            series.getData().add(new LineChart.Data(list.get(i).getCountry(), list.get(i).getAvgLogin()));
-            if(i == 4) {
+            if(i == 4){
                 break;
             }
         }
@@ -120,11 +120,12 @@ public class AdminHomepage {
         pie1.setCategoryGap(20);
         pie1.getData().add(series);
 
-        list = controller.getDailyAvgLoginForAgeRange(18,90);
-        series.getData().clear();
+        List<ActivityBean> lista1 = controller.getDailyAvgLoginForAgeRange(18,90);
+        BarChart.Series series1 = new BarChart.Series();
 
-        for(int i = 0; i < list.size(); i++) {
-            series.getData().add(new LineChart.Data(list.get(i).getCountry(), list.get(i).getAvgLogin()));
+        for(int i = 0; i < lista1.size(); i++) {
+            logger.info("" + lista1.get(i));
+            series1.getData().add(new BarChart.Data(lista1.get(i).getDate(), lista1.get(i).getAvgLogin()));
 
             if(i == 4) {
                 break;
@@ -133,7 +134,7 @@ public class AdminHomepage {
 
         pie2.setBarGap(3);
         pie2.setCategoryGap(20);
-        pie2.getData().add(series);
+        pie2.getData().add(series1);
 
     }
 
