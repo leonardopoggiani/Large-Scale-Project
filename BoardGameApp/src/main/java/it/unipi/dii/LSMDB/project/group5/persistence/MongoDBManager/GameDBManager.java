@@ -3,6 +3,8 @@ package it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -154,7 +156,15 @@ public class GameDBManager {
 
     public static boolean updateRating(double rate, String game){
         int votes = getNumVotes(game);
-         double avg = getAvgRating(game);
+        if (votes == -1){
+            //Unable to get the number of votes
+            return false;
+        }
+        double avg = getAvgRating(game);
+        if (avg == -1){
+            //Unable to get the previous avg
+            return false;
+        }
         double newAvg = (avg*votes + rate)/(votes+1);
         if(!updateNumVotes(votes+1, game)){
             return false;
@@ -173,31 +183,44 @@ public class GameDBManager {
         Document update = new Document();
         update.append("$set", updateAvg);
         try{
-            collection.updateOne(eq("name", game), update);
+            UpdateResult res = collection.updateOne(eq("name", game), update);
+            if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
+                System.err.println("Unable to update MongoDB");
+                return false;
+            }
 
             return true;
         }
         catch (Exception ex){
-
+            System.err.println("Unable to reach MongoDB");
             return false;
         }
 
     }
 
     public static boolean updateNumReviews(int inc, String game){
-        int tot = getNumReviews(game) + inc;
+        int tot = getNumReviews(game);
+        if (tot == -1){
+            //Unable to get the number of votes
+            return false;
+        }
+        tot = tot + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Document reviews = new Document();
         reviews.append("num_reviews", tot);
         Document update = new Document();
         update.append("$set", reviews);
         try{
-            collection.updateOne(eq("name", game), update);
+            UpdateResult res = collection.updateOne(eq("name", game), update);
+            if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
+                System.err.println("Unable to update MongoDB");
+                return false;
+            }
 
             return true;
         }
         catch (Exception ex){
-
+            System.err.println("Unable to reach MongoDB");
             return false;
         }
 
@@ -215,6 +238,9 @@ public class GameDBManager {
                 Document next = cursor.next();
                 ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString());
             }
+        }catch(Exception ex){
+            System.err.println("Unable to reach MongoDB");
+            return -1;
         }
         return ret;
     }
@@ -226,12 +252,16 @@ public class GameDBManager {
         Document update = new Document();
         update.append("$set", votes);
         try{
-            collection.updateOne(eq("name", game), update);
+            UpdateResult res =collection.updateOne(eq("name", game), update);
+            if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
+                System.err.println("Unable to update MongoDB");
+                return false;
+            }
 
             return true;
         }
         catch (Exception ex){
-
+            System.err.println("Unable to reach MongoDB");
             return false;
         }
 
@@ -249,6 +279,9 @@ public class GameDBManager {
                 Document next = cursor.next();
                 ret = (next.get("avg_rating") == null || next.get("avg_rating").equals("nan")) ? 0.0 : Double.parseDouble(next.get("avg_rating").toString());
             }
+        }catch(Exception ex){
+            System.err.println("Unable to reach MongoDB");
+            return -1;
         }
 
         return ret;
@@ -281,6 +314,9 @@ public class GameDBManager {
                 Document next = cursor.next();
                 ret = (next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString());
             }
+        }catch(Exception ex){
+            System.err.println("Unable to reach MongoDB");
+            return -1;
         }
         return ret;
 
@@ -354,7 +390,11 @@ public class GameDBManager {
                 .append("avg_rating", g.getAvgRating()).append("num_reviews", g.getNumReviews()).append("complexity", g.getComplexity());
 
         try{
-            collection.insertOne(doc);
+            InsertOneResult res =collection.insertOne(doc);
+            if (!res.wasAcknowledged()){
+                System.err.println("Unable to insert a new document in MongoDB");
+                return false;
+            }
 
             return true;
         }catch (Exception ex){

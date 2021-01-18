@@ -144,7 +144,12 @@ public class ArticleDBManager {
     }
 
     public static boolean updateNumLike(int inc, int id){
-        int tot = getNumLikes(id) + inc;
+        int tot = getNumLikes(id);
+        if (tot == -1){
+            //Cannot get the number of likes
+            return false;
+        }
+        tot = tot + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Document updateLike = new Document();
         updateLike.append("num_like", tot);
@@ -169,7 +174,12 @@ public class ArticleDBManager {
     }
 
     public static boolean updateNumDislike(int inc, int id){
-        int tot = getNumDislikes(id) + inc;
+        int tot = getNumDislikes(id);
+        if (tot == -1){
+            //Cannot get the number of dislikes
+            return false;
+        }
+        tot = tot + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Document updateLike = new Document();
         updateLike.append("num_dislike", tot);
@@ -194,7 +204,12 @@ public class ArticleDBManager {
     }
 
     public static boolean updateNumComments(int inc , int id){
-        int tot = getNumComments(id) + inc;
+        int tot = getNumComments(id);
+        if (tot == -1){
+            //Cannot get the number of comments
+            return false;
+        }
+        tot = tot + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Document updateLike = new Document();
         updateLike.append("num_comments", tot);
@@ -341,7 +356,7 @@ public class ArticleDBManager {
 
 
         System.out.println("add " + a);
-        Document doc = new Document("id", id).append("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
+        Document doc = new Document("id", id+1).append("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
 
@@ -374,11 +389,11 @@ public class ArticleDBManager {
                 ret = old+1;
 
             }
+
         }catch(Exception ex){
             System.err.println("Unable to reach MongoDB");
             return -1;
         }
-
         return ret;
 
     }
