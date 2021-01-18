@@ -52,7 +52,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
     {
         List<ArticleBean> articles = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
-        int quantiInflu= 0;
+        int quantiInflu = 0;
         parameters.put("username", username);
         parameters.put("role", "influencer");
         parameters.put("limit", limit);
@@ -157,8 +157,8 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("timestamp", newArt.getTimestamp().toString());
         parameters.put("title", newArt.getTitle());
         parameters.put("game1", newArt.getListGame().get(0));
-        parameters.put("game2", (newArt.getListGame().size() == 2) ? "" : newArt.getListGame().get(1));
-        
+        parameters.put("game2", (newArt.getListGame().size() != 2) ? "" : newArt.getListGame().get(1));
+
         String checkArticle = "MATCH (a:Article{name:$title})<-[p:PUBLISHED]-(u:User{username:$author})" +
                 " RETURN a";
         Result result = tx.run(checkArticle, parameters);
