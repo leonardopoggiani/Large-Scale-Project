@@ -356,7 +356,7 @@ public class ArticleDBManager {
 
 
         System.out.println("add " + a);
-        Document doc = new Document("id", id).append("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
+        Document doc = new Document("id", id+1).append("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
 
