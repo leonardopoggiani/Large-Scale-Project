@@ -84,9 +84,6 @@ public class LoginSignupDBManager {
                 //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 role = next.get("role").toString();
-                System.out.println("Porco dio");
-                System.out.println(role);
-
             }
             cursor.close();
         }
