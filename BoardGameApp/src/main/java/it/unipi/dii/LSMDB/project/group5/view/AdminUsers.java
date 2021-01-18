@@ -57,6 +57,21 @@ public class AdminUsers {
     PieChart userpie;
 
     @FXML
+    Text promotetext;
+
+    @FXML
+    TextField promote;
+
+    @FXML
+    ImageView tic1;
+
+    @FXML
+    Button moderator;
+
+    @FXML
+    Button admin;
+
+    @FXML
     void returnToStatistics() throws IOException {
         App.setRoot("adminHomepage");
     }
@@ -136,6 +151,48 @@ public class AdminUsers {
         userpie.setLabelsVisible(true);
         userpie.setLabelLineLength(10);
         userpie.setLegendSide(Side.LEFT);
+    }
+
+    @FXML
+    private void searchUserForPromotion() {
+        UsersPagesDBController userController = new UsersPagesDBController();
+        UserBean utente = userController.showUser(promote.getText());
+
+        if(utente != null) {
+            moderator.setDisable(false);
+            admin.setDisable(false);
+            tic1.setVisible(true);
+        } else {
+            moderator.setDisable(true);
+            admin.setDisable(true);
+            tic1.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void promoteModerator() {
+        UsersPagesDBController userController = new UsersPagesDBController();
+        UserBean utente = userController.showUser(promote.getText());
+
+        if(utente != null && utente.getUsername() != null && userController.promoteDemoteUser(utente.getUsername(),"moderator")) {
+            promotetext.setVisible(true);
+            moderator.setDisable(true);
+            admin.setDisable(true);
+            tic1.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void promoteAdmin() {
+        UsersPagesDBController userController = new UsersPagesDBController();
+        UserBean utente = userController.showUser(promote.getText());
+
+        if(utente != null && utente.getUsername() != null && userController.promoteDemoteUser(utente.getUsername(),"admin")) {
+            promotetext.setVisible(true);
+            moderator.setDisable(true);
+            admin.setDisable(true);
+            tic1.setVisible(false);
+        }
     }
 
 }

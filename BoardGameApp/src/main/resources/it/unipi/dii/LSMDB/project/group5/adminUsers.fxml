@@ -34,28 +34,39 @@
                </cursor>
             </BottomNavigation>
             <Button layoutX="421.0" layoutY="27.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-            <Text layoutX="51.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove a user">
+            <Text layoutX="502.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove a user">
                <font>
                   <Font size="35.0" />
                </font>
             </Text>
-            <TextField fx:id="deleting" layoutX="341.0" layoutY="116.0" />
-            <Button fx:id="remove" disable="true" layoutX="560.0" layoutY="163.0" mnemonicParsing="false" onAction="#removeUser" text="Remove" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="325.0" layoutY="220.0" stroke="BLACK" strokeType="INSIDE" width="498.0" />
-            <Text layoutX="332.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least recently logged user" />
-            <Text fx:id="user1" layoutX="330.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="473.28361511230474" />
-            <Text fx:id="user2" layoutX="330.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="473.28361511230474" />
-            <Text fx:id="user3" layoutX="329.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.3830890655518" />
-            <Text fx:id="user4" layoutX="329.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.38308906555176" />
-            <Text fx:id="user5" layoutX="328.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.38308906555176" />
-            <Button layoutX="564.0" layoutY="116.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
-            <ImageView fx:id="tic" fitHeight="32.0" fitWidth="46.0" layoutX="525.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <TextField fx:id="deleting" layoutX="792.0" layoutY="23.0" />
+            <Button fx:id="remove" disable="true" layoutX="1011.0" layoutY="70.0" mnemonicParsing="false" onAction="#removeUser" text="Remove" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="14.0" layoutY="119.0" stroke="BLACK" strokeType="INSIDE" width="498.0" />
+            <Text layoutX="21.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least recently logged user" />
+            <Text fx:id="user1" layoutX="19.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="473.28361511230474" />
+            <Text fx:id="user2" layoutX="19.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="473.28361511230474" />
+            <Text fx:id="user3" layoutX="18.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.3830890655518" />
+            <Text fx:id="user4" layoutX="18.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.38308906555176" />
+            <Text fx:id="user5" layoutX="17.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.38308906555176" />
+            <Button layoutX="1015.0" layoutY="23.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
+            <ImageView fx:id="tic" fitHeight="32.0" fitWidth="46.0" layoutX="966.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../../../../../img/Tick-Icon.png" />
                </image>
             </ImageView>
-            <Text fx:id="text" fill="#15d548" layoutX="343.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User removed succesfully" visible="false" />
-            <PieChart fx:id="userpie" layoutX="66.0" layoutY="440.0" prefHeight="279.0" prefWidth="1009.0" title="User distribution per country" />
+            <Text fx:id="text" fill="#15d548" layoutX="799.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User removed succesfully" visible="false" />
+            <PieChart fx:id="userpie" layoutX="543.0" layoutY="110.0" prefHeight="215.0" prefWidth="561.0" title="User distribution per country" />
+            <Text layoutX="38.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Promote" />
+            <TextField fx:id="promote" layoutX="121.0" layoutY="350.0" />
+            <Button layoutX="327.0" layoutY="347.0" mnemonicParsing="false" onAction="#searchUserForPromotion" text="Search" />
+            <ImageView fx:id="tic1" fitHeight="32.0" fitWidth="46.0" layoutX="286.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../../../../../img/Tick-Icon.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="moderator" disable="true" layoutX="258.0" layoutY="399.0" mnemonicParsing="false" onAction="#promoteModerator" text="Moderator" />
+            <Button fx:id="admin" disable="true" layoutX="362.0" layoutY="399.0" mnemonicParsing="false" onAction="#promoteAdmin" text="Admin" />
+            <Text fx:id="promotetext" fill="#15d548" layoutX="89.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User promoved!!" visible="false" />
          </children>
       </AnchorPane>
    </items>
