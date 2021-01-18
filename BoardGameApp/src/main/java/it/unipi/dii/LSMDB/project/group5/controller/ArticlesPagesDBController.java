@@ -80,7 +80,6 @@ public class ArticlesPagesDBController {
     public boolean addArticle(ArticleBean a)
     {
         int id = ArticleDBManager.addArticle(a);
-        logger.info("id " + id);
         if(id !=-1)
         {
             a.setId(id);

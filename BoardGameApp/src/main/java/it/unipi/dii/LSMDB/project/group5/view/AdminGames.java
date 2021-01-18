@@ -1,6 +1,8 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
 import it.unipi.dii.LSMDB.project.group5.App;
+import it.unipi.dii.LSMDB.project.group5.bean.CategoryBean;
+import it.unipi.dii.LSMDB.project.group5.bean.CountryBean;
 import it.unipi.dii.LSMDB.project.group5.bean.GameBean;
 import it.unipi.dii.LSMDB.project.group5.controller.AnalyticsDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.GamesPagesDBController;
@@ -8,6 +10,8 @@ import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.AnalyticsDBM
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -106,6 +110,12 @@ public class AdminGames {
     Button add;
 
     @FXML
+    PieChart pie;
+
+    @FXML
+    PieChart userpie;
+
+    @FXML
     void returnToStatistics() throws IOException {
         App.setRoot("adminHomepage");
     }
@@ -136,6 +146,8 @@ public class AdminGames {
         game3.setText("");
 
         category.setItems(categorie);
+        displayCategoryDistribution();
+        displayUserChart();
 
     }
 
@@ -236,6 +248,45 @@ public class AdminGames {
         } else {
             add.setStyle("-fx-background-color: red;");
         }
+    }
+
+
+    private void displayCategoryDistribution() {
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList();
+
+        List<CategoryBean> categoryInfo2 = controller.getGamesDistribution();
+        logger.info("info " + categoryInfo2);
+
+        for(int i = 0; i < categoryInfo2.size(); i++) {
+            pieChartData.add(new PieChart.Data(categoryInfo2.get(i).getName(), categoryInfo2.get(i).getTotGames()));
+
+            if(i == 4) {
+                break;
+            }
+        }
+
+        pie.setData(pieChartData);
+    }
+
+    @FXML
+    void displayUserChart() {
+        List<CountryBean> lista = controller.getUsersFromCountry();
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList();
+
+        for(int i = 0; i < lista.size(); i++) {
+            logger.info(lista.get(i).getCountry());
+            pieChartData.add(new PieChart.Data(lista.get(i).getCountry(), lista.get(i).getNumUser()));
+
+            if(i == 4)
+                break;
+        }
+
+        userpie.setData(pieChartData);
+        userpie.setLabelsVisible(true);
+        userpie.setLabelLineLength(10);
+        userpie.setLegendSide(Side.LEFT);
     }
 
 }

@@ -17,6 +17,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Thread.sleep;
+
 public class addingThings {
     public static void main(String[] args) throws Exception {
         if(MongoDBManager.createConnection() && Neo4jDBManager.InitializeDriver()){
@@ -33,33 +35,34 @@ public class addingThings {
             UsersPagesDBController controller2 = new UsersPagesDBController();
             GroupsPagesDBController controller3 = new GroupsPagesDBController();
 
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < 300; i++){
 
                 ArticleBean a = new ArticleBean(
                     titoli.get(rand.nextInt(titoli.size())),
                     autori.get(rand.nextInt(autori.size())),
                     new Timestamp(System.currentTimeMillis()),
                     giochi.get(rand.nextInt(giochi.size())),
-                    giochi.get(rand.nextInt(giochi.size())));
+                    "");
                 a.setText(text.get(rand.nextInt(text.size())));
                 if(controller.addArticle(a)){
                     System.out.println("ok articolo");
                 }
+                sleep(2000);
             }
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 100; i++){
                 if(controller2.addRemoveFollow(autori.get(rand.nextInt(6)), autori.get(rand.nextInt(6)),"add")){
                     System.out.println("ok");
                 }
             }
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 100; i++){
                 if(controller3.addGroup(new GroupBean((nomi.get(rand.nextInt(5))),new Timestamp(System.currentTimeMillis()), autori.get(rand.nextInt(7)),"no description",giochi.get(rand.nextInt(5))))){
                     System.out.println("ok");
                 }
             }
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 200; i++){
                 String member = autori.get(rand.nextInt(6));
                 List<GroupBean> gruppi = controller3.showUsersGroups("leonardo","admin");
                 if (controller3.addDeleteGroupMember(member, gruppi.get(rand.nextInt(gruppi.size())).getName(), "leonardo","add" )) {
@@ -67,7 +70,7 @@ public class addingThings {
                 }
             }
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 300; i++){
                 String author = autori.get(rand.nextInt(6));
                 String testo = text.get(rand.nextInt(7));
                 List<GroupBean> gruppi = controller3.showUsersGroups(author,"member");
