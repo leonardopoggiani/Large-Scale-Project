@@ -137,8 +137,9 @@ public class AnalyticsDBManager {
         Bson match = match(and(ne("category", null),(ne("category", ""))));
         Bson limit = limit(6);
         Bson projection2 = project(fields(excludeId(), computed("category", "$_id"), include("count")));
+        Bson sort = sort(descending("count"));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2,limit)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2,sort,limit)).iterator()) {
 
             while (cursor.hasNext()) {
 
@@ -159,8 +160,9 @@ public class AnalyticsDBManager {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
         Bson sort = sort(ascending("last_login"));
         Bson projection = project(fields(excludeId(), include("username", "last_login")));
+        Bson match = match(and(ne("last_login", null),(ne("last_login", ""))));
 
-        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( sort, projection)).iterator()) {
+        try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( match, sort, projection)).iterator()) {
 
             while (cursor.hasNext()) {
 
@@ -334,6 +336,7 @@ public class AnalyticsDBManager {
         Bson match2 = match (lte("count",10));
         Bson limit = limit(10);
         Bson sort = sort(ascending("count"));
+
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind1,  match, group1, group, match2, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {
