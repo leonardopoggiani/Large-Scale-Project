@@ -56,7 +56,7 @@ public class LikesDBManager extends Neo4jDBManager {
         parameters.put("type", type);
         parameters.put("author", author);
         parameters.put("title", title);
-        Result result = tx.run("MATCH (ul:User)-[l:LIKED{type:$type}]->(a),(i:User)-[p:PUBLISHED]->(a) WHERE a.name=$title AND i.username=$author return count(distinct l) AS quantiLike", parameters);
+        Result result = tx.run("MATCH (ul:User)-[l:LIKED{type:$type}]->(a),(i:User)-[p:PUBLISHED]->(a) WHERE a.title=$title AND i.username=$author return count(distinct l) AS quantiLike", parameters);
 
         if (result.hasNext()) {
             Record record = result.next();
@@ -110,24 +110,23 @@ public class LikesDBManager extends Neo4jDBManager {
         parameters.put("authorArt", like.getAuthorArt());
         parameters.put("title", like.getTitleArt());
 
-        Result result = tx.run("MATCH (ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) return l"
+        Result result = tx.run("MATCH (ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{title:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) return l"
                 , parameters);
 
         if (result.hasNext()) {
 
-            result = tx.run("MATCH (a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) delete l"
+            result = tx.run("MATCH (a:Article{title:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) delete l"
                     , parameters);
 
             return 1;
 
         } else {
 
-            result = tx.run("MATCH(u:User {username:$authorLike}),(ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title}) " +
-                            "CREATE (u)-[l:LIKED{timestamp:$timestamp, type:$type}]->(a) " +
-                            "return l"
+            result = tx.run("MATCH(u:User {username:$authorLike}),(ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{title:$title}) " +
+                            " CREATE (u)-[l:LIKED{timestamp:$timestamp, type:$type}]->(a) " +
+                            " return l"
                     , parameters);
             if (result.hasNext()) {
-
                 return 2;
             }
             return 0;

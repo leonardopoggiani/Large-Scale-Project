@@ -88,6 +88,7 @@
                         <Text fx:id="authorcompleto1" layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestampcompleto1" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
                         <Text fx:id="statscompleto1" layoutX="14.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
+                        <Text fx:id="id1" layoutX="154.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -101,6 +102,7 @@
                         <Text fx:id="authorcompleto2" layoutX="10.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestampcompleto2" layoutX="10.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
                         <Text fx:id="statscompleto2" layoutX="11.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
+                        <Text fx:id="id2" layoutX="150.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -114,6 +116,7 @@
                         <Text fx:id="authorcompleto3" layoutX="13.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestampcompleto3" layoutX="13.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
                         <Text fx:id="statscompleto3" layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
+                        <Text fx:id="id3" layoutX="137.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -127,6 +130,7 @@
                         <Text fx:id="authorcompleto4" layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestampcompleto4" layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
                         <Text fx:id="statscompleto4" layoutX="14.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
+                        <Text fx:id="id4" layoutX="151.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -140,6 +144,7 @@
                         <Text fx:id="authorcompleto5" layoutX="8.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestampcompleto5" layoutX="8.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
                         <Text fx:id="statscompleto5" layoutX="9.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
+                        <Text fx:id="id5" layoutX="154.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -156,6 +161,7 @@
                         <Text fx:id="authorcompleto6" layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestampcompleto6" layoutX="14.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
                         <Text fx:id="statscompleto6" layoutX="14.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="statistiche" />
+                        <Text fx:id="id6" layoutX="157.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />

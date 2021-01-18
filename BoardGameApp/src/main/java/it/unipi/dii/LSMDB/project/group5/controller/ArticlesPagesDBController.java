@@ -139,20 +139,24 @@ public class ArticlesPagesDBController {
         if(ret > -1){
             if (ret == 0){
                 if(like.getType().equals("like")){
-                    if(!ArticleDBManager.updateNumLike(-1, like.getId()))
+                    if(!ArticleDBManager.updateNumLike(-1, like.getId())) {
                         logger.severe("MONGODB | Numero dei like di " + like.getId() +" non decrementato!");
+                    }
                 }else {
-                    if(!ArticleDBManager.updateNumDislike(-1, like.getId()))
+                    if(!ArticleDBManager.updateNumDislike(-1, like.getId())) {
                         logger.severe("MONGODB | Numero dei dislike di " + like.getId() +" non decrementato!");
+                    }
 
                 }
             }else {
                 if(like.getType().equals("like")){
-                    if(!ArticleDBManager.updateNumLike(1, like.getId()))
+                    if(!ArticleDBManager.updateNumLike(1, like.getId())) {
                         logger.severe("MONGODB | Numero dei like dell'articolo " + like.getId() +" non incrementato!");
+                    }
                 }else {
-                    if(!ArticleDBManager.updateNumDislike(1, like.getId()))
+                    if(!ArticleDBManager.updateNumDislike(1, like.getId())) {
                         logger.severe("MONGODB | Numero dei dislike dell'articolo " + like.getId() +" non incrementato!");
+                    }
 
                 }
             }

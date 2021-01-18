@@ -10,11 +10,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane id="scroll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.ArticlePageView">
+<ScrollPane id="scroll" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.ArticlePageView">
    <content>
       <AnchorPane id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="807.0" prefWidth="1200.0" stylesheets="@../../../../../../img/style.css">
          <children>
-            <Text fx:id="titolo" layoutX="631.0" layoutY="40.0" onMouseMoved="#setArticleFields" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
+            <Text fx:id="titolo" layoutX="631.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
                <font>
                   <Font size="34.0" />
                </font>
@@ -50,6 +50,7 @@
                      <children>
                         <Text fx:id="authorarticle1" layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestamparticle1" layoutX="14.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="id1" layoutX="261.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -63,6 +64,7 @@
                      <children>
                         <Text fx:id="authorarticle2" layoutX="21.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestamparticle2" layoutX="21.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="id2" layoutX="303.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -76,6 +78,7 @@
                      <children>
                         <Text fx:id="authorarticle3" layoutX="20.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="autore" />
                         <Text fx:id="timestamparticle3" layoutX="20.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="timestamp" />
+                        <Text fx:id="id3" layoutX="274.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" />
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
