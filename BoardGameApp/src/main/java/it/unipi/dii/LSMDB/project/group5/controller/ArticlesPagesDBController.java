@@ -82,6 +82,7 @@ public class ArticlesPagesDBController {
         int id = ArticleDBManager.addArticle(a);
         if(id!=-1)
         {
+            a.setId(id);
             if(!ArticlesDBManager.addArticle(a))
             {
                 logger.severe("NEO4J | Articolo " + id + " non aggiunto in Neo4j!");

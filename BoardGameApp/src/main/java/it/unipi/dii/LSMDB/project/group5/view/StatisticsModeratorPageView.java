@@ -105,8 +105,20 @@ public class StatisticsModeratorPageView {
 
     }
 
+    private static int giaCaricato = 0;
+
     @FXML
     void initialize() {
+
+        if(giaCaricato == 0) {
+            refreshPage();
+            giaCaricato = 1;
+        }
+
+    }
+
+    @FXML
+    void refreshPage(){
         List<InfluencerInfoBean> list = controller.getNumLikeForEachInfluencer();
 
         for(int i = 0; i < 3; i++){
@@ -116,7 +128,7 @@ public class StatisticsModeratorPageView {
             } else {
                 modify.setText("");
             }
-         }
+        }
 
 
         list = controller.getNumDisLikeForEachInfluencer();
@@ -140,7 +152,6 @@ public class StatisticsModeratorPageView {
                 modify.setText("");
             }
         }
-
     }
 
     @FXML
