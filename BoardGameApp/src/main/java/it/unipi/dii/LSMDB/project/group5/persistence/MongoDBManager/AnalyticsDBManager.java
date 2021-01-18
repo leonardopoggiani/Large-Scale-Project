@@ -285,7 +285,7 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(projection1, match, match1, group, group2, projection,sort)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
+                // System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 ActivityBean a = new ActivityBean();
                 a.setCountry((next.get("country") == null) ? "" : (next.get("country").toString()));
