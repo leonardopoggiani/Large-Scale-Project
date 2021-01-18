@@ -55,7 +55,7 @@ public class LoginPageView {
                 App.setRoot("adminHomepage");
             } else {
                 App.setRoot("HomepageArticles");
-                // App.setRoot("adminHomepage");
+                //App.setRoot("adminHomepage");
             }
             logger.info("Login correttamente effettuato");
         } else {
