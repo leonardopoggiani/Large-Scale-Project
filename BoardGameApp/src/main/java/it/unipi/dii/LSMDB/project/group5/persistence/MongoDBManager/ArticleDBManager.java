@@ -10,6 +10,7 @@ import org.bson.conversions.Bson;
 import it.unipi.dii.LSMDB.project.group5.bean.*;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -286,14 +287,25 @@ public class ArticleDBManager {
         return a;
     }
 
-    protected static Timestamp convertStringToTimestamp(String time){
+    public static Timestamp convertStringToTimestamp(String time){
         Timestamp timestamp = null;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            //Date format from Scraping
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
             Date parsedDate = dateFormat.parse(time);
             timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            System.out.println(timestamp);
         } catch(Exception e) { //this generic but you can control another types of exception
-            System.out.println(e.getMessage());
+            //When the format is different from the scraping one we will use this one
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date parsedDate = null;
+            try {
+                parsedDate = dateFormat.parse(time);
+            } catch (ParseException parseException) {
+                parseException.printStackTrace();
+            }
+            timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            System.out.println(timestamp);
         }
         return timestamp;
     }
