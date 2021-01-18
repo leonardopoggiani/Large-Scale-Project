@@ -33,7 +33,7 @@ public class Main {
         //ArticleDBManager.updateNumComments(-1, 0 );
         //ArticleBean list = ArticleDBManager.readArticle(0);
         //System.out.println(list);
-        ArticleDBManager.convertStringToTimestamp(new Timestamp(System.currentTimeMillis()).toString());
+        //ArticleDBManager.convertStringToTimestamp(new Timestamp(System.currentTimeMillis()).toString());
 
 
         //Filter game
