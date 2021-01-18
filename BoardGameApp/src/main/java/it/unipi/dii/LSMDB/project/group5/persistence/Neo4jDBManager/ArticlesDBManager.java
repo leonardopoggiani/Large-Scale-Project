@@ -52,7 +52,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
     {
         List<ArticleBean> articles = new ArrayList<>();
         HashMap<String,Object> parameters = new HashMap<>();
-        int quantiInflu= 0;
+        int quantiInflu = 0;
         parameters.put("username", username);
         parameters.put("role", "influencer");
         parameters.put("limit", limit);
@@ -88,8 +88,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
             for (Pair<String,Value> nameValue: values) {
                 if ("a".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    title = value.get("name").asString();
+                    title = value.get("title").asString();
                     article.setTitle(title);
+                    article.setId(value.get("id").asInt());
 
                 }
                 if ("i".equals(nameValue.key())) {
@@ -109,7 +110,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
             }
 
-            System.out.println("NELLA DBMANAGER");
+
             articles.add(article);
         }
 
@@ -158,20 +159,32 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("title", newArt.getTitle());
         parameters.put("game1", newArt.getListGame().get(0));
         parameters.put("game2", (newArt.getListGame().size() == 2) ? "" : newArt.getListGame().get(1));
-        
-        String checkArticle = "MATCH (a:Article{name:$title})<-[p:PUBLISHED]-(u:User{username:$author})" +
-                " RETURN a";
-        Result result = tx.run(checkArticle, parameters);
-        if (result.hasNext()) {
-            return false;
+        String query = "";
+
+        System.out.println(newArt);
+
+        if (newArt.getListGame().size() == 1 || newArt.getListGame().get(1).equals("")) {
+            System.out.println("uno");
+            query =
+                "MATCH(u:User {username:$author}), (g1:Game{name:$game1})"
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{id:$id, title:$title})"
+                    + " CREATE (g1)<-[:REFERRED]-(a)"
+                    + " return a ";
+        } else {
+            query =
+                "MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) "
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{id:$id, title:$title}) "
+                    + " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) "
+                    + " return a ";
         }
 
-        result = tx.run("MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) " +
-                        " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title}) " +
-                        " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) " +
-                        " return a "
-                , parameters);
-        return true;
+
+        Result result = tx.run(query, parameters);
+        if(result.hasNext()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

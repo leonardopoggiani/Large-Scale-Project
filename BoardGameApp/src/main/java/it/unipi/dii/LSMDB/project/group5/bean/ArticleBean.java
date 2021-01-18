@@ -108,11 +108,10 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     @Override
     public String toString() {
         return "Article{" +
-                "title='" + title + '\'' +
-                ", author='" + author + '\'' +
+                 ", author='" + author + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 ", text='" + text + '\'' +
-                ", infoComments=" + infoComments +
+                ", id=" + id +
                 '}';
     }
 

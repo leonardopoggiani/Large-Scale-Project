@@ -80,7 +80,8 @@ public class ArticlesPagesDBController {
     public boolean addArticle(ArticleBean a)
     {
         int id = ArticleDBManager.addArticle(a);
-        if(id!=-1)
+        logger.info("id " + id);
+        if(id !=-1)
         {
             a.setId(id);
             if(!ArticlesDBManager.addArticle(a))
@@ -106,7 +107,7 @@ public class ArticlesPagesDBController {
             //DELETE NEO4J
             if(!ArticlesDBManager.deleteArticle(idArt))
             {
-                logger.severe("NEO4J | Articolo " + idArt + " ancora in Neo4j!");
+                logger.severe("NEO4J | Articolo " + idArt + " non eliminato da Neo4j!");
                 return false;
             }
 

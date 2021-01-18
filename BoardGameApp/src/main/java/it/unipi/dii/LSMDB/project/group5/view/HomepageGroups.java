@@ -284,6 +284,7 @@ public class HomepageGroups {
         } else {
             action.setItems(userActions);
         }
+        action.getSelectionModel().select(0);
     }
 
     private void viewPosts(String gruppoSelezionato) throws IOException {

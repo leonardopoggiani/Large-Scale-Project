@@ -47,6 +47,7 @@ public class AddArticlePageView {
         if(!title.getText().equals("") && !game.getText().equals("") && !body.getText().equals("")) {
             ArticleBean toPublish = new ArticleBean(title.getText(), LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), game.getText(),game2.getText());
             toPublish.setText(body.getText());
+
             ArticlesPagesDBController controller = new ArticlesPagesDBController();
             boolean ret = controller.addArticle(toPublish);
 
