@@ -192,7 +192,7 @@ public class UsersDBManager extends Neo4jDBManager{
 
         int quantiAmici = transactionCountUsers(tx,username, "normalUser");
         System.out.println(quantiAmici);
-        if(quantiAmici > 3)
+        if(quantiAmici > 1)
         {
 
             if(role.equals("normalUser"))

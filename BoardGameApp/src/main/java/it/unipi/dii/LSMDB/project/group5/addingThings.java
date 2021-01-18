@@ -9,7 +9,6 @@ import it.unipi.dii.LSMDB.project.group5.controller.GroupsPagesDBController;
 import it.unipi.dii.LSMDB.project.group5.controller.UsersPagesDBController;
 import it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.MongoDBManager;
 import it.unipi.dii.LSMDB.project.group5.persistence.Neo4jDBManager.Neo4jDBManager;
-import it.unipi.dii.LSMDB.project.group5.view.LoginPageView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -45,6 +44,7 @@ public class addingThings {
                 if(controller.addArticle(a)){
                     System.out.println("ok articolo");
                 }
+
             }
 
             for(int i = 0; i < 50; i++){

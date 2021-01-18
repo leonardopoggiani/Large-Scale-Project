@@ -88,8 +88,9 @@ public class ArticlesDBManager extends Neo4jDBManager {
             for (Pair<String,Value> nameValue: values) {
                 if ("a".equals(nameValue.key())) {
                     Value value = nameValue.value();
-                    title = value.get("name").asString();
+                    title = value.get("title").asString();
                     article.setTitle(title);
+                    article.setId(value.get("id").asInt());
 
                 }
                 if ("i".equals(nameValue.key())) {
@@ -166,13 +167,13 @@ public class ArticlesDBManager extends Neo4jDBManager {
             System.out.println("uno");
             query =
                 "MATCH(u:User {username:$author}), (g1:Game{name:$game1})"
-                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title})"
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{id:$id, title:$title})"
                     + " CREATE (g1)<-[:REFERRED]-(a)"
                     + " return a ";
         } else {
             query =
                 "MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) "
-                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{name:$title}) "
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{id:$id, title:$title}) "
                     + " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) "
                     + " return a ";
         }
