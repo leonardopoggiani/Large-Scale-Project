@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane maxHeight="200" maxWidth="400" minHeight="200" minWidth="400" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.AddMember">
+  <content>
+    <AnchorPane id="anchor" minHeight="0.0" minWidth="0.0" prefHeight="202.0" prefWidth="397.0" stylesheets="@../../../../../../img/style.css">
+         <children>
+            <Text layoutX="112.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a member to your group!" />
+            <ComboBox fx:id="users" layoutX="40.0" layoutY="87.0" prefHeight="29.0" prefWidth="145.0" promptText="User" />
+            <Button layoutX="231.0" layoutY="86.0" mnemonicParsing="false" onAction="#addMember" text="Add member" />
+            <Button layoutX="130.0" layoutY="137.0" mnemonicParsing="false" onAction="#returnToHomepageGroups" text="Return to homepage" />
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
