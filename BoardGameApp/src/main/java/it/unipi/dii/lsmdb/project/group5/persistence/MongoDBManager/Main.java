@@ -1,9 +1,6 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager;
 
-import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
-
-import java.sql.Timestamp;
-import java.util.*;
+import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
 
 public class Main {
     public static void main (String[] args){
