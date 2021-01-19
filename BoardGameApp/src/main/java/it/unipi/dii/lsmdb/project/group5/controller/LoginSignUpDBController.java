@@ -2,7 +2,7 @@ package it.unipi.dii.lsmdb.project.group5.controller;
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
 import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.LoginSignupDBManager;
 import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.UserDBManager;
-import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.LoginSignUpDBManager;
+import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.UsersDBManager;
 
 import java.util.logging.Logger;
 
@@ -20,7 +20,7 @@ public class LoginSignUpDBController {
 
         if(LoginSignupDBManager.signup(user))
         {
-            int registrationNeo4j = LoginSignUpDBManager.registerUser(user);
+            int registrationNeo4j = UsersDBManager.registerUser(user);
             if(registrationNeo4j != 0)
             {
                 logger.severe("NEO4J | Utente " + user.getUsername() + " non aggiunto in Neo4j!");

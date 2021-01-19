@@ -1,5 +1,6 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager;
 
+import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 
@@ -9,6 +10,58 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UsersDBManager extends Neo4jDBManager{
+
+
+    /**
+     * La funzione registra un nuovo utente
+     * @param user
+     * @return 0 se non esiste un utente con lo stesso username
+     * @return 1 altrimenti
+     */
+    public static int registerUser(final UserBean user)
+    {
+        try(Session session = driver.session())
+        {
+            return session.writeTransaction(new TransactionWork<Integer>()
+                                            {
+                                                @Override
+                                                public Integer execute(Transaction tx)
+                                                {
+                                                    return createUserNode(tx,user);
+                                                }
+                                            }
+            );
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
+        }
+
+
+    }
+
+    /**
+     * La funzione crea un nodo utente nel database controllando che non esista uno stesso username
+     * @param tx
+     * @param user
+     * @return 0 se l'iscrizione va a buon fine
+     * @return -1 altrimenti
+     */
+
+    private static int createUserNode(Transaction tx, UserBean user)
+    {
+        HashMap<String,Object> parameters = new HashMap<>();
+        parameters.put("username", user.getUsername());
+        parameters.put("category1", user.getCategory1());
+        parameters.put("category2", user.getCategory2());
+        parameters.put("role", user.getRole());
+
+        tx.run("CREATE(u:User{username:$username,category1: $category1, category2:$category2, role:$role})",parameters);
+        return 0;
+
+    }
+
 
     /** La funzione restituisce la lista dei followers, o following o friends in base al parametro type
      * @param type (following, followers, friends)
