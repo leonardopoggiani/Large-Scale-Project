@@ -76,5 +76,14 @@ public class AnalyticsDBController {
         return it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.AnalyticsDBManager.gamesDistribution();
     } // moderatore promuove utenti
 
+    public List<ActivityBean> getDailyAvgLoginForAgeRange(int start, int end)
+    {
+        return it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.AnalyticsDBManager.dailyAvgLoginForAgeRange(start, end);
+    } // moderatore promuove utenti
+
+    public List<ActivityBean> getDailyAvgLoginForCountry()
+    {
+        return it.unipi.dii.LSMDB.project.group5.persistence.MongoDBManager.AnalyticsDBManager.dailyAvgLoginForCountry();
+    } // moderatore promuove utenti
 }
 

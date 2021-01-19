@@ -61,12 +61,6 @@ public class AdminHomepage {
     Text category3;
 
     @FXML
-    PieChart pie;
-
-    @FXML
-    PieChart userpie;
-
-    @FXML
     LineChart activity;
 
     @FXML
@@ -88,6 +82,12 @@ public class AdminHomepage {
     Text quinto;
 
     @FXML
+    BarChart pie1;
+
+    @FXML
+    BarChart pie2;
+
+    @FXML
     void initialize() {
         categories.setItems(categorie);
 
@@ -95,50 +95,72 @@ public class AdminHomepage {
         category2.setText("");
         category3.setText("");
 
-        displayUserChart();
         displayActivityChart();
         displayUserAge();
         displayVersatileInfluencer();
-        displayCategoryDistribution();
+        displayLoginChart();
 
     }
 
+    private void displayLoginChart() {
+        List<ActivityBean> lista = controller.getDailyAvgLoginForCountry();
+        BarChart.Series series = new BarChart.Series();
+        series.setName("Average login");
 
-    private void displayCategoryDistribution() {
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList();
+        for(int i = 0; i < lista.size(); i++) {
+            series.getData().add(new BarChart.Data(lista.get(i).getCountry(), lista.get(i).getAvgLogin()));
+            logger.info(lista.get(i).getCountry() + " / " + lista.get(i).getAvgLogin());
 
-        List<CategoryBean> categoryInfo2 = controller.getGamesDistribution();
-        logger.info("info " + categoryInfo2);
+            if(i == 4){
+                break;
+            }
+        }
 
-        for(int i = 0; i < categoryInfo2.size(); i++) {
-            pieChartData.add(new PieChart.Data(categoryInfo2.get(i).getName(), categoryInfo2.get(i).getTotGames()));
+        pie1.setBarGap(3);
+        pie1.setCategoryGap(20);
+        pie1.getData().add(series);
+
+        /*List<ActivityBean> lista1 = controller.getDailyAvgLoginForAgeRange(18,90);
+        BarChart.Series series1 = new BarChart.Series();
+
+        for(int i = 0; i < lista1.size(); i++) {
+            logger.info("" + lista1.get(i));
+            series1.getData().add(new BarChart.Data(lista1.get(i).getDate(), lista1.get(i).getAvgLogin()));
 
             if(i == 4) {
                 break;
             }
         }
 
-        pie.setData(pieChartData);
+        pie2.setBarGap(3);
+        pie2.setCategoryGap(20);
+        pie2.getData().add(series1);*/
+
+    }
+
+    private Text chooseVersatile(int i){
+        return switch (i) {
+            case 1 -> primo;
+            case 2 -> secondo;
+            case 3 -> terzo;
+            case 4 -> quarto;
+            case 5 -> quinto;
+            default -> new Text();
+        };
     }
 
     private void displayVersatileInfluencer() {
         List<VersatileUser> list = controller.showMostVersatileInfluencer(5);
 
-        if (list != null && list.size() != 0) {
-          primo.setText(list.get(0).getUsername() + ", " + list.get(0).getHowManyCategories());
-          secondo.setText(list.get(1).getUsername() + ", " + list.get(1).getHowManyCategories());
-          terzo.setText(list.get(2).getUsername() + ", " + list.get(2).getHowManyCategories());
-          quarto.setText(list.get(3).getUsername() + ", " + list.get(3).getHowManyCategories());
-          quinto.setText(list.get(4).getUsername() + ", " + list.get(4).getHowManyCategories());
-        } else {
-            primo.setText("");
-            secondo.setText("");
-            terzo.setText("");
-            quarto.setText("");
-            quinto.setText("");
-        }
+        for(int i = 0; i < 5; i++) {
+            Text modify = chooseVersatile(i + 1);
 
+            if(i < list.size()) {
+                modify.setText(list.get(i).getUsername() + ", " + list.get(i).getHowManyCategories());
+            } else {
+                modify.setText("");
+            }
+        }
     }
 
     private void displayUserAge() {
@@ -227,23 +249,4 @@ public class AdminHomepage {
 
     }
 
-    @FXML
-    void displayUserChart() {
-        List<CountryBean> lista = controller.getUsersFromCountry();
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList();
-
-        for(int i = 0; i < lista.size(); i++) {
-            logger.info(lista.get(i).getCountry());
-            pieChartData.add(new PieChart.Data(lista.get(i).getCountry(), lista.get(i).getNumUser()));
-
-            if(i == 4)
-                break;
-        }
-
-        userpie.setData(pieChartData);
-        userpie.setLabelsVisible(true);
-        userpie.setLabelLineLength(10);
-        userpie.setLegendSide(Side.LEFT);
-    }
 }

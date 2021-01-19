@@ -354,9 +354,7 @@ public class ArticleDBManager {
             return -1;
         }
 
-
-        System.out.println("add " + a);
-        Document doc = new Document("id", id+1).append("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
+        Document doc = new Document("id", id + 1).append("author", a.getAuthor()).append("title", a.getTitle()).append("body", a.getText()).append("timestamp", a.getTimestamp().toString())
                 .append("num_likes", a.getNumberLikes()).append("num_dislikes", a.getNumberDislike()).append("num_comments", a.getNumberComments())
                 .append("games", games);
 
@@ -366,7 +364,7 @@ public class ArticleDBManager {
                 return -1;
             }
 
-            return id;
+            return id + 1;
         }catch (Exception ex){
             System.err.println(ex.getMessage());
 
@@ -384,8 +382,9 @@ public class ArticleDBManager {
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
-                //System.out.println(next.toJson());
-                ret = (Integer.parseInt(next.get("id").toString()));
+                System.out.println(next.toJson());
+                int old = (Integer.parseInt(next.get("id").toString()));
+                ret = old+1;
 
             }
 

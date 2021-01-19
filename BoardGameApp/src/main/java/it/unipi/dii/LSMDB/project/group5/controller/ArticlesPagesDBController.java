@@ -22,20 +22,20 @@ public class ArticlesPagesDBController {
 
     }
 
-    public List<CommentBean> listArticlesComments(String title, String author, int limit) {
+    public List<CommentBean> listArticlesComments(int idArt, int limit) {
 
-        return CommentsDBManager.searchListComments(title, author, limit);
+        return CommentsDBManager.searchListComments(idArt, limit);
 
     }
 
-    public int countLikes(String title, String author, String type) {
+    public int countLikes(String type, int idArt) {
 
-        return LikesDBManager.countLikes(title, author, type);
+        return LikesDBManager.countLikes(type, idArt);
     }
 
-    public int countComments(String title, String author) {
+    public int countComments(int idArt) {
 
-        return CommentsDBManager.countComments(title, author);
+        return CommentsDBManager.countComments(idArt);
 
     }
 
@@ -80,7 +80,6 @@ public class ArticlesPagesDBController {
     public boolean addArticle(ArticleBean a)
     {
         int id = ArticleDBManager.addArticle(a);
-        logger.info("id " + id);
         if(id !=-1)
         {
             a.setId(id);
@@ -140,20 +139,24 @@ public class ArticlesPagesDBController {
         if(ret > -1){
             if (ret == 0){
                 if(like.getType().equals("like")){
-                    if(!ArticleDBManager.updateNumLike(-1, like.getId()))
+                    if(!ArticleDBManager.updateNumLike(-1, like.getId())) {
                         logger.severe("MONGODB | Numero dei like di " + like.getId() +" non decrementato!");
+                    }
                 }else {
-                    if(!ArticleDBManager.updateNumDislike(-1, like.getId()))
+                    if(!ArticleDBManager.updateNumDislike(-1, like.getId())) {
                         logger.severe("MONGODB | Numero dei dislike di " + like.getId() +" non decrementato!");
+                    }
 
                 }
             }else {
                 if(like.getType().equals("like")){
-                    if(!ArticleDBManager.updateNumLike(1, like.getId()))
+                    if(!ArticleDBManager.updateNumLike(1, like.getId())) {
                         logger.severe("MONGODB | Numero dei like dell'articolo " + like.getId() +" non incrementato!");
+                    }
                 }else {
-                    if(!ArticleDBManager.updateNumDislike(1, like.getId()))
+                    if(!ArticleDBManager.updateNumDislike(1, like.getId())) {
                         logger.severe("MONGODB | Numero dei dislike dell'articolo " + like.getId() +" non incrementato!");
+                    }
 
                 }
             }

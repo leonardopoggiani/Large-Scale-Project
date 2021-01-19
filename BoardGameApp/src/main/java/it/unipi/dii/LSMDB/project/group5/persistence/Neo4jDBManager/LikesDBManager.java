@@ -11,14 +11,13 @@ public class LikesDBManager extends Neo4jDBManager {
 
     /**
      * La funzione conta il numero di like or dislike ad un articolo
-     * @param title
-     * @param author
+     * @param idArt
      * @param type
      * @return Numero dei like, se type=like
      * @return Numero di dislike se type= dislike
 
      */
-    public static int countLikes(String title, String author, String type)
+    public static int countLikes(String type, int idArt)
     {
         try(Session session=driver.session())
         {
@@ -27,7 +26,7 @@ public class LikesDBManager extends Neo4jDBManager {
                 @Override
                 public Integer execute(Transaction tx)
                 {
-                    return transactionCountLikes(tx, title, author, type);
+                    return transactionCountLikes(tx, type, idArt);
                 }
             });
         }
@@ -41,22 +40,20 @@ public class LikesDBManager extends Neo4jDBManager {
     /**
      * La funzione conta il numero di like or dislike ad un articolo
      * @param tx
-     * @param title
-     * @param author
-     * @param type
+     * @param idArt
      * @return Numero dei like, se type=like
      * @return Numero di dislike se type= dislike
 
      */
 
-    public static int transactionCountLikes(Transaction tx, String title, String author, String type) {
+    public static int transactionCountLikes(Transaction tx, String type, int idArt) {
 
         int numberLike = 0;
         HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("id", idArt);
         parameters.put("type", type);
-        parameters.put("author", author);
-        parameters.put("title", title);
-        Result result = tx.run("MATCH (ul:User)-[l:LIKED{type:$type}]->(a),(i:User)-[p:PUBLISHED]->(a) WHERE a.name=$title AND i.username=$author return count(distinct l) AS quantiLike", parameters);
+        Result result = tx.run("MATCH (ul:User)-[l:LIKED{type:$type}]->(a:Article) " +
+                " WHERE a.idArt=$id return count(distinct l) AS quantiLike", parameters);
 
         if (result.hasNext()) {
             Record record = result.next();
@@ -107,27 +104,25 @@ public class LikesDBManager extends Neo4jDBManager {
         parameters.put("authorLike", like.getAuthor());
         parameters.put("type", like.getType());
         parameters.put("timestamp", like.getTimestamp().toString());
-        parameters.put("authorArt", like.getAuthorArt());
-        parameters.put("title", like.getTitleArt());
+        parameters.put("id", like.getId());
 
-        Result result = tx.run("MATCH (ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) return l"
+        Result result = tx.run("(a:Article{idArt:$id})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) return l"
                 , parameters);
 
         if (result.hasNext()) {
 
-            result = tx.run("MATCH (a:Article{name:$title})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) delete l"
+            tx.run("MATCH (a:Article{idArt:$id})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) delete l"
                     , parameters);
 
             return 1;
 
         } else {
 
-            result = tx.run("MATCH(u:User {username:$authorLike}),(ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title}) " +
-                            "CREATE (u)-[l:LIKED{timestamp:$timestamp, type:$type}]->(a) " +
-                            "return l"
+            result = tx.run("MATCH(u:User {username:$authorLike}),(a:Article{idArt:$id}) " +
+                            " CREATE (u)-[l:LIKED{timestamp:$timestamp, type:$type}]->(a) " +
+                            " return l"
                     , parameters);
             if (result.hasNext()) {
-
                 return 2;
             }
             return 0;

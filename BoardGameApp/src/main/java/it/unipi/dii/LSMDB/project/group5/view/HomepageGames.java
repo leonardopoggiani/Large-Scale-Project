@@ -214,8 +214,7 @@ public class HomepageGames {
         if (savedGames.isEmpty()) {
             // non ho giochi salvati in cache
             logger.info("cache vuota");
-            int limit = 10;
-            List<GameBean> list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), limit);
+            List<GameBean> list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), 6);
             showGames(list);
         } else {
             int i = 0;
@@ -425,7 +424,6 @@ public class HomepageGames {
     private void showGames(List<GameBean> games) {
         logger.info("show filtering result");
         if (games != null) {
-            System.out.println("Lunghezza lista " + games.size());
             for (int i = 0; i < 6; i++) {
                 TitledPane gioco = chooseGame(i + 1);
                 Text ratings = chooseRating(i + 1);

@@ -15,13 +15,12 @@ public class CommentsDBManager extends Neo4jDBManager {
 
     /**
      * La funzione cerca la lista di tutti i commenti ad un articolo
-     * @param author
-     * @param title
-     * @param limit
+     * @param idArt id articolo
+     * @param limit quanti commenti
      * @return Lista dei commenti all'articolo
      */
 
-    public static List<CommentBean> searchListComments(final String title, final String author, int limit)
+    public static List<CommentBean> searchListComments(final int idArt, final int limit)
     {
 
         try
@@ -32,7 +31,7 @@ public class CommentsDBManager extends Neo4jDBManager {
                 @Override
                 public List<CommentBean> execute(Transaction tx)
                 {
-                    return transactionListComments(tx, title, author, limit);
+                    return transactionListComments(tx, idArt, limit);
                 }
             });
         }
@@ -44,19 +43,19 @@ public class CommentsDBManager extends Neo4jDBManager {
     }
 
     /**
+     * La funzione cerca la lista di tutti i commenti ad un articolo
      * @param tx
-     * @param author
-     * @param title
+     * @param idArt
+     * @param limit
      * @return Lista dei commenti all'articolo
      */
-    public static List<CommentBean> transactionListComments(Transaction tx, String title, String author, int limit) {
+    public static List<CommentBean> transactionListComments(Transaction tx, int idArt, int limit) {
 
         List<CommentBean> infoComments = new ArrayList<>();
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("author", author);
-        parameters.put("title", title);
+        parameters.put("id", idArt);
         parameters.put("limit", limit);
-        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article)<-[p:PUBLISHED]-(au:User) WHERE au.username=$author AND a.name=$title RETURN c,u  " +
+        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article) WHERE a.idArt=$id RETURN c,u  " +
                 " ORDER BY c.timestamp DESC LIMIT $limit", parameters);
 
         while (result.hasNext()) {
@@ -76,10 +75,13 @@ public class CommentsDBManager extends Neo4jDBManager {
                     infoComment.setAuthor(value.get("username").asString());
 
                 }
+                if ("a".equals(nameValue.key())) {
+                    Value value = nameValue.value();
+                    infoComment.setId(value.get("idArt").asInt());
+
+                }
 
             }
-            infoComment.setAuthorArt(author);
-            infoComment.setTitleArt(title);
 
             infoComments.add(infoComment);
         }
@@ -89,12 +91,11 @@ public class CommentsDBManager extends Neo4jDBManager {
 
     /**
      * La funzione conta il numero di commenti ad un articolo
-     * @param title
-     * @param author
+     * @param idArt id dell'articolo
      * @return Numero dei commenti ad un articolo, -1 in caso di errore
      */
 
-    public static int countComments(String title, String author)
+    public static int countComments(final int idArt)
     {
         try
         {
@@ -104,7 +105,7 @@ public class CommentsDBManager extends Neo4jDBManager {
                 @Override
                 public Integer execute(Transaction tx)
                 {
-                    return transactionCountLikes(tx, title, author);
+                    return transactionCountLikes(tx, idArt);
                 }
             });
         }
@@ -117,19 +118,19 @@ public class CommentsDBManager extends Neo4jDBManager {
 
     /**
      * La funzione conta il numero di commenti ad un articolo
-     * @param tx
-     * @param title
-     * @param author
+     * @param tx transaction
+     * @param idArt id dell'articolo
      * @return Numero dei commenti ad un articolo
      */
 
-    public static int transactionCountLikes(Transaction tx, String title, String author) {
+    public static int transactionCountLikes(Transaction tx, int idArt) {
 
         int numberComments = 0;
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("author", author);
-        parameters.put("title", title);
-        Result result = tx.run("MATCH (ul:User)-[c:COMMENTED]->(a),(i:User)-[p:PUBLISHED]->(a) WHERE a.name=$title AND i.username=$author return count(distinct c) AS quantiComments", parameters);
+        parameters.put("id", idArt);
+        Result result = tx.run("MATCH (ul:User)-[c:COMMENTED]->(a)" +
+                " WHERE a.idArt=$id " +
+                " RETURN count(distinct c) AS quantiComments", parameters);
 
         if (result.hasNext()) {
             Record record = result.next();
@@ -175,13 +176,13 @@ public class CommentsDBManager extends Neo4jDBManager {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("authorComm", newComm.getAuthor());
         parameters.put("text", newComm.getText());
+        parameters.put("id", newComm.getId());
         parameters.put("timestamp", newComm.getTimestamp().toString());
-        parameters.put("authorArt", newComm.getAuthorArt());
-        parameters.put("title", newComm.getTitleArt());
 
-        Result result = tx.run("MATCH(u:User {username:$authorComm}),(ua:User {username:$authorArt})-[:PUBLISHED]->(a:Article{name:$title}) " +
-                        "CREATE (u)-[c:COMMENTED{timestamp:$timestamp, text:$text}]->(a) " +
-                        "return c"
+
+        Result result = tx.run("MATCH(u:User {username:$authorComm}),(a:Article{idArt:$id}) " +
+                        " CREATE (u)-[c:COMMENTED{timestamp:$timestamp, text:$text}]->(a) " +
+                        " return c"
                 , parameters);
         if (result.hasNext()) {
             return true;
@@ -227,10 +228,10 @@ public class CommentsDBManager extends Neo4jDBManager {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("authorComm", delComm.getAuthor());
         parameters.put("timestamp", delComm.getTimestamp().toString());
-        parameters.put("title", delComm.getTitleArt());
+        parameters.put("id", delComm.getId());
 
-        tx.run("MATCH (ua:User {username:$authorComm})-[c:COMMENTED {timestamp:$timestamp}]->(a:Article{name:$title}) " +
-                        "DELETE c return c"
+        tx.run("MATCH (ua:User {username:$authorComm})-[c:COMMENTED {timestamp:$timestamp}]->(a:Article{idArt:$id}) " +
+                        " DELETE c return c"
                 , parameters);
 
         return true;

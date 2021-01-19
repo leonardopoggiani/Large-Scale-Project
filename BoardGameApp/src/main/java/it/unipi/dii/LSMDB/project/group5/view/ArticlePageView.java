@@ -112,7 +112,21 @@ public class ArticlePageView {
     TextArea articlecomment;
 
     @FXML
+    Text id1;
+
+    @FXML
+    Text id2;
+
+    @FXML
+    Text id3;
+
+    private int articleSelected;
+    private ArticleBean questo;
+
+    @FXML
     void initialize() throws IOException, ExecutionException {
+        articleSelected = HomepageArticles.getId();
+        setArticleFields();
         setArticleFields();
     }
 
@@ -120,12 +134,13 @@ public class ArticlePageView {
     void setArticleFields() throws IOException, ExecutionException {
         ArticlesPagesDBController article = new ArticlesPagesDBController();
 
-        ArticleBean a = cache.getDataIfPresent(HomepageArticles.getId());
+        ArticleBean a = cache.getDataIfPresent(articleSelected);
+        questo = a;
 
         if(a == null || a.getTitle() == null) {
            logger.log(Level.WARNING, "cache miss");
-           a = article.showArticleDetails(HomepageArticles.getId());
-           System.out.println(a);
+           a = article.showArticleDetails(articleSelected);
+           questo = a;
         } else {
            logger.log(Level.WARNING, "cache hit");
         }
@@ -133,8 +148,8 @@ public class ArticlePageView {
         author.setText(a.getAuthor());
         titolo.setText(a.getTitle());
         data.setText((a.getTimestamp() == null) ? new Timestamp(System.currentTimeMillis()).toString() : a.getTimestamp().toString());
-        numberlike.setText(String.valueOf(article.countLikes(a.getTitle(), a.getAuthor(),"like")));
-        numberunlike.setText(String.valueOf(article.countLikes(a.getTitle(), a.getAuthor(),"dislike")));
+        numberlike.setText(String.valueOf(article.countLikes("like", questo.getId())));
+        numberunlike.setText(String.valueOf(article.countLikes("dislike", questo.getId())));
         articlebody.setText(a.getText());
 
         setComments();
@@ -145,22 +160,28 @@ public class ArticlePageView {
         ArticlesPagesDBController article = new ArticlesPagesDBController();
 
         List<CommentBean> infoComments = null;
-        infoComments = article.listArticlesComments(HomepageArticles.getTitolo(), HomepageArticles.getAuthor(), 3);
-        System.out.println("Numero di commenti " + infoComments.size() + ", autore:" + HomepageArticles.getAuthor() + ", titolo: " + HomepageArticles.getTitolo());
+        infoComments = article.listArticlesComments(questo.getId(), 3);
 
-        for(int i = 0; i < infoComments.size() && i < 3; i++){
+        for(int i = 0; i < 3; i++){
             TextArea commento = chooseComment(i + 1);
-            commento.setText(infoComments.get(i).getText());
             TextField autore = chooseAuthor(i + 1);
-            autore.setText(infoComments.get(i).getAuthor());
             TextField timestamp = chooseTimestamp(i + 1);
-            timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
 
-            if(infoComments.get(i).getAuthor().equals(LoginPageView.getLoggedUser())){
-                // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
-                Button delete = chooseDeleteButton(i + 1);
-                delete.setDisable(false);
-                delete.setVisible(true);
+            if(i < infoComments.size()) {
+                commento.setText(infoComments.get(i).getText());
+                autore.setText(infoComments.get(i).getAuthor());
+                timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
+
+                if(infoComments.get(i).getAuthor().equals(LoginPageView.getLoggedUser())){
+                    // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
+                    Button delete = chooseDeleteButton(i + 1);
+                    delete.setDisable(false);
+                    delete.setVisible(true);
+                }
+            } else {
+                commento.setText("");
+                autore.setText("");
+                timestamp.setText("");
             }
         }
     }
@@ -201,6 +222,15 @@ public class ArticlePageView {
         };
     }
 
+    private Text chooseId(int i){
+        return switch (i) {
+            case 1 -> id1;
+            case 2 -> id2;
+            case 3 -> id3;
+            default -> new Text();
+        };
+    }
+
     private boolean isUserModerator() {
         return true;
     }
@@ -215,30 +245,25 @@ public class ArticlePageView {
         Button likebutton = (Button) App.getScene().lookup("#likebutton");
         Button dislikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Text like = (Text) App.getScene().lookup("#numberlike");
-        int numberOfLike = Integer.parseInt(like.getText());
         ArticlesPagesDBController update = new ArticlesPagesDBController();
+        LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), questo.getAuthor(), questo.getTitle());
+        int ret = update.addLike(aLike);
 
         // like button disabled vuol dire che ho pigiato dislike
-        if(!likebutton.isDisabled()) {
-            if(likebutton.getText().equals("Like")){
-                like.setText(String.valueOf(numberOfLike + 1));
-
-                likebutton.setStyle("-fx-background-color: red");
-                likebutton.setText("Remove like");
-                dislikebutton.setDisable(true);
-                LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-                update.addLike(aLike);
-            } else {
-                like.setText(String.valueOf(numberOfLike - 1));
-
-                likebutton.setStyle("-fx-background-color: green");
-                likebutton.setText("Like");
-                dislikebutton.setDisable(false);
-                LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-                update.addLike(aLike);
-            }
+        if(ret == 2){
+            likebutton.setStyle("-fx-background-color: red");
+            likebutton.setText("Remove like");
+            dislikebutton.setDisable(true);
+        } else if (ret == 1){
+            likebutton.setStyle("-fx-background-color: green");
+            likebutton.setText("Like");
+            dislikebutton.setDisable(false);
 
         }
+
+        like.setText(String.valueOf(update.countLikes("like", questo.getId())));
+
+
     }
 
     @FXML
@@ -246,34 +271,29 @@ public class ArticlePageView {
         Text like = (Text) App.getScene().lookup("#numberunlike");
         Button unlikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Button likebutton = (Button) App.getScene().lookup("#likebutton");
-        int numberOfUnlike = Integer.parseInt(like.getText());
         ArticlesPagesDBController update = new ArticlesPagesDBController();
+        LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), questo.getAuthor(), questo.getTitle());
+        int ret = update.addLike(anUnlike);
 
         // unlike button disabled vuol dire che ho pigiato like
-        if(!unlikebutton.isDisabled()) {
-            if(unlikebutton.getText().equals("Dislike")){
-                unlikebutton.setStyle("-fx-background-color: green");
-                unlikebutton.setText("Remove dislike");
-                likebutton.setDisable(true);
-                like.setText(String.valueOf(numberOfUnlike + 1));
-                LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-                update.addLike(anUnlike);
-            } else {
-                unlikebutton.setStyle("-fx-background-color: red");
-                unlikebutton.setText("Dislike");
-                likebutton.setDisable(false);
-
-                like.setText(String.valueOf(numberOfUnlike - 1));
-                LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
-                update.addLike(anUnlike);
-            }
+        if(ret == 2){
+            unlikebutton.setStyle("-fx-background-color: green");
+            unlikebutton.setText("Remove dislike");
+            likebutton.setDisable(true);
+        } else {
+            unlikebutton.setStyle("-fx-background-color: red");
+            unlikebutton.setText("Dislike");
+            likebutton.setDisable(false);
         }
+
+        like.setText(String.valueOf(update.countLikes("dislike", questo.getId())));
+
     }
 
     @FXML
     void postComment() throws IOException {
         ArticlesPagesDBController update = new ArticlesPagesDBController();
-        CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), HomepageArticles.getAuthor(), HomepageArticles.getTitolo());
+        CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), questo.getAuthor(), questo.getTitle());
         update.addComment(comment);
         articlecomment.setText("");
         setComments();
@@ -282,26 +302,31 @@ public class ArticlePageView {
     @FXML
     void setSuggestedArticlesBelow() throws IOException {
         ArticlesPagesDBController home = new ArticlesPagesDBController();
-        List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 10);
+        List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
+
+        list.remove(questo);
 
         if (list != null) {
-            for (ArticleBean a : list) {
-                if (!a.getTitle().equals(titolo.getText())) {
-                    for (int j = 0; j < list.size() && j < 3; j++) {
-
-                        TitledPane articolo = chooseArticle(j + 1);
-                        Text author = chooseAuthorArticle(j + 1);
-                        Text timestamp = chooseTimestampArticle(j + 1);
-
-                        if (articolo.getText().equals("article" + (j + 1))) {
-                            articolo.setText(a.getTitle());
-                            author.setText(a.getAuthor());
-                            timestamp.setText(String.valueOf(a.getTimestamp()));
-                            break;
-                        }
-                    }
+            for( int i = 0; i < 3; i++) {
+                ArticleBean a = list.get(i);
+                System.out.println(a);
+                TitledPane articolo = chooseArticle(i + 1);
+                Text author = chooseAuthorArticle(i + 1);
+                Text timestamp = chooseTimestampArticle(i + 1);
+                Text identificatore = chooseId(i + 1);
+                if(i < list.size()) {
+                    articolo.setText(a.getTitle());
+                    author.setText(a.getAuthor());
+                    timestamp.setText(String.valueOf(a.getTimestamp()));
+                    identificatore.setText(String.valueOf(a.getId()));
+                } else {
+                    articolo.setText("");
+                    author.setText("");
+                    timestamp.setText("");
+                    identificatore.setText("");
                 }
             }
+
         }
     }
 
@@ -333,20 +358,16 @@ public class ArticlePageView {
     }
 
     @FXML
-    void goToArticle (MouseEvent event) throws IOException {
-        Text testo = new Text();
-        if(event.getTarget().getClass()!= testo.getClass()) {
-            AnchorPane articolo = (AnchorPane) event.getTarget();
-            String idArticle = articolo.getId();
+    void goToArticle (MouseEvent event) throws IOException, ExecutionException {
+        AnchorPane articolo = (AnchorPane) event.getSource();
+        String idArticle = articolo.getId();
 
-            Text a = (Text) App.getScene().lookup("#author" + idArticle);
-            Text t = (Text) App.getScene().lookup("#timestamp" + idArticle);
-            HomepageArticles.setAuthor(a.getText());
-            HomepageArticles.setTimestamp(t.getText());
-            TitledPane tx = (TitledPane) App.getScene().lookup("#full" + idArticle);
-            HomepageArticles.setTitle(tx.getText());
-            App.setRoot("ArticlePageView");
-        }
+        int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
+        Text identificatore = chooseId(index);
+        logger.info("identificatore " + identificatore);
+        HomepageArticles.setId(Integer.parseInt(identificatore.getText()) );
+        App.setRoot("ArticlePageView");
+
     }
 
     @FXML

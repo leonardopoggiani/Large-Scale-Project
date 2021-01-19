@@ -9,16 +9,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ArticlesDBManager extends Neo4jDBManager {
 
 
-     Logger logger = Logger.getLogger(this.getClass().getName());
     /** La funzione restituisce la lista degli articoli suggeriti nella home di un utente
-     * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
-     * in base alle sue categorie preferite, ma solo 4
-     * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
+     * Se un utente segue degli influencer mostra gli articoli di essi, altrimenti quelli suggeriti
+     * in base alle sue categorie preferite
      * @param username username utente
      * @return Lista degli articoli suggeriti
      */
@@ -56,12 +53,11 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("username", username);
         parameters.put("role", "influencer");
         parameters.put("limit", limit);
-        /*String searchInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:$role})" +
-                "RETURN f";*/
-        String conAmici = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article) " +
+
+        String conInflu = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article) " +
                 " RETURN a, i, p ORDER BY p.timestamp LIMIT $limit";
 
-        String nienteAmici = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User) " +
+        String nienteInflu = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User) " +
                 " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
                 " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +
                 " RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT $limit ";
@@ -70,12 +66,12 @@ public class ArticlesDBManager extends Neo4jDBManager {
         quantiInflu = UsersDBManager.transactionCountUsers(tx,username,"influencer");
         if(quantiInflu < 3)
         {
-            result = tx.run(nienteAmici, parameters);
+            result = tx.run(nienteInflu, parameters);
             System.out.println("Pochi Influencer");
         }
         else
         {
-            result = tx.run(conAmici, parameters);
+            result = tx.run(conInflu, parameters);
             System.out.println("Ho trovato Influencers");
         }
         while(result.hasNext())
@@ -90,7 +86,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
                     Value value = nameValue.value();
                     title = value.get("title").asString();
                     article.setTitle(title);
-                    article.setId(value.get("id").asInt());
+                    article.setId(value.get("idArt").asInt());
 
                 }
                 if ("i".equals(nameValue.key())) {
@@ -155,10 +151,11 @@ public class ArticlesDBManager extends Neo4jDBManager {
     private static boolean transactionAddArticle(Transaction tx, ArticleBean newArt) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("author", newArt.getAuthor());
+        parameters.put("id", newArt.getId());
         parameters.put("timestamp", newArt.getTimestamp().toString());
         parameters.put("title", newArt.getTitle());
         parameters.put("game1", newArt.getListGame().get(0));
-        parameters.put("game2", (newArt.getListGame().size() == 2) ? "" : newArt.getListGame().get(1));
+        parameters.put("game2", (newArt.getListGame().size() == 2) ? newArt.getListGame().get(1) : "" );
         String query = "";
 
         System.out.println(newArt);
@@ -167,13 +164,13 @@ public class ArticlesDBManager extends Neo4jDBManager {
             System.out.println("uno");
             query =
                 "MATCH(u:User {username:$author}), (g1:Game{name:$game1})"
-                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{id:$id, title:$title})"
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{idArt:$id, title:$title})"
                     + " CREATE (g1)<-[:REFERRED]-(a)"
                     + " return a ";
         } else {
             query =
                 "MATCH(u:User {username:$author}), (g1:Game{name:$game1}), (g2:Game{name:$game2}) "
-                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{id:$id, title:$title}) "
+                    + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{idArt:$id, title:$title}) "
                     + " CREATE (g1)<-[:REFERRED]-(a)-[:REFERRED]->(g2) "
                     + " return a ";
         }
@@ -226,7 +223,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("id", idArt);
 
-        tx.run("MATCH (a:Article{id:$id})" +
+        tx.run("MATCH (a:Article{idArt:$id})" +
                         " DETACH DELETE a "
                 , parameters);
 

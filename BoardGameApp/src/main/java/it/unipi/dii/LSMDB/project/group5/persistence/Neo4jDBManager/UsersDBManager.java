@@ -315,6 +315,8 @@ public class UsersDBManager extends Neo4jDBManager{
         parameters.put("username1", username1);
         parameters.put("username2", username2);
         parameters.put("timestamp", current.toString());
+        if(username1.equals(username2))
+            return  false;
         boolean existsFollow = transactionExistsFollow(tx,username1,username2);
         if(!existsFollow)
         {
@@ -323,10 +325,11 @@ public class UsersDBManager extends Neo4jDBManager{
                             " CREATE (u1)-[f:FOLLOW{timestamp:$timestamp}]->(u2) " +
                             " return f"
                     , parameters);
+            return  true;
 
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -351,10 +354,10 @@ public class UsersDBManager extends Neo4jDBManager{
             tx.run("MATCH(u1:User {username:$username1})-[f:FOLLOW]->(u2:User {username:$username2})" +
                             " DELETE f RETURN f"
                     , parameters);
-            //System.out.println("Ho eliminato!");
+
             return true;
         }
-        //System.out.println("Non posso eliminare!");
+
         return false;
     }
 

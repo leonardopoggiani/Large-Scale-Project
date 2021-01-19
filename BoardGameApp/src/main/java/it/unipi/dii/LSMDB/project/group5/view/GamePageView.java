@@ -131,7 +131,7 @@ public class GamePageView {
 
         GamesPagesDBController controller = new GamesPagesDBController();
         GameBean currentGame = cache.getDataIfPresent(game);
-        logger.info("show " + currentGame);
+
         if(currentGame == null || currentGame.getName() == null) {
             logger.log(Level.INFO, "cache miss");
             currentGame = controller.showGame(game);

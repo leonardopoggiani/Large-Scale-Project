@@ -1,6 +1,5 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
@@ -18,11 +17,32 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 public class HomepageArticles {
+
+    @FXML
+    Text id1;
+
+    @FXML
+    Text id2;
+
+    @FXML
+    Text id3;
+
+    @FXML
+    Text id4;
+
+    @FXML
+    Text id5;
+
+    @FXML
+    Text id6;
 
     @FXML
     TitledPane articolocompleto1;
@@ -112,7 +132,6 @@ public class HomepageArticles {
     DatePicker data;
 
     ArticlesCache cache = ArticlesCache.getInstance();
-    private static HashMap<String,String> savedArticles = Maps.newHashMap();
     private static List<Integer> savedID = Lists.newArrayList();
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
@@ -150,6 +169,7 @@ public class HomepageArticles {
 
     @FXML
     void initialize() throws IOException, ExecutionException {
+        setSuggestedArticles();
         setSuggestedArticles();
     }
 
@@ -249,25 +269,27 @@ public class HomepageArticles {
             // non ho salvato i titoli degli articoli da mostrare
             logger.info("cache vuota");
             List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
-            System.out.println("Lunghezza lista " + list.size());
             showArticles(list);
         } else {
             int i = 0;
             logger.info("cache piena");
             for (Integer id : savedID) {
-                if (i < savedID.size()) {
-                    ArticleBean a = cache.getDataIfPresent(id);
-                    if (a != null && a.getTitle() != null) {
+                ArticleBean a = cache.getDataIfPresent(id);
+                logger.info(" a " + a);
+                if (a != null && a.getTitle() != null) {
+                    if (i < savedID.size() && i < 6) {
                         TitledPane ar = chooseArticle(i);
                         Text au = chooseAuthor(i);
                         Text ti = chooseTimestamp(i);
                         Text st = chooseStatistics(i);
+                        Text identificatore = chooseId(i);
 
-                        au.setId(String.valueOf(a.getId()));
+                        identificatore.setText(String.valueOf(a.getId()));
                         ar.setText(a.getTitle());
                         au.setText(a.getAuthor());
                         ti.setText(String.valueOf(a.getTimestamp()));
                         st.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
+                        i++;
                     }
                 }
             }
@@ -285,30 +307,31 @@ public class HomepageArticles {
 
         logger.info("show articles");
         if (list != null) {
-            System.out.println("Lunghezza lista " + list.size());
             for(int i = 0; i < 6; i++) {
 
                 TitledPane ar = chooseArticle(i);
                 Text aut = chooseAuthor(i);
                 Text tim = chooseTimestamp(i);
                 Text st = chooseStatistics(i);
+                Text identificatore = chooseId(i);
 
                 if (i < list.size()) {
                     ArticleBean a = list.get(i);
 
                     // caching
                     savedID.add(a.getId());
-                    savedArticles.put(a.getTitle(), a.getAuthor());
 
-                    numComments = home.countComments(a.getTitle(), a.getAuthor());
-                    numLikes = home.countLikes(a.getTitle(), a.getAuthor(), "like");
-                    numUnlikes = home.countLikes(a.getTitle(), a.getAuthor(), "dislike");
+                    numComments = home.countComments(a.getId());
+                    numLikes = home.countLikes("like", a.getId());
+                    numUnlikes = home.countLikes( "dislike", a.getId());
 
+                    identificatore.setText(String.valueOf(a.getId() + 1));
                     ar.setText(a.getTitle());
                     aut.setText(a.getAuthor());
                     tim.setText(String.valueOf(a.getTimestamp()));
                     st.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
                 } else {
+                    identificatore.setText("");
                     ar.setText("");
                     aut.setText("");
                     tim.setText("");
@@ -369,6 +392,19 @@ public class HomepageArticles {
 
     }
 
+    private Text chooseId(int i){
+        return switch (i) {
+            case 0 -> id1;
+            case 1 -> id2;
+            case 2 -> id3;
+            case 3 -> id4;
+            case 4 -> id5;
+            case 5 -> id6;
+            default -> new Text();
+        };
+
+    }
+
     @FXML
     void goToArticle (MouseEvent event) throws IOException {
 
@@ -376,13 +412,10 @@ public class HomepageArticles {
         String idArticle = articolo.getId();
 
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
-
-        Text a = chooseAuthor(index - 1);
-        TitledPane ar = chooseArticle(index - 1);
-        Text ts = chooseTimestamp(index - 1);
-
-        autore = a.getText();
-        timestamp = ts.getText();
+        logger.info("index" + index);
+        Text idSelected = chooseId(index - 1);
+        System.out.println("idSelected" + idSelected);
+        id = Integer.parseInt(idSelected.getText());
         App.setRoot("ArticlePageView");
     }
 
@@ -493,9 +526,11 @@ public class HomepageArticles {
                 Text author = chooseAuthor(i);
                 Text timestamp = chooseTimestamp(i);
                 Text stats = chooseStatistics(i);
+                Text identificatore = chooseId(i);
 
                 if(i < filteringResult.size()) {
                     ArticleBean g = filteringResult.get(i);
+                    identificatore.setText(String.valueOf(g.getId()));
                     articolo.setText(g.getTitle());
                     author.setText(g.getAuthor());
                     timestamp.setText(String.valueOf(g.getTimestamp()));
@@ -505,6 +540,7 @@ public class HomepageArticles {
                     author.setText("");
                     timestamp.setText("");
                     stats.setText("");
+                    identificatore.setText("");
                 }
             }
         }
@@ -534,6 +570,9 @@ public class HomepageArticles {
     }
     public static void setTitle(String title) {
         titolo = title;
+    }
+    public static void setId(int ident) {
+        id = ident;
     }
 
 }

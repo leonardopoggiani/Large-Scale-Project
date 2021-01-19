@@ -42,7 +42,9 @@ public class ArticlesCache {
 
     public ArticleBean getDataIfPresent(int id) throws ExecutionException {
         ArticleBean a = cache.get(id);
-        if(a.getTitle() == null){
+        System.out.println("cachato " + id);
+
+        if(a == null || a.getTitle() == null){
             cache.put(id,cercaArticoli(id));
         }
         return a;
