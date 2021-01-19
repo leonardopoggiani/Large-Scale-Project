@@ -1,6 +1,5 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import it.unipi.dii.LSMDB.project.group5.App;
 import it.unipi.dii.LSMDB.project.group5.bean.ArticleBean;
 import it.unipi.dii.LSMDB.project.group5.cache.ArticlesCache;
@@ -18,7 +17,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -319,9 +321,9 @@ public class HomepageArticles {
                     // caching
                     savedID.add(a.getId());
 
-                    numComments = home.countComments(a.getTitle(), a.getAuthor());
-                    numLikes = home.countLikes(a.getTitle(), a.getAuthor(), "like");
-                    numUnlikes = home.countLikes(a.getTitle(), a.getAuthor(), "dislike");
+                    numComments = home.countComments(a.getId());
+                    numLikes = home.countLikes("like", a.getId());
+                    numUnlikes = home.countLikes( "dislike", a.getId());
 
                     identificatore.setText(String.valueOf(a.getId() + 1));
                     ar.setText(a.getTitle());

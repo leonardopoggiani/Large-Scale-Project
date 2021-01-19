@@ -148,8 +148,8 @@ public class ArticlePageView {
         author.setText(a.getAuthor());
         titolo.setText(a.getTitle());
         data.setText((a.getTimestamp() == null) ? new Timestamp(System.currentTimeMillis()).toString() : a.getTimestamp().toString());
-        numberlike.setText(String.valueOf(article.countLikes(a.getTitle(), a.getAuthor(),"like")));
-        numberunlike.setText(String.valueOf(article.countLikes(a.getTitle(), a.getAuthor(),"dislike")));
+        numberlike.setText(String.valueOf(article.countLikes("like", questo.getId())));
+        numberunlike.setText(String.valueOf(article.countLikes("dislike", questo.getId())));
         articlebody.setText(a.getText());
 
         setComments();
@@ -160,7 +160,7 @@ public class ArticlePageView {
         ArticlesPagesDBController article = new ArticlesPagesDBController();
 
         List<CommentBean> infoComments = null;
-        infoComments = article.listArticlesComments(questo.getTitle(), questo.getAuthor() , 3);
+        infoComments = article.listArticlesComments(questo.getId(), 3);
 
         for(int i = 0; i < 3; i++){
             TextArea commento = chooseComment(i + 1);
@@ -261,7 +261,7 @@ public class ArticlePageView {
 
         }
 
-        like.setText(String.valueOf(update.countLikes(questo.getTitle(),questo.getAuthor(),"like")));
+        like.setText(String.valueOf(update.countLikes("like", questo.getId())));
 
 
     }
@@ -286,7 +286,7 @@ public class ArticlePageView {
             likebutton.setDisable(false);
         }
 
-        like.setText(String.valueOf(update.countLikes(questo.getTitle(),questo.getAuthor(),"dislike")));
+        like.setText(String.valueOf(update.countLikes("dislike", questo.getId())));
 
     }
 

@@ -22,20 +22,20 @@ public class ArticlesPagesDBController {
 
     }
 
-    public List<CommentBean> listArticlesComments(String title, String author, int limit) {
+    public List<CommentBean> listArticlesComments(int idArt, int limit) {
 
-        return CommentsDBManager.searchListComments(title, author, limit);
+        return CommentsDBManager.searchListComments(idArt, limit);
 
     }
 
-    public int countLikes(String title, String author, String type) {
+    public int countLikes(String type, int idArt) {
 
-        return LikesDBManager.countLikes(title, author, type);
+        return LikesDBManager.countLikes(type, idArt);
     }
 
-    public int countComments(String title, String author) {
+    public int countComments(int idArt) {
 
-        return CommentsDBManager.countComments(title, author);
+        return CommentsDBManager.countComments(idArt);
 
     }
 
