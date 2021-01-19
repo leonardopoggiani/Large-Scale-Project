@@ -14,8 +14,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
 
-import static java.lang.Thread.sleep;
-
 public class addingThings {
 
     public static void main(String[] args) throws Exception {
@@ -38,54 +36,89 @@ public class addingThings {
             List<UserBean> listaUtenti = controller2.showAllUsers();
 
             for(int i = 0; i < 50; i++) {
-                controller2.promoteDemoteUser(listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(), "influencer");
+                String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                if(user != null) {
+                    controller2.promoteDemoteUser(user, "influencer");
+                }
             }
 
             for(int i = 0; i < 20; i++) {
-                controller2.promoteDemoteUser(listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(), "moderator");
+                String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                if (user != null) {
+                    controller2.promoteDemoteUser(user, "moderator");
+                }
             }
 
             for(int i = 0; i < 5; i++) {
-                controller2.promoteDemoteUser(listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(), "admin");
+                String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                if(user != null) {
+                    controller2.promoteDemoteUser(user, "admin");
+                }
             }
 
             List<UserBean> listaInfluencer = controller2.showAllInfluencer();
 
-            for(int i = 0; i < 300; i++){
-                ArticleBean a = new ArticleBean(
-                    titoli.get(rand.nextInt(titoli.size())),
-                    listaInfluencer.get(rand.nextInt(listaInfluencer.size())).getUsername(),
-                    new Timestamp(System.currentTimeMillis()),
-                    listaGiochi.get(rand.nextInt(listaGiochi.size())).getName(),
-                    listaGiochi.get(rand.nextInt(listaGiochi.size())).getName());
-                a.setText(text.get(rand.nextInt(text.size())));
-                if(controller.addArticle(a)){
-                    System.out.println("ok articolo");
+            for (int i = 0; i < 300; i++) {
+                String titolo = titoli.get(rand.nextInt(titoli.size()));
+                String influencer = listaInfluencer.get(rand.nextInt(listaInfluencer.size())).getUsername();
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                String gioco1 = listaGiochi.get(rand.nextInt(listaGiochi.size())).getName();
+                String gioco2 = listaGiochi.get(rand.nextInt(listaGiochi.size())).getName();
+                String testo = text.get(rand.nextInt(text.size()));
+
+                if (titolo != null
+                    && influencer != null
+                    && timestamp != null
+                    && gioco1 != null
+                    && gioco2 != null)
+                {
+
+                    ArticleBean a = new ArticleBean(titolo, influencer, timestamp, gioco1, gioco2);
+                    a.setText(testo);
+
+                    if (controller.addArticle(a)) {
+                        System.out.println("ok articolo");
+                    }
+
+                    for (int j = 0; j < 100; j++) {
+                        testo = text.get(rand.nextInt(text.size()));
+                        String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                        if(user != null) {
+                            controller.addComment(
+                                new CommentBean( testo, user, new Timestamp(System.currentTimeMillis()), a.getId()));
+                        }
+                    }
+
+                    int likeLimit = rand.nextInt(100) + 1;
+
+                    for (int j = 0; j < likeLimit; j++) {
+                        String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                        if(user != null)
+                            controller.addLike(
+                                new LikeBean("like", user, new Timestamp(System.currentTimeMillis()), a.getId()));
+                    }
+
+                    int dislikeLimit = rand.nextInt(70) + 1;
+
+                    for (int j = 0; j < dislikeLimit; j++) {
+                        String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                        if (user != null) {
+                          controller.addLike(
+                              new LikeBean(
+                                  "dislike", user, new Timestamp(System.currentTimeMillis()), a.getId()));
+                        }
+                    }
                 }
-
-                for(int j = 0; j < 100; j++) {
-                    controller.addComment(new CommentBean(text.get(rand.nextInt(text.size())), listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(),
-                            new Timestamp(System.currentTimeMillis()), a.getId()));
-                }
-
-                int likeLimit = rand.nextInt(100);
-                for(int j = 0; j < likeLimit; j++) {
-                    controller.addLike(new LikeBean("like", listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(),
-                            new Timestamp(System.currentTimeMillis()), a.getId()));
-                }
-
-                int dislikeLimit = rand.nextInt(70);
-
-                for(int j = 0; j < dislikeLimit; j++) {
-                    controller.addLike(new LikeBean("dislike", listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(),
-                            new Timestamp(System.currentTimeMillis()), a.getId()));
-                }
-
             }
 
+
             for(int i = 0; i < 400; i++){
-                if(controller2.addRemoveFollow(listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(), listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(),"add")){
-                    System.out.println("ok");
+                String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                String user2 =  listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                if(user != null && user2 != null) {
+                    if(controller2.addRemoveFollow(user,user2,"add")){
+                        System.out.println("ok");
+                    }
                 }
             }
 
@@ -98,8 +131,11 @@ public class addingThings {
             for(int i = 0; i < 200; i++){
                 String member = listaUtenti.get(rand.nextInt(listaUtenti.size())).getName();
                 List<GroupBean> gruppi = controller3.showUsersGroups("leonardo","admin");
-                if (controller3.addDeleteGroupMember(member, gruppi.get(rand.nextInt(gruppi.size())).getName(), "leonardo","add" )) {
+                if (gruppi.size() > 0) {
+                  if (controller3.addDeleteGroupMember(
+                      member, gruppi.get(rand.nextInt(gruppi.size())).getName(), "leonardo", "add")) {
                     System.out.println("ok");
+                  }
                 }
             }
 
