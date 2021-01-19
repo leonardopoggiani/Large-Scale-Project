@@ -400,4 +400,14 @@ public class ArticlePageView {
 
         setComments();
     }
+
+    @FXML
+    void deleteArticle() throws IOException {
+        ArticlesPagesDBController controller = new ArticlesPagesDBController();
+        if(controller.deleteArticle(questo.getId()))
+        {
+            logger.info("article deleted" + questo.getId());
+            App.setRoot("HomepageArticles");
+        }
+    }
 }
