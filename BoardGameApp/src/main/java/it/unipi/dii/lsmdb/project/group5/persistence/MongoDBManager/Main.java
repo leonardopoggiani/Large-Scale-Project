@@ -15,8 +15,8 @@ public class Main {
         //SignupLoginDBManager.updateLogin("gaia2");
 
         //Read game
-        GameBean g = GameDBManager.readGame("Streams");
-        System.out.println(g.getImageUrl());
+        //GameBean g = GameDBManager.readGame("Streams");
+        //System.out.println(g.getImageUrl());
         /*System.out.println(g.getAvgRating() + " " + g.getMaxAge() + " " + g.getMinAge() + " " +g.getMinPlayers() + " " +
         g.getMaxPlayers() + " " +g.getNumReviews() + " " + g.getYear() + " " + g.getCategory1() + " " +g.getCategory2() + " " + g.getImageUrl() +g.getMaxTime()
         +" " +g.getMinTime() +" " +g.getName() + " " + g.getUrl() + " " + g.getComplexity() + " " + g.getNumVotes() + " " + g.getAlternativeName() + " " + g.getFamily() + " " + g.isCooperative());
