@@ -246,7 +246,9 @@ public class UsersDBManager extends Neo4jDBManager{
         int quanti = 0;
         parameters.put("username", username);
         String countFriends ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
-                            " WHERE (u2)-[:FOLLOW]->(u)" +
+                            " MATCH (u3:User)" +
+                            " WHERE NOT (u3.username=$username) AND" +
+                            " (u2)-[:FOLLOW]->(u) AND (u2)-[:FOLLOW]->(u3)" +
                             " RETURN count(u2) AS quanti";
 
         String countInfluencers = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User{role:\"influencer\"})" +
