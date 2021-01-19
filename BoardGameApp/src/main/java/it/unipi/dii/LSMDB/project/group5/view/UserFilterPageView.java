@@ -32,7 +32,8 @@ public class UserFilterPageView {
         VBox lista = new VBox();
 
         UsersPagesDBController controller = new UsersPagesDBController();
-        List<String> listaUtenti;
+        List<String> listaUtenti = Lists.newArrayList();
+
         boolean unfollowing = false;
 
         switch (HomepageUsers.getFilter()) {
@@ -47,40 +48,39 @@ public class UserFilterPageView {
                 listaUtenti = controller.listSuggestingFollowing(LoginPageView.getLoggedUser(),"influencer");
                 break;
             default:
-                listaUtenti = Lists.newArrayList();
                 break;
         }
 
         for(int i = 0; i < listaUtenti.size(); i++) {
+            HBox nuovoUtente = new HBox();
+            TextArea utente = new TextArea(listaUtenti.get(i));
+            Button follow;
             if (unfollowing) {
-                HBox nuovoUtente = new HBox();
-                TextArea utente = new TextArea(listaUtenti.get(i));
-                Button follow = new Button("Unfollow");
+                follow = new Button("Unfollow");
                 follow.setOnAction(lambda -> {
                     boolean ret = controller.addRemoveFollow(LoginPageView.getLoggedUser(), utente.getText(), "remove");
                     utente.setText("Unfollow user!");
                     follow.setText(":'(");
                     follow.setDisable(true);
                 });
-                utente.setMaxHeight(40);
-                utente.setMaxWidth(100);
-                nuovoUtente.getChildren().addAll(utente, follow);
-                lista.getChildren().add(nuovoUtente);
             } else {
-                HBox nuovoUtente = new HBox();
-                TextArea utente = new TextArea(listaUtenti.get(i));
-                Button follow = new Button("Follow");
-                follow.setOnAction(lambda -> {
-                    boolean ret = controller.addRemoveFollow(LoginPageView.getLoggedUser(), utente.getText(), "add");
-                    utente.setText("Followed user!");
-                    follow.setText("Great!");
-                    follow.setDisable(true);
-                });
-                utente.setMaxHeight(40);
-                utente.setMaxWidth(100);
-                nuovoUtente.getChildren().addAll(utente, follow);
-                lista.getChildren().add(nuovoUtente);
+                follow = new Button("Follow");
+                follow.setOnAction(
+                lambda -> {
+                    boolean ret =
+                        controller.addRemoveFollow(
+                            LoginPageView.getLoggedUser(), utente.getText(), "add");
+                        utente.setText("Followed user!");
+                        follow.setText("Great!");
+                        follow.setDisable(true);
+                    });
             }
+
+            utente.setMaxHeight(40);
+            utente.setMaxWidth(100);
+            nuovoUtente.getChildren().addAll(utente, follow);
+            lista.getChildren().add(nuovoUtente);
+
         }
 
         ancora.getChildren().add(lista);

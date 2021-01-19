@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -215,11 +216,14 @@ public class HomepageUsers {
 
     @FXML
     void initialize() {
+        showUsers();
+    }
+
+    private void showUsers() {
         username = LoginPageView.getLoggedUser();
         UsersPagesDBController controller = new UsersPagesDBController();
 
         List<String> user = controller.listUsers(username,"followingAll");
-        logger.info("size " + user.size());
 
         System.out.println(user.toString());
         Text nomeuser;
@@ -234,11 +238,11 @@ public class HomepageUsers {
 
 
         List<String> user2 = controller.listSuggestingFollowing(username,"normalUser");
-
         if(user2.size() == 0){
-            user2 = controller.listUsers(username, "all");
+            user2 = controller.listUsers(username,"all");
             user2.removeAll(user);
         }
+
         for(int i = 0; i < 4; i++) {
             nomeuser = chooseSuggestUser(i);
             if(i < user2.size()) {
@@ -258,7 +262,6 @@ public class HomepageUsers {
                 nomeuser.setText("");
             }
         }
-
     }
 
     @FXML
@@ -271,13 +274,11 @@ public class HomepageUsers {
             if(u != null && u.getUsername() != null) {
                 Text toShow = chooseUser(0);
                 toShow.setText(u.getUsername());
+                toShow.setFill(Color.YELLOW);
             }
+        } else {
+            showUsers();
         }
-    }
-
-    @FXML
-    void promote() throws IOException {
-        UsersPagesDBController controller = new UsersPagesDBController();
     }
 
     @FXML
@@ -344,8 +345,5 @@ public class HomepageUsers {
                 user.setText("");
             }
         }
-    }
-
-    public void searchUser(ActionEvent actionEvent) {
     }
 }
