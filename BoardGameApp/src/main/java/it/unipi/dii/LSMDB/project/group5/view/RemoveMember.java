@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 public class RemoveMember {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
-    UsersPagesDBController controller = new UsersPagesDBController();
     GroupsPagesDBController controller2 = new GroupsPagesDBController();
 
     ObservableList<String> usersList = FXCollections.observableArrayList();
@@ -26,7 +25,7 @@ public class RemoveMember {
 
     @FXML
     void initialize() {
-        List<String> utenti = controller.listUsers(HomepageGroups.getGroup(),"all");
+        List<String> utenti = controller2.showGroupsMembers(HomepageGroups.getGroup(),HomepageGroups.getAdminGroup());
         logger.info("size " + utenti.size());
         usersList.addAll(utenti);
         users.setItems(usersList);

@@ -103,7 +103,7 @@
             <TextField fx:id="author3" editable="false" layoutX="322.0" layoutY="422.0" prefHeight="26.0" prefWidth="94.0" promptText="author3" />
             <TextField fx:id="timestamp3" editable="false" layoutX="486.0" layoutY="418.0" prefHeight="26.0" prefWidth="154.0" promptText="timestamp3" />
             <Text layoutX="747.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Written by" />
-            <Button cancelButton="true" layoutX="1043.0" layoutY="15.0" mnemonicParsing="false" text="Delete article" />
+            <Button cancelButton="true" layoutX="1043.0" layoutY="15.0" mnemonicParsing="false" onAction="#deleteArticle" text="Delete article" />
             <Text fx:id="data" layoutX="877.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <Text layoutX="746.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Published on" />
          </children>

@@ -13,14 +13,13 @@ public class CommentBean {
 
     public CommentBean() { }
 
-    public CommentBean(String text, String author, Timestamp timestamp, String authorArt, String titleArt)
+    public CommentBean(String text, String author, Timestamp timestamp, int id)
     {
 
         this.text = text;
         this.author = author;
         this. timestamp = timestamp;
-        this.authorArt = authorArt;
-        this.titleArt = titleArt;
+        this.id = id;
     }
 
     public int getId() {

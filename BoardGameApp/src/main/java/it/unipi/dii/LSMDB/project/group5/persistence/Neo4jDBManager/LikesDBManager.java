@@ -106,7 +106,7 @@ public class LikesDBManager extends Neo4jDBManager {
         parameters.put("timestamp", like.getTimestamp().toString());
         parameters.put("id", like.getId());
 
-        Result result = tx.run("(a:Article{idArt:$id})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) return l"
+        Result result = tx.run("MATCH (a:Article{idArt:$id})<-[l:LIKED{type:$type}]-(u:User{username:$authorLike}) return l"
                 , parameters);
 
         if (result.hasNext()) {
@@ -118,7 +118,7 @@ public class LikesDBManager extends Neo4jDBManager {
 
         } else {
 
-            result = tx.run("MATCH(u:User {username:$authorLike}),(a:Article{idArt:$id}) " +
+            result = tx.run("MATCH (u:User {username:$authorLike}), (a:Article{idArt:$id}) " +
                             " CREATE (u)-[l:LIKED{timestamp:$timestamp, type:$type}]->(a) " +
                             " return l"
                     , parameters);

@@ -190,8 +190,7 @@ public class UsersDBManager extends Neo4jDBManager{
                 " AND NOT (ub)-[:FOLLOW]->(ua)" +
                 " RETURN ua.username AS suggestion";
 
-        int quantiAmici = transactionCountUsers(tx,username, "normalUser");
-        System.out.println(quantiAmici);
+        int quantiAmici = transactionCountUsers(tx, username, "normalUser");
         if(quantiAmici > 1)
         {
 
@@ -219,8 +218,6 @@ public class UsersDBManager extends Neo4jDBManager{
                 result = tx.run(searchForCategoryNormal, parameters);
                 System.out.println("uso searchForCategoryNormal ");
             }
-
-
         }
 
         while(result.hasNext())
@@ -228,6 +225,7 @@ public class UsersDBManager extends Neo4jDBManager{
             Record record = result.next();
             suggestion.add(record.get("suggestion").asString());
         }
+
         return suggestion;
 
     }

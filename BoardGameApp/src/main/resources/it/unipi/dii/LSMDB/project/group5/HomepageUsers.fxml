@@ -32,28 +32,13 @@
                <font>
                   <Font size="17.0" />
                </font></Text>
-            <Button cancelButton="true" layoutX="76.0" layoutY="423.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Button cancelButton="true" layoutX="77.0" layoutY="491.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
             <Button cancelButton="true" layoutX="76.0" layoutY="374.0" mnemonicParsing="false" onAction="#filterUsers" text="Search" />
             <CheckBox fx:id="showfollowed" layoutX="51.0" layoutY="187.0" mnemonicParsing="false" onAction="#showFollowedUsers" text="Followed users" />
             <CheckBox fx:id="showusers" layoutX="51.0" layoutY="220.0" mnemonicParsing="false" onAction="#showSuggestedUsers" text="Suggested users" />
             <CheckBox fx:id="showinfluencer" layoutX="51.0" layoutY="251.0" mnemonicParsing="false" onAction="#showSuggestedInfluencers" text="Suggested influencer" />
             <TextField fx:id="name" layoutX="106.0" layoutY="309.0" prefHeight="26.0" prefWidth="103.0" />
             <Text layoutX="26.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-            <Button fx:id="search" layoutX="250.0" layoutY="540.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
-            <Text layoutX="88.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Promote a user">
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Text>
-            <TextField fx:id="searchuser" layoutX="122.0" layoutY="543.0" prefHeight="26.0" prefWidth="103.0" />
-            <Text layoutX="54.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search " />
-            <Text fx:id="searched" layoutX="129.0" layoutY="622.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="79.59999999999968" />
-            <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="151.0" layoutY="643.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../../img/avataruser.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="promote" layoutX="141.0" layoutY="697.0" mnemonicParsing="false" onMouseClicked="#follow" text="Promote" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchro" minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="492.0">
