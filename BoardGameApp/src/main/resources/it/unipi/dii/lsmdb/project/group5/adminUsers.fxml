@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="696.0" prefWidth="1120.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.AdminUsers">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="562.0">
+         <children>
+            <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
+            <BottomNavigation layoutX="51.0" layoutY="6.0" prefHeight="66.0" prefWidth="339.0">
+               <actionItems>
+                  <BottomNavigationButton onMouseClicked="#returnToStatistics" selected="true" text="Statistics">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminGames" text="Games">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminUsers" text="Users">
+                  </BottomNavigationButton>
+               </actionItems>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </BottomNavigation>
+            <Button layoutX="421.0" layoutY="27.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Text layoutX="502.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove a user">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Text>
+            <TextField fx:id="deleting" layoutX="792.0" layoutY="23.0" />
+            <Button fx:id="remove" disable="true" layoutX="1011.0" layoutY="70.0" mnemonicParsing="false" onAction="#removeUser" text="Remove" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="14.0" layoutY="119.0" stroke="BLACK" strokeType="INSIDE" width="498.0" />
+            <Text layoutX="21.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least recently logged user" />
+            <Text fx:id="user1" layoutX="19.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="473.28361511230474" />
+            <Text fx:id="user2" layoutX="19.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="473.28361511230474" />
+            <Text fx:id="user3" layoutX="18.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.3830890655518" />
+            <Text fx:id="user4" layoutX="18.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.38308906555176" />
+            <Text fx:id="user5" layoutX="17.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.38308906555176" />
+            <Button layoutX="1015.0" layoutY="23.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
+            <ImageView fx:id="tic" fitHeight="32.0" fitWidth="46.0" layoutX="966.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../../../../../img/Tick-Icon.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="text" fill="#15d548" layoutX="799.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User removed succesfully" visible="false" />
+            <PieChart fx:id="userpie" layoutX="543.0" layoutY="110.0" prefHeight="215.0" prefWidth="561.0" title="User distribution per country" />
+            <Text layoutX="38.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Promote" />
+            <TextField fx:id="promote" layoutX="121.0" layoutY="350.0" />
+            <Button layoutX="327.0" layoutY="347.0" mnemonicParsing="false" onAction="#searchUserForPromotion" text="Search" />
+            <ImageView fx:id="tic1" fitHeight="32.0" fitWidth="46.0" layoutX="286.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../../../../../img/Tick-Icon.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="moderator" disable="true" layoutX="258.0" layoutY="399.0" mnemonicParsing="false" onAction="#promoteModerator" text="Moderator" />
+            <Button fx:id="admin" disable="true" layoutX="362.0" layoutY="399.0" mnemonicParsing="false" onAction="#promoteAdmin" text="Admin" />
+            <Text fx:id="promotetext" fill="#15d548" layoutX="89.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User promoved!!" visible="false" />
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>
