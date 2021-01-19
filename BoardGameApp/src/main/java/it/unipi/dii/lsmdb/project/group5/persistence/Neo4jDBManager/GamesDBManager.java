@@ -2,6 +2,7 @@ package it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager;
 
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
 import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
+import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.GameDBManager;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 import org.neo4j.driver.util.Pair;
@@ -67,8 +68,8 @@ public class    GamesDBManager extends Neo4jDBManager{
                     infoGame.setName(name);
                     //infoGame.setCategory1(value.get("category1").asString());
                     //infoGame.setCategory2(value.get("category2").asString());
-                    infoGame.setNumVotes(RatingsDBManager.countRatings(name));
-                    infoGame.setAvgRating(RatingsDBManager.avgRatings(name));
+                    infoGame.setNumVotes(GameDBManager.getNumVotes(name));
+                    infoGame.setAvgRating(GameDBManager.getAvgRating(name));
 
                 }
 
