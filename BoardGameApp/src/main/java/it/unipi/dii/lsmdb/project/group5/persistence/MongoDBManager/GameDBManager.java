@@ -1,5 +1,6 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager;
 
+import com.google.common.collect.Lists;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
@@ -413,6 +414,30 @@ public class GameDBManager {
             return false;
         }
         return true;
+    }
+
+    public static List<GameBean> showAllGames (){
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
+
+        Bson projection = (fields( excludeId()));
+
+        List<GameBean> g = Lists.newArrayList();
+        GameBean b = new GameBean();
+
+        try(MongoCursor<Document> cursor = collection.find().projection(projection).iterator()){
+            while(cursor.hasNext()){
+
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                b = fillInfoGameFields(next,false);
+                g.add(b);
+
+            }
+            cursor.close();
+
+        }
+        return g;
+
     }
 
 

@@ -157,4 +157,8 @@ public class GamesPagesDBController {
 
     }*/
 
+    public List<GameBean> showAllGames() {
+        return  GameDBManager.showAllGames();
+    }
+
 }

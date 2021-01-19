@@ -6,6 +6,12 @@ import it.unipi.dii.lsmdb.project.group5.bean.CommentBean;
 import it.unipi.dii.lsmdb.project.group5.bean.LikeBean;
 import it.unipi.dii.lsmdb.project.group5.cache.ArticlesCache;
 import it.unipi.dii.lsmdb.project.group5.controller.ArticlesPagesDBController;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -15,13 +21,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+/**
+ * @author leonardopoggiani
+ * Gestore della pagina degli articoli.
+ */
 public class ArticlePageView {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
@@ -383,12 +386,12 @@ public class ArticlePageView {
         TextField authorField = chooseAuthor(index);
         TextField timestampField = chooseTimestamp(index);
 
-        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), questo.getId());
-        boolean ret = controller.deleteComment(infocomment);
-
         commentField.setText("");
         authorField.setText("");
         timestampField.setText("");
+
+        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), questo.getId());
+        boolean ret = controller.deleteComment(infocomment);
 
         target.setVisible(false);
 

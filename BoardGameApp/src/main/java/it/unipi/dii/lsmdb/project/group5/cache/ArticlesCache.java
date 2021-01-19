@@ -5,14 +5,16 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
 import it.unipi.dii.lsmdb.project.group5.controller.ArticlesPagesDBController;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author leonardopoggiani
+ */
 public class ArticlesCache {
+
     ArticlesPagesDBController controller = new ArticlesPagesDBController();
 
-    //Singleton
     private static ArticlesCache instance;
     LoadingCache<Integer, ArticleBean> cache;
 

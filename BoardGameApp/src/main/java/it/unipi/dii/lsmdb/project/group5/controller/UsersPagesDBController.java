@@ -70,4 +70,15 @@ public class UsersPagesDBController {
     }
 
 
+    public List<UserBean> showAllUsers() {
+        return UserDBManager.showAllUsers();
+    }
+
+    public List<UserBean> showAllInfluencer() {
+        return UserDBManager.showAllInfluencer();
+    }
+
+    public boolean modifyProfile() {
+        return UserDBManager.modifyProfile();
+    }
 }

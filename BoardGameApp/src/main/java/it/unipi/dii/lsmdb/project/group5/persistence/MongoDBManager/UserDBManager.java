@@ -1,6 +1,7 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager;
 
 
+import com.google.common.collect.Lists;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
@@ -9,6 +10,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.excludeId;
@@ -77,4 +79,52 @@ public class UserDBManager extends MongoDBManager {
         }
     }
 
+    public static List<UserBean> showAllUsers() {
+        MongoCollection<Document> collection = getCollection("Users");
+
+        Bson projection = (fields( excludeId()));
+
+        List<UserBean> b = Lists.newArrayList();
+        UserBean u = new UserBean();
+
+        try(MongoCursor<Document> cursor = collection.find().projection(projection).iterator()){
+            while(cursor.hasNext()){
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                u = fillUserFields(next);
+                b.add(u);
+            }
+            cursor.close();
+        }
+        return b;
+    }
+
+    public static List<UserBean> showAllInfluencer() {
+        MongoCollection<Document> collection = getCollection("Users");
+
+        Bson projection = (fields( excludeId()));
+        Bson match = (eq("role","influencer"));
+
+        List<UserBean> b = Lists.newArrayList();
+        UserBean u = new UserBean();
+
+        try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
+            while(cursor.hasNext()){
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                u = fillUserFields(next);
+                b.add(u);
+            }
+            cursor.close();
+        }
+        return b;
+    }
+
+    public static boolean modifyProfile() {
+        boolean ret = false;
+
+
+
+        return ret;
+    }
 }

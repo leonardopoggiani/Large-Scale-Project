@@ -6,6 +6,9 @@ import it.unipi.dii.lsmdb.project.group5.bean.AgeBean;
 import it.unipi.dii.lsmdb.project.group5.bean.CategoryBean;
 import it.unipi.dii.lsmdb.project.group5.bean.VersatileUser;
 import it.unipi.dii.lsmdb.project.group5.controller.AnalyticsDBController;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,38 +18,39 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Logger;
+/**
+ * @author leonardopoggiani
+ * Gestore della homepage. Al caricamento vengono mostrati gli articoli suggeriti, in base ad influencer
+ * seguiti oppure a categorie di giochi inserite.
+ */
 
-@SuppressWarnings("checkstyle:Indentation")
 public class AdminHomepage {
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
     AnalyticsDBController controller = new AnalyticsDBController();
 
     ObservableList<String> categorie = FXCollections.observableArrayList(
-            "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
-            "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
-            "Book:1117","Fantasy:1010","Miniatures:1047","Wargame:1019",
-            "Napoleonic:1051","Children's Game:1041","Memory:1045",
-            "Educational:1094","Medical:2145","Animals:1089","Racing:1031",
-            "Adventure:1022","Travel:1097","Abstact Strategy:1009",
-            "Economic:1021","Trains:1034","Transportation:1011","Real-time:1037",
-            "Action/Dexterity:1032","Ancient:1050","Collectible Components:1044",
-            "Fighting:1046","Movies/TV/Radio Theme:1064","Bluffing:1023",
-            "Zombies:2481","Medieval:1035","Negotiation:1026","World War II: 1049",
-            "Spies/Secret Agents:1081","Deduction:1039","Murder/Mystery:1040",
-            "Aviation/Flight:2650","Territory Building:1086","Modern Warfare:1069",
-            "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
-            "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
+            "Math:1104", "Card Game:1002", "Humor:1079", "Party Game:1030",
+            "Number:1098", "Puzzle:1028", "Dice:1017", "Sports:1038",
+            "Book:1117", "Fantasy:1010", "Miniatures:1047", "Wargame:1019",
+            "Napoleonic:1051", "Children's Game:1041", "Memory:1045",
+            "Educational:1094", "Medical:2145", "Animals:1089", "Racing:1031",
+            "Adventure:1022", "Travel:1097", "Abstact Strategy:1009",
+            "Economic:1021", "Trains:1034", "Transportation:1011", "Real-time:1037",
+            "Action/Dexterity:1032", "Ancient:1050", "Collectible Components:1044",
+            "Fighting:1046", "Movies/TV/Radio Theme:1064", "Bluffing:1023",
+            "Zombies:2481", "Medieval:1035", "Negotiation:1026", "World War II: 1049",
+            "Spies/Secret Agents:1081", "Deduction:1039", "Murder/Mystery:1040",
+            "Aviation/Flight:2650", "Territory Building:1086", "Modern Warfare:1069",
+            "Print & Play:1120", "Novel-Based:1093", "Puzzle:1028", "Science Fiction:1016",
+            "Exploration:1020", "Word-game:1025", "Video Game Theme:1101", "None");
 
     ObservableList<String> gameStatistic = FXCollections.observableArrayList("Least rated game per category", "Least rated game per year");
 
-    ObservableList<String> year = FXCollections.observableArrayList("2020","2019","2018","2017","2016",
-            "2015","2014","2013","2012","2011","2010","2009","2008","2007","2006","2005","2004","2003","2002","2001","2000",
-            "1999","1998","1997","1996","1995","1994", "1993","1992","1991","1990","1989","1988","1987","1986","1985",
-            "1984","1983","1982","1981");
+    ObservableList<String> year = FXCollections.observableArrayList("2020", "2019", "2018", "2017", "2016",
+            "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", " 2006", "2005", "2004", "2003", "2002", "2001", "2000",
+            "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985",
+            "1984", "1983", "1982", "1981");
 
     @FXML
     ComboBox categories;
@@ -107,11 +111,11 @@ public class AdminHomepage {
         BarChart.Series series = new BarChart.Series();
         series.setName("Average login");
 
-        for(int i = 0; i < lista.size(); i++) {
+        for (int i = 0; i < lista.size(); i++) {
             series.getData().add(new BarChart.Data(lista.get(i).getCountry(), lista.get(i).getAvgLogin()));
             logger.info(lista.get(i).getCountry() + " / " + lista.get(i).getAvgLogin());
 
-            if(i == 4){
+            if (i == 4){
                 break;
             }
         }
@@ -184,11 +188,11 @@ public class AdminHomepage {
 
             if(lista.get(i).getAge() <= 21) {
                 quantiPrima += lista.get(i).getNumUser();
-            } else if(lista.get(i).getAge() >= 22 && lista.get(i).getAge() <= 35 ){
+            } else if(lista.get(i).getAge() >= 22 && lista.get(i).getAge() <= 35) {
                 quantiSeconda += lista.get(i).getNumUser();
-            } else if(lista.get(i).getAge() >= 36 && lista.get(i).getAge() <= 50 ){
+            } else if(lista.get(i).getAge() >= 36 && lista.get(i).getAge() <= 50) {
                 quantiTerza += lista.get(i).getNumUser();
-            }else if(lista.get(i).getAge() >= 51 && lista.get(i).getAge() <= 70 ){
+            }else if(lista.get(i).getAge() >= 51 && lista.get(i).getAge() <= 70) {
                 quantiQuarta += lista.get(i).getNumUser();
             }else if(lista.get(i).getAge() >= 71){
                 quantiQuinta += lista.get(i).getNumUser();

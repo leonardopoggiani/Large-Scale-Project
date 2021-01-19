@@ -5,10 +5,12 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
 import it.unipi.dii.lsmdb.project.group5.controller.GamesPagesDBController;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author leonardopoggiani
+ */
 public class GamesCache {
     GamesPagesDBController controller = new GamesPagesDBController();
 
