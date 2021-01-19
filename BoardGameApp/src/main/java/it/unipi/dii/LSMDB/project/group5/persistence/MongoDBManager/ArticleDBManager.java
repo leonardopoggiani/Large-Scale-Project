@@ -119,11 +119,11 @@ public class ArticleDBManager {
         Bson sort = null;
         Bson match = null;
         if(mode.equals("like")){
-            match = (and(ne("num_like", null), ne("num_like", "")));
-            sort = (descending("num_like"));
+            match = (and(ne("num_likes", null), ne("num_likes", "")));
+            sort = (descending("num_likes"));
         } else if (mode.equals("dislike")){
-            match = (and(ne("num_dislike", null), ne("num_dislike", "")));
-            sort = (descending("num_dislike"));
+            match = (and(ne("num_dislikes", null), ne("num_dislikes", "")));
+            sort = (descending("num_dislikes"));
         } else {
             match = (and(ne("num_comments", null), ne("num_comments", "")));
             sort = (descending("num_comments"));
@@ -152,7 +152,7 @@ public class ArticleDBManager {
         tot = tot + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Document updateLike = new Document();
-        updateLike.append("num_like", tot);
+        updateLike.append("num_likes", tot);
         Document update = new Document();
         update.append("$set", updateLike);
         Document query = new Document();
@@ -182,7 +182,7 @@ public class ArticleDBManager {
         tot = tot + inc;
         MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Document updateLike = new Document();
-        updateLike.append("num_dislike", tot);
+        updateLike.append("num_dislikes", tot);
         Document update = new Document();
         update.append("$set", updateLike);
         Document query = new Document();
@@ -265,7 +265,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                ret = (next.get("num_like") == null) ? 0 :Integer.parseInt(next.get("num_like").toString());
+                ret = (next.get("num_likes") == null) ? 0 :Integer.parseInt(next.get("num_likes").toString());
 
             }
         }catch(Exception ex){
@@ -288,7 +288,7 @@ public class ArticleDBManager {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
                 Document articles = (Document) next.get("articles");
-                ret = (next.get("num_dislike") == null) ? 0 :Integer.parseInt(articles.get("num_dislike").toString());
+                ret = (next.get("num_dislikes") == null) ? 0 :Integer.parseInt(articles.get("num_dislikes").toString());
 
             }
         }catch(Exception ex){
@@ -309,8 +309,8 @@ public class ArticleDBManager {
         a.setTimestamp(t);
         a.setText((next.get("body") == null) ? "" : (next.get("body").toString()));
         a.setNumberComments(next.get("num_comments")==null ? 0: Integer.parseInt(next.get("num_comments").toString()));
-        a.setNumberLikes(next.get("num_like")==null ? 0: Integer.parseInt(next.get("num_like").toString()));
-        a.setNumberDislikes(next.get("num_dislike")==null ? 0: Integer.parseInt(next.get("num_dislike").toString()));
+        a.setNumberLikes(next.get("num_likes")==null ? 0: Integer.parseInt(next.get("num_likes").toString()));
+        a.setNumberDislikes(next.get("num_dislikes")==null ? 0: Integer.parseInt(next.get("num_dislikes").toString()));
         if (unwind){
             List<String> list = new ArrayList<>();
             list.add(next.get("games").toString());
