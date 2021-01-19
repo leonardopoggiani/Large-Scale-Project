@@ -233,6 +233,7 @@ public class UsersDBManager extends Neo4jDBManager{
     }
 
     /** La funzione conta gli amici o gli influencer seguiti in base al parametro type
+     * considera solo quelli che hanno a loro volta una persona che seguono
      * La funzione viene utilizzata per il suggerimento degli articoli e per il suggerimento
      * degli utenti.
      * @param tx
