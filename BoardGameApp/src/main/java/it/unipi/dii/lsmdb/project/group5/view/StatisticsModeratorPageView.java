@@ -1,5 +1,6 @@
 package it.unipi.dii.lsmdb.project.group5.view;
 
+import com.google.common.collect.Lists;
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.InfluencerInfoBean;
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
@@ -15,6 +16,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class StatisticsModeratorPageView {
 
@@ -182,13 +184,12 @@ public class StatisticsModeratorPageView {
             }
         }
 
-
-        list = controller.getNumDisLikeForEachInfluencer();
+        List<InfluencerInfoBean> list1 = controller.getNumDisLikeForEachInfluencer();
 
         for(int i = 0; i < 3; i++){
             Text modify = chooseDislike(i + 1);
-            if(i < list.size()) {
-                modify.setText(list.get(i).getInfluencer() + " - " + list.get(i).getCount());
+            if(i < list1.size()) {
+                modify.setText(list1.get(i).getInfluencer() + " - " + list1.get(i).getCount());
             } else {
                 modify.setText("");
             }
@@ -205,22 +206,18 @@ public class StatisticsModeratorPageView {
             }
         }
 
-        for(int i = 0; i < 3; i ++) {
-            Text articolo = chooseArticles(i + 1);
-            articolo.setText("");
-        }
-
-
-        for(int i = 0; i < 5; i++) {
-            Text game = chooseGame(i + 1);
-            game.setText("");
-        }
+        numberPublished();
+        gameCovered();
     }
 
     @FXML
     void numberPublished() {
+        List<InfluencerInfoBean> lista = Lists.newArrayList();
 
-        List<InfluencerInfoBean> lista = controller.numberOfArticlesPublishedInASpecifiedPeriod(date.getValue().toString());
+        if(date.getValue() != null) {
+            lista = controller.numberOfArticlesPublishedInASpecifiedPeriod(date.getValue().toString());
+            System.out.println("lista " + lista.size());
+        }
 
         for(int i = 0; i < 3; i ++) {
             Text articolo = chooseArticles(i + 1);
@@ -234,12 +231,19 @@ public class StatisticsModeratorPageView {
 
     @FXML
     void gameCovered() {
-        List<InfluencerInfoBean> lista = controller.distinctGamesInArticlesPublishedInASpecifiedPeriod(date1.getValue().toString());
+        List<InfluencerInfoBean> lista = Lists.newArrayList();
+
+        if(date1.getValue() != null) {
+            lista= controller.distinctGamesInArticlesPublishedInASpecifiedPeriod(date1.getValue().toString());
+            System.out.println("lista " + lista.size());
+        }
 
         for(int i = 0; i < 5; i ++) {
             Text gioco = chooseGame(i + 1);
             if(i < lista.size()) {
                 gioco.setText(lista.get(i).getInfluencer() + ": " + lista.get(i).getCount());
+                System.out.println("gioco " + lista.get(i));
+
             } else {
                 gioco.setText("");
             }

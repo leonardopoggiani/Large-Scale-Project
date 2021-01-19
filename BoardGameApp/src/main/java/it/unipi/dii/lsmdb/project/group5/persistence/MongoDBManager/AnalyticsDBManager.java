@@ -294,7 +294,7 @@ public class AnalyticsDBManager {
 
     public static List<InfluencerInfoBean> numberOfArticlesPublishedInASpecifiedPeriod (String start){
         List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
 
         Bson projection = project(fields(excludeId(), computed("author", "$_id"), include("count")));
         Bson group = group("$author",sum("count", 1L) );
@@ -305,11 +305,11 @@ public class AnalyticsDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(match, group, projection, sort, limit)).iterator()) {
 
             while (cursor.hasNext()) {
-                System.out.println(cursor.next().toJson());
+                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 InfluencerInfoBean a = new InfluencerInfoBean();
                 a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
-                a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
+                a.setInfluencer(next.get("author") == null ? "": (next.get("author").toString()));
                 ret.add(a);
 
             }
@@ -320,13 +320,13 @@ public class AnalyticsDBManager {
 
     public static List<InfluencerInfoBean> distinctGamesInArticlesPublishedInASpecifiedPeriod (String start){
         List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
 
 
-        Bson unwind1 = unwind("$articles.games");
+        Bson unwind1 = unwind("$games");
         Bson projection = project(fields(excludeId(), computed("author", "$_id"), include("count")));
         Bson group1 = new Document("$group", new Document ("_id", new Document("author" ,"$username")
-                .append("games", "$articles.games")));
+                .append("games", "$games")));
         Bson group = group("$_id.author",sum("count", 1L) );
         Bson match = match(and(gte("timestamp", start ), lte("timestamp", new Timestamp(System.currentTimeMillis()).toString()) ));
         Bson match2 = match (lte("count",10));
@@ -340,7 +340,7 @@ public class AnalyticsDBManager {
                 Document next = cursor.next();
                 InfluencerInfoBean a = new InfluencerInfoBean();
                 a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
-                a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
+                a.setInfluencer(next.get("author") == null ? "": (next.get("author").toString()));
                 ret.add(a);
 
             }
@@ -351,7 +351,7 @@ public class AnalyticsDBManager {
 
     public static List<InfluencerInfoBean> getNumLikeForEachInfluencer (){
         List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Bson projection = project(fields(excludeId(), computed("author", "$_id"), include("count")));
         Bson group = group("$author",sum("count", "$num_likes"));
         Bson limit = limit(3);
@@ -363,7 +363,7 @@ public class AnalyticsDBManager {
                 Document next = cursor.next();
                 InfluencerInfoBean a = new InfluencerInfoBean();
                 a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
-                a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
+                a.setInfluencer(next.get("author") == null ? "": (next.get("author").toString()));
                 ret.add(a);
 
             }
@@ -374,7 +374,7 @@ public class AnalyticsDBManager {
 
     public static List<InfluencerInfoBean> getNumDislikeForEachInfluencer (){
         List<InfluencerInfoBean> ret = new ArrayList<InfluencerInfoBean>();
-        MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
+        MongoCollection<Document> collection = MongoDBManager.getCollection("Articles");
         Bson projection = project(fields(excludeId(), computed("author", "$_id"), include("count")));
         Bson group = group("$author",sum("count", "$num_dislikes"));
         Bson limit = limit(3);
@@ -386,7 +386,7 @@ public class AnalyticsDBManager {
                 Document next = cursor.next();
                 InfluencerInfoBean a = new InfluencerInfoBean();
                 a.setCount(next.get("count") == null ? 0 : Integer.parseInt(next.get("count").toString()));
-                a.setInfluencer(next.get("username") == null ? "": (next.get("username").toString()));
+                a.setInfluencer(next.get("author") == null ? "": (next.get("author").toString()));
                 ret.add(a);
 
             }

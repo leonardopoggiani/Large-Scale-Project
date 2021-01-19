@@ -32,9 +32,9 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
 
-                System.out.println(cursor.next().toJson());
-                /*Document next = cursor.next();
-                g = fillInfoGameFields(next,false);*/
+                //System.out.println(cursor.next().toJson());
+                Document next = cursor.next();
+                g = fillInfoGameFields(next,false);
 
 
             }

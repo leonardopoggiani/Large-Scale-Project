@@ -147,12 +147,14 @@ public class AdminGames {
 
     @FXML
     void displayGameStatisticResult() {
-        choosenCategory.getSelectionModel().select(0);
-        String statistic = gameStatistic.get(games.getSelectionModel().getSelectedIndex());
-        if(statistic.equals("Least rated game per category")) {
-            choosenCategory.setItems(categorie);
-        } else {
-            choosenCategory.setItems(years);
+        choosenCategory.getSelectionModel().clearSelection();
+        if(games.getSelectionModel().getSelectedIndex() != -1){
+            String statistic = gameStatistic.get(games.getSelectionModel().getSelectedIndex());
+            if(statistic.equals("Least rated game per category")) {
+                choosenCategory.setItems(categorie);
+            } else {
+                choosenCategory.setItems(years);
+            }
         }
     }
 
@@ -187,12 +189,8 @@ public class AdminGames {
                     }
 
                 }
-            }
-        } else {
-            if(choosenCategory.getSelectionModel().getSelectedIndex() != -1){
+            } else {
                 List<GameBean> lista = controller.showLeastRatedGames("year", years.get(choosenCategory.getSelectionModel().getSelectedIndex()));
-
-                logger.info("least rated game year");
 
                 for (int i = 0; i < 3; i++) {
                     Text game_i = chooseGame(i);
@@ -211,7 +209,6 @@ public class AdminGames {
         GamesPagesDBController gameController = new GamesPagesDBController();
         GameBean gioco = gameController.showGame(delete.getText());
 
-        logger.info("gioco: " + gioco);
         if(gioco != null && gioco.getName() != null) {
             remove.setDisable(false);
             tic.setVisible(true);

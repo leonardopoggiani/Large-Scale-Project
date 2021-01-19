@@ -51,7 +51,7 @@ public class UserFilterPageView {
                 break;
         }
 
-        for(int i = 0; i < listaUtenti.size(); i++) {
+        for(int i = 0; i < listaUtenti.size() && i < 10; i++) {
             HBox nuovoUtente = new HBox();
             TextArea utente = new TextArea(listaUtenti.get(i));
             Button follow;
