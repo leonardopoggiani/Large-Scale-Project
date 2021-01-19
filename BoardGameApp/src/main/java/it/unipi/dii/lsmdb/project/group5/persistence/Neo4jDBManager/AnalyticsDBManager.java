@@ -1,5 +1,6 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager;
 
+import com.google.common.collect.Lists;
 import it.unipi.dii.lsmdb.project.group5.bean.VersatileUser;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
@@ -136,10 +137,11 @@ public class AnalyticsDBManager extends Neo4jDBManager{
                 @Override
                 public List<VersatileUser> execute(Transaction tx) {
 
-                    if(type.equals("influencer"))
+                    if(type.equals("influencer")) {
                         return transactionMostVersatileInfluencer(tx);
-                    else
+                    } else {
                         return transactionMostVersatileNormalUser(tx);
+                    }
                 }
             });
 
@@ -155,7 +157,8 @@ public class AnalyticsDBManager extends Neo4jDBManager{
      */
     private static List<VersatileUser> transactionMostVersatileInfluencer(Transaction tx)
     {
-        List<VersatileUser> versatileInfluencer = new ArrayList<>();
+
+        List<VersatileUser> versatileInfluencer = Lists.newArrayList();
 
         /*HashMap<String,Object> parameters = new HashMap<>();
         Date date = new Date();
@@ -172,10 +175,11 @@ public class AnalyticsDBManager extends Neo4jDBManager{
                 " ORDER BY numeroCategorie DESC " +
                 " LIMIT 3";
         Result result = tx.run(query);
+        VersatileUser temp;
 
         while(result.hasNext())
         {
-            VersatileUser temp = new VersatileUser();
+            temp = new VersatileUser();
             Record record = result.next();
             temp.setUsername(record.get("influencer").asString());
             temp.setHowManyCategories(record.get("numeroCategorie").asInt());

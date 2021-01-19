@@ -1,6 +1,5 @@
 package it.unipi.dii.lsmdb.project.group5.bean;
 
-//Credo servano per lo più al moderator
 public class VersatileUser {
     private String username;
     private int howManyCategories;

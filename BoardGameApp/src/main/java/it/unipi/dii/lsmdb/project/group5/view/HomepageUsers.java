@@ -73,16 +73,16 @@ public class HomepageUsers {
     Text suggested4;
 
     @FXML
-    Text suggested5;
+    Text influencer1;
 
     @FXML
-    Text suggested6;
+    Text influencer2;
 
     @FXML
-    Text suggested7;
+    Text influencer3;
 
     @FXML
-    Text suggested8;
+    Text influencer4;
 
     @FXML
     Button unfollow1;
@@ -168,10 +168,6 @@ public class HomepageUsers {
             case 1 -> suggested2;
             case 2 -> suggested3;
             case 3 -> suggested4;
-            case 4 -> suggested5;
-            case 5 -> suggested6;
-            case 6 -> suggested7;
-            case 7 -> suggested8;
             default -> new Text();
         };
     }
@@ -224,7 +220,6 @@ public class HomepageUsers {
 
         List<String> user = controller.listUsers(username,"followingAll");
 
-        System.out.println(user.toString());
         Text nomeuser;
         for(int i = 0; i < 8; i++) {
             nomeuser = chooseUser(i);
@@ -234,7 +229,6 @@ public class HomepageUsers {
                 nomeuser.setText("");
             }
         }
-
 
         List<String> user2 = controller.listSuggestingFollowing(username,"normalUser");
         if(user2.size() == 0){
@@ -253,14 +247,24 @@ public class HomepageUsers {
 
         List<String> user3 = controller.listSuggestingFollowing(username,"influencer");
 
-        for(int i = 4; i < 8; i++) {
-            nomeuser = chooseSuggestUser(i);
+        for(int i = 0; i < 4; i++) {
+            nomeuser = chooseInfluencer(i);
             if(i < user3.size()) {
                 nomeuser.setText(user3.get(i));
             } else {
                 nomeuser.setText("");
             }
         }
+    }
+
+    private Text chooseInfluencer(int i) {
+        return switch (i){
+            case 0 -> influencer1;
+            case 1 -> influencer2;
+            case 2 -> influencer3;
+            case 3 -> influencer4;
+            default -> new Text();
+        };
     }
 
     @FXML
@@ -282,24 +286,18 @@ public class HomepageUsers {
 
     @FXML
     void showFollowedUsers() throws IOException {
-        showusers.setSelected(false);
-        showinfluencer.setSelected(false);
         filter = "followed";
         App.setRoot("UsersFilterPageView");
     }
 
     @FXML
     void showSuggestedUsers() throws IOException {
-        showfollowed.setSelected(false);
-        showinfluencer.setSelected(false);
         filter = "suggested";
         App.setRoot("UsersFilterPageView");
     }
 
     @FXML
     void showSuggestedInfluencers() throws IOException {
-        showusers.setSelected(false);
-        showfollowed.setSelected(false);
         filter = "influencer";
         App.setRoot("UsersFilterPageView");
     }
@@ -312,10 +310,27 @@ public class HomepageUsers {
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
 
         Text user = chooseSuggestUser(id - 1);
+        if(!user.getText().equals("")){
+            boolean ret = controller.addRemoveFollow(username,user.getText(),"add");
+            if(ret) {
+                target.setStyle("-fx-background-color: green");
+                user.setText("");
+            }
+        }
+
+    }
+
+    @FXML
+    void followInfluencer(MouseEvent event) {
+        logger.info("follow");
+        UsersPagesDBController controller = new UsersPagesDBController();
+        Button target = (Button) event.getSource();
+        int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
+
+        Text user = chooseInfluencer(id - 1);
         logger.info("user " + user);
         if(!user.getText().equals("")){
             boolean ret = controller.addRemoveFollow(username,user.getText(),"add");
-            logger.info("ret " + ret);
             if(ret) {
                 target.setStyle("-fx-background-color: green");
                 user.setText("");
@@ -338,7 +353,6 @@ public class HomepageUsers {
 
         if(!user.getText().equals("")){
             boolean ret = controller.addRemoveFollow(username,user.getText(),"remove");
-            logger.info("ret " + ret + "| " + username + ", " + user.getText());
             if(ret) {
                 target.setStyle("-fx-background-color: green");
                 user.setText("");

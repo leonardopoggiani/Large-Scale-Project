@@ -12,7 +12,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
@@ -68,7 +67,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </LineChart>
-            <BarChart fx:id="age" layoutX="539.0" layoutY="579.0" prefHeight="328.0" prefWidth="797.0" title="User distribution per age">
+            <BarChart fx:id="age" layoutX="79.0" layoutY="587.0" prefHeight="328.0" prefWidth="1156.0" title="User distribution per age">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -89,25 +88,14 @@
             <Text layoutX="271.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4)" />
             <Text fx:id="quinto" layoutX="295.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
             <Text layoutX="272.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5)" />
-            <TextField fx:id="age2" layoutX="1253.0" layoutY="139.0" prefHeight="26.0" prefWidth="40.0" />
-            <TextField fx:id="age1" layoutX="1209.0" layoutY="139.0" prefHeight="26.0" prefWidth="40.0" />
-            <Text layoutX="1219.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age range" />
             <Button layoutX="454.0" layoutY="23.0" mnemonicParsing="false" text="Refresh" />
-            <BarChart fx:id="pie1" layoutX="14.0" layoutY="600.0" prefHeight="307.0" prefWidth="526.0" title="Average login per country">
+            <BarChart fx:id="pie1" layoutX="543.0" layoutY="5.0" prefHeight="279.0" prefWidth="699.0" title="Average login per country">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
               <yAxis>
                 <NumberAxis side="LEFT" />
               </yAxis>
-            </BarChart>
-            <BarChart fx:id="pie2" layoutX="536.0" layoutY="6.0" prefHeight="266.0" prefWidth="650.0" title="Average login per age">
-               <xAxis>
-                  <CategoryAxis side="BOTTOM" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis side="LEFT" />
-               </yAxis>
             </BarChart>
          </children>
       </AnchorPane>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.Avatar?>
 <?import com.gluonhq.charm.glisten.control.BottomNavigation?>
 <?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
 <?import com.gluonhq.charm.glisten.control.Icon?>
@@ -21,30 +20,28 @@
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="158.0">
          <children>
             <Button layoutX="53.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
-            <Avatar layoutX="87.0" layoutY="20.0" onMouseClicked="#goToSettings" radius="30.0">
-               <image>
-                  <Image url="@../../../../../../img/avatar.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Avatar>
             <Text layoutX="49.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research">
                <font>
                   <Font size="17.0" />
                </font></Text>
-            <Button cancelButton="true" layoutX="77.0" layoutY="491.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-            <Button cancelButton="true" layoutX="76.0" layoutY="374.0" mnemonicParsing="false" onAction="#filterUsers" text="Search" />
+            <Button cancelButton="true" layoutX="80.0" layoutY="474.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Button cancelButton="true" layoutX="80.0" layoutY="368.0" mnemonicParsing="false" onAction="#filterUsers" text="Search" />
             <CheckBox fx:id="showfollowed" layoutX="51.0" layoutY="187.0" mnemonicParsing="false" onAction="#showFollowedUsers" text="Followed users" />
             <CheckBox fx:id="showusers" layoutX="51.0" layoutY="220.0" mnemonicParsing="false" onAction="#showSuggestedUsers" text="Suggested users" />
             <CheckBox fx:id="showinfluencer" layoutX="51.0" layoutY="251.0" mnemonicParsing="false" onAction="#showSuggestedInfluencers" text="Suggested influencer" />
             <TextField fx:id="name" layoutX="106.0" layoutY="309.0" prefHeight="26.0" prefWidth="103.0" />
             <Text layoutX="26.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+            <ImageView fitHeight="58.0" fitWidth="60.0" layoutX="89.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/avatar.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="anchro" minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="492.0">
          <children>
             <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
-            <BottomNavigation layoutX="161.0" layoutY="3.0" prefHeight="26.0" prefWidth="398.0">
+            <BottomNavigation layoutX="161.0" layoutY="3.0" prefHeight="30.0" prefWidth="398.0">
                <actionItems>
                   <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
                      <graphic>
@@ -161,10 +158,10 @@
                   <Image url="@../../../../../../img/avataruser.png" />
                </image>
             </ImageView>
-            <Text fx:id="suggested5" layoutX="84.0" layoutY="581.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text fx:id="suggested6" layoutX="218.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text fx:id="suggested7" layoutX="418.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text fx:id="suggested8" layoutX="533.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="influencer1" layoutX="84.0" layoutY="581.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="influencer2" layoutX="218.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="influencer3" layoutX="418.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="influencer4" layoutX="533.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
             <ImageView fitHeight="36.0" fitWidth="46.0" layoutX="85.0" layoutY="591.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../img/avataruser.png" />
@@ -197,10 +194,10 @@
             <Button fx:id="followuser2" layoutX="209.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
             <Button fx:id="followuser3" layoutX="409.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
             <Button fx:id="followuser4" layoutX="524.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
-            <Button fx:id="followinfluencer1" layoutX="72.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
-            <Button fx:id="followinfluencer2" layoutX="209.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
-            <Button fx:id="followinfluencer3" layoutX="409.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
-            <Button fx:id="followinfluencer4" layoutX="524.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#follow" text="Follow" />
+            <Button fx:id="followinfluencer1" layoutX="72.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#followInfluencer" text="Follow" />
+            <Button fx:id="followinfluencer2" layoutX="209.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#followInfluencer" text="Follow" />
+            <Button fx:id="followinfluencer3" layoutX="409.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#followInfluencer" text="Follow" />
+            <Button fx:id="followinfluencer4" layoutX="524.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#followInfluencer" text="Follow" />
          </children>
       </AnchorPane>
    </items>
