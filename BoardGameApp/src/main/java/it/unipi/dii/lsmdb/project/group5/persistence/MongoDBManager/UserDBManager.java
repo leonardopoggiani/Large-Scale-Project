@@ -120,11 +120,45 @@ public class UserDBManager extends MongoDBManager {
         return b;
     }
 
-    public static boolean modifyProfile() {
-        boolean ret = false;
+    public static boolean modifyProfile(String username, String name, String surname, String password, String age, String categoria1, String categoria2) {
 
+        MongoCollection<Document> collection = getCollection("Users");
+        Document updateProfile = new Document();
 
+        if( name != null && !name.equals("")){
+            updateProfile.append("name", name);
+        }
 
-        return ret;
+        if( surname != null && !surname.equals("")) {
+            updateProfile.append("surname", surname);
+        }
+
+        if( password != null && !password.equals("")) {
+            updateProfile.append("password", surname);
+        }
+
+        if( age != null && !age.equals("")) {
+            updateProfile.append("age", age);
+        }
+
+        if( categoria1 != null && !categoria1.equals("")) {
+            updateProfile.append("age", age);
+        }
+
+        if( categoria2 != null && !categoria2.equals("")) {
+            updateProfile.append("age", age);
+        }
+
+        Document update = new Document();
+        update.append("$set", updateProfile);
+
+        try {
+            collection.updateOne(eq("username", username), update);
+
+            return true;
+        } catch (Exception ex) {
+                return false;
+        }
     }
+
 }
