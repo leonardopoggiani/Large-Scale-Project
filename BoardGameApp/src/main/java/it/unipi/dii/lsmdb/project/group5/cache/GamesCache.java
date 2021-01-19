@@ -48,7 +48,6 @@ public class GamesCache {
     }
 
     public GameBean getDataIfPresent(String name) throws ExecutionException {
-        System.out.println("cachato " + name);
         GameBean a = cache.get(name);
 
         System.out.println("recupero " + a);
