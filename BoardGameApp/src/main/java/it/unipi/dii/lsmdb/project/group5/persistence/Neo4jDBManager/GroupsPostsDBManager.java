@@ -325,7 +325,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         parameters.put("desc", group.getDescription());
         parameters.put("name", group.getName());
 
-        Result result0 = tx.run("MATCH (u:User {username:$admin})-[b:BE_PART]->(g:Group{name:$name, admin:$admin}) return g"
+        Result result0 = tx.run("MATCH (g:Group{name:$name, admin:$admin}) return g"
                 , parameters);
 
         if (result0.hasNext()) {

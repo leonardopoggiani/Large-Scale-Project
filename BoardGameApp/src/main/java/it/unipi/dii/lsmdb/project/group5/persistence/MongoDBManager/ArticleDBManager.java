@@ -287,8 +287,8 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                Document articles = (Document) next.get("articles");
-                ret = (next.get("num_dislikes") == null) ? 0 :Integer.parseInt(articles.get("num_dislikes").toString());
+                //Document articles = (Document) next.get("articles");
+                ret = (next.get("num_dislikes") == null) ? 0 :Integer.parseInt(next.get("num_dislikes").toString());
 
             }
         }catch(Exception ex){

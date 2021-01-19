@@ -58,7 +58,7 @@ public class addingThings {
 
             List<UserBean> listaInfluencer = controller2.showAllInfluencer();
 
-            for (int i = 0; i < 300; i++) {
+            for (int i = 0; i < 200; i++) {
                 String titolo = titoli.get(rand.nextInt(titoli.size()));
                 String influencer = listaInfluencer.get(rand.nextInt(listaInfluencer.size())).getUsername();
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
