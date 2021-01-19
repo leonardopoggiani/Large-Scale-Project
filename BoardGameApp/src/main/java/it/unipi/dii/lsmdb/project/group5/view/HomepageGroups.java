@@ -134,6 +134,9 @@ public class HomepageGroups {
 
     @FXML
     void setGroups() throws IOException {
+        nomiDeiGruppi.clear();
+        giochiDeiGruppi.clear();
+
         GroupsPagesDBController controller = new GroupsPagesDBController();
 
         utils.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -176,7 +179,6 @@ public class HomepageGroups {
          if(gruppiDiCuiSonoMembro != null) {
              for (int i = 0; i < gruppiDiCuiSonoMembro.size(); i++) {
                  GroupBean g = gruppiDiCuiSonoMembro.get(i);
-                 System.out.println(g);
                  TableGroupBean tableGroup = new TableGroupBean(g.getName(), String.valueOf(g.getTimestamp()),String.valueOf(g.getLastPost()), g.getAdmin(), g.getGame(), controller.countGroupMembers(g.getName(), g.getAdmin()));
                  nomiDeiGruppi.add(g.getName());
 
