@@ -26,7 +26,6 @@ public class AddMember {
     @FXML
     void initialize() {
         List<String> utenti = controller.listUsers(HomepageGroups.getGroup(),"friends");
-        logger.info("size " + utenti.size());
         usersList.addAll(utenti);
         users.setItems(usersList);
     }
@@ -34,8 +33,9 @@ public class AddMember {
     @FXML
     public void addMember() {
         String toInsert = usersList.get(users.getSelectionModel().getSelectedIndex());
-        logger.info("inserito " + toInsert);
-        controller2.addDeleteGroupMember(toInsert,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "add");
+        if(toInsert != null) {
+            controller2.addDeleteGroupMember(toInsert,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "add");
+        }
     }
 
     @FXML
