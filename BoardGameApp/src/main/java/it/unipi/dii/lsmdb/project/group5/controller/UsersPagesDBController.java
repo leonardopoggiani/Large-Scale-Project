@@ -78,7 +78,8 @@ public class UsersPagesDBController {
         return UserDBManager.showAllInfluencer();
     }
 
-    public boolean modifyProfile() {
-        return UserDBManager.modifyProfile();
+
+    public boolean modifyProfile(String username, String name, String surname, String password, String age, String categoria1, String categoria2) {
+        return UserDBManager.modifyProfile(username,name,surname,password,age,categoria1,categoria2);
     }
 }

@@ -336,7 +336,7 @@ public class GameDBManager {
         g.setUrl((next.get("url") == null) ? "" : next.get("url").toString());
 
         // gli url delle immagini vengono attraverso un array, prendo la prima immagini
-        List<String> image_url = (List<String>) next.get("image_url");
+        List<String> image_url = (List<String>) (next.get("image_url"));
         g.setImageUrl((next.get("image_url") == null) ? "" : image_url.get(0).toString());
         g.setMinPlayers((next.get("min_players") == null) ? 1 :Integer.parseInt(next.get("min_players").toString()));
         g.setMaxPlayers((next.get("max_players") == null) ? 1000 : Integer.parseInt(next.get("max_players").toString()));
