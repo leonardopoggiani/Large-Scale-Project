@@ -103,7 +103,6 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
                 }
 
-
             }
 
 

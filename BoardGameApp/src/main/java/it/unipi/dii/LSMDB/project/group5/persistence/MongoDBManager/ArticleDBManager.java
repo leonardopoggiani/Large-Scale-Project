@@ -119,13 +119,13 @@ public class ArticleDBManager {
         Bson sort = null;
         Bson match = null;
         if(mode.equals("like")){
-            match = (and(ne("num_likes", null), ne("num_likes", "")));
+            match = (and(ne("num_likes", null), ne("num_likes", ""),ne("num_likes", "nan")));
             sort = (descending("num_likes"));
         } else if (mode.equals("dislike")){
-            match = (and(ne("num_dislikes", null), ne("num_dislikes", "")));
+            match = (and(ne("num_dislikes", null), ne("num_dislikes", ""), ne("num_dislikes", "nan")));
             sort = (descending("num_dislikes"));
         } else {
-            match = (and(ne("num_comments", null), ne("num_comments", "")));
+            match = (and(ne("num_comments", null), ne("num_comments", ""), ne("num_comments", "nan")));
             sort = (descending("num_comments"));
         }
         //try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, sort, limit, projection)).iterator()) {

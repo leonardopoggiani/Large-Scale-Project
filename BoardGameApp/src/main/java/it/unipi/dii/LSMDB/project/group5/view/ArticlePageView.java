@@ -246,7 +246,7 @@ public class ArticlePageView {
         Button dislikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Text like = (Text) App.getScene().lookup("#numberlike");
         ArticlesPagesDBController update = new ArticlesPagesDBController();
-        LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), questo.getAuthor(), questo.getTitle());
+        LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), questo.getId());
         int ret = update.addLike(aLike);
 
         // like button disabled vuol dire che ho pigiato dislike
@@ -272,7 +272,7 @@ public class ArticlePageView {
         Button unlikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Button likebutton = (Button) App.getScene().lookup("#likebutton");
         ArticlesPagesDBController update = new ArticlesPagesDBController();
-        LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), questo.getAuthor(), questo.getTitle());
+        LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), questo.getId());
         int ret = update.addLike(anUnlike);
 
         // unlike button disabled vuol dire che ho pigiato like
@@ -293,7 +293,7 @@ public class ArticlePageView {
     @FXML
     void postComment() throws IOException {
         ArticlesPagesDBController update = new ArticlesPagesDBController();
-        CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), questo.getAuthor(), questo.getTitle());
+        CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), questo.getId());
         update.addComment(comment);
         articlecomment.setText("");
         setComments();
@@ -383,7 +383,7 @@ public class ArticlePageView {
         TextField authorField = chooseAuthor(index);
         TextField timestampField = chooseTimestamp(index);
 
-        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), author.getText(),titolo.getText());
+        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), questo.getId());
         boolean ret = controller.deleteComment(infocomment);
 
         commentField.setText("");

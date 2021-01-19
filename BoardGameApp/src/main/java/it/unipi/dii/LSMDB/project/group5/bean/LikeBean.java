@@ -12,13 +12,12 @@ public class LikeBean {
     private int id;
 
 
-    public LikeBean(String type, String author, Timestamp timestamp, String authorArt, String titleArt)
+    public LikeBean(String type, String author, Timestamp timestamp, int id)
     {
         this.type = type;
         this.author = author;
         this. timestamp = timestamp;
-        this.authorArt = authorArt;
-        this.titleArt = titleArt;
+        this.id = id;
     }
 
     public int getId() {

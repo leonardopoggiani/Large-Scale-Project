@@ -1,5 +1,6 @@
 package it.unipi.dii.LSMDB.project.group5.view;
 
+import it.unipi.dii.LSMDB.project.group5.bean.UserBean;
 import it.unipi.dii.LSMDB.project.group5.controller.UsersPagesDBController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -131,18 +132,6 @@ public class HomepageUsers {
     @FXML
     Button followinfluencer4;
 
-    @FXML
-    Button search;
-
-    @FXML
-    Button promote;
-
-    @FXML
-    Text searched;
-
-    @FXML
-    TextField searchuser;
-
     private String username;
 
     private Button chooseUnfollowButton(int i){
@@ -243,27 +232,28 @@ public class HomepageUsers {
             }
         }
 
-        user.clear();
-        user = controller.listSuggestingFollowing(username,"normalUser");
-        logger.info("size " + user.size());
 
+        List<String> user2 = controller.listSuggestingFollowing(username,"normalUser");
+
+        if(user2.size() == 0){
+            user2 = controller.listUsers(username, "all");
+            user2.removeAll(user);
+        }
         for(int i = 0; i < 4; i++) {
             nomeuser = chooseSuggestUser(i);
-            if(i < user.size()) {
-                nomeuser.setText(user.get(i));
+            if(i < user2.size()) {
+                nomeuser.setText(user2.get(i));
             } else {
                 nomeuser.setText("");
             }
         }
 
-        user.clear();
-        user = controller.listSuggestingFollowing(username,"influencer");
-        logger.info("size " + user.size());
+        List<String> user3 = controller.listSuggestingFollowing(username,"influencer");
 
         for(int i = 4; i < 8; i++) {
             nomeuser = chooseSuggestUser(i);
-            if(i < user.size()) {
-                nomeuser.setText(user.get(i));
+            if(i < user3.size()) {
+                nomeuser.setText(user3.get(i));
             } else {
                 nomeuser.setText("");
             }
@@ -276,7 +266,13 @@ public class HomepageUsers {
         String filter = name.getText();
         UsersPagesDBController controller = new UsersPagesDBController();
 
-
+        if(filter != null && !filter.equals("")) {
+            UserBean u = controller.showUser(filter);
+            if(u != null && u.getUsername() != null) {
+                Text toShow = chooseUser(0);
+                toShow.setText(u.getUsername());
+            }
+        }
     }
 
     @FXML

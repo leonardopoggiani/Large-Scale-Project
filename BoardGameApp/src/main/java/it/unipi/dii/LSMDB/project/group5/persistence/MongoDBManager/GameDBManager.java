@@ -129,14 +129,15 @@ public class GameDBManager {
         Bson projection = (fields( excludeId()));
         Bson sort = null;
         Bson match = null;
+
         if(mode.equals("reviews")){
-            match = (and(ne("num_reviews", null), ne("num_reviews", "")));
+            match = (and(ne("num_reviews", null), ne("num_reviews", ""), ne("num_reviews", "nan")));
             sort = (descending("num_reviews"));
         } else if (mode.equals("numVotes")){
-            match = (and(ne("num_votes", null), ne("num_votes", "")));
+            match = (and(ne("num_votes", null), ne("num_votes", ""), ne("num_votes", "nan")));
             sort = (descending("num_votes"));
         } else {
-            match = (and(ne("avg_rating", null), ne("avg_rating", "")));
+            match = (and(ne("avg_rating", null), ne("avg_rating", ""), ne("avg_rating", "nan")));
             sort = (descending("avg_rating"));
         }
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).sort(sort).limit(6).iterator()){
@@ -146,7 +147,7 @@ public class GameDBManager {
 
                 Document next = cursor.next();
                 GameBean g = fillInfoGameFields(next, false);
-                System.out.println(next.toJson());
+                // System.out.println(next.toJson());
                 ret.add(g);
             }
         }

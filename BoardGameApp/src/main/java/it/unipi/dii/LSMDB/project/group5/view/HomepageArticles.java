@@ -288,7 +288,7 @@ public class HomepageArticles {
                         ar.setText(a.getTitle());
                         au.setText(a.getAuthor());
                         ti.setText(String.valueOf(a.getTimestamp()));
-                        st.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
+                        st.setText("Comments: " + home.countComments(a.getId()) + ", likes:" + home.countLikes("like", a.getId()) + ", unlikes: " + home.countLikes("dislike", a.getId()) );
                         i++;
                     }
                 }

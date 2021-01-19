@@ -28,7 +28,8 @@ public class HomepageGroups {
     private static String adminGroup;
 
     ObservableList<TableGroupBean> filtering = FXCollections.observableArrayList();
-    ObservableList<String> giochiDeiGruppi = FXCollections.observableArrayList();
+    ObservableList<TableGroupBean> filtering2 = FXCollections.observableArrayList();
+    ObservableList<String> giochiDeiGruppi = FXCollections.observableArrayList("None");
     ObservableList<String> nomiDeiGruppi = FXCollections.observableArrayList();
     ObservableList<String> userActions = FXCollections.observableArrayList("Leave group", "View posts", "View members");
     ObservableList<String> adminActions = FXCollections.observableArrayList("Delete group", "View posts", "Add member", "View members", "Remove member");
@@ -252,19 +253,21 @@ public class HomepageGroups {
             String gruppoSelezionato = nomiDeiGruppi.get(nomigruppi.getSelectionModel().getSelectedIndex());
             String adminGruppoSelezionato = retrieveAdmin(gruppoSelezionato);
 
-            if(adminGruppoSelezionato.equals(LoginPageView.getLoggedUser())) {
-                switch (adminActions.get(action.getSelectionModel().getSelectedIndex())) {
-                    case "Add member" -> addMember(gruppoSelezionato);
-                    case "Delete group" -> deleteGroup(gruppoSelezionato);
-                    case "View posts" -> viewPosts(gruppoSelezionato);
-                    case "View members" -> viewMembers(gruppoSelezionato);
-                    case "Remove member" -> removeMember(gruppoSelezionato);
-                }
-            } else {
-                switch (userActions.get(action.getSelectionModel().getSelectedIndex())) {
-                    case "Leave group" -> deleteGroup(gruppoSelezionato);
-                    case "View posts" -> viewPosts(gruppoSelezionato);
-                    case "View members" -> viewMembers(gruppoSelezionato);
+            if(action.getSelectionModel().getSelectedIndex() != -1){
+                if(adminGruppoSelezionato.equals(LoginPageView.getLoggedUser())) {
+                    switch (adminActions.get(action.getSelectionModel().getSelectedIndex())) {
+                        case "Add member" -> addMember(gruppoSelezionato);
+                        case "Delete group" -> deleteGroup(gruppoSelezionato);
+                        case "View posts" -> viewPosts(gruppoSelezionato);
+                        case "View members" -> viewMembers(gruppoSelezionato);
+                        case "Remove member" -> removeMember(gruppoSelezionato);
+                    }
+                } else {
+                    switch (userActions.get(action.getSelectionModel().getSelectedIndex())) {
+                        case "Leave group" -> deleteGroup(gruppoSelezionato);
+                        case "View posts" -> viewPosts(gruppoSelezionato);
+                        case "View members" -> viewMembers(gruppoSelezionato);
+                    }
                 }
             }
         }
@@ -278,13 +281,13 @@ public class HomepageGroups {
 
     @FXML
     void setActions() throws IOException {
+        action.getSelectionModel().clearSelection();
         String gruppoSelezionato = nomiDeiGruppi.get(nomigruppi.getSelectionModel().getSelectedIndex());
         if(retrieveAdmin(gruppoSelezionato).equals(LoginPageView.getLoggedUser())) {
             action.setItems(adminActions);
         } else {
             action.setItems(userActions);
         }
-        action.getSelectionModel().select(0);
     }
 
     private void viewPosts(String gruppoSelezionato) throws IOException {
@@ -330,35 +333,36 @@ public class HomepageGroups {
     }
 
     @FXML
-    void searchUser() {
-    }
-
-    @FXML
-    void filterResearch(){
+    void filterResearch() throws IOException {
         String gameFilter = giochiDeiGruppi.get(filter.getSelectionModel().getSelectedIndex());
-
-        if(gameFilter != null && !gameFilter.equals("")) {
-            logger.info(gameFilter);
-
-            for (int i = 0; i < gruppiAdmin.size(); i++) {
-                if (gruppiAdmin.get(i).getGame().equals(gameFilter)) {
-                    filtering.add(gruppiAdmin.get(i));
-                }
-            }
-
-            admintable.setItems(filtering);
-            logger.info("size " + filtering.size());
+        if(!gameFilter.equals("None")){
             filtering.clear();
+            filtering2.clear();
 
-            for (int i = 0; i < gruppiMembro.size(); i++) {
-                if (gruppiMembro.get(i).getGame().equals(gameFilter)) {
-                    filtering.add(gruppiMembro.get(i));
+            if(gameFilter != null && !gameFilter.equals("")) {
+                logger.info(gameFilter);
+
+                for (int i = 0; i < gruppiAdmin.size(); i++) {
+                    if (gruppiAdmin.get(i).getGame().equals(gameFilter)) {
+                        filtering.add(gruppiAdmin.get(i));
+                    }
                 }
-            }
 
-            usertable.setItems(filtering);
-            logger.info("size " + filtering.size());
-            filtering.clear();
+                admintable.setItems(filtering);
+
+                for (int i = 0; i < gruppiMembro.size(); i++) {
+                    if (gruppiMembro.get(i).getGame().equals(gameFilter)) {
+                        filtering2.add(gruppiMembro.get(i));
+                    }
+                }
+
+                usertable.setItems(filtering2);
+
+            }
+        } else {
+            gruppiAdmin.clear();
+            gruppiMembro.clear();
+            setGroups();
         }
     }
 
