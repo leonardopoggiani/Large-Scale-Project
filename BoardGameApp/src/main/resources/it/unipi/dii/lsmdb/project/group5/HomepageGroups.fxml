@@ -17,9 +17,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: green;" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.HomepageGroups">
+
+<ScrollPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.HomepageGroups">
   <content>
-    <AnchorPane id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="796.0" minWidth="1212.0" prefHeight="796.0" prefWidth="1212.0" stylesheets="@../../../../../../img/style.css">
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="796.0" minWidth="1212.0" prefHeight="796.0" prefWidth="1212.0">
          <children>
             <Button layoutX="23.0" layoutY="89.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
             <Line endX="100.0" startX="-100.0" />
@@ -119,6 +120,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-         </children></AnchorPane>
+         </children>
+      </AnchorPane>
   </content>
 </ScrollPane>

@@ -27,6 +27,7 @@ public class App extends Application {
 
         if(MongoDBManager.createConnection() && Neo4jDBManager.InitializeDriver()){
             scene = new Scene(loadFXML("LoginPageView"));
+            scene.getStylesheets().add("file:src/main/resources/img/style.css");
             stage.setScene(scene);
             stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
             stage.setTitle("BoardgameApp");
