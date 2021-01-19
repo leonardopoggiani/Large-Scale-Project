@@ -32,9 +32,9 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
 
-                //System.out.println(cursor.next().toJson());
-                Document next = cursor.next();
-                g = fillInfoGameFields(next,false);
+                System.out.println(cursor.next().toJson());
+                /*Document next = cursor.next();
+                g = fillInfoGameFields(next,false);*/
 
 
             }
@@ -336,8 +336,13 @@ public class GameDBManager {
         g.setUrl((next.get("url") == null) ? "" : next.get("url").toString());
 
         // gli url delle immagini vengono attraverso un array, prendo la prima immagini
-        List<String> image_url = (List<String>) (next.get("image_url"));
-        g.setImageUrl((next.get("image_url") == null) ? "" : image_url.get(0).toString());
+        try{
+            List<String> image_url = (List<String>) next.get("image_url");
+            g.setImageUrl((next.get("image_url") == null) ? "" : image_url.get(0).toString());
+        }catch(Exception ex){
+            g.setImageUrl((next.get("image_url") == null) ? "" : next.get("image_url").toString());
+        }
+
         g.setMinPlayers((next.get("min_players") == null) ? 1 :Integer.parseInt(next.get("min_players").toString()));
         g.setMaxPlayers((next.get("max_players") == null) ? 1000 : Integer.parseInt(next.get("max_players").toString()));
         g.setMinAge((next.get("min_age") == null) ? 3 :Integer.parseInt(next.get("min_age").toString()));
