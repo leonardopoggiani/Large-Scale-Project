@@ -265,7 +265,7 @@ public class ArticleDBManager {
             while (cursor.hasNext()) {
                 Document next = cursor.next();
                 //System.out.println(next.toJson());
-                ret = (next.get("num_like") == null) ? 0 :Integer.parseInt(next.get("num_like").toString());
+                ret = (next.get("num_likes") == null) ? 0 :Integer.parseInt(next.get("num_likes").toString());
 
             }
         }catch(Exception ex){
