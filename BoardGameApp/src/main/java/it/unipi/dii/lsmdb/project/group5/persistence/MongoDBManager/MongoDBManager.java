@@ -12,8 +12,11 @@ public class MongoDBManager {
 
     public static boolean createConnection(){
         try{
-            mongoClient = MongoClients.create("mongodb://localhost:27017");
-            database = mongoClient.getDatabase("project");
+            //mongoClient = MongoClients.create("mongodb://localhost:27017");
+            //mongoClient = MongoClients.create("mongodb://localhost:27018,localhost:27019, localhost:27020/" + "?retryWrites=true&w=majority&timeout=1000&readPreference=primaryPreferred&maxStalenessSeconds=120");
+            mongoClient = MongoClients.create("mongodb://172.16.3.97:27020,172.16.3.98:27020,172.16.3.144:27020/" + "?retryWrites=true&w=majority&timeout=1000&readPreference=primaryPreferred&maxStalenessSeconds=120");
+
+            database = mongoClient.getDatabase("Project");
             // database = mongoClient.getDatabase("project");
             return true;
         }

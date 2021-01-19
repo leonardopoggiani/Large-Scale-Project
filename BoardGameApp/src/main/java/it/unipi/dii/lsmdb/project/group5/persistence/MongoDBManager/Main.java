@@ -1,6 +1,9 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager;
 
-import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
+import it.unipi.dii.lsmdb.project.group5.bean.*;
+
+import java.sql.Timestamp;
+import java.util.*;
 
 public class Main {
     public static void main (String[] args){
@@ -15,7 +18,7 @@ public class Main {
         //SignupLoginDBManager.updateLogin("gaia2");
 
         //Read game
-        //GameBean g = GameDBManager.readGame("Streams");
+        GameBean g = GameDBManager.readGame("Streams");
         //System.out.println(g.getImageUrl());
         /*System.out.println(g.getAvgRating() + " " + g.getMaxAge() + " " + g.getMinAge() + " " +g.getMinPlayers() + " " +
         g.getMaxPlayers() + " " +g.getNumReviews() + " " + g.getYear() + " " + g.getCategory1() + " " +g.getCategory2() + " " + g.getImageUrl() +g.getMaxTime()
