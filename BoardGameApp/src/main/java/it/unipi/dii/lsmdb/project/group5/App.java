@@ -30,7 +30,7 @@ public class App extends Application {
             stage.setScene(scene);
             stage.getIcons().add(new Image("file:src/main/resources/img/favicon.png"));
             stage.setTitle("BoardgameApp");
-            stage.setHeight(1000);
+            stage.setHeight(700);
             stage.setWidth(1200);
             stage.show();
             stage.centerOnScreen();
