@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane id="anchor" fx:id="posts" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.PostView">
+<ScrollPane id="anchor" fx:id="posts" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.PostView">
   <content>
     <AnchorPane id="anchor" fx:id="ancora" minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="601.0" stylesheets="@../../../../../../img/style.css">
          <children>
@@ -18,7 +18,7 @@
             <Text fx:id="message" layoutX="385.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New message" />
           <Button fx:id="post" layoutX="396.0" layoutY="217.0" mnemonicParsing="false" onAction="#post" text="Post" />
             <Button fx:id="home" layoutX="491.0" layoutY="217.0" mnemonicParsing="false" onAction="#returnToHomepage" text="Home" />
-            <ScrollPane fx:id="scrollingPane" layoutX="26.0" layoutY="32.0" prefHeight="322.0" prefWidth="309.0">
+            <ScrollPane fx:id="scrollingPane" layoutX="38.0" layoutY="32.0" prefHeight="322.0" prefWidth="260.0">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
               </content>

@@ -35,14 +35,14 @@ public class addingThings {
             List<GameBean> listaGiochi = controller1.showAllGames();
             List<UserBean> listaUtenti = controller2.showAllUsers();
 
-            for(int i = 0; i < 50; i++) {
+            for(int i = 0; i < 200; i++) {
                 String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 if(user != null) {
                     controller2.promoteDemoteUser(user, "influencer");
                 }
             }
 
-            for(int i = 0; i < 20; i++) {
+            for(int i = 0; i < 50; i++) {
                 String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 if (user != null) {
                     controller2.promoteDemoteUser(user, "moderator");
@@ -58,7 +58,7 @@ public class addingThings {
 
             List<UserBean> listaInfluencer = controller2.showAllInfluencer();
 
-            for (int i = 0; i < 200; i++) {
+            for (int i = 0; i < 500; i++) {
                 String titolo = titoli.get(rand.nextInt(titoli.size()));
                 String influencer = listaInfluencer.get(rand.nextInt(listaInfluencer.size())).getUsername();
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -80,7 +80,9 @@ public class addingThings {
                         System.out.println("ok articolo");
                     }
 
-                    for (int j = 0; j < 100; j++) {
+                    int commentLimit = rand.nextInt(100) + 100;
+
+                    for (int j = 0; j < commentLimit; j++) {
                         testo = text.get(rand.nextInt(text.size()));
                         String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                         if(user != null) {
@@ -89,7 +91,7 @@ public class addingThings {
                         }
                     }
 
-                    int likeLimit = rand.nextInt(100) + 1;
+                    int likeLimit = rand.nextInt(100) + 50;
 
                     for (int j = 0; j < likeLimit; j++) {
                         String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
@@ -98,7 +100,7 @@ public class addingThings {
                                 new LikeBean("like", user, new Timestamp(System.currentTimeMillis()), a.getId()));
                     }
 
-                    int dislikeLimit = rand.nextInt(70) + 1;
+                    int dislikeLimit = rand.nextInt(70) + 30;
 
                     for (int j = 0; j < dislikeLimit; j++) {
                         String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
@@ -122,13 +124,13 @@ public class addingThings {
                 }
             }
 
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < 200; i++){
                 if(controller3.addGroup(new GroupBean((nomi.get(rand.nextInt(5))),new Timestamp(System.currentTimeMillis()), listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(),"no description",listaGiochi.get(i).getName()))){
                     System.out.println("ok");
                 }
             }
 
-            for(int i = 0; i < 200; i++){
+            for(int i = 0; i < 400; i++){
                 String member = listaUtenti.get(rand.nextInt(listaUtenti.size())).getName();
                 List<GroupBean> gruppi = controller3.showUsersGroups("leonardo","admin");
                 if (gruppi.size() > 0) {
@@ -139,7 +141,7 @@ public class addingThings {
                 }
             }
 
-            for(int i = 0; i < 400; i++){
+            for(int i = 0; i < 1200; i++){
                 String author = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 String testo = text.get(rand.nextInt(7));
                 List<GroupBean> gruppi = controller3.showUsersGroups(author,"member");

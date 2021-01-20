@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="462.0" prefWidth="648.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.SignupPageView">
+<AnchorPane prefHeight="462.0" prefWidth="648.0" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.SignupPageView">
    <children>
       <Text layoutX="249.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Signup">
          <font>
@@ -26,14 +26,14 @@
             <VBox />
          </children>
       </VBox>
-      <Text layoutX="142.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite category 1" />
+      <Text layoutX="131.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite category 1" />
       <Text layoutX="209.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age" />
       <Text layoutX="190.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname" />
       <TextField fx:id="name" layoutX="261.0" layoutY="132.0" />
       <Text layoutX="203.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
       <Text layoutX="186.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
       <TextField fx:id="username" layoutX="264.0" layoutY="61.0" />
-      <Text layoutX="142.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite category 2" />
+      <Text layoutX="131.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite category 2" />
       <Text layoutX="188.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
       <PasswordField fx:id="password" layoutX="264.0" layoutY="97.0" />
       <ComboBox fx:id="favouritecategory1" layoutX="275.0" layoutY="237.0" onMouseClicked="#caricaCategorie" prefWidth="150.0" promptText="Categories" />
