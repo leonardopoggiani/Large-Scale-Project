@@ -119,6 +119,11 @@
                   <Font size="18.0" />
                </font>
             </Text>
+            <ImageView fx:id="ics" fitHeight="36.0" fitWidth="29.0" layoutX="1061.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../img/x.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
   </content>

@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -98,8 +99,12 @@ public class HomepageGroups {
     Button statisticsButton;
 
     @FXML
+    ImageView ics;
+
+    @FXML
     void initialize() throws IOException {
         setGroups();
+        ics.setVisible(false);
 
         if(LoginPageView.getLoggedRole().equals("moderator")) {
             statisticsButton.setDisable(false);
@@ -240,7 +245,6 @@ public class HomepageGroups {
 
         GroupBean group = new GroupBean(name, new Timestamp(System.currentTimeMillis()), LoginPageView.getLoggedUser(), des, game);
         boolean ret = membersNumber.addGroup(group);
-        System.out.println("Ritorno " + ret);
 
         if(ret) {
             TableGroupBean tableGroup = new TableGroupBean(group.getName(), String.valueOf(group.getTimestamp()),String.valueOf(group.getLastPost()), group.getAdmin(), group.getGame(),membersNumber.countGroupMembers(group.getName(),group.getAdmin()));
@@ -250,12 +254,14 @@ public class HomepageGroups {
             nomiDeiGruppi.add(group.getName());
             action.setItems(adminActions);
             nomigruppi.setItems(nomiDeiGruppi);
+            ics.setVisible(false);
 
             if(!giochiDeiGruppi.contains(group.getGame())){
                 giochiDeiGruppi.add(group.getGame());
             }
             filter.setItems(giochiDeiGruppi);
         } else {
+            ics.setVisible(true);
             logger.info("problemi nella addGroup");
         }
     }

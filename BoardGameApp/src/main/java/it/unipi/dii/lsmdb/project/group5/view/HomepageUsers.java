@@ -280,13 +280,20 @@ public class HomepageUsers {
     void filterUsers() {
         String filter = name.getText();
         UsersPagesDBController controller = new UsersPagesDBController();
+        List<String> followed = controller.listUsers(username,"followingAll");
 
         if(filter != null && !filter.equals("")) {
             UserBean u = controller.showUser(filter);
             if(u != null && u.getUsername() != null) {
-                Text toShow = chooseUser(0);
-                toShow.setText(u.getUsername());
-                toShow.setFill(Color.YELLOW);
+                if(followed.contains(u.getUsername())){
+                    Text toShow = chooseUser(0);
+                    toShow.setText(u.getUsername());
+                    toShow.setFill(Color.YELLOW);
+                } else {
+                    Text toShow = chooseSuggestUser(0);
+                    toShow.setText(u.getUsername());
+                    toShow.setFill(Color.YELLOW);
+                }
             }
         } else {
             showUsers();

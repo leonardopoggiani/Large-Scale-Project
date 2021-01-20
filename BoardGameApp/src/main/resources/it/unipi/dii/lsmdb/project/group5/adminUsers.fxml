@@ -28,12 +28,12 @@
                   </BottomNavigationButton>
                   <BottomNavigationButton onMouseClicked="#goToAdminUsers" text="Users">
                   </BottomNavigationButton>
+                  <BottomNavigationButton onAction="#logout" onMouseClicked="#goToAdminUsers" text="Logout" />
                </actionItems>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <Button layoutX="421.0" layoutY="27.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
             <Text layoutX="502.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove a user">
                <font>
                   <Font size="35.0" />

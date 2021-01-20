@@ -34,12 +34,16 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
+                  <BottomNavigationButton onAction="#logout" onMouseClicked="#goToAdminUsers" text="Logout">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
                </actionItems>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <Button layoutX="413.0" layoutY="23.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
             <Text layoutX="51.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
             <Text layoutX="348.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a game">
                <font>

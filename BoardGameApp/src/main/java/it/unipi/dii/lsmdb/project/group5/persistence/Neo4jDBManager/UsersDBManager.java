@@ -100,21 +100,26 @@ public class UsersDBManager extends Neo4jDBManager{
         //Tutti quelli che un utente segue
         String searchFollowingOnly ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User) " +
                                      " WHERE NOT (u2)-[:FOLLOW]->(u) " +
-                                     " RETURN u2.username as followingOnly ";
+                                     " RETURN u2.username as followingOnly " +
+                                     " LIMIT 10";
 
         String searchFollowingAll ="MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User) " +
-                " RETURN u2.username as followingAll";
+                " RETURN u2.username as followingAll" +
+                " LIMIT 10";
 
         String searchFollowersOnly ="MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User) " +
                                      " WHERE NOT (u2)<-[:FOLLOW]-(u) " +
-                                     " RETURN u2.username as followersOnly ";
+                                     " RETURN u2.username as followersOnly " +
+                                     " LIMIT 10";
 
         String searchFollowersAll ="MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User) " +
-                " RETURN u2.username as followersAll";
+                " RETURN u2.username as followersAll" +
+                " LIMIT 10";
         //Doppio follow
         String searchFriends =  "MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User) " +
                                 " WHERE (u2)<-[:FOLLOW]-(u) " +
-                                " RETURN u2.username as friends ";
+                                " RETURN u2.username as friends " +
+                                " LIMIT 10";
 
         String searchAllDebug =  "MATCH (u:User) " + " RETURN u.username as users LIMIT 10";
 
@@ -234,14 +239,16 @@ public class UsersDBManager extends Neo4jDBManager{
                 " WHERE NOT((me)-[:FOLLOW]->(tizio)) AND" +
                 " (tizio)-[:FOLLOW]->(friend) AND" +
                 " (friend)-[:FOLLOW]->(tizio) AND" +
-                " NOT tizio.username=$username RETURN tizio.username AS suggestion";
+                " NOT tizio.username=$username RETURN tizio.username AS suggestion " +
+                " LIMIT 6";
 
         String searchForCategoryNormal = "MATCH (ub:User{username:$username}),(ua:User{role:$role})" +
                 " WHERE  NOT(ua.username=$username) AND" +
                 " ((ub.category1=ua.category1 or ub.category1=ua.category2)" +
                 " OR (ub.category2=ua.category1 or ub.category2=ua.category2))" +
                 " AND NOT (ub)-[:FOLLOW]->(ua)" +
-                " RETURN ua.username AS suggestion";
+                " RETURN ua.username AS suggestion " +
+                " LIMIT 6";
 
         int quantiAmici = transactionCountUsers(tx, username, "normalUser");
         if(quantiAmici > 1)

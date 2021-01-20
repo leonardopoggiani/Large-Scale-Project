@@ -77,7 +77,7 @@ public class UserFilterPageView {
             }
 
             utente.setMaxHeight(40);
-            utente.setMaxWidth(100);
+            utente.setMaxWidth(200);
             nuovoUtente.getChildren().addAll(utente, follow);
             lista.getChildren().add(nuovoUtente);
 
