@@ -19,21 +19,21 @@
 
 <ScrollPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.HomepageGroups">
   <content>
-    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="796.0" minWidth="1212.0" prefHeight="796.0" prefWidth="1212.0">
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1030.0">
          <children>
-            <Button layoutX="23.0" layoutY="89.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
+            <Button layoutX="41.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
             <Line endX="100.0" startX="-100.0" />
-            <Text layoutX="44.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
-            <Button cancelButton="true" layoutX="72.0" layoutY="376.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-            <Button cancelButton="true" layoutX="72.0" layoutY="289.0" mnemonicParsing="false" onAction="#filterResearch" text="Search" />
-            <ComboBox fx:id="filter" layoutX="114.0" layoutY="227.0" prefHeight="28.0" prefWidth="90.0" />
-            <Text layoutX="822.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
+            <Text layoutX="49.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
+            <Button cancelButton="true" layoutX="77.0" layoutY="474.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Button cancelButton="true" layoutX="77.0" layoutY="403.0" mnemonicParsing="false" onAction="#filterResearch" text="Search" />
+            <ComboBox fx:id="filter" layoutX="100.0" layoutY="182.0" prefHeight="28.0" prefWidth="114.0" />
+            <Text layoutX="804.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
             <Text layoutX="357.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you created">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text layoutX="877.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new group">
+            <Text layoutX="877.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new group">
                <font>
                   <Font size="18.0" />
                </font>
@@ -44,8 +44,8 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game" wrappingWidth="35.084632873535156" />
             <Button layoutX="920.0" layoutY="283.0" mnemonicParsing="false" onMouseClicked="#createGroup" text="Create" />
             <TextField fx:id="description" layoutX="897.0" layoutY="227.0" promptText="Description (optional)" />
-            <Text layoutX="796.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="88.68880462646484" />
-            <Text layoutX="51.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
+            <Text layoutX="804.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="88.68880462646484" />
+            <Text layoutX="16.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
             <BottomNavigation layoutX="458.0" layoutY="-1.0" prefHeight="31.0" prefWidth="446.0">
                <actionItems>
                   <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
@@ -78,7 +78,7 @@
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
             </BottomNavigation>
-            <Text layoutX="330.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you're member of">
+            <Text layoutX="357.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Groups you're member of">
                <font>
                   <Font size="18.0" />
                </font>
@@ -92,12 +92,12 @@
                   <TableColumn fx:id="members" prefWidth="75.0" text="Members" />
               </columns>
             </TableView>
-            <ImageView fitHeight="50.0" fitWidth="101.0" layoutX="61.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="80.0" fitWidth="60.0" layoutX="76.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../img/avatar.png" />
                </image>
             </ImageView>
-            <TableView fx:id="usertable" layoutX="258.0" layoutY="408.0" prefHeight="200.0" prefWidth="468.0">
+            <TableView fx:id="usertable" layoutX="258.0" layoutY="408.0" prefHeight="200.0" prefWidth="471.0">
               <columns>
                 <TableColumn fx:id="nameuser" prefWidth="75.0" text="Name" />
                 <TableColumn fx:id="adminuser" prefWidth="75.0" text="Admin" />
@@ -109,12 +109,12 @@
             <ComboBox fx:id="nomigruppi" layoutX="931.0" layoutY="639.0" onAction="#setActions" prefHeight="28.0" prefWidth="105.0" promptText="Name" />
             <Text fill="#e8dcdc" layoutX="749.0" layoutY="657.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do?" />
             <ComboBox fx:id="action" layoutX="1047.0" layoutY="639.0" onAction="#selectAction" prefHeight="28.0" prefWidth="106.0" promptText="Action" />
-            <TableView fx:id="utils" layoutX="875.0" layoutY="408.0" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="utils" layoutX="877.0" layoutY="408.0" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="nomeMembro" prefWidth="75.0" text="Name" />
               </columns>
             </TableView>
-            <Text layoutX="884.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group members">
+            <Text layoutX="877.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group members">
                <font>
                   <Font size="18.0" />
                </font>
