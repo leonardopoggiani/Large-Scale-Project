@@ -63,7 +63,7 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToStatistics" text="Statistics">
+                  <BottomNavigationButton fx:id="statisticsButton" onMouseClicked="#goToStatistics" text="Statistics">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>

@@ -238,7 +238,7 @@ public class AdminHomepage {
         CategoryBean categoryInfo = controller.getCategoryInfo(categorie.get(categories.getSelectionModel().getSelectedIndex()));
 
         category1.setText(String.valueOf(categoryInfo.getTotGames()));
-        category2.setText(String.valueOf(categoryInfo.getAvgRatingTot()));
+        category2.setText(String.valueOf(Math.round(categoryInfo.getAvgRatingTot())));
         category3.setText(String.valueOf(categoryInfo.getNumRatesTot()));
 
     }

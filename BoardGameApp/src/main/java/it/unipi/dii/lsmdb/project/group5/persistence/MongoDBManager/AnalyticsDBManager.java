@@ -106,7 +106,7 @@ public class AnalyticsDBManager {
         //Bson projection = project(fields(excludeId(), computed("category", "$_id"), include("totVotes")));
         Bson group = new Document("$group", new Document("_id","$category")
         .append("totVotes", new Document("$sum", "$num_votes"))
-        .append("avgRatingtot", new Document("$avg", "$avg_rating"))
+        .append("avgRatingTot", new Document("$avg", "$avg_rating"))
         .append("totGames", new Document("$sum", 1L)));
         //Bson group2 = group("$category", avg("avgRatingTot", "$avg_rating"));
         Bson projection2 = project(fields(excludeId(), computed("category", "$_id"), include("totVotes", "avgRatingTot", "totGames")));

@@ -8,10 +8,7 @@ import it.unipi.dii.lsmdb.project.group5.view.tablebean.TableGroupBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -98,8 +95,17 @@ public class HomepageGroups {
     TextField description;
 
     @FXML
+    Button statisticsButton;
+
+    @FXML
     void initialize() throws IOException {
         setGroups();
+
+        if(LoginPageView.getLoggedRole().equals("moderator")) {
+            statisticsButton.setDisable(false);
+        } else {
+            statisticsButton.setDisable(true);
+        }
     }
 
     @FXML
@@ -130,6 +136,12 @@ public class HomepageGroups {
     @FXML
     void goToSettings() throws IOException {
         App.setRoot("ProfileSettingsPageView");
+    }
+
+    @FXML
+    void logout() throws IOException {
+        App.setRoot("LoginPageView");
+        LoginPageView.logout();
     }
 
     @FXML

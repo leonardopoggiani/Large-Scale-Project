@@ -69,7 +69,7 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton disable="true" onMouseClicked="#goToStatistics" prefHeight="66.0" prefWidth="109.0" text="Statistics">
+                  <BottomNavigationButton fx:id="statisticsButton" disable="true" onMouseClicked="#goToStatistics" prefHeight="66.0" prefWidth="109.0" text="Statistics">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>
@@ -166,7 +166,7 @@
                      </cursor></AnchorPane>
                </content>
             </TitledPane>
-            <Text layoutX="30.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Write article">
+            <Text fx:id="writetext" layoutX="30.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Write article">
                <font>
                   <Font size="22.0" />
                </font></Text>

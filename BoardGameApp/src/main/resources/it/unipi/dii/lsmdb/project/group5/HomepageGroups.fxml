@@ -17,15 +17,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<ScrollPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.HomepageGroups">
+<ScrollPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.HomepageGroups">
   <content>
     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="796.0" minWidth="1212.0" prefHeight="796.0" prefWidth="1212.0">
          <children>
             <Button layoutX="23.0" layoutY="89.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
             <Line endX="100.0" startX="-100.0" />
             <Text layoutX="44.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
-            <Button cancelButton="true" layoutX="72.0" layoutY="376.0" mnemonicParsing="false" text="Logout" />
+            <Button cancelButton="true" layoutX="72.0" layoutY="376.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
             <Button cancelButton="true" layoutX="72.0" layoutY="289.0" mnemonicParsing="false" onAction="#filterResearch" text="Search" />
             <ComboBox fx:id="filter" layoutX="114.0" layoutY="227.0" prefHeight="28.0" prefWidth="90.0" />
             <Text layoutX="822.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
@@ -69,7 +68,7 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToStatistics" text="Statistics">
+                  <BottomNavigationButton fx:id="statisticsButton" onMouseClicked="#goToStatistics" text="Statistics">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>

@@ -238,12 +238,12 @@ public class GamePageView {
         List<ReviewBean> reviews = controller.listGamesReviews(game,3);
         System.out.println("Numero di review: " + reviews.size());
 
-        if(!reviews.isEmpty()) {
-            for (int i = 0; i < reviews.size() && i < 3; i++) {
-                TextField review = chooseReview(i + 1);
-                TextField author = chooseAuthor(i + 1);
-                TextField timestamp = chooseTimestamp(i + 1);
+        for (int i = 0;  i < 3; i++) {
+            TextField review = chooseReview(i + 1);
+            TextField author = chooseAuthor(i + 1);
+            TextField timestamp = chooseTimestamp(i + 1);
 
+            if(i < reviews.size()) {
                 review.setText(reviews.get(i).getText());
                 author.setText(reviews.get(i).getAuthor());
                 timestamp.setText(String.valueOf(reviews.get(i).getTimestamp()));
@@ -253,6 +253,10 @@ public class GamePageView {
                     delete.setDisable(false);
                     delete.setVisible(true);
                 }
+            } else {
+                review.setText("");
+                author.setText("");
+                timestamp.setText("");
             }
         }
     }
@@ -280,9 +284,13 @@ public class GamePageView {
         ReviewBean review = new ReviewBean(reviewDaCancellare.getText(), game, autore.getText(), Timestamp.valueOf(timestamp.getText()));
 
         GamesPagesDBController controller = new GamesPagesDBController();
-        controller.deleteReview(review);
+        if(controller.deleteReview(review)){
+            setReviews(game);
+            reviewDaCancellare.setText("");
+            autore.setText("");
+            timestamp.setText("");
+        }
 
-        setReviews(game);
     }
 
     @FXML

@@ -123,9 +123,18 @@ public class HomepageGames {
     ComboBox order;
 
     @FXML
+    Button statisticsButton;
+
+    @FXML
     void initialize() throws IOException, ExecutionException {
         setSuggestedGames();
         setSuggestedGames();
+
+        if(LoginPageView.getLoggedRole().equals("moderator")) {
+            statisticsButton.setDisable(false);
+        } else {
+            statisticsButton.setDisable(true);
+        }
     }
 
     @FXML

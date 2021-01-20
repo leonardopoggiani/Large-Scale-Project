@@ -1,4 +1,5 @@
 package it.unipi.dii.lsmdb.project.group5.view;
+
 import com.google.common.collect.Lists;
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
@@ -8,14 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -131,13 +129,22 @@ public class HomepageArticles {
     @FXML
     DatePicker data;
 
+    @FXML
+    Button statisticsButton;
+
+    @FXML
+    Text writetext;
+
+    @FXML
+    ImageView addarticle;
+
     ArticlesCache cache = ArticlesCache.getInstance();
     private static List<Integer> savedID = Lists.newArrayList();
 
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
     ObservableList<String> categorie = FXCollections.observableArrayList(
-            "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
+            "Math:1104", "Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
             "Book:1117","Fantasy:1010","Miniatures:1047","Wargame:1019",
             "Napoleonic:1051","Children's Game:1041","Memory:1045",
@@ -171,6 +178,20 @@ public class HomepageArticles {
     void initialize() throws IOException, ExecutionException {
         setSuggestedArticles();
         setSuggestedArticles();
+
+        if(LoginPageView.getLoggedRole().equals("moderator")) {
+            statisticsButton.setDisable(false);
+        } else {
+            statisticsButton.setDisable(true);
+        }
+
+        if(LoginPageView.getLoggedRole().equals("influencer")) {
+            addarticle.setVisible(true);
+            writetext.setVisible(true);
+        } else {
+            addarticle.setVisible(false);
+            writetext.setVisible(false);
+        }
     }
 
     @FXML

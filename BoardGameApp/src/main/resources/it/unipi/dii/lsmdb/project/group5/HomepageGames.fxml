@@ -70,7 +70,7 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToStatistics" prefHeight="66.0" prefWidth="151.0" text="Statistics">
+                  <BottomNavigationButton fx:id="statisticsButton" onMouseClicked="#goToStatistics" prefHeight="66.0" prefWidth="151.0" text="Statistics">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>

@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.controller.LoginSignUpDBController;
-
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -21,7 +20,7 @@ public class LoginPageView {
 
     @FXML
     boolean validateLogin() throws IOException {
-        Scene scene = App.getScene(); // recupero la scena della login
+        Scene scene = App.getScene();
         TextField us = (TextField) scene.lookup("#username");
         String username = us.getText();
         TextField ps = (TextField) scene.lookup("#password");
@@ -55,7 +54,6 @@ public class LoginPageView {
                 App.setRoot("adminHomepage");
             } else {
                 App.setRoot("HomepageArticles");
-                // App.setRoot("adminHomepage");
             }
             logger.info("Login correttamente effettuato");
         } else {
@@ -71,8 +69,10 @@ public class LoginPageView {
         return loggedUser;
     }
 
-    public static int getLogged() { return logged ; }
-    public static void logout() { logged = -1;
+    public static String getLoggedRole() { return loggedRole ; }
+
+    public static void logout() {
+        logged = -1;
         GamesCache cache = GamesCache.getInstance();
         cache.invalidaCache();
         ArticlesCache cacheArticle = ArticlesCache.getInstance();

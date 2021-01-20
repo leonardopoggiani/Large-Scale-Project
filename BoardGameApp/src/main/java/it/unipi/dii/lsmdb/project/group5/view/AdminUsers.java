@@ -124,9 +124,9 @@ public class AdminUsers {
         boolean ret = userController.deleteUser(deleting.getText());
         if(ret) {
             text.setVisible(true);
-            remove.setText("");
+            remove.setDisable(true);
         } else {
-            remove.setStyle("-fx-background-color: red;");
+            text.setVisible(false);
         }
     }
 

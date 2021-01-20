@@ -134,6 +134,9 @@ public class HomepageUsers {
 
     private String username;
 
+    @FXML
+    Button statisticsButton;
+
     private Button chooseUnfollowButton(int i){
         return switch (i) {
             case 0 -> unfollow1;
@@ -212,6 +215,12 @@ public class HomepageUsers {
     @FXML
     void initialize() {
         showUsers();
+
+        if(LoginPageView.getLoggedRole().equals("moderator")) {
+            statisticsButton.setDisable(false);
+        } else {
+            statisticsButton.setDisable(true);
+        }
     }
 
     private void showUsers() {

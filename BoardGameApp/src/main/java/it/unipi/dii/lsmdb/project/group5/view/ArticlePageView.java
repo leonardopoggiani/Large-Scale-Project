@@ -123,6 +123,9 @@ public class ArticlePageView {
     @FXML
     Text id3;
 
+    @FXML
+    Button deletearticle;
+
     private int articleSelected;
     private ArticleBean questo;
 
@@ -131,6 +134,12 @@ public class ArticlePageView {
         articleSelected = HomepageArticles.getId();
         setArticleFields();
         setArticleFields();
+
+        if(LoginPageView.getLoggedRole().equals("moderator") || author.getText().equals(LoginPageView.getLoggedUser())){
+            deletearticle.setDisable(false);
+        } else {
+            deletearticle.setDisable(true);
+        }
     }
 
     @FXML
@@ -386,12 +395,12 @@ public class ArticlePageView {
         TextField authorField = chooseAuthor(index);
         TextField timestampField = chooseTimestamp(index);
 
+        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), questo.getId());
+        boolean ret = controller.deleteComment(infocomment);
+
         commentField.setText("");
         authorField.setText("");
         timestampField.setText("");
-
-        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), questo.getId());
-        boolean ret = controller.deleteComment(infocomment);
 
         target.setVisible(false);
 
