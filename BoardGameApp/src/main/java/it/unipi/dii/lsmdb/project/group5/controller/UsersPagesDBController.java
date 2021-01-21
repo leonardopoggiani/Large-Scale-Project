@@ -47,6 +47,7 @@ public class UsersPagesDBController {
                 logger.severe("NEO4J | Utente " + username +" non eliminato in Neo4j!");
                 return false;
             }
+
             return  true;
         }
         return  false;
