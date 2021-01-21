@@ -18,16 +18,31 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
+/**
+ * The type Homepage games.
+ */
 public class HomepageGames {
 
+    /**
+     * The Logger.
+     */
     Logger logger =  Logger.getLogger(this.getClass().getName());
+    /**
+     * The Cache.
+     */
     GamesCache cache = GamesCache.getInstance();
     private static List<String> savedGames = Lists.newArrayList();
     private static String game;
 
+    /**
+     * The Ordinamenti.
+     */
     ObservableList<String> ordinamenti = FXCollections.observableArrayList(
             "Number of reviews", "Number of ratings", "Average ratings", "None");
 
+    /**
+     * The Categorie.
+     */
     ObservableList<String> categorie = FXCollections.observableArrayList(
             "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
@@ -44,6 +59,9 @@ public class HomepageGames {
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
             "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
 
+    /**
+     * The Filters.
+     */
     ObservableList<String> filters = FXCollections.observableArrayList(
             "Category", "Number of players", "Release year", "Name", "None");
 
@@ -125,6 +143,12 @@ public class HomepageGames {
     @FXML
     Button statisticsButton;
 
+    /**
+     * Initialize.
+     *
+     * @throws IOException the io exception
+     * @throws ExecutionException the execution exception
+     */
     @FXML
     void initialize() throws IOException, ExecutionException {
         setSuggestedGames();
@@ -137,31 +161,61 @@ public class HomepageGames {
         }
     }
 
+    /**
+     * Return to homepage.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void returnToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
 
+    /**
+     * Go to games.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToGames() throws IOException {
         App.setRoot("HomepageGames");
     }
 
+    /**
+     * Go to groups.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToGroups() throws IOException {
         App.setRoot("HomepageGroups");
     }
 
+    /**
+     * Go to friends.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToFriends() throws IOException {
         App.setRoot("HomepageUsers");
     }
 
+    /**
+     * Go to settings.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToSettings() throws IOException {
         App.setRoot("ProfileSettingsPageView");
     }
 
+    /**
+     * Go to statistics.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToStatistics() throws IOException {
         App.setRoot("HomepageModeratorAnalytics");
@@ -205,6 +259,12 @@ public class HomepageGames {
 
     }
 
+    /**
+     * Go to game.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void goToGame(MouseEvent event) throws IOException {
         AnchorPane gamePressed = (AnchorPane) event.getSource();
@@ -216,12 +276,17 @@ public class HomepageGames {
         App.setRoot("GamePageView");
     }
 
+    /**
+     * Sets suggested games.
+     *
+     * @throws IOException the io exception
+     * @throws ExecutionException the execution exception
+     */
     @FXML
     void setSuggestedGames() throws IOException, ExecutionException {
 
         GamesPagesDBController controller = new GamesPagesDBController();
         if (savedGames.isEmpty()) {
-            // non ho giochi salvati in cache
             logger.info("cache vuota");
             List<GameBean> list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), 6);
             showGames(list);
@@ -253,12 +318,20 @@ public class HomepageGames {
     }
 
 
+    /**
+     * Show filters.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
-    void showFilters () throws IOException {
+    void showFilters () {
         logger.info("Carico i filtri");
         filter.setItems(filters);
     }
 
+    /**
+     * Sets filters.
+     */
     @FXML
     void setFilters() {
         if(filter.getSelectionModel().getSelectedItem() != null){
@@ -311,9 +384,13 @@ public class HomepageGames {
         }
     }
 
+    /**
+     * Filter research.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
-    void filterResearch () throws IOException {
-        // filtra i risultati in base alle impostazioni passate
+    void filterResearch () {
         GamesPagesDBController controller = new GamesPagesDBController();
 
         String filtraPerCategoria = " ";
@@ -325,19 +402,16 @@ public class HomepageGames {
         List<GameBean> filteringResult = Lists.newArrayList();
 
         if(category.isVisible() && category.getSelectionModel().getSelectedItem() != null) {
-            // filtraggio per categoria, crea una lista con tutti i giochi appartenenti alla categoria data
             int index1 = category.getSelectionModel().getSelectedIndex();
             filtraPerCategoria = categorie.get(index1);
             filteredGames = controller.filterByCategory(filtraPerCategoria);
         } else if(year.isVisible() && !year.getText().equals("")) {
             if (Integer.parseInt(year.getText()) > 1900 || Integer.parseInt(year.getText()) < 2022) {
-                // filtraggio per anno
                 filtraPerAnno = Integer.parseInt(year.getText());
                 filteredGames = controller.filterByYear(filtraPerAnno);
                 logger.info("data:" + filteredGames.size());
             }
         } else if (players.isVisible() && (players.getValue() > 0 || players.getValue() <= 16) ){
-            // filtraggio per numero di giocatori
             filtraGiocatori = (int) players.getValue();
             filteredGames = controller.filterByPlayers(filtraGiocatori);
             logger.info("players:" + filteredGames.size());
@@ -349,15 +423,12 @@ public class HomepageGames {
         filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(filteredGames));
         logger.info("filteringResult:" + filteringResult.size());
 
-        // in filteredGames a questo punto c'e la lista dei giochi filtrati, se voglio ordinarli entro nell'if
-
         if(order.getSelectionModel().getSelectedItem() != null) {
             logger.info("Voglio ordinare i risultati");
             int index1 = order.getSelectionModel().getSelectedIndex();
             String ordering = ordinamenti.get(index1);
 
             if(filteredGames.isEmpty()) {
-                // qui ci entro solo se non ho selezionato nessun filtro e quindi applico l'ordinamento a tutti i giochi
                 if(!ordering.equals("None")){
                     switch (ordering) {
                         case "Average ratings" -> {
@@ -377,7 +448,6 @@ public class HomepageGames {
                     filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(sortedList));
                 }
             } else {
-                logger.info("non ordino");
                 filteringResult = orderingResult(filteredGames, ordering);
             }
         }
@@ -409,6 +479,9 @@ public class HomepageGames {
         return target;
     }
 
+    /**
+     * The type Average rating comparator.
+     */
     static class AverageRatingComparator implements Comparator<GameBean> {
         @Override
         public int compare(GameBean a, GameBean b) {
@@ -416,6 +489,9 @@ public class HomepageGames {
         }
     }
 
+    /**
+     * The type Number of reviews comparator.
+     */
     static class NumberOfReviewsComparator implements Comparator<GameBean> {
         @Override
         public int compare(GameBean a, GameBean b) {
@@ -423,6 +499,9 @@ public class HomepageGames {
         }
     }
 
+    /**
+     * The type Number of ratings comparator.
+     */
     static class NumberOfRatingsComparator implements Comparator<GameBean> {
         @Override
         public int compare(GameBean a, GameBean b) {
@@ -430,8 +509,10 @@ public class HomepageGames {
         }
     }
 
+    /**
+     * Show the list of games.
+     */
     private void showGames(List<GameBean> games) {
-        logger.info("show filtering result");
         if (games != null) {
             for (int i = 0; i < 6; i++) {
                 TitledPane gioco = chooseGame(i + 1);
@@ -453,27 +534,48 @@ public class HomepageGames {
         }
     }
 
+    /**
+     * Logout.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void logout() throws IOException {
         App.setRoot("LoginPageView");
         LoginPageView.logout();
     }
 
+    /**
+     * Aggiorna.
+     */
     @FXML
     void aggiorna() {
         numplayers.setText(String.valueOf((int)(Math.round(players.getValue()))));
     }
 
+    /**
+     * Carica categorie.
+     */
     @FXML
     void caricaCategorie(){
         category.setItems(categorie);
     }
 
+    /**
+     * Carica ordinamenti.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
-    void caricaOrdinamenti() throws IOException {
+    void caricaOrdinamenti() {
         order.setItems(ordinamenti);
     }
 
+    /**
+     * Get game string.
+     *
+     * @return the string
+     */
     public static String getGame(){
         return game;
     }

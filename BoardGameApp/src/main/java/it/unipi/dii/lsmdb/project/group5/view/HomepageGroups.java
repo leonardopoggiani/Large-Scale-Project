@@ -15,21 +15,49 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The type Homepage groups.
+ */
 public class HomepageGroups {
 
+    /**
+     * The Logger.
+     */
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
     private static String currentGroup;
     private static String adminGroup;
 
+    /**
+     * The Filtering.
+     */
     ObservableList<TableGroupBean> filtering = FXCollections.observableArrayList();
+    /**
+     * The Filtering 2.
+     */
     ObservableList<TableGroupBean> filtering2 = FXCollections.observableArrayList();
+    /**
+     * The Giochi dei gruppi.
+     */
     ObservableList<String> giochiDeiGruppi = FXCollections.observableArrayList("None");
+    /**
+     * The Nomi dei gruppi.
+     */
     ObservableList<String> nomiDeiGruppi = FXCollections.observableArrayList();
+    /**
+     * The User actions.
+     */
     ObservableList<String> userActions = FXCollections.observableArrayList("Leave group", "View posts", "View members");
+    /**
+     * The Admin actions.
+     */
     ObservableList<String> adminActions = FXCollections.observableArrayList("Delete group", "View posts", "Add member", "View members", "Remove member");
+    /**
+     * The Membri gruppo.
+     */
     ObservableList<GroupMemberBean> membriGruppo = FXCollections.observableArrayList();
 
     private ObservableList<TableGroupBean> gruppiAdmin = FXCollections.observableArrayList();
@@ -101,6 +129,11 @@ public class HomepageGroups {
     @FXML
     ImageView ics;
 
+    /**
+     * Initialize.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void initialize() throws IOException {
         setGroups();
@@ -113,44 +146,84 @@ public class HomepageGroups {
         }
     }
 
+    /**
+     * Return to homepage.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void returnToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
 
+    /**
+     * Go to games.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToGames() throws IOException {
         App.setRoot("HomepageGames");
     }
 
+    /**
+     * Go to groups.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToGroups() throws IOException {
         App.setRoot("HomepageGroups");
     }
 
+    /**
+     * Go to friends.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToFriends() throws IOException {
         App.setRoot("HomepageUsers");
     }
 
+    /**
+     * Go to statistics.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToStatistics() throws IOException {
         App.setRoot("HomepageModeratorAnalytics");
     }
 
+    /**
+     * Go to settings.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToSettings() throws IOException {
         App.setRoot("ProfileSettingsPageView");
     }
 
+    /**
+     * Logout.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void logout() throws IOException {
         App.setRoot("LoginPageView");
         LoginPageView.logout();
     }
 
+    /**
+     * Sets groups.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
-    void setGroups() throws IOException {
+    void setGroups() {
         nomiDeiGruppi.clear();
         giochiDeiGruppi.clear();
 
@@ -173,10 +246,8 @@ public class HomepageGroups {
         membersuser.setCellValueFactory(new PropertyValueFactory<>("members"));
         nomeMembro.setCellValueFactory(new PropertyValueFactory<>("groupMemberName"));
 
-
         List<GroupBean> gruppiDiCuiSonoAdmin = controller.showUsersGroups(LoginPageView.getLoggedUser(),"admin");
         List<GroupBean> gruppiDiCuiSonoMembro = controller.showUsersGroups(LoginPageView.getLoggedUser(),"member");
-
 
          if(gruppiDiCuiSonoAdmin != null) {
              for (int i = 0; i < gruppiDiCuiSonoAdmin.size(); i++) {
@@ -216,8 +287,13 @@ public class HomepageGroups {
         utils.setItems(membriGruppo);
     }
 
+    /**
+     * Create group.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
-    void createGroup() throws IOException {
+    void createGroup() {
 
         GroupsPagesDBController membersNumber = new GroupsPagesDBController();
 
@@ -262,10 +338,15 @@ public class HomepageGroups {
             filter.setItems(giochiDeiGruppi);
         } else {
             ics.setVisible(true);
-            logger.info("problemi nella addGroup");
+            logger.log(Level.WARNING,"addGroup problems " + group.getName());
         }
     }
 
+    /**
+     * Select action.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void selectAction() throws IOException {
         if(nomigruppi.getSelectionModel().getSelectedItem() != null) {
@@ -292,14 +373,21 @@ public class HomepageGroups {
         }
     }
 
+    /**
+     * Remove a member from a group.
+     * */
+    @FXML
     private void removeMember(String gruppoSelezionato) throws IOException {
         currentGroup = gruppoSelezionato;
         adminGroup = retrieveAdmin(gruppoSelezionato);
         App.setRoot("RemoveMember");
     }
 
+    /**
+     * Sets actions.
+     */
     @FXML
-    void setActions() throws IOException {
+    void setActions() {
         action.getSelectionModel().clearSelection();
         String gruppoSelezionato = nomiDeiGruppi.get(nomigruppi.getSelectionModel().getSelectedIndex());
         if(retrieveAdmin(gruppoSelezionato).equals(LoginPageView.getLoggedUser())) {
@@ -309,28 +397,40 @@ public class HomepageGroups {
         }
     }
 
+    /**
+     * View the posts of a group.
+     */
     private void viewPosts(String gruppoSelezionato) throws IOException {
-        GroupsPagesDBController controller = new GroupsPagesDBController();
         currentGroup = gruppoSelezionato;
         adminGroup = retrieveAdmin(gruppoSelezionato);
         App.setRoot("PostViewPage");
     }
 
+    /**
+     * Delete a group.
+     */
     private void deleteGroup(String gruppoSelezionato) {
          GroupsPagesDBController controller = new GroupsPagesDBController();
 
         currentGroup = gruppoSelezionato;
         boolean ret = controller.deleteGroup(gruppoSelezionato,retrieveAdmin(gruppoSelezionato));
 
-        for(int i = 0; i < gruppiAdmin.size(); i++) {
-            if(gruppiAdmin.get(i).getGroupName().equals(gruppoSelezionato)){
-                gruppiAdmin.remove(i);
+        if(ret) {
+            for(int i = 0; i < gruppiAdmin.size(); i++) {
+                if(gruppiAdmin.get(i).getGroupName().equals(gruppoSelezionato)){
+                    gruppiAdmin.remove(i);
+                }
             }
+        } else {
+            logger.log(Level.WARNING, "deleteGroup problems " + gruppoSelezionato);
         }
 
         admintable.setItems(gruppiAdmin);
     }
 
+    /**
+     * Add a member to a group.
+     */
     private void addMember(String gruppoSelezionato) throws IOException {
         currentGroup = gruppoSelezionato;
         adminGroup = retrieveAdmin(gruppoSelezionato);
@@ -351,7 +451,12 @@ public class HomepageGroups {
         utils.setItems(members);
     }
 
-    @FXML
+    /**
+     * Filter research.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void filterResearch() throws IOException {
         String gameFilter = giochiDeiGruppi.get(filter.getSelectionModel().getSelectedIndex());
         if(!gameFilter.equals("None")){
@@ -385,11 +490,21 @@ public class HomepageGroups {
         }
     }
 
-    public static String getGroup() {
+    /**
+     * Gets group.
+     *
+     * @return the group
+     */
+public static String getGroup() {
         return currentGroup;
     }
 
-    public static String getAdminGroup() {
+    /**
+     * Gets admin group.
+     *
+     * @return the admin group
+     */
+public static String getAdminGroup() {
         return adminGroup;
     }
 

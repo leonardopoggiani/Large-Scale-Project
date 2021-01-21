@@ -22,13 +22,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 /**
- * @author leonardopoggiani
- * Gestore della pagina degli articoli.
+ * The type Article page view.
+ * @author leonardopoggiani  Gestore della pagina degli articoli.
  */
 public class ArticlePageView {
 
+    /**
+     * The Logger.
+     */
     Logger logger =  Logger.getLogger(this.getClass().getName());
+    /**
+     * The Cache.
+     */
     ArticlesCache cache = ArticlesCache.getInstance();
+
 
     @FXML
     Text titolo;
@@ -127,8 +134,110 @@ public class ArticlePageView {
     Button deletearticle;
 
     private int articleSelected;
-    private ArticleBean questo;
+    private ArticleBean showed;
 
+    /**
+     * choose the textArea of the comment
+     */
+    private TextArea chooseComment(int i){
+        return switch (i) {
+            case 1 -> comment1;
+            case 2 -> comment2;
+            case 3 -> comment3;
+            default -> new TextArea();
+        };
+    }
+
+    /**
+     * choose the textField of the author
+     */
+    private TextField chooseAuthor(int i){
+        return switch (i) {
+            case 1 -> author1;
+            case 2 -> author2;
+            case 3 -> author3;
+            default -> new TextField();
+        };
+    }
+
+    /**
+     * choose the textField of the timestamp
+     */
+    private TextField chooseTimestamp(int i){
+        return switch (i) {
+            case 1 -> timestamp1;
+            case 2 -> timestamp2;
+            case 3 -> timestamp3;
+            default -> new TextField();
+        };
+    }
+
+    /**
+     * choose the right delete button
+     */
+    private Button chooseDeleteButton(int i){
+        return switch (i) {
+            case 1 -> delete1;
+            case 2 -> delete2;
+            case 3 -> delete3;
+            default -> new Button();
+        };
+    }
+
+    /**
+     * choose right id
+     */
+    private Text chooseId(int i){
+        return switch (i) {
+            case 1 -> id1;
+            case 2 -> id2;
+            case 3 -> id3;
+            default -> new Text();
+        };
+    }
+
+    /**
+     * choose right article
+     */
+    private TitledPane chooseArticle(int j) {
+        return switch (j) {
+            case 1 -> fullarticle1;
+            case 2 -> fullarticle2;
+            case 3 -> fullarticle3;
+            default -> new TitledPane();
+        };
+    }
+
+    /**
+     * choose right author of article
+     */
+    private Text chooseAuthorArticle(int i) {
+        return switch (i) {
+            case 1 -> authorarticle1;
+            case 2 -> authorarticle2;
+            case 3 -> authorarticle3;
+            default -> new Text();
+        };
+    }
+
+    /**
+     * choose right timestamp of article
+     */
+    private Text chooseTimestampArticle(int i) {
+        return switch (i) {
+            case 1 -> timestamparticle1;
+            case 2 -> timestamparticle2;
+            case 3 -> timestamparticle3;
+            default -> new Text();
+        };
+    }
+
+    /**
+     * Initialize.
+     * Only moderator and the author of articles can delete the showed articles.
+     * @throws IOException the io exception
+     * @throws ExecutionException the execution exception
+     */
     @FXML
     void initialize() throws IOException, ExecutionException {
         articleSelected = HomepageArticles.getId();
@@ -142,37 +251,47 @@ public class ArticlePageView {
         }
     }
 
+    /**
+     * Sets article fields.
+     *
+     * @throws IOException the io exception
+     * @throws ExecutionException the execution exception
+     */
     @FXML
-    void setArticleFields() throws IOException, ExecutionException {
+    void setArticleFields() throws ExecutionException {
         ArticlesPagesDBController article = new ArticlesPagesDBController();
 
         ArticleBean a = cache.getDataIfPresent(articleSelected);
-        questo = a;
+        showed = a;
 
         if(a == null || a.getTitle() == null) {
-           logger.log(Level.WARNING, "cache miss");
+           logger.log(Level.INFO, "cache miss");
            a = article.showArticleDetails(articleSelected);
-           questo = a;
+           showed = a;
         } else {
-           logger.log(Level.WARNING, "cache hit");
+           logger.log(Level.INFO, "cache hit");
         }
 
         author.setText(a.getAuthor());
         titolo.setText(a.getTitle());
         data.setText((a.getTimestamp() == null) ? new Timestamp(System.currentTimeMillis()).toString() : a.getTimestamp().toString());
-        numberlike.setText(String.valueOf(article.countLikes("like", questo.getId())));
-        numberunlike.setText(String.valueOf(article.countLikes("dislike", questo.getId())));
+        numberlike.setText(String.valueOf(article.countLikes("like", showed.getId())));
+        numberunlike.setText(String.valueOf(article.countLikes("dislike", showed.getId())));
         articlebody.setText(a.getText());
 
         setComments();
         setSuggestedArticlesBelow();
     }
 
+    /**
+     * Sets comments below article.
+     * Only the author of comments can delete it.
+     */
     private void setComments() {
         ArticlesPagesDBController article = new ArticlesPagesDBController();
 
         List<CommentBean> infoComments = null;
-        infoComments = article.listArticlesComments(questo.getId(), 3);
+        infoComments = article.listArticlesComments(showed.getId(), 3);
 
         for(int i = 0; i < 3; i++){
             TextArea commento = chooseComment(i + 1);
@@ -185,7 +304,6 @@ public class ArticlePageView {
                 timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
 
                 if(infoComments.get(i).getAuthor().equals(LoginPageView.getLoggedUser())){
-                    // se sono l'autore del messaggio abilita il pulsante della cancellazione del commento
                     Button delete = chooseDeleteButton(i + 1);
                     delete.setDisable(false);
                     delete.setVisible(true);
@@ -198,125 +316,96 @@ public class ArticlePageView {
         }
     }
 
-    private TextArea chooseComment(int i){
-        return switch (i) {
-            case 1 -> comment1;
-            case 2 -> comment2;
-            case 3 -> comment3;
-            default -> new TextArea();
-        };
-    }
-
-    private TextField chooseAuthor(int i){
-        return switch (i) {
-            case 1 -> author1;
-            case 2 -> author2;
-            case 3 -> author3;
-            default -> new TextField();
-        };
-    }
-
-    private TextField chooseTimestamp(int i){
-        return switch (i) {
-            case 1 -> timestamp1;
-            case 2 -> timestamp2;
-            case 3 -> timestamp3;
-            default -> new TextField();
-        };
-    }
-
-    private Button chooseDeleteButton(int i){
-        return switch (i) {
-            case 1 -> delete1;
-            case 2 -> delete2;
-            case 3 -> delete3;
-            default -> new Button();
-        };
-    }
-
-    private Text chooseId(int i){
-        return switch (i) {
-            case 1 -> id1;
-            case 2 -> id2;
-            case 3 -> id3;
-            default -> new Text();
-        };
-    }
-
-    private boolean isUserModerator() {
-        return true;
-    }
-
+    /**
+     * Return to homepage.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void returnToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
 
+    /**
+     * Give a like.
+     *
+     * @throws ExecutionException the execution exception
+     */
     @FXML
-    void like() throws IOException {
+    void like() throws ExecutionException {
         Button likebutton = (Button) App.getScene().lookup("#likebutton");
         Button dislikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Text like = (Text) App.getScene().lookup("#numberlike");
         ArticlesPagesDBController update = new ArticlesPagesDBController();
-        LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), questo.getId());
+        LikeBean aLike = new LikeBean("like", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), showed.getId());
         int ret = update.addLike(aLike);
 
-        // like button disabled vuol dire che ho pigiato dislike
         if(ret == 2){
             likebutton.setStyle("-fx-background-color: red");
             likebutton.setText("Remove like");
             dislikebutton.setDisable(true);
+            cache.addNumLike(showed.getId());
         } else if (ret == 1){
             likebutton.setStyle("-fx-background-color: green");
             likebutton.setText("Like");
             dislikebutton.setDisable(false);
-
+            cache.dimNumLike(showed.getId());
         }
 
-        like.setText(String.valueOf(update.countLikes("like", questo.getId())));
-
-
+        like.setText(String.valueOf(update.countLikes("like", showed.getId())));
     }
 
+    /**
+     * Unlike.
+     */
     @FXML
-    void unlike() throws IOException {
+    void unlike() throws ExecutionException {
         Text like = (Text) App.getScene().lookup("#numberunlike");
         Button unlikebutton = (Button) App.getScene().lookup("#unlikebutton");
         Button likebutton = (Button) App.getScene().lookup("#likebutton");
         ArticlesPagesDBController update = new ArticlesPagesDBController();
-        LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), questo.getId());
+        LikeBean anUnlike = new LikeBean("dislike", LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), showed.getId());
         int ret = update.addLike(anUnlike);
 
-        // unlike button disabled vuol dire che ho pigiato like
         if(ret == 2){
             unlikebutton.setStyle("-fx-background-color: green");
             unlikebutton.setText("Remove dislike");
             likebutton.setDisable(true);
+            cache.addNumUnlike(showed.getId());
         } else {
             unlikebutton.setStyle("-fx-background-color: red");
             unlikebutton.setText("Dislike");
             likebutton.setDisable(false);
+            cache.dimNumUnlike(showed.getId());
         }
 
-        like.setText(String.valueOf(update.countLikes("dislike", questo.getId())));
-
+        like.setText(String.valueOf(update.countLikes("dislike", showed.getId())));
     }
 
+    /**
+     * Post comment.
+     */
     @FXML
-    void postComment() throws IOException {
+    void postComment() throws ExecutionException {
         ArticlesPagesDBController update = new ArticlesPagesDBController();
-        CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), questo.getId());
-        update.addComment(comment);
-        articlecomment.setText("");
+        CommentBean comment = new CommentBean(articlecomment.getText(), LoginPageView.getLoggedUser(),new Timestamp(System.currentTimeMillis()), showed.getId());
+        if(update.addComment(comment)){
+            articlecomment.setText("");
+            cache.addNumComment(showed.getId());
+        }
+
         setComments();
     }
 
+    /**
+     * Sets suggested articles below.
+     */
     @FXML
-    void setSuggestedArticlesBelow() throws IOException {
+    void setSuggestedArticlesBelow() {
         ArticlesPagesDBController home = new ArticlesPagesDBController();
         List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
 
-        list.remove(questo);
+        list.remove(showed);
 
         if (list != null) {
             for( int i = 0; i < 3; i++) {
@@ -326,6 +415,7 @@ public class ArticlePageView {
                 Text author = chooseAuthorArticle(i + 1);
                 Text timestamp = chooseTimestampArticle(i + 1);
                 Text identificatore = chooseId(i + 1);
+
                 if(i < list.size()) {
                     articolo.setText(a.getTitle());
                     author.setText(a.getAuthor());
@@ -342,48 +432,34 @@ public class ArticlePageView {
         }
     }
 
-    private TitledPane chooseArticle(int j) {
-        return switch (j) {
-            case 1 -> fullarticle1;
-            case 2 -> fullarticle2;
-            case 3 -> fullarticle3;
-            default -> new TitledPane();
-        };
-    }
-
-    private Text chooseAuthorArticle(int i) {
-        return switch (i) {
-            case 1 -> authorarticle1;
-            case 2 -> authorarticle2;
-            case 3 -> authorarticle3;
-            default -> new Text();
-        };
-    }
-
-    private Text chooseTimestampArticle(int i) {
-        return switch (i) {
-            case 1 -> timestamparticle1;
-            case 2 -> timestamparticle2;
-            case 3 -> timestamparticle3;
-            default -> new Text();
-        };
-    }
-
+    /**
+     * Go to article.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     * @throws ExecutionException the execution exception
+     */
     @FXML
-    void goToArticle (MouseEvent event) throws IOException, ExecutionException {
+    void goToArticle (MouseEvent event) throws IOException{
         AnchorPane articolo = (AnchorPane) event.getSource();
         String idArticle = articolo.getId();
 
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
         Text identificatore = chooseId(index);
-        logger.info("identificatore " + identificatore);
+        logger.log(Level.INFO, "identificatore " + identificatore);
         HomepageArticles.setId(Integer.parseInt(identificatore.getText()) );
         App.setRoot("ArticlePageView");
 
     }
 
+    /**
+     * Delete comment.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
-    void deleteComment(MouseEvent event) throws IOException {
+    void deleteComment(MouseEvent event) throws ExecutionException {
         ArticlesPagesDBController controller = new ArticlesPagesDBController();
 
         Button target = (Button) event.getSource();
@@ -395,7 +471,7 @@ public class ArticlePageView {
         TextField authorField = chooseAuthor(index);
         TextField timestampField = chooseTimestamp(index);
 
-        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), questo.getId());
+        CommentBean infocomment = new CommentBean(commentField.getText(), authorField.getText(), Timestamp.valueOf(timestampField.getText()), showed.getId());
         boolean ret = controller.deleteComment(infocomment);
 
         commentField.setText("");
@@ -405,20 +481,26 @@ public class ArticlePageView {
         target.setVisible(false);
 
         if(ret){
-            logger.info("Ho cancellato il commento");
+            cache.dimNumComment(showed.getId());
+            logger.log(Level.INFO,"Ho cancellato il commento");
         } else {
-            logger.info("Non c'erano commenti da cancellare");
+            logger.log(Level.INFO, "Non c'erano commenti da cancellare");
         }
 
         setComments();
     }
 
+    /**
+     * Delete article.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void deleteArticle() throws IOException {
         ArticlesPagesDBController controller = new ArticlesPagesDBController();
-        if(controller.deleteArticle(questo.getId()))
+        if(controller.deleteArticle(showed.getId()))
         {
-            logger.info("article deleted" + questo.getId());
+            logger.log(Level.INFO,"article deleted " + showed.getId());
             App.setRoot("HomepageArticles");
         }
     }

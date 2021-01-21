@@ -20,15 +20,24 @@ import javafx.scene.text.Text;
 
 /**
  * @author leonardopoggiani
- * Gestore della homepage. Al caricamento vengono mostrati gli articoli suggeriti, in base ad influencer
- * seguiti oppure a categorie di giochi inserite.
+ * Gestore della homepage.
+ * Al caricamento vengono mostrati gli articoli suggeriti,
+ * in base ad influencer seguiti oppure a categorie di giochi inserite.
  */
-
 public class AdminHomepage {
 
+    /**
+     * The Logger.
+     */
     Logger logger =  Logger.getLogger(this.getClass().getName());
+    /**
+     * The Controller.
+     */
     AnalyticsDBController controller = new AnalyticsDBController();
 
+    /**
+     * The Categorie.
+     */
     ObservableList<String> categorie = FXCollections.observableArrayList(
             "Math:1104", "Card Game:1002", "Humor:1079", "Party Game:1030",
             "Number:1098", "Puzzle:1028", "Dice:1017", "Sports:1038",
@@ -45,12 +54,10 @@ public class AdminHomepage {
             "Print & Play:1120", "Novel-Based:1093", "Puzzle:1028", "Science Fiction:1016",
             "Exploration:1020", "Word-game:1025", "Video Game Theme:1101", "None");
 
+    /**
+     * The Game statistic.
+     */
     ObservableList<String> gameStatistic = FXCollections.observableArrayList("Least rated game per category", "Least rated game per year");
-
-    ObservableList<String> year = FXCollections.observableArrayList("2020", "2019", "2018", "2017", "2016",
-            "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", " 2006", "2005", "2004", "2003", "2002", "2001", "2000",
-            "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985",
-            "1984", "1983", "1982", "1981");
 
     @FXML
     ComboBox categories;
@@ -90,6 +97,23 @@ public class AdminHomepage {
 
     private static int giaCaricato = 0;
 
+    /**
+     * Choose the Text of the versatile user to modify.
+     */
+    private Text chooseVersatile(int i){
+        return switch (i) {
+            case 1 -> primo;
+            case 2 -> secondo;
+            case 3 -> terzo;
+            case 4 -> quarto;
+            case 5 -> quinto;
+            default -> new Text();
+        };
+    }
+
+    /**
+     * Initialize.
+     */
     @FXML
     void initialize() {
         categories.setItems(categorie);
@@ -105,6 +129,9 @@ public class AdminHomepage {
 
     }
 
+    /**
+     * Refresh the initial page, showing differencies.
+     */
     @FXML
     private void refresh() {
         displayActivityChart();
@@ -132,17 +159,9 @@ public class AdminHomepage {
 
     }
 
-    private Text chooseVersatile(int i){
-        return switch (i) {
-            case 1 -> primo;
-            case 2 -> secondo;
-            case 3 -> terzo;
-            case 4 -> quarto;
-            case 5 -> quinto;
-            default -> new Text();
-        };
-    }
-
+    /**
+     * Display most versatile users.
+     */
     private void displayVersatileInfluencer() {
         List<VersatileUser> list = controller.showMostVersatileInfluencer(5);
 
@@ -157,6 +176,9 @@ public class AdminHomepage {
         }
     }
 
+    /**
+     * Display users by age range.
+     */
     private void displayUserAge() {
         List<AgeBean> lista = controller.getUsersForAge();
         BarChart.Series series = new BarChart.Series();
@@ -201,6 +223,9 @@ public class AdminHomepage {
         age.getData().add(series);
     }
 
+    /**
+     * Display the login frequency.
+     */
     private void displayActivityChart() {
         XYChart.Series series = new XYChart.Series();
         series.setName("Users login");
@@ -212,27 +237,50 @@ public class AdminHomepage {
         activity.getData().add(series);
     }
 
+    /**
+     * Logout.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void logout() throws IOException {
         App.setRoot("LoginPageView");
         LoginPageView.logout();
     }
 
+    /**
+     * Go to statistics.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToStatistics() throws IOException {
         App.setRoot("adminHomepage");
     }
 
+    /**
+     * Go to games admin.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToGamesAdmin() throws IOException {
         App.setRoot("adminGames");
     }
 
+    /**
+     * Go to users.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToUsers() throws IOException {
         App.setRoot("adminUsers");
     }
 
+    /**
+     * Display category info.
+     */
     @FXML
     void displayCategoryInfo() {
         CategoryBean categoryInfo = controller.getCategoryInfo(categorie.get(categories.getSelectionModel().getSelectedIndex()));
@@ -242,5 +290,4 @@ public class AdminHomepage {
         category3.setText(String.valueOf(categoryInfo.getNumRatesTot()));
 
     }
-
 }

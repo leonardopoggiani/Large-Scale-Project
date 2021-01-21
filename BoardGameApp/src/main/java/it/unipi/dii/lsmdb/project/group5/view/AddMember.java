@@ -7,39 +7,53 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+/** The view of the Add member page. */
 public class AddMember {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
-    UsersPagesDBController controller = new UsersPagesDBController();
-    GroupsPagesDBController controller2 = new GroupsPagesDBController();
+  /** The Logger. */
+  Logger logger = Logger.getLogger(this.getClass().getName());
 
-    ObservableList<String> usersList = FXCollections.observableArrayList();
+  /** The Controller. */
+  UsersPagesDBController controller = new UsersPagesDBController();
 
-    @FXML
-    ComboBox users;
+  /** The Controller 2. */
+  GroupsPagesDBController controller2 = new GroupsPagesDBController();
 
-    @FXML
-    void initialize() {
+  /** The Users list. */
+  ObservableList<String> usersList = FXCollections.observableArrayList();
+
+  /** The Users. */
+  @FXML ComboBox users;
+
+  /** Initialize. */
+  @FXML
+  void initialize() {
         List<String> utenti = controller.listUsers(HomepageGroups.getGroup(),"friends");
         usersList.addAll(utenti);
         users.setItems(usersList);
     }
 
-    @FXML
-    public void addMember() {
+  /** Add member (if possible). */
+  @FXML
+  public void addMember() {
         String toInsert = usersList.get(users.getSelectionModel().getSelectedIndex());
+
         if(toInsert != null) {
             controller2.addDeleteGroupMember(toInsert,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "add");
         }
     }
 
-    @FXML
-    public void returnToHomepageGroups() throws IOException {
+  /**
+   * Return to homepage groups.
+   *
+   * @throws IOException the io exception
+   */
+  @FXML
+  public void returnToHomepageGroups() throws IOException {
         App.setRoot("HomepageGroups");
     }
 

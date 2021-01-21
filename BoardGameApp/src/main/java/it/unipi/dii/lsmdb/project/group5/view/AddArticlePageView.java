@@ -7,43 +7,50 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.logging.Logger;
 
+/** View of the page responsible for adding an article. */
 public class AddArticlePageView {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
+  /** The Logger. */
+  Logger logger = Logger.getLogger(this.getClass().getName());
 
-    @FXML
-    TextField game;
+  /** The Game. */
+  @FXML TextField game;
 
-    @FXML
-    TextField game2;
+  /** The Game 2. */
+  @FXML TextField game2;
 
-    @FXML
-    TextField title;
+  /** The Title. */
+  @FXML TextField title;
 
-    @FXML
-    TextArea body;
+  /** The Body. */
+  @FXML TextArea body;
 
-    @FXML
-    Text alert;
+  /** The Alert. */
+  @FXML Text alert;
 
-    @FXML
-    void initialize() {
+  /** Initialize. */
+  @FXML
+  void initialize() {
         alert.setText("Add your article!");
     }
 
-    @FXML
-    void returnToHomepage() throws IOException {
+  /**
+   * Return to homepage.
+   *
+   * @throws IOException the io exception
+   */
+  @FXML
+  void returnToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
 
-
-    @FXML
-    void publishArticle() {
+  /** Publish an article (if possible). */
+  @FXML
+  void publishArticle() {
         if(!title.getText().equals("") && !game.getText().equals("") && !body.getText().equals("")) {
             ArticleBean toPublish = new ArticleBean(title.getText(), LoginPageView.getLoggedUser(), new Timestamp(System.currentTimeMillis()), game.getText(),game2.getText());
             toPublish.setText(body.getText());
@@ -64,8 +71,9 @@ public class AddArticlePageView {
         }
     }
 
-    @FXML
-    void reset() {
+  /** Reset article fields. */
+  @FXML
+  void reset() {
         game.setText("");
         body.setText("");
     }

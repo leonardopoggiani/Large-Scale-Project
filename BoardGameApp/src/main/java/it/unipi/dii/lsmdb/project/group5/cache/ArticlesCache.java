@@ -54,4 +54,46 @@ public class ArticlesCache {
     public void invalidaCache() {
         cache.invalidateAll();
     }
+
+    public void dimNumLike(int id) throws ExecutionException {
+        ArticleBean a = cache.get(id);
+        if(a != null) {
+            a.setNumberLikes(a.getNumberLikes() + 1);
+        }
+    }
+
+    public void addNumLike(int id) throws ExecutionException {
+        ArticleBean a = cache.get(id);
+        if(a != null) {
+            a.setNumberLikes(a.getNumberLikes() - 1);
+        }
+    }
+
+    public void dimNumUnlike(int id) throws ExecutionException {
+        ArticleBean a = cache.get(id);
+        if(a != null) {
+            a.setNumberLikes(a.getNumberDislike() - 1);
+        }
+    }
+
+    public void addNumUnlike(int id) throws ExecutionException {
+        ArticleBean a = cache.get(id);
+        if(a != null) {
+            a.setNumberLikes(a.getNumberDislike() + 1);
+        }
+    }
+
+    public void addNumComment(int id) throws ExecutionException {
+        ArticleBean a = cache.get(id);
+        if(a != null) {
+            a.setNumberLikes(a.getNumberDislike() + 1);
+        }
+    }
+
+    public void dimNumComment(int id) throws ExecutionException {
+        ArticleBean a = cache.get(id);
+        if(a != null) {
+            a.setNumberLikes(a.getNumberDislike() - 1);
+        }
+    }
 }

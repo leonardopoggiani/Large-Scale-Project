@@ -21,13 +21,28 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * The view of Admin games.
+ */
 public class AdminGames {
 
+    /**
+     * The Logger.
+     */
     Logger logger =  Logger.getLogger(this.getClass().getName());
+    /**
+     * The Controller.
+     */
     AnalyticsDBController controller = new AnalyticsDBController();
 
+    /**
+     * The Game statistic.
+     */
     ObservableList<String> gameStatistic = FXCollections.observableArrayList("Least rated game per category", "Least rated game per year");
 
+    /**
+     * The Categorie.
+     */
     ObservableList<String> categorie = FXCollections.observableArrayList(
             "Math:1104","Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
@@ -44,10 +59,14 @@ public class AdminGames {
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
             "Exploration:1020","Word-game:1025","Video Game Theme:1101", "None");
 
+    /**
+     * The Years.
+     */
     ObservableList<String> years = FXCollections.observableArrayList("2020","2019","2018","2017","2016",
             "2015","2014","2013","2012","2011","2010","2009","2008","2007","2006","2005","2004","2003","2002","2001","2000",
             "1999","1998","1997","1996","1995","1994", "1993","1992","1991","1990","1989","1988","1987","1986","1985",
             "1984","1983","1982","1981");
+
 
     @FXML
     ComboBox games;
@@ -109,27 +128,63 @@ public class AdminGames {
     @FXML
     PieChart pie;
 
+    /**
+     * Return to statistics.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void returnToStatistics() throws IOException {
         App.setRoot("adminHomepage");
     }
 
+    /**
+     * Go to admin games.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToAdminGames() throws IOException {
         App.setRoot("adminGames");
     }
 
+    /**
+     * Go to admin users.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToAdminUsers() throws IOException {
         App.setRoot("adminUsers");
     }
 
+
+    /**
+     * return the Text of the choosen game
+     */
+    private Text chooseGame(int i) {
+        return switch(i) {
+            case 0 -> game1;
+            case 1 -> game2;
+            case 2 -> game3;
+            default -> new Text();
+        };
+    }
+
+    /**
+     * Logout.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void logout() throws IOException {
         App.setRoot("LoginPageView");
         LoginPageView.logout();
     }
 
+    /**
+     * Initialize.
+     */
     @FXML
     void initialize() {
         games.setItems(gameStatistic);
@@ -145,6 +200,9 @@ public class AdminGames {
 
     }
 
+    /**
+     * Display game statistic result.
+     */
     @FXML
     void displayGameStatisticResult() {
         choosenCategory.getSelectionModel().clearSelection();
@@ -159,15 +217,9 @@ public class AdminGames {
     }
 
 
-    private Text chooseGame(int i) {
-        return switch(i) {
-            case 0 -> game1;
-            case 1 -> game2;
-            case 2 -> game3;
-            default -> new Text();
-        };
-    }
-
+    /**
+     * Display category statistic result.
+     */
     @FXML
     void displayCategoryStatisticResult() {
         if(choosenCategory.getSelectionModel().getSelectedIndex() != -1){
@@ -204,6 +256,9 @@ public class AdminGames {
         }
     }
 
+    /**
+     * search for a game to delete.
+     */
     @FXML
     private void searchGame() {
         GamesPagesDBController gameController = new GamesPagesDBController();
@@ -218,6 +273,9 @@ public class AdminGames {
         }
     }
 
+    /**
+     * remove the game searched.
+     */
     @FXML
     private void removeGame(){
         GamesPagesDBController gameController = new GamesPagesDBController();
@@ -229,6 +287,9 @@ public class AdminGames {
         }
     }
 
+    /**
+     * add the game (if possible).
+     */
     @FXML
     private void addGame(){
         GamesPagesDBController gameController = new GamesPagesDBController();
@@ -241,13 +302,14 @@ public class AdminGames {
         }
     }
 
-
+    /**
+     * display the games category distribution.
+     */
     private void displayCategoryDistribution() {
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList();
 
         List<CategoryBean> categoryInfo2 = controller.getGamesDistribution();
-        logger.info("info " + categoryInfo2);
 
         for(int i = 0; i < categoryInfo2.size(); i++) {
             pieChartData.add(new PieChart.Data(categoryInfo2.get(i).getName(), categoryInfo2.get(i).getTotGames()));
@@ -260,6 +322,9 @@ public class AdminGames {
         pie.setData(pieChartData);
     }
 
+    /**
+     * Display user chart.
+     */
     @FXML
     void displayUserChart() {
         List<CategoryBean> lista = controller.getGamesDistribution();
@@ -278,5 +343,4 @@ public class AdminGames {
         pie.setLabelLineLength(10);
         pie.setLegendSide(Side.LEFT);
     }
-
 }
