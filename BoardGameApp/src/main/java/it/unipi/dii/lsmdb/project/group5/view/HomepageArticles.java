@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
+/**
+ * The type Homepage articles.
+ */
 public class HomepageArticles {
 
     @FXML
@@ -138,11 +141,20 @@ public class HomepageArticles {
     @FXML
     ImageView addarticle;
 
+    /**
+     * The Cache.
+     */
     ArticlesCache cache = ArticlesCache.getInstance();
     private static List<Integer> savedID = Lists.newArrayList();
 
+    /**
+     * The Logger.
+     */
     Logger logger =  Logger.getLogger(this.getClass().getName());
 
+    /**
+     * The Categorie.
+     */
     ObservableList<String> categorie = FXCollections.observableArrayList(
             "Math:1104", "Card Game:1002","Humor:1079","Party Game:1030",
             "Number:1098","Puzzle:1028","Dice:1017","Sports:1038",
@@ -159,9 +171,15 @@ public class HomepageArticles {
             "Print & Play:1120","Novel-Based:1093","Puzzle:1028","Science Fiction:1016",
             "Exploration:1020","Word-game:1025","Video Game Theme:1101");
 
+    /**
+     * The Filters.
+     */
     ObservableList<String> filters = FXCollections.observableArrayList(
             "Game", "Author", "Release Date", "None");
 
+    /**
+     * The Ordinamenti.
+     */
     ObservableList<String> ordinamenti = FXCollections.observableArrayList(
             "Number of likes", "Number of dislikes", "Number of comments", "None");
 
@@ -170,196 +188,13 @@ public class HomepageArticles {
     private static int id;
     private static String titolo;
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public static int getId() {
         return id;
-    }
-
-    @FXML
-    void initialize() throws IOException, ExecutionException {
-        setSuggestedArticles();
-        setSuggestedArticles();
-
-        if(LoginPageView.getLoggedRole().equals("moderator")) {
-            statisticsButton.setDisable(false);
-        } else {
-            statisticsButton.setDisable(true);
-        }
-
-        if(LoginPageView.getLoggedRole().equals("influencer")) {
-            addarticle.setVisible(true);
-            writetext.setVisible(true);
-        } else {
-            addarticle.setVisible(false);
-            writetext.setVisible(false);
-        }
-    }
-
-    @FXML
-    void returnToHomepage() throws IOException {
-        App.setRoot("HomepageArticles");
-    }
-
-    @FXML
-    void goToGames() throws IOException {
-        App.setRoot("HomepageGames");
-    }
-
-    @FXML
-    void goToGroups() throws IOException {
-        App.setRoot("HomepageGroups");
-    }
-
-    @FXML
-    void goToFriends() throws IOException {
-        App.setRoot("HomepageUsers");
-    }
-
-    @FXML
-    void goToSettings() throws IOException {
-        App.setRoot("ProfileSettingsPageView");
-    }
-
-    @FXML
-    void goToStatistics() throws IOException {
-        App.setRoot("HomepageModeratorAnalytics");
-    }
-
-    @FXML
-    void logout() throws IOException {
-        App.setRoot("LoginPageView");
-        LoginPageView.logout();
-    }
-
-    @FXML
-    void showFilters () throws IOException {
-        logger.info("Carico i filtri");
-        filtri.setItems(filters);
-    }
-
-    @FXML
-    void showOrdering () throws IOException {
-        Scene scene = App.getScene(); // recupero la scena della signup
-        ComboBox order = (ComboBox) scene.lookup("#order");
-
-        order.setItems(ordinamenti);
-    }
-
-    @FXML
-    void setFilters() {
-
-        if(filtri.getSelectionModel().getSelectedItem() != null){
-            String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
-            System.out.println(filtroSelezionato);
-            if(!filtroSelezionato.equals("None")){
-                switch(filtroSelezionato){
-                    case "Game":
-                        game.setVisible(true);
-                        author.setVisible(false);
-                        data.setVisible(false);
-                        break;
-                    case "Author":
-                        game.setVisible(false);
-                        author.setVisible(true);
-                        data.setVisible(false);
-                        break;
-                    case "Release Date":
-                        game.setVisible(false);
-                        author.setVisible(false);
-                        data.setVisible(true);
-                        break;
-                    default:
-                        game.setVisible(false);
-                        author.setVisible(false);
-                        data.setVisible(false);
-                        break;
-                }
-            } else {
-                game.setVisible(false);
-                author.setVisible(false);
-                data.setVisible(false);
-            }
-        }
-    }
-
-
-    @FXML
-    void setSuggestedArticles() throws IOException, ExecutionException {
-        ArticlesPagesDBController home = new ArticlesPagesDBController();
-
-        if (savedID.isEmpty()) {
-            // non ho salvato i titoli degli articoli da mostrare
-            logger.info("cache vuota");
-            List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
-            showArticles(list);
-        } else {
-            int i = 0;
-            logger.info("cache piena");
-            for (Integer id : savedID) {
-                ArticleBean a = cache.getDataIfPresent(id);
-                logger.info(" a " + a);
-                if (a != null && a.getTitle() != null) {
-                    if (i < savedID.size() && i < 6) {
-                        TitledPane ar = chooseArticle(i);
-                        Text au = chooseAuthor(i);
-                        Text ti = chooseTimestamp(i);
-                        Text st = chooseStatistics(i);
-                        Text identificatore = chooseId(i);
-
-                        identificatore.setText(String.valueOf(a.getId()));
-                        ar.setText(a.getTitle());
-                        au.setText(a.getAuthor());
-                        ti.setText(String.valueOf(a.getTimestamp()));
-                        st.setText("Comments: " + home.countComments(a.getId()) + ", likes:" + home.countLikes("like", a.getId()) + ", unlikes: " + home.countLikes("dislike", a.getId()) );
-                        i++;
-                    }
-                }
-            }
-        }
-
-        showFilters();
-    }
-
-    private void showArticles(List<ArticleBean> list) {
-        ArticlesPagesDBController home = new ArticlesPagesDBController();
-
-        int numComments = 0;
-        int numLikes = 0;
-        int numUnlikes = 0;
-
-        logger.info("show articles");
-        if (list != null) {
-            for(int i = 0; i < 6; i++) {
-
-                TitledPane ar = chooseArticle(i);
-                Text aut = chooseAuthor(i);
-                Text tim = chooseTimestamp(i);
-                Text st = chooseStatistics(i);
-                Text identificatore = chooseId(i);
-
-                if (i < list.size()) {
-                    ArticleBean a = list.get(i);
-
-                    // caching
-                    savedID.add(a.getId());
-
-                    numComments = home.countComments(a.getId());
-                    numLikes = home.countLikes("like", a.getId());
-                    numUnlikes = home.countLikes( "dislike", a.getId());
-
-                    identificatore.setText(String.valueOf(a.getId() + 1));
-                    ar.setText(a.getTitle());
-                    aut.setText(a.getAuthor());
-                    tim.setText(String.valueOf(a.getTimestamp()));
-                    st.setText("Comments: " + numComments + ", likes:" + numLikes + ", unlikes: " + numUnlikes);
-                } else {
-                    identificatore.setText("");
-                    ar.setText("");
-                    aut.setText("");
-                    tim.setText("");
-                    st.setText("");
-                }
-            }
-        }
     }
 
     private Text chooseTimestamp(int i){
@@ -426,6 +261,253 @@ public class HomepageArticles {
 
     }
 
+    /**
+     * Initialize.
+     *
+     * @throws IOException the io exception
+     * @throws ExecutionException the execution exception
+     */
+    @FXML
+    void initialize() throws IOException, ExecutionException {
+        setSuggestedArticles();
+        setSuggestedArticles();
+
+        if(LoginPageView.getLoggedRole().equals("moderator")) {
+            statisticsButton.setDisable(false);
+        } else {
+            statisticsButton.setDisable(true);
+        }
+
+        if(LoginPageView.getLoggedRole().equals("influencer")) {
+            addarticle.setVisible(true);
+            writetext.setVisible(true);
+        } else {
+            addarticle.setVisible(false);
+            writetext.setVisible(false);
+        }
+    }
+
+    /**
+     * Return to homepage.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void returnToHomepage() throws IOException {
+        App.setRoot("HomepageArticles");
+    }
+
+    /**
+     * Go to games.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void goToGames() throws IOException {
+        App.setRoot("HomepageGames");
+    }
+
+    /**
+     * Go to groups.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void goToGroups() throws IOException {
+        App.setRoot("HomepageGroups");
+    }
+
+    /**
+     * Go to friends.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void goToFriends() throws IOException {
+        App.setRoot("HomepageUsers");
+    }
+
+    /**
+     * Go to settings.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void goToSettings() throws IOException {
+        App.setRoot("ProfileSettingsPageView");
+    }
+
+    /**
+     * Go to statistics.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void goToStatistics() throws IOException {
+        App.setRoot("HomepageModeratorAnalytics");
+    }
+
+    /**
+     * Logout.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void logout() throws IOException {
+        App.setRoot("LoginPageView");
+        LoginPageView.logout();
+    }
+
+    /**
+     * Show filters.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void showFilters () {
+        logger.info("Carico i filtri");
+        filtri.setItems(filters);
+    }
+
+    /**
+     * Show ordering.
+     *
+     * @throws IOException the io exception
+     */
+    @FXML
+    void showOrdering () {
+        Scene scene = App.getScene();
+        ComboBox order = (ComboBox) scene.lookup("#order");
+
+        order.setItems(ordinamenti);
+    }
+
+    /**
+     * Sets filters.
+     */
+    @FXML
+    void setFilters() {
+
+        if(filtri.getSelectionModel().getSelectedItem() != null){
+            String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
+            System.out.println(filtroSelezionato);
+            if(!filtroSelezionato.equals("None")){
+                switch(filtroSelezionato){
+                    case "Game":
+                        game.setVisible(true);
+                        author.setVisible(false);
+                        data.setVisible(false);
+                        break;
+                    case "Author":
+                        game.setVisible(false);
+                        author.setVisible(true);
+                        data.setVisible(false);
+                        break;
+                    case "Release Date":
+                        game.setVisible(false);
+                        author.setVisible(false);
+                        data.setVisible(true);
+                        break;
+                    default:
+                        game.setVisible(false);
+                        author.setVisible(false);
+                        data.setVisible(false);
+                        break;
+                }
+            } else {
+                game.setVisible(false);
+                author.setVisible(false);
+                data.setVisible(false);
+            }
+        }
+    }
+
+    /**
+     * Sets suggested articles.
+     *
+     * @throws IOException the io exception
+     * @throws ExecutionException the execution exception
+     */
+    @FXML
+    void setSuggestedArticles() throws ExecutionException {
+        ArticlesPagesDBController home = new ArticlesPagesDBController();
+
+        if (savedID.isEmpty()) {
+            logger.info("cache vuota");
+            List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
+            showArticles(list);
+        } else {
+            int i = 0;
+            logger.info("cache piena");
+            for (Integer id : savedID) {
+                ArticleBean a = cache.getDataIfPresent(id);
+                logger.info(" a " + a);
+                if (a != null && a.getTitle() != null) {
+                    if (i < savedID.size() && i < 6) {
+                        TitledPane ar = chooseArticle(i);
+                        Text au = chooseAuthor(i);
+                        Text ti = chooseTimestamp(i);
+                        Text st = chooseStatistics(i);
+                        Text identificatore = chooseId(i);
+
+                        identificatore.setText(String.valueOf(a.getId()));
+                        ar.setText(a.getTitle());
+                        au.setText(a.getAuthor());
+                        ti.setText(String.valueOf(a.getTimestamp()));
+                        st.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike() );
+                        i++;
+                    }
+                }
+            }
+        }
+
+        showFilters();
+    }
+
+    /**
+     * Show articles.
+     */
+    private void showArticles(List<ArticleBean> list) {
+        ArticlesPagesDBController home = new ArticlesPagesDBController();
+
+        logger.info("show articles");
+        if (list != null) {
+            for(int i = 0; i < 6; i++) {
+
+                TitledPane ar = chooseArticle(i);
+                Text aut = chooseAuthor(i);
+                Text tim = chooseTimestamp(i);
+                Text st = chooseStatistics(i);
+                Text identificatore = chooseId(i);
+
+                if (i < list.size()) {
+                    ArticleBean a = list.get(i);
+
+                    // caching
+                    savedID.add(a.getId());
+
+                    identificatore.setText(String.valueOf(a.getId() + 1));
+                    ar.setText(a.getTitle());
+                    aut.setText(a.getAuthor());
+                    tim.setText(String.valueOf(a.getTimestamp()));
+                    st.setText("Comments: " + a.getNumberComments() + ", likes:" + a.getNumberLikes() + ", unlikes: " + a.getNumberDislike());
+                } else {
+                    identificatore.setText("");
+                    ar.setText("");
+                    aut.setText("");
+                    tim.setText("");
+                    st.setText("");
+                }
+            }
+        }
+    }
+
+    /**
+     * Go to article.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void goToArticle (MouseEvent event) throws IOException {
 
@@ -440,6 +522,11 @@ public class HomepageArticles {
         App.setRoot("ArticlePageView");
     }
 
+    /**
+     * Filter research.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void filterResearch () throws IOException {
         ArticlesPagesDBController controller = new ArticlesPagesDBController();
@@ -517,30 +604,38 @@ public class HomepageArticles {
         return target;
     }
 
+    /**
+     * The type Number of like comparator.
+     */
     static class NumberOfLikeComparator implements Comparator<ArticleBean> {
-        @Override
-        public int compare(ArticleBean a, ArticleBean b) {
-            return Double.compare(b.getNumberLikes(), a.getNumberLikes());
+            @Override
+            public int compare(ArticleBean a, ArticleBean b) {
+                return Double.compare(b.getNumberLikes(), a.getNumberLikes());
+            }
         }
-    }
 
+        /**
+         * The type Number of dislike comparator.
+         */
     static class NumberOfDislikeComparator implements Comparator<ArticleBean> {
-        @Override
-        public int compare(ArticleBean a, ArticleBean b) {
-            return Integer.compare(b.getNumberDislike(), a.getNumberDislike());
+            @Override
+            public int compare(ArticleBean a, ArticleBean b) {
+                return Integer.compare(b.getNumberDislike(), a.getNumberDislike());
+            }
         }
-    }
 
+        /**
+         * The type Number of comments.
+         */
     static class NumberOfComments implements Comparator<ArticleBean> {
-        @Override
-        public int compare(ArticleBean a, ArticleBean b) {
-            return Integer.compare(b.getNumberComments(), a.getNumberComments());
+            @Override
+            public int compare(ArticleBean a, ArticleBean b) {
+                return Integer.compare(b.getNumberComments(), a.getNumberComments());
+            }
         }
-    }
 
     private void showFilteringResult(List<ArticleBean> filteringResult) {
         if (filteringResult != null) {
-            System.out.println("Lunghezza lista " + filteringResult.size());
 
             for (int i = 0; i < 6; i++) {
                 TitledPane articolo = chooseArticle(i);
@@ -567,31 +662,71 @@ public class HomepageArticles {
         }
     }
 
+    /**
+     * Add article.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void addArticle () throws IOException {
         App.setRoot("AddArticle");
 
     }
 
+    /**
+     * Gets author.
+     *
+     * @return the author
+     */
     public static String getAuthor() {
         return autore;
     }
+    /**
+     * Gets timestamp.
+     *
+     * @return the timestamp
+     */
     public static String getTimestamp() {
         return timestamp;
     }
+    /**
+     * Gets titolo.
+     *
+     * @return the titolo
+     */
     public static String getTitolo() {
         return titolo;
     }
 
+    /**
+     * Sets author.
+     *
+     * @param author the author
+     */
     public static void setAuthor(String author) {
         autore = author;
     }
+    /**
+     * Sets timestamp.
+     *
+     * @param ts the ts
+     */
     public static void setTimestamp(String ts) {
         timestamp = ts;
     }
+    /**
+     * Sets title.
+     *
+     * @param title the title
+     */
     public static void setTitle(String title) {
         titolo = title;
     }
+    /**
+     * Sets id.
+     *
+     * @param ident the ident
+     */
     public static void setId(int ident) {
         id = ident;
     }

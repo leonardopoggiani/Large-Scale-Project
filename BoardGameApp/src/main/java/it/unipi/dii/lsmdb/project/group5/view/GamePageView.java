@@ -21,9 +21,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+/**
+ * The type Game page view.
+ */
 public class GamePageView {
 
+    /**
+     * The Logger.
+     */
     Logger logger = Logger.getLogger(this.getClass().getName());
+
+    /**
+     * The Cache.
+     */
     GamesCache cache = GamesCache.getInstance();
     private static String game;
 
@@ -81,6 +91,7 @@ public class GamePageView {
     @FXML
     TextField timestamp3;
 
+
     @FXML
     Button delete1;
 
@@ -99,35 +110,100 @@ public class GamePageView {
     @FXML
     Button buttonrate;
 
+    private TextField chooseReview(int i){
+        return switch (i) {
+            case 1 -> review1;
+            case 2 -> review2;
+            case 3 -> review3;
+            default -> new TextField();
+        };
+    }
+
+    private TextField chooseAuthor(int i){
+        return switch (i) {
+            case 1 -> author1;
+            case 2 -> author2;
+            case 3 -> author3;
+            default -> new TextField();
+        };
+    }
+
+    private TextField chooseTimestamp(int i){
+        return switch (i) {
+            case 1 -> timestamp1;
+            case 2 -> timestamp2;
+            case 3 -> timestamp3;
+            default -> new TextField();
+        };
+    }
+
+    private Button chooseDeleteButton(int i){
+        return switch (i) {
+            case 1 -> delete1;
+            case 2 -> delete2;
+            case 3 -> delete3;
+            default -> new Button();
+        };
+    }
+
+    /**
+     * Initialize.
+     *
+     * @throws ExecutionException the execution exception
+     */
     @FXML
     void initialize() throws ExecutionException {
         game = HomepageGames.getGame();
         setGameFields();
     }
 
+    /**
+     * Return to homepage.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void returnToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
 
+    /**
+     * Go to games.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToGames() throws IOException {
         App.setRoot("HomepageGames");
     }
 
+    /**
+     * Go to groups.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToGroups() throws IOException {
         App.setRoot("HomepageGroups");
     }
 
+    /**
+     * Go to friends.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void goToFriends() throws IOException {
         App.setRoot("HomepageGroups");
     }
 
+    /**
+     * Sets game fields.
+     *
+     * @throws ExecutionException the execution exception
+     */
     @FXML
     void setGameFields() throws ExecutionException {
-        // setto i campi del gioco
 
         GamesPagesDBController controller = new GamesPagesDBController();
         GameBean currentGame = cache.getDataIfPresent(game);
@@ -196,42 +272,6 @@ public class GamePageView {
         setReviews(game);
     }
 
-    private TextField chooseReview(int i){
-        return switch (i) {
-            case 1 -> review1;
-            case 2 -> review2;
-            case 3 -> review3;
-            default -> new TextField();
-        };
-    }
-
-    private TextField chooseAuthor(int i){
-        return switch (i) {
-            case 1 -> author1;
-            case 2 -> author2;
-            case 3 -> author3;
-            default -> new TextField();
-        };
-    }
-
-    private TextField chooseTimestamp(int i){
-        return switch (i) {
-            case 1 -> timestamp1;
-            case 2 -> timestamp2;
-            case 3 -> timestamp3;
-            default -> new TextField();
-        };
-    }
-
-    private Button chooseDeleteButton(int i){
-        return switch (i) {
-            case 1 -> delete1;
-            case 2 -> delete2;
-            case 3 -> delete3;
-            default -> new Button();
-        };
-    }
-
     private void setReviews(String game) {
         GamesPagesDBController controller = new GamesPagesDBController();
 
@@ -261,6 +301,9 @@ public class GamePageView {
         }
     }
 
+    /**
+     * Post review.
+     */
     @FXML
     void postReview() {
         GamesPagesDBController controller = new GamesPagesDBController();
@@ -272,6 +315,11 @@ public class GamePageView {
         setReviews(game);
     }
 
+    /**
+     * Delete review.
+     *
+     * @param event the event
+     */
     @FXML
     public void deleteReview(MouseEvent event) {
         Button deleteButton = (Button) event.getSource();
@@ -293,6 +341,9 @@ public class GamePageView {
 
     }
 
+    /**
+     * Add vote.
+     */
     @FXML
     void addVote() {
 
@@ -308,5 +359,4 @@ public class GamePageView {
             buttonrate.setStyle("-fx-background-color: green");
         }
     }
-
 }

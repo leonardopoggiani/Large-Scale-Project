@@ -18,81 +18,92 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.util.List;
 
+/** The type Admin users. */
 public class AdminUsers {
 
+    /** The Controller. */
     AnalyticsDBController controller = new AnalyticsDBController();
 
-    @FXML
-    Text user1;
+    @FXML Text user1;
 
-    @FXML
-    Text user2;
+    @FXML Text user2;
 
-    @FXML
-    Text user3;
+    @FXML Text user3;
 
-    @FXML
-    Text user4;
+    @FXML Text user4;
 
-    @FXML
-    Text user5;
+    @FXML Text user5;
 
-    @FXML
-    Text text;
+    @FXML Text text;
 
-    @FXML
-    TextField deleting;
+    @FXML TextField deleting;
 
-    @FXML
-    ImageView tic;
+    @FXML ImageView tic;
 
-    @FXML
-    Button remove;
+    @FXML Button remove;
 
-    @FXML
-    PieChart userpie;
+    @FXML PieChart userpie;
 
-    @FXML
-    Text promotetext;
+    @FXML Text promotetext;
 
-    @FXML
-    TextField promote;
+    @FXML TextField promote;
 
-    @FXML
-    ImageView tic1;
+    @FXML ImageView tic1;
 
-    @FXML
-    Button moderator;
+    @FXML Button moderator;
 
-    @FXML
-    Button admin;
+    @FXML Button admin;
 
+    /**
+    * Return to statistics.
+    *
+    * @throws IOException the io exception
+    */
     @FXML
     void returnToStatistics() throws IOException {
         App.setRoot("adminHomepage");
     }
 
+    /**
+    * Go to admin games.
+    *
+    * @throws IOException the io exception
+    */
     @FXML
     void goToAdminGames() throws IOException {
         App.setRoot("adminGames");
     }
 
+    /**
+    * Go to admin users.
+    *
+    * @throws IOException the io exception
+    */
     @FXML
     void goToAdminUsers() throws IOException {
         App.setRoot("adminUsers");
     }
 
+    /**
+    * Logout.
+    *
+    * @throws IOException the io exception
+    */
     @FXML
     void logout() throws IOException {
         App.setRoot("LoginPageView");
         LoginPageView.logout();
     }
 
+    /** Initialize. */
     @FXML
     void initialize() {
         displayLeastRecentlyLoggedUsers();
     }
 
+    /**
+     * Display the least recently logged users.
+     */
     private void displayLeastRecentlyLoggedUsers() {
         List<UserBean> utenti = controller.showLessRecentLoggedUsers();
         user1.setText((utenti.get(0) == null) ? "" : (utenti.get(0).getUsername() + " / " + utenti.get(0).getLastLogin().toString()));
@@ -104,6 +115,9 @@ public class AdminUsers {
         displayUserChart();
     }
 
+    /**
+     * Search for a user.
+     */
     @FXML
     private void searchUser() {
         UsersPagesDBController userController = new UsersPagesDBController();
@@ -118,6 +132,9 @@ public class AdminUsers {
         }
     }
 
+    /**
+     * Remove a user.
+     */
     @FXML
     private void removeUser() {
         UsersPagesDBController userController = new UsersPagesDBController();
@@ -130,8 +147,9 @@ public class AdminUsers {
         }
     }
 
-    @FXML
-    void displayUserChart() {
+  /** Display user chart. */
+  @FXML
+  void displayUserChart() {
         List<CountryBean> lista = controller.getUsersFromCountry();
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList();
@@ -149,6 +167,7 @@ public class AdminUsers {
         userpie.setLegendSide(Side.LEFT);
     }
 
+    /** Search a user fro promotion. */
     @FXML
     private void searchUserForPromotion() {
         UsersPagesDBController userController = new UsersPagesDBController();
@@ -165,6 +184,7 @@ public class AdminUsers {
         }
     }
 
+    /** Search a user for promotion to moderator. */
     @FXML
     private void promoteModerator() {
         UsersPagesDBController userController = new UsersPagesDBController();
@@ -178,6 +198,7 @@ public class AdminUsers {
         }
     }
 
+    /** Search a user for promotion to admin. */
     @FXML
     private void promoteAdmin() {
         UsersPagesDBController userController = new UsersPagesDBController();
