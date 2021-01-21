@@ -27,8 +27,9 @@ public class LoginSignupDBManager {
   public static boolean signup(UserBean u) {
         MongoCollection<Document> collection = getCollection("Users");
 
-        if(userExist(u.getUsername()))
+        if(userExist(u.getUsername())) {
             return false;
+        }
 
         String passEncrypted = passwordEncryption(u.getPassword());
 

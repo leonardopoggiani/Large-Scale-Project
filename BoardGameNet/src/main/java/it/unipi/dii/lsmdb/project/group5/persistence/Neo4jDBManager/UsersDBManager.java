@@ -529,7 +529,7 @@ public class UsersDBManager extends Neo4jDBManager{
 
         }
         Result result = tx.run("MATCH(u1:User {username:$username})" +
-                        " DELETE u1.role=$role" +
+                        " SET u1.role=$role" +
                         " return u1.role AS newRole"
                 , parameters);
 

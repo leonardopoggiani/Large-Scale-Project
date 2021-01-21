@@ -189,11 +189,9 @@ public class UserDBManager extends MongoDBManager {
         }
 
         if( categoria1 != null && !categoria1.equals("")) {
-            updateProfile.append("age", age);
         }
 
         if( categoria2 != null && !categoria2.equals("")) {
-            updateProfile.append("age", age);
         }
 
         Document update = new Document();

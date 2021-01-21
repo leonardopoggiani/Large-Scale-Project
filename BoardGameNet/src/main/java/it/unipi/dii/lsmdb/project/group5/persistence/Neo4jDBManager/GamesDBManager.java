@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class    GamesDBManager extends Neo4jDBManager{
+public class  GamesDBManager extends Neo4jDBManager{
 
     /**
      * La funzione restituisce la lista dei giochi suggeriti nella sezione giochi di un utente

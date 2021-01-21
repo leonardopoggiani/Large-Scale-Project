@@ -58,14 +58,14 @@ public class ArticlesCache {
     public void dimNumLike(int id) throws ExecutionException {
         ArticleBean a = cache.get(id);
         if(a != null) {
-            a.setNumberLikes(a.getNumberLikes() + 1);
+            a.setNumberLikes(a.getNumberLikes() - 1);
         }
     }
 
     public void addNumLike(int id) throws ExecutionException {
         ArticleBean a = cache.get(id);
         if(a != null) {
-            a.setNumberLikes(a.getNumberLikes() - 1);
+            a.setNumberLikes(a.getNumberLikes() + 1);
         }
     }
 
