@@ -66,8 +66,6 @@ public class    GamesDBManager extends Neo4jDBManager{
                     Value value = nameValue.value();
                     name = value.get("name").asString();
                     infoGame.setName(name);
-                    //infoGame.setCategory1(value.get("category1").asString());
-                    //infoGame.setCategory2(value.get("category2").asString());
                     infoGame.setNumVotes(GameDBManager.getNumVotes(name));
                     infoGame.setAvgRating(GameDBManager.getAvgRating(name));
 

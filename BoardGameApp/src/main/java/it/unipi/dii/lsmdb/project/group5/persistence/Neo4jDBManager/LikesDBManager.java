@@ -17,7 +17,7 @@ public class LikesDBManager extends Neo4jDBManager {
      * @return Numero di dislike se type= dislike
 
      */
-    public static int countLikes(String type, int idArt)
+    public static int countLikes(final String type, final int idArt)
     {
         try(Session session=driver.session())
         {
@@ -129,6 +129,60 @@ public class LikesDBManager extends Neo4jDBManager {
         }
 
 
+    }
+
+    /**
+     * La funzione conta il numero di like or dislike fatti da un utente
+     * @param username
+     * @param type
+     * @return Numero dei like, se type=like
+     * @return Numero di dislike se type= dislike
+
+     */
+    public static int countLikesUser(final String type, final String username)
+    {
+        try(Session session=driver.session())
+        {
+            return session.readTransaction(new TransactionWork<Integer>()
+            {
+                @Override
+                public Integer execute(Transaction tx)
+                {
+                    return transactionCountLikesUser(tx, type, username);
+                }
+            });
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
+        }
+    }
+
+    /**
+     * La funzione conta il numero di like or dislike fatti da un utente
+     * @param tx
+     * @param username
+     * @return Numero dei like, se type=like
+     * @return Numero di dislike se type= dislike
+
+     */
+
+    public static int transactionCountLikesUser(Transaction tx, String type, String username) {
+
+        int numberLike = 0;
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("username", username);
+        parameters.put("type", type);
+        Result result = tx.run("MATCH (ul:User)-[l:LIKED{type:$type}]->(a:Article) " +
+                " WHERE ul.username=$username return count(distinct l) AS quantiLike", parameters);
+
+        if (result.hasNext()) {
+            Record record = result.next();
+            numberLike = record.get("quantiLike").asInt();
+
+        }
+        return numberLike;
     }
 
 

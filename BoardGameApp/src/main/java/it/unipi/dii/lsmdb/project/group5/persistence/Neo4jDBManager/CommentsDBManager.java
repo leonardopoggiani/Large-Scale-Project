@@ -105,7 +105,7 @@ public class CommentsDBManager extends Neo4jDBManager {
                 @Override
                 public Integer execute(Transaction tx)
                 {
-                    return transactionCountLikes(tx, idArt);
+                    return transactionCountComments(tx, idArt);
                 }
             });
         }
@@ -123,7 +123,7 @@ public class CommentsDBManager extends Neo4jDBManager {
      * @return Numero dei commenti ad un articolo
      */
 
-    public static int transactionCountLikes(Transaction tx, int idArt) {
+    public static int transactionCountComments(Transaction tx, int idArt) {
 
         int numberComments = 0;
         HashMap<String, Object> parameters = new HashMap<>();
@@ -235,6 +235,56 @@ public class CommentsDBManager extends Neo4jDBManager {
                 , parameters);
 
         return true;
+    }
+
+    /**
+     * La funzione conta il numero di commenti fatti da un utente
+     * @param username dell'utente
+     * @return Numero dei commenti fatti da un utente, -1 in caso di errore
+     */
+
+    public static int countCommentsUser(final String username)
+    {
+        try
+        {
+            Session session=driver.session();
+            return session.readTransaction(new TransactionWork<Integer>()
+            {
+                @Override
+                public Integer execute(Transaction tx)
+                {
+                    return transactionCountCommentsUser(tx, username);
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return  -1;
+        }
+    }
+
+    /**
+     * La funzione conta il numero di commenti fatti da un utente
+     * @param username dell'utente
+     * @return Numero dei commenti fatti da un utente, -1 in caso di errore
+     */
+
+    public static int transactionCountCommentsUser(Transaction tx, String username) {
+
+        int numberComments = 0;
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("username", username);
+        Result result = tx.run("MATCH (ul:User)-[c:COMMENTED]->(a)" +
+                " WHERE ul.username=$username " +
+                " RETURN count(distinct c) AS quantiComments", parameters);
+
+        if (result.hasNext()) {
+            Record record = result.next();
+            numberComments = record.get("quantiComments").asInt();
+
+        }
+        return numberComments;
     }
 
 }

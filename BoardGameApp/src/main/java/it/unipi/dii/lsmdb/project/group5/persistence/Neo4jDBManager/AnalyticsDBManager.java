@@ -152,23 +152,13 @@ public class AnalyticsDBManager extends Neo4jDBManager{
      * La funzione trova gli influencer che hanno scritto articoli
      * sul maggior numero categorie diverse di giochi
      * nell'ultimo mese
-     * @param tx
+     * @param tx transaction
      * @return Lista degli username degli influencer e il numero di categorie
      */
     private static List<VersatileUser> transactionMostVersatileInfluencer(Transaction tx)
     {
 
         List<VersatileUser> versatileInfluencer = Lists.newArrayList();
-
-        /*HashMap<String,Object> parameters = new HashMap<>();
-        Date date = new Date();
-        Timestamp today = new Timestamp(date.getTime());
-        String todayString = today.toString();
-        parameters.put("datePar", datePar);
-        parameters.put("today", todayString);
-        System.out.println(todayString);
-        System.out.println(datePar);*/
-
 
         String query = "MATCH (u:User {role:\"influencer\"})-[:PUBLISHED]->(a:Article)-[:REFERRED]->(g: Game)" +
                 " RETURN u.username AS influencer, COUNT(DISTINCT g.category1) AS numeroCategorie" +
@@ -198,22 +188,13 @@ public class AnalyticsDBManager extends Neo4jDBManager{
     /**
      * La funzione trova gli utenti standard che hanno scritto reviews
      * sul maggior numero di categorie
-     * @param tx
+     * @param tx transaction
      * @return Lista degli username e il numero di categorie
      */
     private static List<VersatileUser> transactionMostVersatileNormalUser(Transaction tx)
     {
         List<VersatileUser> versatileNormalUsers = new ArrayList<>();
         VersatileUser temp = new VersatileUser();
-        /*HashMap<String,Object> parameters = new HashMap<>();
-        Date date = new Date();
-        Timestamp today = new Timestamp(date.getTime());
-        String todayString = today.toString();
-        parameters.put("datePar", datePar);
-        parameters.put("today", todayString);
-        System.out.println(todayString);
-        System.out.println(datePar);*/
-
 
         String versatileNormalUser = "MATCH (u:User {role:\"normalUser\"})-[:REVIEWED]->(g: Game)" +
                 " RETURN u.username AS username, COUNT(DISTINCT g.category1) AS numeroCategorie" +

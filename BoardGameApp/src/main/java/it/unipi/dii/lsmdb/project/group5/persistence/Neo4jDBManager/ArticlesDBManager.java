@@ -17,6 +17,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * Se un utente segue degli influencer mostra gli articoli di essi, altrimenti quelli suggeriti
      * in base alle sue categorie preferite
      * @param username username utente
+     * @param limit
      * @return Lista degli articoli suggeriti
      */
     public static List<ArticleBean> searchSuggestedArticles(final String username, final int limit)
@@ -39,10 +40,11 @@ public class ArticlesDBManager extends Neo4jDBManager {
     /**
      * La funzione restituisce la lista degli articoli suggeriti nella home di un utente
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
-     * in base alle sue categorie preferite, ma solo 4
+     * in base alle sue categorie preferite
      * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
      * @param tx transaction
      * @param username username utente
+     * @param limit
      * @return Lista degli articoli suggeriti
      */
     private static List<ArticleBean> transactionSearchSuggestedArticles(Transaction tx, String username, int limit)
@@ -116,7 +118,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
 
     /**
      * La funzione aggiunge un nuovo articolo
-     * @param newArt
+     * @param newArt articolo da aggiungere
      * @return true se ha aggiunto con successo, false altrimenti
      */
 
@@ -143,7 +145,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
     /**
      * La funzione aggiunge un nuovo articolo
      * @param tx transaction
-     * @param newArt articolo
+     * @param newArt articolo da aggiungere
      * @return true se ha aggiunto con successo, false altrimenti
      */
 
