@@ -19,4 +19,9 @@ public class CountryBean {
     public void setNumUser(int numUser) {
         this.numUser = numUser;
     }
+
+    @Override
+    public String toString() {
+        return country + ", " + numUser;
+    }
 }

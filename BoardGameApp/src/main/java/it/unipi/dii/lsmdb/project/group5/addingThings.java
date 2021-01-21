@@ -154,6 +154,22 @@ public class addingThings {
                     }
                 }
             }
+
+            for(int i = 0; i < 1200; i++){
+                String author = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
+                String game = listaGiochi.get(rand.nextInt(listaGiochi.size())).getName();
+                String testo = text.get(rand.nextInt(7));
+                double vote = rand.nextDouble()*9 + 1;
+
+                boolean ret = controller1.addRating(new RatingBean(author,vote,game,new Timestamp(System.currentTimeMillis())));
+                if(ret) {
+                    System.out.println("ok");
+                }
+                boolean ret2 = controller1.addReview(new ReviewBean(testo,game,author,new Timestamp(System.currentTimeMillis())));
+                if(ret2){
+                    System.out.println("ok");
+                }
+            }
         }
 
         MongoDBManager.close();

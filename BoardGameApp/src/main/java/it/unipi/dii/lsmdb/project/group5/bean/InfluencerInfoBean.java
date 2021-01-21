@@ -19,4 +19,9 @@ public class InfluencerInfoBean {
     public void setInfluencer(String influencer) {
         this.influencer = influencer;
     }
+
+    @Override
+    public String toString() {
+        return influencer + ", " + count;
+    }
 }

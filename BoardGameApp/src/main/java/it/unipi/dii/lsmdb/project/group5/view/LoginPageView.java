@@ -10,16 +10,26 @@ import it.unipi.dii.lsmdb.project.group5.controller.LoginSignUpDBController;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+/** The type Login page view. */
 public class LoginPageView {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
+  /** The Logger. */
+  Logger logger = Logger.getLogger(this.getClass().getName());
+
     private static String loggedUser;
     private static String loggedRole;
-    LoginSignUpDBController controller = new LoginSignUpDBController();
-    private static int logged = -1;
 
-    @FXML
-    boolean validateLogin() throws IOException {
+  /** The Controller. */
+  LoginSignUpDBController controller = new LoginSignUpDBController();
+
+  /**
+   * Validate login boolean.
+   *
+   * @return the boolean
+   * @throws IOException the io exception
+   */
+  @FXML
+  boolean validateLogin() throws IOException {
         Scene scene = App.getScene();
         TextField us = (TextField) scene.lookup("#username");
         String username = us.getText();
@@ -31,7 +41,6 @@ public class LoginPageView {
             loggedRole = controller.loginUser(username,password);
 
             if(loggedRole != null && !loggedRole.equals("fallito") && !loggedRole.equals("NA")){
-                logged = 1;
                 loggedUser = username;
                 ret = true;
             }
@@ -42,13 +51,23 @@ public class LoginPageView {
         return ret;
     }
 
-    @FXML
-    void switchSignup() throws IOException {
+  /**
+   * Switch signup.
+   *
+   * @throws IOException the io exception
+   */
+  @FXML
+  void switchSignup() throws IOException {
         App.setRoot("SignupPageView");
     }
 
-    @FXML
-    void loginResult() throws IOException {
+  /**
+   * Login result.
+   *
+   * @throws IOException the io exception
+   */
+  @FXML
+  void loginResult() throws IOException {
         if(validateLogin()) {
             if(loggedRole.equals("admin")){
                 App.setRoot("adminHomepage");
@@ -65,14 +84,25 @@ public class LoginPageView {
         }
     }
 
-    public static String getLoggedUser(){
+  /**
+   * Get logged user string.
+   *
+   * @return the string
+   */
+  public static String getLoggedUser() {
         return loggedUser;
     }
 
-    public static String getLoggedRole() { return loggedRole ; }
+  /**
+   * Gets logged role.
+   *
+   * @return the logged role
+   */
+  public static String getLoggedRole() {
+    return loggedRole ; }
 
-    public static void logout() {
-        logged = -1;
+  /** Logout. */
+  public static void logout() {
         GamesCache cache = GamesCache.getInstance();
         cache.invalidaCache();
         ArticlesCache cacheArticle = ArticlesCache.getInstance();

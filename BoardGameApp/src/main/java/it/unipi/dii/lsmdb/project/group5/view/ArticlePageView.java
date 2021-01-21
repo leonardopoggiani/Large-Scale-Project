@@ -410,7 +410,6 @@ public class ArticlePageView {
         if (list != null) {
             for( int i = 0; i < 3; i++) {
                 ArticleBean a = list.get(i);
-                System.out.println(a);
                 TitledPane articolo = chooseArticle(i + 1);
                 Text author = chooseAuthorArticle(i + 1);
                 Text timestamp = chooseTimestampArticle(i + 1);

@@ -76,7 +76,6 @@ public class ReviewsDBManager extends Neo4jDBManager {
             }
 
             infoReview.setGame(name);
-            System.out.println(infoReviews);
             infoReviews.add(infoReview);
         }
 
@@ -124,7 +123,7 @@ public class ReviewsDBManager extends Neo4jDBManager {
         Result result = tx.run("MATCH (u:User)-[r:REVIEWED]->(g:Game{name:$name}) return count(distinct r) AS quanteReviews", parameters);
 
         if (result.hasNext()) {
-            org.neo4j.driver.Record record = result.next();
+            Record record = result.next();
             numberReviews = record.get("quanteReviews").asInt();
 
         }
@@ -139,14 +138,12 @@ public class ReviewsDBManager extends Neo4jDBManager {
      */
     public static Boolean addReview(final ReviewBean newRev) {
         try (Session session = driver.session()) {
-            boolean res;
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
                     return transactionAddReview(tx, newRev);
                 }
             });
-
 
         }
         catch(Exception ex)
@@ -173,8 +170,8 @@ public class ReviewsDBManager extends Neo4jDBManager {
 
 
         Result result = tx.run("MATCH(u:User {username:$author}),(g:Game{name:$game}) " +
-                        "CREATE (u)-[r:REVIEWED{timestamp:$timestamp, text:$text}]->(g) " +
-                        "return r"
+                        " CREATE (u)-[r:REVIEWED{timestamp:$timestamp, text:$text}]->(g) " +
+                        " return r"
                 , parameters);
         if (result.hasNext()) {
             return true;
@@ -198,7 +195,6 @@ public class ReviewsDBManager extends Neo4jDBManager {
                     return transactionDeleteRev(tx, delRev);
                 }
             });
-
 
         }
         catch(Exception ex)
@@ -226,7 +222,6 @@ public class ReviewsDBManager extends Neo4jDBManager {
         tx.run("MATCH (ua:User {username:$author})-[r:REVIEWED {timestamp:$timestamp}]->(g:Game{name:$game}) " +
                         "DELETE r return r"
                 , parameters);
-
 
         return true;
     }

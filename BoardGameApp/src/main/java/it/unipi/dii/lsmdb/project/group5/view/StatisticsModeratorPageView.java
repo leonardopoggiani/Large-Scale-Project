@@ -16,11 +16,16 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * The type Statistics moderator page view.
+ */
 public class StatisticsModeratorPageView {
 
-    AnalyticsDBController controller = new AnalyticsDBController();
+    /**
+     * The Controller.
+     */
+AnalyticsDBController controller = new AnalyticsDBController();
 
     @FXML
     Text influencer1;
@@ -103,7 +108,12 @@ public class StatisticsModeratorPageView {
     @FXML
     Text game5;
 
-    @FXML
+    /**
+     * Return to homepage.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void returnToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
@@ -161,7 +171,10 @@ public class StatisticsModeratorPageView {
 
     private static int giaCaricato = 0;
 
-    @FXML
+    /**
+     * Initialize.
+     */
+@FXML
     void initialize() {
 
         if(giaCaricato == 0) {
@@ -171,7 +184,10 @@ public class StatisticsModeratorPageView {
 
     }
 
-    @FXML
+    /**
+     * Refresh page.
+     */
+@FXML
     void refreshPage(){
         List<InfluencerInfoBean> list = controller.getNumLikeForEachInfluencer();
 
@@ -210,7 +226,10 @@ public class StatisticsModeratorPageView {
         gameCovered();
     }
 
-    @FXML
+    /**
+     * Number published.
+     */
+@FXML
     void numberPublished() {
         List<InfluencerInfoBean> lista = Lists.newArrayList();
 
@@ -229,7 +248,10 @@ public class StatisticsModeratorPageView {
         }
     }
 
-    @FXML
+    /**
+     * Game covered.
+     */
+@FXML
     void gameCovered() {
         List<InfluencerInfoBean> lista = Lists.newArrayList();
 
@@ -250,7 +272,10 @@ public class StatisticsModeratorPageView {
         }
     }
 
-    @FXML
+    /**
+     * Promote.
+     */
+@FXML
     void promote() {
         UsersPagesDBController controllerUser = new UsersPagesDBController();
         UserBean toBePromoted = controllerUser.showUser(promotion.getText());
@@ -265,7 +290,10 @@ public class StatisticsModeratorPageView {
         }
     }
 
-    @FXML
+    /**
+     * Search user for promotion.
+     */
+@FXML
     void searchUserForPromotion() {
         UsersPagesDBController controllerUser = new UsersPagesDBController();
         UserBean toBePromoted = controllerUser.showUser(promotion.getText());
@@ -279,7 +307,10 @@ public class StatisticsModeratorPageView {
         }
     }
 
-    @FXML
+    /**
+     * Search user for downgrade.
+     */
+@FXML
     void searchUserForDowngrade() {
         UsersPagesDBController controllerUser = new UsersPagesDBController();
         UserBean toBeDowngraded = controllerUser.showUser(declass.getText());
@@ -293,7 +324,10 @@ public class StatisticsModeratorPageView {
         }
     }
 
-    @FXML
+    /**
+     * Downgrade.
+     */
+@FXML
     void downgrade() {
         UsersPagesDBController controllerUser = new UsersPagesDBController();
         UserBean toBeDowngraded = controllerUser.showUser(declass.getText());

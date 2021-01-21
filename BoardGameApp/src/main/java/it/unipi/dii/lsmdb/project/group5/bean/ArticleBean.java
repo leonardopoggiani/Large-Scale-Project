@@ -2,13 +2,10 @@ package it.unipi.dii.lsmdb.project.group5.bean;
 
 import com.google.common.collect.Lists;
 import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-
-
 
 public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     private String title;
@@ -20,8 +17,6 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     private int numComments;
     private List<String> ListGame;
     private int id;
-
-    List<CommentBean> infoComments;
 
     public ArticleBean() {}
 
@@ -83,14 +78,6 @@ public class ArticleBean extends @NonNull CompletableFuture<ArticleBean> {
     }
 
     public void setText (String text){ this.text = text;}
-    public void setComments(List<CommentBean> infoComments) {
-        this.infoComments = infoComments;
-    }
-
-    public List<CommentBean> getComments() {
-        return infoComments;
-    }
-
 
     public void setNumberComments(int numComments) {
         this.numComments = numComments;

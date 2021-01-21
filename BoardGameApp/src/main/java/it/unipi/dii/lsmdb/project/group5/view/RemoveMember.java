@@ -10,35 +10,60 @@ import javafx.scene.control.ComboBox;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The type Remove member.
+ */
 public class RemoveMember {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
-    GroupsPagesDBController controller2 = new GroupsPagesDBController();
+    /**
+     * The Logger.
+     */
+Logger logger =  Logger.getLogger(this.getClass().getName());
+    /**
+     * The Controller 2.
+     */
+GroupsPagesDBController controller2 = new GroupsPagesDBController();
 
-    ObservableList<String> usersList = FXCollections.observableArrayList();
+    /**
+     * The Users list.
+     */
+ObservableList<String> usersList = FXCollections.observableArrayList();
 
-    @FXML
+@FXML
     ComboBox users;
 
-    @FXML
+    /**
+     * Initialize.
+     */
+@FXML
     void initialize() {
         List<String> utenti = controller2.showGroupsMembers(HomepageGroups.getGroup(),HomepageGroups.getAdminGroup());
-        logger.info("size " + utenti.size());
         usersList.addAll(utenti);
         users.setItems(usersList);
     }
 
-    public void removeMember(ActionEvent actionEvent) {
+    /**
+     * Remove member.
+     *
+     * @param actionEvent the action event
+     */
+public void removeMember(ActionEvent actionEvent) {
         String toRemove = usersList.remove(users.getSelectionModel().getSelectedIndex());
-        logger.info("tolgo " + toRemove);
+        logger.log(Level.INFO,"removed " + toRemove);
         controller2.addDeleteGroupMember(toRemove,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "remove");
         users.setItems(usersList);
     }
 
-    public void returnToHomepageGroups(ActionEvent actionEvent) throws IOException {
+    /**
+     * Return to homepage groups.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
+public void returnToHomepageGroups(ActionEvent actionEvent) throws IOException {
         App.setRoot("HomepageGroups");
     }
-
 }

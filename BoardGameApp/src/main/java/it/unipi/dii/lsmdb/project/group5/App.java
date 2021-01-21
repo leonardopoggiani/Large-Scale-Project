@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
 import java.util.logging.*;
 import java.io.IOException;
 
@@ -22,7 +24,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        logger.info("Applicazione partita");
+        logger.log(Level.INFO, "App started");
 
         if(MongoDBManager.createConnection() && Neo4jDBManager.InitializeDriver()){
             scene = new Scene(loadFXML("LoginPageView"));

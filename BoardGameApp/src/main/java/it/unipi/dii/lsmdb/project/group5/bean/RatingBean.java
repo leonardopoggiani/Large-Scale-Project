@@ -8,8 +8,6 @@ public class RatingBean {
     private String game;
     private Timestamp timestamp;
 
-    public RatingBean(){};
-
     public RatingBean(String author, double vote, String game, Timestamp timestamp)
     {
         this.author = author;

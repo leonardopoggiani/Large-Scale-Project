@@ -365,7 +365,6 @@ public class HomepageArticles {
      */
     @FXML
     void showFilters () {
-        logger.info("Carico i filtri");
         filtri.setItems(filters);
     }
 
@@ -390,7 +389,6 @@ public class HomepageArticles {
 
         if(filtri.getSelectionModel().getSelectedItem() != null){
             String filtroSelezionato = filtri.getSelectionModel().getSelectedItem().toString();
-            System.out.println(filtroSelezionato);
             if(!filtroSelezionato.equals("None")){
                 switch(filtroSelezionato){
                     case "Game":
@@ -441,7 +439,6 @@ public class HomepageArticles {
             logger.info("cache piena");
             for (Integer id : savedID) {
                 ArticleBean a = cache.getDataIfPresent(id);
-                logger.info(" a " + a);
                 if (a != null && a.getTitle() != null) {
                     if (i < savedID.size() && i < 6) {
                         TitledPane ar = chooseArticle(i);
@@ -517,7 +514,6 @@ public class HomepageArticles {
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
         logger.info("index" + index);
         Text idSelected = chooseId(index - 1);
-        System.out.println("idSelected" + idSelected);
         id = Integer.parseInt(idSelected.getText());
         App.setRoot("ArticlePageView");
     }

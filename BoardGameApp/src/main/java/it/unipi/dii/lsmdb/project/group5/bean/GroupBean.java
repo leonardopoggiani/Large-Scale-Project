@@ -10,8 +10,6 @@ public class GroupBean {
     private String description;
     private String game;
     private Timestamp lastPost;
-    //Non so se serve
-    private List<UserBean> members;
 
     public GroupBean() {}
 
@@ -22,7 +20,6 @@ public class GroupBean {
         this.admin = admin;
         this.description = description;
         this.game = game;
-        this.members = null;
     }
 
     public String getName() {
@@ -39,10 +36,6 @@ public class GroupBean {
 
     public String getDescription() {
         return description;
-    }
-
-    public List<UserBean> getMembers() {
-        return members;
     }
 
     public String getGame() {
@@ -70,10 +63,6 @@ public class GroupBean {
         this.description = description;
     }
 
-    public void setMembers(List<UserBean> members) {
-        this.members = members;
-    }
-
     public void setGame(String game) {
         this.game = game;
     }
@@ -91,7 +80,6 @@ public class GroupBean {
                 ", description='" + description + '\'' +
                 ", game='" + game + '\'' +
                 ", lastPost=" + lastPost +
-                ", members=" + members +
                 '}';
     }
 }

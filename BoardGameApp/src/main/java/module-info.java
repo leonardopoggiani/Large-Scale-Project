@@ -16,6 +16,7 @@ module org.openjfx {
     requires org.checkerframework.checker.qual;
     requires ehcache;
     requires org.apache.commons.codec;
+    requires log4j;
 
     opens it.unipi.dii.lsmdb.project.group5.view to javafx.fxml;
     opens it.unipi.dii.lsmdb.project.group5 to javafx.fxml;

@@ -9,6 +9,7 @@ import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.RatingsDBMan
 import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.ReviewsDBManager;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GamesPagesDBController {
@@ -16,7 +17,6 @@ public class GamesPagesDBController {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
-    //ONLY NEO4J
     public List<GameBean> listSuggestedGames(String username, int limit) {
 
         return GamesDBManager.searchSuggestedGames(username, limit);
@@ -28,16 +28,14 @@ public class GamesPagesDBController {
     }
 
 
-    //PRIMA MONGODB, POI NEO4J
     public boolean addGame(GameBean newGame) {
-
 
         if(GameDBManager.addGame(newGame)){
             if(!GamesDBManager.addGame(newGame))
             {
-                logger.severe("NEO4J | Gioco " + newGame.getName() + " non aggiunto!");
+                logger.log(Level.SEVERE,"NEO4J | Gioco " + newGame.getName() + " non aggiunto!");
                 GameDBManager.deleteGame(newGame.getName());
-                logger.info("MONGODB | Gioco " + newGame.getName() + " rimosso da mongoDB!");
+                logger.log(Level.SEVERE,"MONGODB | Gioco " + newGame.getName() + " rimosso da mongoDB!");
                 return  false;
             }
             return true;
@@ -46,15 +44,13 @@ public class GamesPagesDBController {
         return false;
     }
 
-
-    //PRIMA NEO4J, POI MONGODB
     public boolean addReview(ReviewBean newRev) {
 
         boolean ret = ReviewsDBManager.addReview(newRev);
         if(ret){
             if(!GameDBManager.updateNumReviews(1, newRev.getGame()))
             {
-                logger.severe("MONGODB | Numero reviews di " + newRev.getGame() +" non incrementato!");
+                logger.log(Level.SEVERE,"MONGODB | Numero reviews di " + newRev.getGame() +" non incrementato!");
                 return false;
             }
             return true;
@@ -70,7 +66,7 @@ public class GamesPagesDBController {
         if (ret){
             if(!GameDBManager.updateRating(newRating.getVote(), newRating.getGame()))
             {
-                logger.severe("MONGODB | Numero di rating di "+ newRating.getGame() +" non aggiornato!");
+                logger.log(Level.SEVERE,"MONGODB | Numero di rating di "+ newRating.getGame() +" non aggiornato!");
                 return false;
             }
             return  true;
@@ -86,7 +82,7 @@ public class GamesPagesDBController {
       {
           if(!GamesDBManager.deleteGame(game))
           {
-              logger.severe("NEO4J | Game " + game + " non eliminato!");
+              logger.log(Level.SEVERE,"NEO4J | Game " + game + " non eliminato!");
               return false;
           }
           return true;
@@ -100,7 +96,6 @@ public class GamesPagesDBController {
 
     }
 
-    //ONLY MONGODB
     public double getAvgRating(String game){
         return GameDBManager.getAvgRating(game);
     }
@@ -136,26 +131,6 @@ public class GamesPagesDBController {
     public List<GameBean> orderByNumVotes(){
         return GameDBManager.orderBy("numVotes");
     }
-
-
-    /*
-    public int countReviews(String name) {
-        return countReviews(name);
-    }
-
-
-    public int countRatings(String name) {
-
-        return RatingsDBManager.countRatings(name);
-    }
-
-
-    public double avgRatings(String name) {
-
-        return RatingsDBManager.avgRatings(name);
-
-
-    }*/
 
     public List<GameBean> showAllGames() {
         return  GameDBManager.showAllGames();

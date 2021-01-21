@@ -3,6 +3,7 @@ package it.unipi.dii.lsmdb.project.group5.view;
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.PostBean;
 import it.unipi.dii.lsmdb.project.group5.controller.GroupsPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.view.javafxutils.PostPane;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -11,48 +12,52 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Logger;
 
+/** The type Post view. */
 public class PostView {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
+  /** The Logger. */
+  Logger logger = Logger.getLogger(this.getClass().getName());
 
-    @FXML
-    ScrollPane posts;
+  @FXML
+  ScrollPane posts;
 
-    @FXML
-    ScrollPane scrollingPane;
+  @FXML
+  ScrollPane scrollingPane;
 
-    @FXML
-    Text message;
+  @FXML
+  Text message;
 
-    @FXML
-    TextArea newmessage;
+  @FXML
+  TextArea newmessage;
 
-    @FXML
-    Button post;
+  @FXML
+  Button post;
 
-    @FXML
-    Button home;
+  @FXML
+  Button home;
 
-    @FXML
-    AnchorPane ancora;
+  @FXML
+  AnchorPane ancora;
 
-    @FXML
-    ImageView tic;
+  @FXML
+  ImageView tic;
 
-    @FXML
-    ImageView ics;
+  @FXML
+  ImageView ics;
 
-    GroupsPagesDBController controller = new GroupsPagesDBController();
+  /** The Controller. */
+  GroupsPagesDBController controller = new GroupsPagesDBController();
+
     private int LIMIT_QUERY_SIZE = 10;
 
-    @FXML
-    void initialize() {
+  /** Initialize. */
+  @FXML
+  void initialize() {
         tic.setVisible(false);
         ics.setVisible(false);
         showPosts();
@@ -72,8 +77,9 @@ public class PostView {
         posts.setContent(ancora);
     }
 
-    @FXML
-    void post() {
+  /** Post. */
+  @FXML
+  void post() {
         GroupsPagesDBController controller = new GroupsPagesDBController();
         logger.info("add post");
 
@@ -96,8 +102,13 @@ public class PostView {
         showPosts();
     }
 
-    @FXML
-    void returnToHomepage() throws IOException {
+  /**
+   * Return to homepage.
+   *
+   * @throws IOException the io exception
+   */
+  @FXML
+  void returnToHomepage() throws IOException {
         App.setRoot("HomepageGroups");
     }
 }

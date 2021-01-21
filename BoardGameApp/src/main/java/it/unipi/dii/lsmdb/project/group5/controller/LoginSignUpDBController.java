@@ -4,6 +4,7 @@ import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.LoginSignupD
 import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.UserDBManager;
 import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.UsersDBManager;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LoginSignUpDBController {
@@ -13,8 +14,6 @@ public class LoginSignUpDBController {
     public LoginSignUpDBController() {
     }
 
-
-
     public boolean registerUser(UserBean user) {
 
 
@@ -23,9 +22,9 @@ public class LoginSignUpDBController {
             int registrationNeo4j = UsersDBManager.registerUser(user);
             if(registrationNeo4j != 0)
             {
-                logger.severe("NEO4J | Utente " + user.getUsername() + " non aggiunto in Neo4j!");
+                logger.log(Level.SEVERE,"NEO4J | Utente " + user.getUsername() + " non aggiunto in Neo4j!");
                 UserDBManager.deleteUser(user.getUsername());
-                logger.severe("MONGODB | Utente " + user.getUsername() + " eliminato da MongoDB!");
+                logger.log(Level.SEVERE,"MONGODB | Utente " + user.getUsername() + " eliminato da MongoDB!");
                 return  false;
             }
 
@@ -34,23 +33,19 @@ public class LoginSignUpDBController {
         return false;
     }
 
-    //NEO4J PRIMA, MONGODB DOPO
-
     public String loginUser(String username, String password) {
 
         String roleLogin = LoginSignupDBManager.loginUser(username, password);
 
         if(roleLogin != null)
         {
-            System.out.println("Login effettuato con successo! Role: " + roleLogin);
+            logger.log(Level.INFO,"Role: " + roleLogin);
             LoginSignupDBManager.updateLogin(username);
         }
         else {
-            logger.info("Password o username non corretti!");
-            System.err.println("Pass o username non corretti! Role: " + roleLogin);
+            logger.log(Level.INFO,"Can't login with these credentials!");
         }
 
-        System.out.println(roleLogin);
         return roleLogin;
     }
 

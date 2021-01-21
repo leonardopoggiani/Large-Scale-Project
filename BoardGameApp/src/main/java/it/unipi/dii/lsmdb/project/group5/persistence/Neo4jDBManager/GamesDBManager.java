@@ -70,11 +70,7 @@ public class    GamesDBManager extends Neo4jDBManager{
                     infoGame.setAvgRating(GameDBManager.getAvgRating(name));
 
                 }
-
             }
-            //infoGame.setGroups(GamesReviewsRatesDBManager.searchListGroups(name));
-
-
             infoGames.add(infoGame);
         }
 
@@ -173,7 +169,6 @@ public class    GamesDBManager extends Neo4jDBManager{
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         List<ArticleBean> articleDelete = new ArrayList<>();
-
 
         //Elimino il gruppo, con tutti i suoi post, be_part, referred
         String eliminaGroups = "MATCH (gr:Group)-[:REFERRED]->(g:Game{name:$name})" +

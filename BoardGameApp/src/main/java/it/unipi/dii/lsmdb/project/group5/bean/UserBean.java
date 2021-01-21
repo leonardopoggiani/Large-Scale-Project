@@ -43,7 +43,6 @@ public class UserBean {
         this.password = password;
     }
 
-    //Da concluedere per mongoDB
     public UserBean(String username, String name, String surname, int age, String country ) {
         this();
         this.username = username;
@@ -94,14 +93,6 @@ public class UserBean {
         this.name = name;
     }
 
-    public void setCategory2(String category2) {
-        this.category2 = category2;
-    }
-
-    public void setCategory1(String category1) {
-        this.category1 = category1;
-    }
-
     public void setAge(int age) {
         this.age = age;
     }
@@ -120,10 +111,6 @@ public class UserBean {
 
     public void setRegistered(int registered) {
         this.registered = registered;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public void setSurname(String surname) {

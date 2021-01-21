@@ -10,19 +10,30 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * The type Homepage users.
+ */
 public class HomepageUsers {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
+    /**
+     * The Logger.
+     */
+Logger logger =  Logger.getLogger(this.getClass().getName());
     private static String filter = "";
 
-    public static String getFilter() {
+    /**
+     * Gets filter.
+     *
+     * @return the filter
+     */
+public static String getFilter() {
         return filter;
     }
+
 
     @FXML
     CheckBox showfollowed;
@@ -137,20 +148,6 @@ public class HomepageUsers {
     @FXML
     Button statisticsButton;
 
-    private Button chooseUnfollowButton(int i){
-        return switch (i) {
-            case 0 -> unfollow1;
-            case 1 -> unfollow2;
-            case 2 -> unfollow3;
-            case 3 -> unfollow4;
-            case 4 -> unfollow5;
-            case 5 -> unfollow6;
-            case 6 -> unfollow7;
-            case 7 -> unfollow8;
-            default -> new Button();
-        };
-    }
-
     private Text chooseUser(int i){
         return switch (i) {
             case 0 -> username1;
@@ -175,44 +172,92 @@ public class HomepageUsers {
         };
     }
 
-    @FXML
+    private Text chooseInfluencer(int i) {
+        return switch (i){
+            case 0 -> influencer1;
+            case 1 -> influencer2;
+            case 2 -> influencer3;
+            case 3 -> influencer4;
+            default -> new Text();
+        };
+    }
+
+    /**
+     * Return to homepage.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void returnToHomepage() throws IOException {
         App.setRoot("HomepageArticles");
     }
 
-    @FXML
+    /**
+     * Go to games.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void goToGames() throws IOException {
         App.setRoot("HomepageGames");
     }
 
-    @FXML
+    /**
+     * Go to groups.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void goToGroups() throws IOException {
         App.setRoot("HomepageGroups");
     }
 
-    @FXML
+    /**
+     * Go to friends.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void goToFriends() throws IOException {
         App.setRoot("HomepageUsers");
     }
 
-    @FXML
+    /**
+     * Go to settings.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void goToSettings() throws IOException {
         App.setRoot("ProfileSettingsPageView");
     }
 
-    @FXML
+    /**
+     * Go to statistics.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void goToStatistics() throws IOException {
         App.setRoot("HomepageModeratorAnalytics");
     }
 
-    @FXML
+    /**
+     * Logout.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void logout() throws IOException {
         App.setRoot("LoginPageView");
         LoginPageView.logout();
     }
 
 
-    @FXML
+    /**
+     * Initialize.
+     */
+@FXML
     void initialize() {
         showUsers();
 
@@ -266,17 +311,11 @@ public class HomepageUsers {
         }
     }
 
-    private Text chooseInfluencer(int i) {
-        return switch (i){
-            case 0 -> influencer1;
-            case 1 -> influencer2;
-            case 2 -> influencer3;
-            case 3 -> influencer4;
-            default -> new Text();
-        };
-    }
 
-    @FXML
+    /**
+     * Filter users.
+     */
+@FXML
     void filterUsers() {
         String filter = name.getText();
         UsersPagesDBController controller = new UsersPagesDBController();
@@ -300,25 +339,45 @@ public class HomepageUsers {
         }
     }
 
-    @FXML
+    /**
+     * Show followed users.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void showFollowedUsers() throws IOException {
         filter = "followed";
         App.setRoot("UsersFilterPageView");
     }
 
-    @FXML
+    /**
+     * Show suggested users.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void showSuggestedUsers() throws IOException {
         filter = "suggested";
         App.setRoot("UsersFilterPageView");
     }
 
-    @FXML
+    /**
+     * Show suggested influencers.
+     *
+     * @throws IOException the io exception
+     */
+@FXML
     void showSuggestedInfluencers() throws IOException {
         filter = "influencer";
         App.setRoot("UsersFilterPageView");
     }
 
-    @FXML
+    /**
+     * Follow.
+     *
+     * @param event the event
+     */
+@FXML
     void follow(MouseEvent event) {
         logger.info("follow");
         UsersPagesDBController controller = new UsersPagesDBController();
@@ -336,7 +395,12 @@ public class HomepageUsers {
 
     }
 
-    @FXML
+    /**
+     * Follow influencer.
+     *
+     * @param event the event
+     */
+@FXML
     void followInfluencer(MouseEvent event) {
         logger.info("follow");
         UsersPagesDBController controller = new UsersPagesDBController();
@@ -355,7 +419,12 @@ public class HomepageUsers {
 
     }
 
-    @FXML
+    /**
+     * Unfollow.
+     *
+     * @param event the event
+     */
+@FXML
     void unfollow(MouseEvent event) {
         logger.info("unfollow");
 

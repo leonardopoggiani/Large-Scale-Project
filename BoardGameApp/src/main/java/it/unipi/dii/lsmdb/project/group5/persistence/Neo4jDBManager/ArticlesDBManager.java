@@ -69,12 +69,10 @@ public class ArticlesDBManager extends Neo4jDBManager {
         if(quantiInflu < 3)
         {
             result = tx.run(nienteInflu, parameters);
-            System.out.println("Pochi Influencer");
         }
         else
         {
             result = tx.run(conInflu, parameters);
-            System.out.println("Ho trovato Influencers");
         }
         while(result.hasNext())
         {
@@ -100,14 +98,10 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 if ("p".equals(nameValue.key())) {
                     Value value = nameValue.value();
                     String timestamp = value.get("timestamp").asString();
-                    System.out.println(timestamp);
                     article.setTimestamp(Timestamp.valueOf(timestamp));
 
                 }
-
             }
-
-
             articles.add(article);
         }
 
@@ -159,10 +153,7 @@ public class ArticlesDBManager extends Neo4jDBManager {
         parameters.put("game2", (newArt.getListGame().size() == 2) ? newArt.getListGame().get(1) : "" );
         String query = "";
 
-        System.out.println(newArt);
-
         if (newArt.getListGame().size() == 1 || newArt.getListGame().get(1).equals("")) {
-            System.out.println("uno");
             query =
                 "MATCH(u:User {username:$author}), (g1:Game{name:$game1})"
                     + " CREATE (u)-[p:PUBLISHED{timestamp:$timestamp}]->(a:Article{idArt:$id, title:$title})"

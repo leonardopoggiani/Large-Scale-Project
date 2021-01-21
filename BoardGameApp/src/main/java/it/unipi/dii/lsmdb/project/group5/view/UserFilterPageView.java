@@ -14,21 +14,28 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+/** The type User filter page view. */
 public class UserFilterPageView {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
+  /** The Logger. */
+  Logger logger = Logger.getLogger(this.getClass().getName());
 
-
-    @FXML
-    void returnToHomepage() throws IOException {
+  /**
+   * Return to homepage.
+   *
+   * @throws IOException the io exception
+   */
+  @FXML
+  void returnToHomepage() throws IOException {
         App.setRoot("HomepageUsers");
     }
 
-    @FXML
-    AnchorPane ancora;
+  /** The Ancora. */
+  @FXML AnchorPane ancora;
 
-    @FXML
-    void initialize() {
+  /** Initialize. */
+  @FXML
+  void initialize() {
         VBox lista = new VBox();
 
         UsersPagesDBController controller = new UsersPagesDBController();

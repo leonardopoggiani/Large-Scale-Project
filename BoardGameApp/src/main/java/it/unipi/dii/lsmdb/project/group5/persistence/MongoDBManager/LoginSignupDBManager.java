@@ -6,27 +6,31 @@ import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.Projections.fields;
 import static it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.MongoDBManager.getCollection;
 
+/** The type Login signup db manager. */
 public class LoginSignupDBManager {
 
-    public static boolean signup(UserBean u){
+  /**
+   * Signup boolean.
+   *
+   * @param u the u
+   * @return the boolean
+   */
+  public static boolean signup(UserBean u) {
         MongoCollection<Document> collection = getCollection("Users");
 
         if(userExist(u.getUsername()))
             return false;
 
         String passEncrypted = passwordEncryption(u.getPassword());
-
 
         Document doc = new Document("username", u.getUsername()).append("password", passEncrypted).append("name", u.getName()).append("surname", u.getSurname())
                 .append("age", u.getAge()).append("registered", u.getRegistered()).append("last_login", u.getLastLogin())
@@ -42,7 +46,13 @@ public class LoginSignupDBManager {
         }
     }
 
-    public static boolean userExist(String username) {
+  /**
+   * User exist boolean.
+   *
+   * @param username the username
+   * @return the boolean
+   */
+  public static boolean userExist(String username) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
         Bson projection = (fields( excludeId()));
@@ -51,7 +61,6 @@ public class LoginSignupDBManager {
 
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 exist = true;
 
@@ -66,12 +75,17 @@ public class LoginSignupDBManager {
         return exist;
     }
 
-    public static String loginUser(String username, String password) {
+  /**
+   * Login user string.
+   *
+   * @param username the username
+   * @param password the password
+   * @return the string
+   */
+  public static String loginUser(String username, String password) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Users");
 
         String passEncrypted = passwordEncryption(password);
-
-
 
         Bson projection = (fields( excludeId()));
         Bson match =  and(eq("username",username),eq("password", passEncrypted));
@@ -81,7 +95,6 @@ public class LoginSignupDBManager {
 
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 role = next.get("role").toString();
             }
@@ -95,10 +108,13 @@ public class LoginSignupDBManager {
         return role;
     }
 
-
-
-    public static boolean updateLogin(String username) {
-        //System.out.println("Nella update login");
+  /**
+   * Update login boolean.
+   *
+   * @param username the username
+   * @return the boolean
+   */
+  public static boolean updateLogin(String username) {
         MongoCollection<Document> collection = getCollection("Users");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Document setLastLogin = new Document();
@@ -114,11 +130,15 @@ public class LoginSignupDBManager {
         }
     }
 
-    public static String passwordEncryption(String passToEncrypt)
-    {
+  /**
+   * Password encryption string.
+   *
+   * @param passToEncrypt the pass to encrypt
+   * @return the string
+   */
+  public static String passwordEncryption(String passToEncrypt) {
         String salt = "randomSalt";
         String encryptedPassword = DigestUtils.sha256Hex(passToEncrypt+salt);
-        System.out.println("ENCRYPTION | encrypt-pw: " + encryptedPassword);
         return encryptedPassword;
     }
 }

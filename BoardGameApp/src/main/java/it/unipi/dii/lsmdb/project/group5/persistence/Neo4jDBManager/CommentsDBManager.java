@@ -179,7 +179,6 @@ public class CommentsDBManager extends Neo4jDBManager {
         parameters.put("id", newComm.getId());
         parameters.put("timestamp", newComm.getTimestamp().toString());
 
-
         Result result = tx.run("MATCH(u:User {username:$authorComm}),(a:Article{idArt:$id}) " +
                         " CREATE (u)-[c:COMMENTED{timestamp:$timestamp, text:$text}]->(a) " +
                         " return c"

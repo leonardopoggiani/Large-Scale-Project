@@ -72,28 +72,28 @@ public class ArticlesCache {
     public void dimNumUnlike(int id) throws ExecutionException {
         ArticleBean a = cache.get(id);
         if(a != null) {
-            a.setNumberLikes(a.getNumberDislike() - 1);
+            a.setNumberDislikes(a.getNumberDislike() - 1);
         }
     }
 
     public void addNumUnlike(int id) throws ExecutionException {
         ArticleBean a = cache.get(id);
         if(a != null) {
-            a.setNumberLikes(a.getNumberDislike() + 1);
+            a.setNumberDislikes(a.getNumberDislike() + 1);
         }
     }
 
     public void addNumComment(int id) throws ExecutionException {
         ArticleBean a = cache.get(id);
         if(a != null) {
-            a.setNumberLikes(a.getNumberDislike() + 1);
+            a.setNumberComments(a.getNumberComments() + 1);
         }
     }
 
     public void dimNumComment(int id) throws ExecutionException {
         ArticleBean a = cache.get(id);
         if(a != null) {
-            a.setNumberLikes(a.getNumberDislike() - 1);
+            a.setNumberComments(a.getNumberComments() - 1);
         }
     }
 }

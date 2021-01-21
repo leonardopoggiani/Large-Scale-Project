@@ -77,7 +77,6 @@ public class UsersDBManager extends Neo4jDBManager{
                 @Override
                 public List<String> execute(Transaction tx)
                 {
-
                     return transactionListUsers(tx, username, type);
                 }
             });
@@ -115,7 +114,8 @@ public class UsersDBManager extends Neo4jDBManager{
         String searchFollowersAll ="MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User) " +
                 " RETURN u2.username as followersAll" +
                 " LIMIT 10";
-        //Doppio follow
+
+        // a user that follows another user and is followed back
         String searchFriends =  "MATCH (u:User{username:$username})<-[f:FOLLOW]-(u2:User) " +
                                 " WHERE (u2)<-[:FOLLOW]-(u) " +
                                 " RETURN u2.username as friends " +
@@ -181,9 +181,6 @@ public class UsersDBManager extends Neo4jDBManager{
 
     }
 
-
-
-
     /** La funzione restituisce la lista following suggeriti
      * Se l'utente ha degli amici allora suggerisce gli utenti seguiti dal maggior numero
      * di suoi amici, altrimenti suggerisce gli utenti con almeno una delle sue stesse categorie
@@ -222,10 +219,6 @@ public class UsersDBManager extends Neo4jDBManager{
         parameters.put("username", username);
         parameters.put("role", role);
 
-        /*String searchFriends = "MATCH (u:User{username:$username})-[f:FOLLOW]->(u2:User)" +
-                "WHERE (u2)-[:FOLLOW]->(u)" +
-                "RETURN count(u2) AS quantiAmici";*/
-
         String searchForFriendsInflu = "MATCH (me:User{username:$username})-[:FOLLOW]->(friend:User), (friend)-[:FOLLOW]->(me), (tizio:User{role:$role})" +
                 " WHERE NOT((me)-[:FOLLOW]->(tizio)) AND (friend)-[:FOLLOW]->(tizio) AND NOT tizio.username=$username RETURN tizio.username AS suggestion";
 
@@ -251,18 +244,17 @@ public class UsersDBManager extends Neo4jDBManager{
                 " LIMIT 6";
 
         int quantiAmici = transactionCountUsers(tx, username, "normalUser");
+
         if(quantiAmici > 1)
         {
 
             if(role.equals("normalUser"))
             {
                 result = tx.run(searchForFriendsNormal, parameters);
-                System.out.println("uso searchForFriendsNormal ");
             }
             else
             {
                 result = tx.run(searchForFriendsInflu, parameters);
-                System.out.println("uso searchForFriendsInflu ");
             }
 
         }
@@ -271,12 +263,10 @@ public class UsersDBManager extends Neo4jDBManager{
             if(role.equals("influencer"))
             {
                 result = tx.run(searchForArticlesFollowersInflu, parameters);
-                System.out.println("uso searchForArticlesFollowersInflu ");
             }
             else
             {
                 result = tx.run(searchForCategoryNormal, parameters);
-                System.out.println("uso searchForCategoryNormal ");
             }
         }
 
@@ -344,10 +334,11 @@ public class UsersDBManager extends Neo4jDBManager{
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    if(type.equals("add"))
+                    if(type.equals("add")) {
                         return transactionAddFollow(tx, username1, username2);
-                    else
+                    } else {
                         return transactionRemoveFollow(tx, username1, username2);
+                    }
                 }
             });
 
@@ -381,7 +372,6 @@ public class UsersDBManager extends Neo4jDBManager{
         boolean existsFollow = transactionExistsFollow(tx,username1,username2);
         if(!existsFollow)
         {
-            System.out.println("Non esiste aggiungo!");
             tx.run("MATCH(u1:User {username:$username1}),(u2:User {username:$username2})" +
                             " CREATE (u1)-[f:FOLLOW{timestamp:$timestamp}]->(u2) " +
                             " return f"
@@ -411,7 +401,6 @@ public class UsersDBManager extends Neo4jDBManager{
         boolean existsFollow = transactionExistsFollow(tx,username1,username2);
         if(existsFollow)
         {
-            System.out.println("Esiste elimino!");
             tx.run("MATCH(u1:User {username:$username1})-[f:FOLLOW]->(u2:User {username:$username2})" +
                             " DELETE f RETURN f"
                     , parameters);
@@ -509,8 +498,6 @@ public class UsersDBManager extends Neo4jDBManager{
                 public Boolean execute(Transaction tx) { return transactionPromoteDemoteUser(tx, username, role);
                 }
             });
-
-
         }
         catch (Exception ex)
         {
@@ -549,10 +536,10 @@ public class UsersDBManager extends Neo4jDBManager{
         if(result.hasNext())
         {
             Record record = result.next();
-            if(record.get("newRole").asString().equals(role))
+            if(record.get("newRole").asString().equals(role)) {
                 return  true;
+            }
         }
-
 
         return false;
     }

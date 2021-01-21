@@ -20,4 +20,8 @@ public class AgeBean {
         this.numUser = numUser;
     }
 
+    @Override
+    public String toString() {
+        return age + ", " + numUser + ", " + numUser;
+    }
 }

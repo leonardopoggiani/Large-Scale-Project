@@ -85,8 +85,9 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     group.setName(nameGame);
                     group.setDescription(value.get("description").asString());
                     group.setAdmin(adminGame);
-                    if(type == "admin")
+                    if(type == "admin") {
                         group.setLastPost(timestampLastPost(nameGame, adminGame));
+                    }
 
                 }
 
@@ -96,7 +97,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     group.setTimestamp(timestamp);
                 }
             }
-            //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
 
             groups.add(group);
         }
@@ -163,7 +163,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                 }
 
             }
-            //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
 
             members.add(member);
         }
@@ -183,6 +182,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
         {
             return session.writeTransaction(new TransactionWork<Timestamp>()
             {
+                @Override
                 public Timestamp execute(Transaction tx)
                 {
                     return transactionTimestampLastPost(tx, name, admin);
@@ -413,10 +413,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    if(type.equals("add"))
+                    if(type.equals("add")) {
                         return transactionAddGroupMember(tx, username, name, admin);
-                    else
+                    } else {
                         return transactionDeleteGroupMember(tx, username, name, admin);
+                    }
                 }
             });
 
@@ -452,7 +453,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                         " RETURN b"
                 , parameters);
         if (result.hasNext()) {
-            //System.out.println("Utente già membro del gruppo!");
             return false;
         } else {
             result = tx.run("MATCH (u:User{username:$username}),(gr:Group{name:$name, admin:$admin})" +
@@ -460,7 +460,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                             " RETURN b"
                     , parameters);
             if (result.hasNext()) {
-                System.out.println("Ho aggiunto il nuovo gruppo");
                 return true;
             }
             return false;
@@ -502,10 +501,11 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    if(type.equals("add"))
+                    if(type.equals("add")) {
                         return transactionAddPost(tx, newPost);
-                    else
+                    } else {
                         return transactionDeletePost(tx, newPost);
+                    }
                 }
             });
 
@@ -547,7 +547,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     , parameters);
 
             if (result.hasNext()) {
-                System.out.println("Ho aggiunto il nuovo post");
                 return true;
             }
             return false;
@@ -650,7 +649,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
 
 
             }
-            //article.setComments(ArticlesCommentsLikesDBManager.searchListComments(title, author));
             post.setGroup(group);
             post.setAdmin(admin);
             posts.add(post);

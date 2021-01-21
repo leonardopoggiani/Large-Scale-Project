@@ -6,6 +6,7 @@ import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.UserDBManage
 import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.UsersDBManager;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UsersPagesDBController {
@@ -14,7 +15,6 @@ public class UsersPagesDBController {
 
     public UsersPagesDBController(){};
 
-    //ONLY MONGODB
     public  List<String> listUsers(String username, String type)
     {
        return UsersDBManager.listUsers(username, type);
@@ -44,7 +44,7 @@ public class UsersPagesDBController {
         {
             if(!UsersDBManager.deleteUser(username))
             {
-                logger.severe("NEO4J | Utente " + username +" non eliminato in Neo4j!");
+                logger.log(Level.SEVERE, "NEO4J | Utente " + username +" non eliminato in Neo4j!");
                 return false;
             }
 
@@ -62,14 +62,13 @@ public class UsersPagesDBController {
         {
             if(!UserDBManager.promoteDemoteUser(username, role))
             {
-                logger.severe("MONGODB | Ruolo dell'utente " + username +" non aggiornato!");
+                logger.log(Level.SEVERE,"MONGODB | Ruolo dell'utente " + username +" non aggiornato!");
                 return false;
             }
             return  true;
         }
         return  false;
     }
-
 
     public List<UserBean> showAllUsers() {
         return UserDBManager.showAllUsers();
@@ -78,7 +77,6 @@ public class UsersPagesDBController {
     public List<UserBean> showAllInfluencer() {
         return UserDBManager.showAllInfluencer();
     }
-
 
     public boolean modifyProfile(String username, String name, String surname, String password, String age, String categoria1, String categoria2) {
         return UserDBManager.modifyProfile(username,name,surname,password,age,categoria1,categoria2);

@@ -19,8 +19,15 @@ import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Sorts.descending;
 
+/** The type Game db manager. */
 public class GameDBManager {
-    public static GameBean readGame(String game){
+  /**
+   * Read game game bean.
+   *
+   * @param game the game
+   * @return the game bean
+   */
+  public static GameBean readGame(String game) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = (fields( excludeId()));
@@ -28,11 +35,9 @@ public class GameDBManager {
 
         GameBean g = new GameBean();
 
-
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
 
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 g = fillInfoGameFields(next,false);
 
@@ -40,12 +45,21 @@ public class GameDBManager {
             }
             cursor.close();
 
+        }catch (Exception e) {
+            e.printStackTrace();
         }
+
         return g;
 
     }
 
-    public static List<GameBean> filterByName(String game){
+  /**
+   * Filter by name list.
+   *
+   * @param game the game
+   * @return the list
+   */
+  public static List<GameBean> filterByName(String game) {
         List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
@@ -57,15 +71,23 @@ public class GameDBManager {
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
-                //System.out.println(next.toJson());
                 GameBean g = fillInfoGameFields(next, false);
                 ret.add(g);
             }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
+
         return ret;
     }
 
-    public static List<GameBean> filterByCategory(String category){
+  /**
+   * Filter by category list.
+   *
+   * @param category the category
+   * @return the list
+   */
+  public static List<GameBean> filterByCategory(String category) {
         List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
@@ -77,16 +99,24 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList(unwind, match, projection, limit)).iterator()) {
 
             while (cursor.hasNext()) {
-                // System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 GameBean g = fillInfoGameFields(next, true);
                 ret.add(g);
             }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
+
         return ret;
     }
 
-    public static List<GameBean> filterByPlayers(int players){
+  /**
+   * Filter by players list.
+   *
+   * @param players the players
+   * @return the list
+   */
+  public static List<GameBean> filterByPlayers(int players) {
         List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
@@ -95,16 +125,24 @@ public class GameDBManager {
 
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).limit(6).iterator()){
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 GameBean g = fillInfoGameFields(next, false);
                 ret.add(g);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return ret;
     }
 
-    public static List<GameBean> filterByYear(int year){
+  /**
+   * Filter by year list.
+   *
+   * @param year the year
+   * @return the list
+   */
+  public static List<GameBean> filterByYear(int year) {
         List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
@@ -114,16 +152,24 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).limit(6).iterator()){
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 GameBean g = fillInfoGameFields(next, false);
                 ret.add(g);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return ret;
     }
 
-    public static List<GameBean> orderBy (String mode){
+  /**
+   * Order by list.
+   *
+   * @param mode the mode
+   * @return the list
+   */
+  public static List<GameBean> orderBy(String mode) {
         List<GameBean> ret = new ArrayList<GameBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
@@ -144,19 +190,27 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).sort(sort).limit(6).iterator()){
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
 
                 Document next = cursor.next();
                 GameBean g = fillInfoGameFields(next, false);
-                // System.out.println(next.toJson());
                 ret.add(g);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return ret;
 
     }
 
-    public static boolean updateRating(double rate, String game){
+  /**
+   * Update rating boolean.
+   *
+   * @param rate the rate
+   * @param game the game
+   * @return the boolean
+   */
+  public static boolean updateRating(double rate, String game) {
         int votes = getNumVotes(game);
         if (votes == -1){
             //Unable to get the number of votes
@@ -200,7 +254,14 @@ public class GameDBManager {
 
     }
 
-    public static boolean updateNumReviews(int inc, String game){
+  /**
+   * Update num reviews boolean.
+   *
+   * @param inc the inc
+   * @param game the game
+   * @return the boolean
+   */
+  public static boolean updateNumReviews(int inc, String game) {
         int tot = getNumReviews(game);
         if (tot == -1){
             //Unable to get the number of votes
@@ -228,7 +289,13 @@ public class GameDBManager {
 
     }
 
-    public static int getNumReviews(String game){
+  /**
+   * Get num reviews int.
+   *
+   * @param game the game
+   * @return the int
+   */
+  public static int getNumReviews(String game) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson projection = (fields( excludeId(), include("name", "num_reviews")));
         Bson match =  (eq("name",game));
@@ -236,7 +303,6 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString());
             }
@@ -269,7 +335,13 @@ public class GameDBManager {
 
     }
 
-    public static double getAvgRating(String game){
+  /**
+   * Get avg rating double.
+   *
+   * @param game the game
+   * @return the double
+   */
+  public static double getAvgRating(String game) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson projection = (fields( excludeId(), include("name", "avg_rating")));
         Bson match =  (eq("name",game));
@@ -277,7 +349,6 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 ret = (next.get("avg_rating") == null || next.get("avg_rating").equals("nan")) ? 0.0 : Double.parseDouble(next.get("avg_rating").toString());
             }
@@ -289,22 +360,33 @@ public class GameDBManager {
         return ret;
     }
 
-    public static boolean doesGameExists (String game){
+  /**
+   * Does game exists boolean.
+   *
+   * @param game the game
+   * @return the boolean
+   */
+  public static boolean doesGameExists(String game) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson match =  (eq("name",game));
         boolean ret = false;
         try(MongoCursor<Document> cursor = collection.find(match).iterator()){
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 ret = true;
             }
         }
         return ret;
     }
-    
-    public static int getNumVotes (String game){
+
+  /**
+   * Get num votes int.
+   *
+   * @param game the game
+   * @return the int
+   */
+  public static int getNumVotes(String game) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson projection = (fields( excludeId(), include("name", "num_votes")));
         Bson match =  (eq("name",game));
@@ -312,7 +394,6 @@ public class GameDBManager {
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
 
             while (cursor.hasNext()) {
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 ret = (next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString());
             }
@@ -324,7 +405,14 @@ public class GameDBManager {
 
     }
 
-    protected static GameBean fillInfoGameFields(Document next, boolean unwindCategory){
+  /**
+   * Fill info game fields game bean.
+   *
+   * @param next the next
+   * @param unwindCategory the unwind category
+   * @return the game bean
+   */
+  protected static GameBean fillInfoGameFields(Document next, boolean unwindCategory) {
         GameBean g = new GameBean();
         g.setName((next.get("name") == null) ? "" :next.get("name").toString());
         g.setYear((next.get("year") == null) ? 0 :Integer.parseInt(next.get("year").toString()));
@@ -384,11 +472,16 @@ public class GameDBManager {
         return g;
     }
 
-    public static boolean addGame (GameBean g){
+  /**
+   * Add game boolean.
+   *
+   * @param g the g
+   * @return the boolean
+   */
+  public static boolean addGame(GameBean g) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         List<String> categories = g.getListCategory();
 
-        // System.out.println("add " + a);
         Document doc = new Document("name", g.getName()).append("year", g.getYear()).append("category", categories ).append("description", g.getDescription())
                 .append("publisher", g.getPublisher()).append("url", g.getUrl()).append("image_url", g.getImageUrl())
                 .append("rules_url", g.getRules()).append("min_players", g.getMinPlayers()).append("max_players", g.getMaxPlayers())
@@ -411,7 +504,13 @@ public class GameDBManager {
         }
     }
 
-    public static boolean deleteGame (String game){
+  /**
+   * Delete game boolean.
+   *
+   * @param game the game
+   * @return the boolean
+   */
+  public static boolean deleteGame(String game) {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         DeleteResult dr = collection.deleteOne(eq("name", game));
@@ -421,7 +520,12 @@ public class GameDBManager {
         return true;
     }
 
-    public static List<GameBean> showAllGames (){
+  /**
+   * Show all games list.
+   *
+   * @return the list
+   */
+  public static List<GameBean> showAllGames() {
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
 
         Bson projection = (fields( excludeId()));
@@ -431,8 +535,6 @@ public class GameDBManager {
 
         try(MongoCursor<Document> cursor = collection.find().projection(projection).iterator()){
             while(cursor.hasNext()){
-
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 b = fillInfoGameFields(next,false);
                 g.add(b);

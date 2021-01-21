@@ -5,15 +5,10 @@ import it.unipi.dii.lsmdb.project.group5.bean.PostBean;
 import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.GroupsPostsDBManager;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class GroupsPagesDBController {
 
-    Logger logger =  Logger.getLogger(this.getClass().getName());
-
     public GroupsPagesDBController(){};
-
-    //ONLY NEO4J
 
     public List<GroupBean> showUsersGroups(String username, String type) {
 

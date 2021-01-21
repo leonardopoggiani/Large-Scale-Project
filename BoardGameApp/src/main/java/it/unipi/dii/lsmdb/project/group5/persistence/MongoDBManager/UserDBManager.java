@@ -8,20 +8,23 @@ import com.mongodb.client.result.DeleteResult;
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-
 import java.sql.Timestamp;
 import java.util.List;
-
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.Projections.fields;
 import static it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.ArticleDBManager.convertStringToTimestamp;
 
-
+/** The type User db manager. */
 public class UserDBManager extends MongoDBManager {
 
-
-    protected static UserBean fillUserFields(Document next) {
+  /**
+   * Fill user fields user bean.
+   *
+   * @param next the next
+   * @return the user bean
+   */
+  protected static UserBean fillUserFields(Document next) {
         UserBean u = new UserBean();
         u.setUsername((next.get("username")==null)?"": next.get("username").toString());
         u.setName((next.get("name")==null)?"": next.get("name").toString());
@@ -34,7 +37,13 @@ public class UserDBManager extends MongoDBManager {
         return u;
     }
 
-    public static boolean deleteUser (String username){
+  /**
+   * Delete user boolean.
+   *
+   * @param username the username
+   * @return the boolean
+   */
+  public static boolean deleteUser(String username) {
         MongoCollection<Document> collection = getCollection("Users");
 
         DeleteResult dr = collection.deleteOne(eq("username", username));
@@ -44,7 +53,13 @@ public class UserDBManager extends MongoDBManager {
         return true;
     }
 
-    public static UserBean showUser(String username) {
+  /**
+   * Show user user bean.
+   *
+   * @param username the username
+   * @return the user bean
+   */
+  public static UserBean showUser(String username) {
         MongoCollection<Document> collection = getCollection("Users");
 
         Bson projection = (fields( excludeId()));
@@ -54,7 +69,6 @@ public class UserDBManager extends MongoDBManager {
 
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 u = fillUserFields(next);
             }
@@ -63,8 +77,14 @@ public class UserDBManager extends MongoDBManager {
         return u;
     }
 
-    public static boolean promoteDemoteUser(String username, String role) {
-        //System.out.println("Nella update login");
+  /**
+   * Promote demote user boolean.
+   *
+   * @param username the username
+   * @param role the role
+   * @return the boolean
+   */
+  public static boolean promoteDemoteUser(String username, String role) {
         MongoCollection<Document> collection = getCollection("Users");
         Document setRole = new Document();
         setRole.append("role",role);
@@ -79,7 +99,12 @@ public class UserDBManager extends MongoDBManager {
         }
     }
 
-    public static List<UserBean> showAllUsers() {
+  /**
+   * Show all users list.
+   *
+   * @return the list
+   */
+  public static List<UserBean> showAllUsers() {
         MongoCollection<Document> collection = getCollection("Users");
 
         Bson projection = (fields( excludeId()));
@@ -89,7 +114,6 @@ public class UserDBManager extends MongoDBManager {
 
         try(MongoCursor<Document> cursor = collection.find().projection(projection).iterator()){
             while(cursor.hasNext()){
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 u = fillUserFields(next);
                 b.add(u);
@@ -99,7 +123,12 @@ public class UserDBManager extends MongoDBManager {
         return b;
     }
 
-    public static List<UserBean> showAllInfluencer() {
+  /**
+   * Show all influencer list.
+   *
+   * @return the list
+   */
+  public static List<UserBean> showAllInfluencer() {
         MongoCollection<Document> collection = getCollection("Users");
 
         Bson projection = (fields( excludeId()));
@@ -110,7 +139,6 @@ public class UserDBManager extends MongoDBManager {
 
         try(MongoCursor<Document> cursor = collection.find(match).projection(projection).iterator()){
             while(cursor.hasNext()){
-                //System.out.println(cursor.next().toJson());
                 Document next = cursor.next();
                 u = fillUserFields(next);
                 b.add(u);
@@ -120,7 +148,26 @@ public class UserDBManager extends MongoDBManager {
         return b;
     }
 
-    public static boolean modifyProfile(String username, String name, String surname, String password, String age, String categoria1, String categoria2) {
+  /**
+   * Modify profile boolean.
+   *
+   * @param username the username
+   * @param name the name
+   * @param surname the surname
+   * @param password the password
+   * @param age the age
+   * @param categoria1 the categoria 1
+   * @param categoria2 the categoria 2
+   * @return the boolean
+   */
+  public static boolean modifyProfile(
+      String username,
+      String name,
+      String surname,
+      String password,
+      String age,
+      String categoria1,
+      String categoria2) {
 
         MongoCollection<Document> collection = getCollection("Users");
         Document updateProfile = new Document();

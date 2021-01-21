@@ -1,4 +1,4 @@
-package it.unipi.dii.lsmdb.project.group5.view;
+package it.unipi.dii.lsmdb.project.group5.view.javafxutils;
 
 import it.unipi.dii.lsmdb.project.group5.bean.PostBean;
 import it.unipi.dii.lsmdb.project.group5.controller.GroupsPagesDBController;
@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 
 public class PostPane extends Pane {
 

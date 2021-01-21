@@ -38,5 +38,8 @@ public class CategoryBean {
         return avgRatingTot;
     }
 
-
+    @Override
+    public String toString() {
+        return name + ", " + totGames + ", " + numRatesTot + ", " + avgRatingTot;
+    }
 }

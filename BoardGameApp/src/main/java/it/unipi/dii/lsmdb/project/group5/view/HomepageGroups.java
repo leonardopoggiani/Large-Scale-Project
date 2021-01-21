@@ -2,7 +2,7 @@ package it.unipi.dii.lsmdb.project.group5.view;
 
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.GroupBean;
-import it.unipi.dii.lsmdb.project.group5.bean.GroupMemberBean;
+import it.unipi.dii.lsmdb.project.group5.view.tablebean.GroupMemberBean;
 import it.unipi.dii.lsmdb.project.group5.controller.GroupsPagesDBController;
 import it.unipi.dii.lsmdb.project.group5.view.tablebean.TableGroupBean;
 import javafx.collections.FXCollections;

@@ -1,7 +1,6 @@
 package it.unipi.dii.lsmdb.project.group5.bean;
 
 import com.google.common.collect.Lists;
-
 import java.util.List;
 
 public class GameBean {
@@ -27,9 +26,6 @@ public class GameBean {
     private int numVotes;
     private double complexity;
     List<String> listCategory;
-
-    //Non so se servono per ora le lascio qua
-    //private List<InfoReview> reviews;
 
     public GameBean() { }
 
