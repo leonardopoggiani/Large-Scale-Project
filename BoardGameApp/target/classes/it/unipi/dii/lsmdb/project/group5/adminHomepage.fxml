@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
+<?import com.gluonhq.charm.glisten.control.Icon?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="925.0" prefWidth="1338.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.AdminHomepage">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="661.0" prefWidth="1230.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="27.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="224.0" />
+            <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
+            <BottomNavigation layoutX="51.0" layoutY="6.0" prefHeight="66.0" prefWidth="339.0">
+               <actionItems>
+                  <BottomNavigationButton onAction="#goToStatistics" selected="true" text="Statistics">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onAction="#goToGamesAdmin" text="Games">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onAction="#goToUsers" text="Users">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onAction="#logout" text="Logout">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onAction="#refresh" text="Refresh">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+               </actionItems>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </BottomNavigation>
+            <Group layoutX="40.0" layoutY="136.0">
+               <children>
+                  <Text fx:id="category1" layoutX="120.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+                  <Text fx:id="category2" layoutX="120.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+                  <Text fx:id="category3" layoutX="120.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+                  <Text layoutX="-5.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of games" />
+                  <Text layoutX="-3.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average rating" />
+                  <Text layoutX="-1.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number rates" />
+               </children>
+            </Group>
+            <Group layoutX="210.0" layoutY="290.0" />
+            <Group layoutX="68.0" layoutY="141.0">
+               <children>
+                  <AnchorPane />
+               </children>
+            </Group>
+            <LineChart fx:id="activity" layoutX="85.0" layoutY="272.0" prefHeight="315.0" prefWidth="1166.0" title="Last login distribution">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <BarChart fx:id="age" layoutX="79.0" layoutY="587.0" prefHeight="328.0" prefWidth="1156.0" title="User distribution per age">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <ComboBox fx:id="categories" layoutX="68.0" layoutY="111.0" onAction="#displayCategoryInfo" prefHeight="30.0" prefWidth="161.0" promptText="Choose statistics" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="261.0" layoutY="96.0" stroke="BLACK" strokeType="INSIDE" width="261.0" />
+            <Text fx:id="primo" layoutX="293.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+            <Text layoutX="269.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Most versatile influencers:" />
+            <Text layoutX="271.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1)" />
+            <Text fx:id="secondo" layoutX="294.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+            <Text layoutX="272.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2)" />
+            <Text fx:id="terzo" layoutX="294.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+            <Text layoutX="271.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3)" />
+            <Text fx:id="quarto" layoutX="293.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+            <Text layoutX="271.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4)" />
+            <Text fx:id="quinto" layoutX="295.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+            <Text layoutX="272.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5)" />
+            <BarChart fx:id="pie1" layoutX="543.0" layoutY="5.0" prefHeight="279.0" prefWidth="699.0" title="Average login per country">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>

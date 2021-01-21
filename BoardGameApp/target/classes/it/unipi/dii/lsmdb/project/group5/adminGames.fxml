@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
+<?import com.gluonhq.charm.glisten.control.Icon?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="772.0" prefWidth="946.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.AdminGames">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="562.0">
+         <children>
+            <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
+            <BottomNavigation layoutX="51.0" layoutY="6.0" prefHeight="66.0" prefWidth="339.0">
+               <actionItems>
+                  <BottomNavigationButton onMouseClicked="#returnToStatistics" selected="true" text="Statistics">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminGames" text="Games">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminUsers" text="Users">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onAction="#logout" onMouseClicked="#goToAdminUsers" text="Logout">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+               </actionItems>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </BottomNavigation>
+            <Text layoutX="51.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+            <Text layoutX="348.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a game">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Text>
+            <TextField fx:id="name" layoutX="116.0" layoutY="132.0" />
+            <Text layoutX="51.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
+            <TextField fx:id="year" layoutX="116.0" layoutY="172.0" />
+            <Text layoutX="296.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min players:" />
+            <TextField fx:id="minplayer" layoutX="378.0" layoutY="132.0" />
+            <Text layoutX="294.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max players:" />
+            <TextField fx:id="maxplayer" layoutX="380.0" layoutY="172.0" />
+            <Text layoutX="575.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min age:" />
+            <TextField fx:id="minage" layoutX="640.0" layoutY="132.0" />
+            <Text layoutX="575.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max age:" />
+            <TextField fx:id="maxage" layoutX="640.0" layoutY="172.0" />
+            <ComboBox fx:id="category" layoutX="117.0" layoutY="213.0" prefWidth="150.0" promptText="Category" />
+            <Text layoutX="45.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" wrappingWidth="64.2890625" />
+            <Text layoutX="304.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Publisher:" />
+            <TextField fx:id="publisher" layoutX="380.0" layoutY="215.0" />
+            <CheckBox fx:id="cooperative" layoutX="602.0" layoutY="215.0" mnemonicParsing="false" text="Cooperative" />
+            <Text layoutX="462.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove a game">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#06b5cd" height="200.0" layoutX="55.0" layoutY="292.0" stroke="BLACK" strokeType="INSIDE" width="368.0" />
+            <TextField fx:id="delete" layoutX="503.0" layoutY="344.0" />
+            <Text layoutX="440.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game:" wrappingWidth="50.55989456176758" />
+            <Button layoutX="755.0" layoutY="342.0" mnemonicParsing="false" onAction="#searchGame" text="Search" />
+            <ImageView fx:id="tic" fitHeight="48.0" fitWidth="39.0" layoutX="696.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../../../../../img/Tick-Icon.png" />
+               </image>
+            </ImageView>
+            <ComboBox fx:id="games" layoutX="75.0" layoutY="302.0" onAction="#displayGameStatisticResult" prefHeight="30.0" prefWidth="161.0" promptText="Choose statistics" />
+            <Text layoutX="64.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1)" />
+            <Text layoutX="64.0" layoutY="388.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2)" />
+            <Text layoutX="64.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3)" />
+            <Text fx:id="game1" layoutX="83.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="318.9830722808838" />
+            <Text fx:id="game3" layoutX="83.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="318.9830722808838" />
+            <Text fx:id="game2" layoutX="83.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="318.9830722808838" />
+            <ComboBox fx:id="choosenCategory" layoutX="81.0" layoutY="434.0" onAction="#displayCategoryStatisticResult" prefWidth="150.0" promptText="Choose category" />
+            <Text fx:id="text" fill="#30e210" layoutX="492.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game succesfully removed" visible="false" />
+            <Button fx:id="remove" disable="true" layoutX="544.0" layoutY="419.0" mnemonicParsing="false" onAction="#removeGame" text="Remove" />
+            <Button fx:id="add" layoutX="738.0" layoutY="211.0" mnemonicParsing="false" onAction="#addGame" text="Add" />
+            <PieChart fx:id="pie" layoutX="65.0" layoutY="501.0" prefHeight="249.0" prefWidth="807.0" title="User distribution per country" />
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>
