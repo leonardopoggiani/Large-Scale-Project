@@ -532,11 +532,19 @@ public class UsersDBManager extends Neo4jDBManager{
         parameters.put("username", username);
         parameters.put("role", role);
 
+        if(role.equals("admin"))
+        {
+            tx.run("MATCH(u1:User {username:$username})" +
+                            " REMOVE u1.category1" +
+                            " REMOVE u1.category2" +
+                            " return u1"
+                    , parameters);
 
+        }
         Result result = tx.run("MATCH(u1:User {username:$username})" +
-                        " SET u1.role=$role" +
+                        " DELETE u1.role=$role" +
                         " return u1.role AS newRole"
-                        , parameters);
+                , parameters);
 
         if(result.hasNext())
         {
