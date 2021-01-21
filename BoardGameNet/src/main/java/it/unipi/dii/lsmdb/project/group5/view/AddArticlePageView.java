@@ -3,19 +3,19 @@ package it.unipi.dii.lsmdb.project.group5.view;
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
 import it.unipi.dii.lsmdb.project.group5.controller.ArticlesPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.logging.Logger;
 
 /** View of the page responsible for adding an article. */
 public class AddArticlePageView {
 
   /** The Logger. */
-  Logger logger = Logger.getLogger(this.getClass().getName());
 
   /** The Game. */
   @FXML TextField game;
@@ -63,9 +63,10 @@ public class AddArticlePageView {
                 game.setText("");
                 body.setText("");
                 title.setText("");
-                logger.info("article added " + toPublish );
+                Logger.log("article added " + toPublish );
             }
         } else {
+            Logger.warning("error on adding article ");
             alert.setText("There's a problem, try to fix your article");
             alert.setStyle("-fx-text-fill: red");
         }

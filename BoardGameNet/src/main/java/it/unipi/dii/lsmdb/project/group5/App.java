@@ -1,5 +1,6 @@
 package it.unipi.dii.lsmdb.project.group5;
 
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.MongoDBManager;
 import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.Neo4jDBManager;
 import javafx.application.Application;
@@ -10,8 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.util.logging.*;
 import java.io.IOException;
 
 /**
@@ -20,11 +19,10 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
-    Logger logger =  Logger.getLogger(this.getClass().getName());
 
     @Override
     public void start(Stage stage) throws IOException {
-        logger.log(Level.INFO, "App started");
+        Logger.log( "App started");
 
         if(MongoDBManager.createConnection() && Neo4jDBManager.InitializeDriver()){
             scene = new Scene(loadFXML("LoginPageView"));
@@ -37,9 +35,9 @@ public class App extends Application {
             stage.show();
             stage.centerOnScreen();
         } else if (!MongoDBManager.createConnection()){
-           logger.log(Level.SEVERE, "Mongo db not starterd");
+           Logger.error("Mongo db not starterd");
         } else {
-            logger.log(Level.SEVERE, "Neo4j db not starterd");
+            Logger.error("Neo4j db not starterd");
         }
     }
 

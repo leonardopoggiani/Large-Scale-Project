@@ -34,7 +34,7 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onAction="#logout" onMouseClicked="#goToAdminUsers" text="Logout">
+                  <BottomNavigationButton onAction="#logout" onMouseClicked="#logout" text="Logout">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>

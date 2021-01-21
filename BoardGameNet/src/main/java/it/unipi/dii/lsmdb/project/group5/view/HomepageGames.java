@@ -3,6 +3,7 @@ package it.unipi.dii.lsmdb.project.group5.view;
 import com.google.common.collect.Lists;
 import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
 import it.unipi.dii.lsmdb.project.group5.cache.GamesCache;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,17 +17,12 @@ import it.unipi.dii.lsmdb.project.group5.controller.GamesPagesDBController;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
 /**
  * The type Homepage games.
  */
 public class HomepageGames {
 
-    /**
-     * The Logger.
-     */
-    Logger logger =  Logger.getLogger(this.getClass().getName());
     /**
      * The Cache.
      */
@@ -272,7 +268,6 @@ public class HomepageGames {
 
         TitledPane gameSelected = chooseGame(index);
         game = gameSelected.getText();
-        logger.info("carico " + game);
         App.setRoot("GamePageView");
     }
 
@@ -287,12 +282,12 @@ public class HomepageGames {
 
         GamesPagesDBController controller = new GamesPagesDBController();
         if (savedGames.isEmpty()) {
-            logger.info("cache vuota");
+            Logger.log("cache vuota");
             List<GameBean> list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), 6);
             showGames(list);
         } else {
             int i = 0;
-            logger.info("cache piena");
+            Logger.log("cache piena");
             for (String game_i : savedGames) {
                 GameBean g = cache.getDataIfPresent(game_i);
                 if (g != null && g.getName() != null) {
@@ -325,7 +320,6 @@ public class HomepageGames {
      */
     @FXML
     void showFilters () {
-        logger.info("Carico i filtri");
         filter.setItems(filters);
     }
 
@@ -409,22 +403,18 @@ public class HomepageGames {
             if (Integer.parseInt(year.getText()) > 1900 || Integer.parseInt(year.getText()) < 2022) {
                 filtraPerAnno = Integer.parseInt(year.getText());
                 filteredGames = controller.filterByYear(filtraPerAnno);
-                logger.info("data:" + filteredGames.size());
             }
         } else if (players.isVisible() && (players.getValue() > 0 || players.getValue() <= 16) ){
             filtraGiocatori = (int) players.getValue();
             filteredGames = controller.filterByPlayers(filtraGiocatori);
-            logger.info("players:" + filteredGames.size());
         } else if(name.isVisible() && (!name.getText().equals(""))){
             filteredGames = controller.filterByName(name.getText());
         }
 
         // rimuovo i doppioni
         filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(filteredGames));
-        logger.info("filteringResult:" + filteringResult.size());
 
         if(order.getSelectionModel().getSelectedItem() != null) {
-            logger.info("Voglio ordinare i risultati");
             int index1 = order.getSelectionModel().getSelectedIndex();
             String ordering = ordinamenti.get(index1);
 
@@ -432,18 +422,15 @@ public class HomepageGames {
                 if(!ordering.equals("None")){
                     switch (ordering) {
                         case "Average ratings" -> {
-                            logger.info("Ordino per rating");
                             sortedList = controller.orderByAvgRating();
                         }
                         case "Number of reviews" -> {
-                            logger.info("Ordino per reviews");
                             sortedList = controller.orderByNumReviews();
                         }
                         case "Number of ratings" -> {
-                            logger.info("Ordino per votes");
                             sortedList = controller.orderByNumVotes();
                         }
-                        default -> logger.info("Non ordino");
+                        default -> Logger.log("not any order");
                     }
                     filteringResult = new ArrayList<GameBean>(new HashSet<GameBean>(sortedList));
                 }
@@ -461,18 +448,15 @@ public class HomepageGames {
         if(!mode.equals("None")){
             switch (mode) {
                 case "Average ratings" -> {
-                    logger.info("Ordino per rating");
                     target.sort(new AverageRatingComparator());
                 }
                 case "Number of reviews" -> {
-                    logger.info("Ordino per reviews");
                     target.sort(new NumberOfReviewsComparator());
                 }
                 case "Number of ratings" -> {
-                    logger.info("Ordino per rating");
                     target.sort(new NumberOfRatingsComparator());
                 }
-                default -> logger.info("Non ordino");
+                default -> Logger.log("not any order");
             }
         }
 

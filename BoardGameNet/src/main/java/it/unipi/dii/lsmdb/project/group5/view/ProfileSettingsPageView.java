@@ -1,26 +1,21 @@
 package it.unipi.dii.lsmdb.project.group5.view;
 
 import it.unipi.dii.lsmdb.project.group5.controller.UsersPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import it.unipi.dii.lsmdb.project.group5.App;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /** The type Profile settings page view. */
 public class ProfileSettingsPageView {
-
-  /** The Logger. */
-  Logger logger = Logger.getLogger(this.getClass().getName());
 
   /** The Controller. */
   UsersPagesDBController controller = new UsersPagesDBController();
@@ -117,7 +112,7 @@ public class ProfileSettingsPageView {
         }
 
         if(controller.modifyProfile(LoginPageView.getLoggedUser(),name,surname,password,age,categoria1,categoria2)) {
-            logger.info("profile updated");
+            Logger.log("profile updated");
             n.setText("");
             ps.setText("");
             sn.setText("");
@@ -127,7 +122,7 @@ public class ProfileSettingsPageView {
             text.setVisible(true);
             tic.setVisible(true);
         } else {
-            logger.info("profile not updated");
+            Logger.warning("profile not updated");
             text.setVisible(false);
             tic.setVisible(false);
         }
@@ -140,7 +135,6 @@ public class ProfileSettingsPageView {
    */
   @FXML
   void caricaCategorie() throws IOException {
-        logger.info("Carico le categorie");
         Scene scene = App.getScene(); // recupero la scena delle settings
         ComboBox cat1 = (ComboBox) scene.lookup("#favouritecategory1");
         ComboBox cat2 = (ComboBox) scene.lookup("#favouritecategory2");

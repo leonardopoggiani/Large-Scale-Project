@@ -12,13 +12,9 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 /** The type User filter page view. */
 public class UserFilterPageView {
-
-  /** The Logger. */
-  Logger logger = Logger.getLogger(this.getClass().getName());
 
   /**
    * Return to homepage.

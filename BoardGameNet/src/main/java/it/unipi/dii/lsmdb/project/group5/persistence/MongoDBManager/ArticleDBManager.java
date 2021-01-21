@@ -1,12 +1,14 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager;
 
 
+import com.google.common.annotations.VisibleForTesting;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -46,7 +48,7 @@ public class ArticleDBManager {
             }
             cursor.close();
        } catch (Exception e) {
-           e.printStackTrace();
+           Logger.error(e.getMessage());
        }
 
 
@@ -75,7 +77,7 @@ public class ArticleDBManager {
                 ret.add(a);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
       return ret;
@@ -104,7 +106,7 @@ public class ArticleDBManager {
                 ret.add(a);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
 
@@ -134,7 +136,7 @@ public class ArticleDBManager {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
 
@@ -173,7 +175,7 @@ public class ArticleDBManager {
                 ret.add(g);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
       return ret;
 
@@ -203,13 +205,14 @@ public class ArticleDBManager {
         try{
             UpdateResult res = collection.updateOne(query, update);
             if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
-                System.err.println("Unable to update MongoDB");
+                Logger.error("unable to reach mongoDB");
                 return false;
             }
 
             return true;
         }
         catch (Exception ex) {
+            Logger.error(ex.getMessage());
             return false;
         }
 
@@ -240,14 +243,14 @@ public class ArticleDBManager {
         try{
             UpdateResult res = collection.updateOne(query, update);
             if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
-                System.err.println("Unable to update MongoDB");
+                Logger.error("unable to update MongoDB");
                 return false;
             }collection.updateOne(query, update);
 
             return true;
         }
         catch (Exception ex) {
-
+            Logger.error(ex.getMessage());
             return false;
         }
     }
@@ -276,14 +279,14 @@ public class ArticleDBManager {
         try{
             UpdateResult res = collection.updateOne(query, update);
             if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
-                System.err.println("Unable to update MongoDB");
+                Logger.error("Unable to update MongoDB");
                 return false;
             }
 
             return true;
         }
         catch (Exception ex) {
-
+            Logger.error(ex.getMessage());
             return false;
         }
     }
@@ -308,7 +311,7 @@ public class ArticleDBManager {
 
             }
         }catch(Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("Unable to reach MongoDB");
             return -1;
         }
 
@@ -329,7 +332,7 @@ public class ArticleDBManager {
 
             }
         }catch(Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("Unable to reach MongoDB");
             return -1;
         }
 
@@ -350,7 +353,7 @@ public class ArticleDBManager {
 
             }
         }catch(Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("Unable to reach MongoDB");
             return -1;
         }
 
@@ -399,7 +402,7 @@ public class ArticleDBManager {
             try {
                 parsedDate = dateFormat.parse(time);
             } catch (ParseException parseException) {
-                parseException.printStackTrace();
+                Logger.error(parseException.getMessage());
             }
             timestamp = new java.sql.Timestamp(parsedDate.getTime());
         }
@@ -417,7 +420,7 @@ public class ArticleDBManager {
         List<String> games = a.getListGame();
         int id = getLastIdUsed();
         if (id==-1){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("Unable to reach MongoDB");
             return -1;
         }
 
@@ -433,7 +436,7 @@ public class ArticleDBManager {
 
             return id + 1;
         }catch (Exception ex){
-            System.err.println(ex.getMessage());
+            Logger.error(ex.getMessage());
 
             return -1;
         }
@@ -455,7 +458,7 @@ public class ArticleDBManager {
             }
 
         }catch(Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("unable to reach MongoDB");
             return -1;
         }
         return ret;
@@ -473,6 +476,7 @@ public class ArticleDBManager {
 
         DeleteResult dr = collection.deleteOne(eq("id", id));
         if (dr.getDeletedCount() == 0 || !dr.wasAcknowledged()){
+            Logger.warning("problems on delete " + id);
             return false;
         }
         return true;

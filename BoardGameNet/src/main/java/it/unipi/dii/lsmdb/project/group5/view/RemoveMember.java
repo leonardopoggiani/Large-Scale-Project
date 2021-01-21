@@ -2,6 +2,7 @@ package it.unipi.dii.lsmdb.project.group5.view;
 
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.controller.GroupsPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,18 +11,12 @@ import javafx.scene.control.ComboBox;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The type Remove member.
  */
 public class RemoveMember {
 
-    /**
-     * The Logger.
-     */
-Logger logger =  Logger.getLogger(this.getClass().getName());
     /**
      * The Controller 2.
      */
@@ -52,8 +47,12 @@ ObservableList<String> usersList = FXCollections.observableArrayList();
      */
 public void removeMember(ActionEvent actionEvent) {
         String toRemove = usersList.remove(users.getSelectionModel().getSelectedIndex());
-        logger.log(Level.INFO,"removed " + toRemove);
-        controller2.addDeleteGroupMember(toRemove,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "remove");
+        if(controller2.addDeleteGroupMember(toRemove,HomepageGroups.getGroup(),HomepageGroups.getAdminGroup(), "remove")){
+            Logger.log("removed " + toRemove);
+        } else {
+            Logger.error(" error removing " + toRemove);
+
+        }
         users.setItems(usersList);
     }
 

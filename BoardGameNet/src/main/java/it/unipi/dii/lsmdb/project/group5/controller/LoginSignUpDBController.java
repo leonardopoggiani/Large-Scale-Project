@@ -1,30 +1,25 @@
 package it.unipi.dii.lsmdb.project.group5.controller;
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.LoginSignupDBManager;
 import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.UserDBManager;
 import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.UsersDBManager;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class LoginSignUpDBController {
-
-    Logger logger = Logger.getLogger(this.getClass().getName());
 
     public LoginSignUpDBController() {
     }
 
     public boolean registerUser(UserBean user) {
 
-
         if(LoginSignupDBManager.signup(user))
         {
             int registrationNeo4j = UsersDBManager.registerUser(user);
             if(registrationNeo4j != 0)
             {
-                logger.log(Level.SEVERE,"NEO4J | Utente " + user.getUsername() + " non aggiunto in Neo4j!");
+                Logger.log("NEO4J | Utente " + user.getUsername() + " non aggiunto in Neo4j!");
                 UserDBManager.deleteUser(user.getUsername());
-                logger.log(Level.SEVERE,"MONGODB | Utente " + user.getUsername() + " eliminato da MongoDB!");
+                Logger.log("MONGODB | Utente " + user.getUsername() + " eliminato da MongoDB!");
                 return  false;
             }
 
@@ -39,11 +34,11 @@ public class LoginSignUpDBController {
 
         if(roleLogin != null)
         {
-            logger.log(Level.INFO,"Role: " + roleLogin);
+            Logger.log("role: " + roleLogin);
             LoginSignupDBManager.updateLogin(username);
         }
         else {
-            logger.log(Level.INFO,"Can't login with these credentials!");
+            Logger.log("can't login with these credentials!");
         }
 
         return roleLogin;

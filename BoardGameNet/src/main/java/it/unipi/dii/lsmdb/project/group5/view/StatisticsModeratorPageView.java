@@ -25,7 +25,7 @@ public class StatisticsModeratorPageView {
     /**
      * The Controller.
      */
-AnalyticsDBController controller = new AnalyticsDBController();
+    AnalyticsDBController controller = new AnalyticsDBController();
 
     @FXML
     Text influencer1;
@@ -235,7 +235,6 @@ AnalyticsDBController controller = new AnalyticsDBController();
 
         if(date.getValue() != null) {
             lista = controller.numberOfArticlesPublishedInASpecifiedPeriod(date.getValue().toString());
-            System.out.println("lista " + lista.size());
         }
 
         for(int i = 0; i < 3; i ++) {
@@ -257,14 +256,12 @@ AnalyticsDBController controller = new AnalyticsDBController();
 
         if(date1.getValue() != null) {
             lista= controller.distinctGamesInArticlesPublishedInASpecifiedPeriod(date1.getValue().toString());
-            System.out.println("lista " + lista.size());
         }
 
         for(int i = 0; i < 5; i ++) {
             Text gioco = chooseGame(i + 1);
             if(i < lista.size()) {
                 gioco.setText(lista.get(i).getInfluencer() + ": " + lista.get(i).getCount());
-                System.out.println("gioco " + lista.get(i));
 
             } else {
                 gioco.setText("");

@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * The type Homepage users.
@@ -22,7 +21,6 @@ public class HomepageUsers {
     /**
      * The Logger.
      */
-Logger logger =  Logger.getLogger(this.getClass().getName());
     private static String filter = "";
 
     /**
@@ -379,7 +377,6 @@ public static String getFilter() {
      */
 @FXML
     void follow(MouseEvent event) {
-        logger.info("follow");
         UsersPagesDBController controller = new UsersPagesDBController();
         Button target = (Button) event.getSource();
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
@@ -402,13 +399,12 @@ public static String getFilter() {
      */
 @FXML
     void followInfluencer(MouseEvent event) {
-        logger.info("follow");
         UsersPagesDBController controller = new UsersPagesDBController();
         Button target = (Button) event.getSource();
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
 
         Text user = chooseInfluencer(id - 1);
-        logger.info("user " + user);
+
         if(!user.getText().equals("")){
             boolean ret = controller.addRemoveFollow(username,user.getText(),"add");
             if(ret) {
@@ -426,7 +422,6 @@ public static String getFilter() {
      */
 @FXML
     void unfollow(MouseEvent event) {
-        logger.info("unfollow");
 
         UsersPagesDBController controller = new UsersPagesDBController();
         Button target = (Button) event.getSource();
@@ -434,7 +429,6 @@ public static String getFilter() {
         int id = Integer.parseInt(target.getId().substring(target.getId().length() - 1));
 
         Text user = chooseUser(id - 1);
-        logger.info("" + user);
 
         if(!user.getText().equals("")){
             boolean ret = controller.addRemoveFollow(username,user.getText(),"remove");

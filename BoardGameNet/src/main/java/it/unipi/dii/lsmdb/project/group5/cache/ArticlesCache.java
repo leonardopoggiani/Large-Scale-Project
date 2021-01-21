@@ -5,6 +5,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
 import it.unipi.dii.lsmdb.project.group5.controller.ArticlesPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -46,12 +48,14 @@ public class ArticlesCache {
         ArticleBean a = cache.get(id);
 
         if(a == null || a.getTitle() == null){
+            Logger.log("cache miss");
             cache.put(id,cercaArticoli(id));
         }
         return a;
     }
 
     public void invalidaCache() {
+        Logger.log("cache invalidate");
         cache.invalidateAll();
     }
 

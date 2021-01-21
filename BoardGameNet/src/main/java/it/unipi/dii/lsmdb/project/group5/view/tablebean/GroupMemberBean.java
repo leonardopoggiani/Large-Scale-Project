@@ -7,4 +7,12 @@ public class GroupMemberBean {
     SimpleStringProperty groupMemberName;
 
     public GroupMemberBean(String name){ this.groupMemberName = new SimpleStringProperty(name); }
+
+    public String getGroupMemberName() {
+        return groupMemberName.get();
+    }
+
+    public void setGroupMemberName(String groupMemberName){
+        this.groupMemberName = new SimpleStringProperty(groupMemberName);
+    }
 }

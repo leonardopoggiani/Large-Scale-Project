@@ -1,6 +1,7 @@
 package it.unipi.dii.lsmdb.project.group5.view;
 
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,13 +11,9 @@ import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.controller.LoginSignUpDBController;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /** The type Signup page view. */
 public class SignupPageView {
-
-  /** The Logger. */
-  Logger logger = Logger.getLogger(this.getClass().getName());
 
   /** The Neo. */
   LoginSignUpDBController neo = new LoginSignUpDBController();
@@ -81,7 +78,6 @@ public class SignupPageView {
    */
   @FXML
   void caricaCategorie() throws IOException {
-        logger.info("Carico le categorie");
         Scene scene = App.getScene(); // recupero la scena della signup
         ComboBox cat1 = (ComboBox) scene.lookup("#favouritecategory1");
         ComboBox cat2 = (ComboBox) scene.lookup("#favouritecategory2");
@@ -97,7 +93,6 @@ public class SignupPageView {
    */
   @FXML
   void registerUser() throws IOException {
-        logger.info("Registrazione iniziata");
 
         Scene scene = App.getScene();
 
@@ -121,45 +116,38 @@ public class SignupPageView {
 
         if(username == null || username.length() < 4) {
             us.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 12;");
-            logger.info("Username non corretto");
             return;
         }
 
         if(password == null || password.length() < 6) {
             ps.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 12;");
-            logger.info("Password troppo corta");
             return;
         }
 
         if(name == null) {
             ps.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 12;");
-            logger.info("Nome non inserito");
             return;
         }
 
         if(surname == null) {
             ps.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 12;");
-            logger.info("Cognome non inserito");
             return;
         }
 
         if(age < 18) {
             ps.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 12;");
-            logger.info("Hai meno di 18 anni, non puoi registrarti!");
             return;
         }
 
         if(categoria1 == null || categoria2 == null) {
             cat1.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 12;");
             cat2.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 12;");
-            logger.info("Categoria non valida!");
             return;
         }
 
-        logger.info("Registrazione di " + username);
+        Logger.log("registering of " + username);
         UserBean u = new UserBean(username,password,categoria1,categoria2,age,"normalUser");
         neo.registerUser(u);
-        logger.info("Registrazione completata");
         goToLogin();
     }
 

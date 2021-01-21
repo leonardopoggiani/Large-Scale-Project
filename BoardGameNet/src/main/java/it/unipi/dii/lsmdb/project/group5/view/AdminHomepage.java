@@ -8,7 +8,6 @@ import it.unipi.dii.lsmdb.project.group5.bean.VersatileUser;
 import it.unipi.dii.lsmdb.project.group5.controller.AnalyticsDBController;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,10 +25,6 @@ import javafx.scene.text.Text;
  */
 public class AdminHomepage {
 
-    /**
-     * The Logger.
-     */
-    Logger logger =  Logger.getLogger(this.getClass().getName());
     /**
      * The Controller.
      */
@@ -54,10 +49,6 @@ public class AdminHomepage {
             "Print & Play:1120", "Novel-Based:1093", "Puzzle:1028", "Science Fiction:1016",
             "Exploration:1020", "Word-game:1025", "Video Game Theme:1101", "None");
 
-    /**
-     * The Game statistic.
-     */
-    ObservableList<String> gameStatistic = FXCollections.observableArrayList("Least rated game per category", "Least rated game per year");
 
     @FXML
     ComboBox categories;

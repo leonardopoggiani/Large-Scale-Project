@@ -28,7 +28,7 @@
                   </BottomNavigationButton>
                   <BottomNavigationButton onMouseClicked="#goToAdminUsers" text="Users">
                   </BottomNavigationButton>
-                  <BottomNavigationButton onAction="#logout" onMouseClicked="#goToAdminUsers" text="Logout" />
+                  <BottomNavigationButton onAction="#logout" onMouseClicked="#logout" text="Logout" />
                </actionItems>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />

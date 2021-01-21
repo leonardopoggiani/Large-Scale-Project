@@ -5,6 +5,7 @@ import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
 import it.unipi.dii.lsmdb.project.group5.cache.ArticlesCache;
 import it.unipi.dii.lsmdb.project.group5.controller.ArticlesPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,7 +21,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
 /**
  * The type Homepage articles.
@@ -146,11 +146,6 @@ public class HomepageArticles {
      */
     ArticlesCache cache = ArticlesCache.getInstance();
     private static List<Integer> savedID = Lists.newArrayList();
-
-    /**
-     * The Logger.
-     */
-    Logger logger =  Logger.getLogger(this.getClass().getName());
 
     /**
      * The Categorie.
@@ -431,12 +426,12 @@ public class HomepageArticles {
         ArticlesPagesDBController home = new ArticlesPagesDBController();
 
         if (savedID.isEmpty()) {
-            logger.info("cache vuota");
+            Logger.log("cache vuota");
             List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
             showArticles(list);
         } else {
             int i = 0;
-            logger.info("cache piena");
+            Logger.log("cache piena");
             for (Integer id : savedID) {
                 ArticleBean a = cache.getDataIfPresent(id);
                 if (a != null && a.getTitle() != null) {
@@ -467,7 +462,6 @@ public class HomepageArticles {
     private void showArticles(List<ArticleBean> list) {
         ArticlesPagesDBController home = new ArticlesPagesDBController();
 
-        logger.info("show articles");
         if (list != null) {
             for(int i = 0; i < 6; i++) {
 
@@ -512,7 +506,6 @@ public class HomepageArticles {
         String idArticle = articolo.getId();
 
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
-        logger.info("index" + index);
         Text idSelected = chooseId(index - 1);
         id = Integer.parseInt(idSelected.getText());
         App.setRoot("ArticlePageView");
@@ -544,7 +537,6 @@ public class HomepageArticles {
         List<ArticleBean> filteringResult = new ArrayList<ArticleBean>(new HashSet<ArticleBean>(filteredArticles));
 
         if(order.getSelectionModel().getSelectedItem() != null) {
-            logger.info("Voglio ordinare i risultati");
             int index1 = order.getSelectionModel().getSelectedIndex();
             String ordering = ordinamenti.get(index1);
 
@@ -553,18 +545,15 @@ public class HomepageArticles {
                 if(!ordering.equals("None")){
                     switch (ordering) {
                         case "Number of likes" -> {
-                            logger.info("Ordino per likes");
                             sortedList = controller.orderByLikes();
                         }
                         case "Number of dislikes" -> {
-                            logger.info("Ordino per dislikes");
                             sortedList = controller.orderByDislikes();
                         }
                         case "Number of comments" -> {
-                            logger.info("Ordino per comments");
                             sortedList = controller.orderByComments();
                         }
-                        default -> logger.info("Non ordino");
+                        default -> Logger.log("not any order");
                     }
                     filteringResult = new ArrayList<ArticleBean>(new HashSet<ArticleBean>(sortedList));
                 }
@@ -582,18 +571,15 @@ public class HomepageArticles {
         if(!mode.equals("None")){
             switch (mode) {
                 case "Average ratings" -> {
-                    logger.info("Ordino per like");
                     target.sort(new HomepageArticles.NumberOfLikeComparator());
                 }
                 case "Number of reviews" -> {
-                    logger.info("Ordino per dislike");
                     target.sort(new HomepageArticles.NumberOfDislikeComparator());
                 }
                 case "Number of ratings" -> {
-                    logger.info("Ordino per comments");
                     target.sort(new HomepageArticles.NumberOfComments());
                 }
-                default -> logger.info("Non ordino");
+                default -> Logger.log("not any order");
             }
         }
 

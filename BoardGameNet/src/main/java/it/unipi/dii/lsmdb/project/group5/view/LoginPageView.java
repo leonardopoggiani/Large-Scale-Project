@@ -2,19 +2,16 @@ package it.unipi.dii.lsmdb.project.group5.view;
 
 import it.unipi.dii.lsmdb.project.group5.cache.ArticlesCache;
 import it.unipi.dii.lsmdb.project.group5.cache.GamesCache;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.controller.LoginSignUpDBController;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /** The type Login page view. */
 public class LoginPageView {
-
-  /** The Logger. */
-  Logger logger = Logger.getLogger(this.getClass().getName());
 
     private static String loggedUser;
     private static String loggedRole;
@@ -45,6 +42,7 @@ public class LoginPageView {
                 ret = true;
             }
         } else {
+            Logger.log("login not valid");
             return false;
         }
 
@@ -69,14 +67,14 @@ public class LoginPageView {
   @FXML
   void loginResult() throws IOException {
         if(validateLogin()) {
+            Logger.log("correct login " + loggedUser);
             if(loggedRole.equals("admin")){
                 App.setRoot("adminHomepage");
             } else {
                 App.setRoot("HomepageArticles");
             }
-            logger.info("Login correttamente effettuato");
         } else {
-            logger.info("Login non corretto");
+            Logger.log("login not correct");
             TextField u = (TextField) App.getScene().lookup("#username");
             TextField p = (TextField) App.getScene().lookup("#password");
             u.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 12;");

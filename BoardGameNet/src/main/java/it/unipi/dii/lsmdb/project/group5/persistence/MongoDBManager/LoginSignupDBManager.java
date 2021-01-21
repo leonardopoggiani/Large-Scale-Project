@@ -1,8 +1,10 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -28,6 +30,7 @@ public class LoginSignupDBManager {
         MongoCollection<Document> collection = getCollection("Users");
 
         if(userExist(u.getUsername())) {
+            Logger.warning("user not exist " + u.getUsername() );
             return false;
         }
 
@@ -42,7 +45,7 @@ public class LoginSignupDBManager {
             return true;
         }
         catch (Exception ex){
-
+            Logger.error("user signup exception " + u.getUsername() );
             return false;
         }
     }
@@ -70,7 +73,7 @@ public class LoginSignupDBManager {
         }
         catch (Exception ex)
         {
-            System.err.println(ex.getMessage());
+            Logger.warning("signup failed " + username + "/ " + ex.getMessage() );
             return  false;
         }
         return exist;
@@ -103,7 +106,7 @@ public class LoginSignupDBManager {
         }
         catch (Exception ex)
         {
-            System.err.println(ex.getMessage());
+            Logger.warning("login failed " + username + "/ " + ex.getMessage() );
             return  role;
         }
         return role;
@@ -127,6 +130,7 @@ public class LoginSignupDBManager {
 
             return true;
         } catch (Exception ex) {
+            Logger.warning("updateLogin failed " + username + "/ " + ex.getMessage() );
             return false;
         }
     }
@@ -137,6 +141,7 @@ public class LoginSignupDBManager {
    * @param passToEncrypt the pass to encrypt
    * @return the string
    */
+  @VisibleForTesting
   public static String passwordEncryption(String passToEncrypt) {
         String salt = "randomSalt";
         String encryptedPassword = DigestUtils.sha256Hex(passToEncrypt+salt);

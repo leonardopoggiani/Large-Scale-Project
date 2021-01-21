@@ -14,10 +14,6 @@ import java.util.logging.Logger;
 /** The view of the Add member page. */
 public class AddMember {
 
-  /** The Logger. */
-  Logger logger = Logger.getLogger(this.getClass().getName());
-
-  /** The Controller. */
   UsersPagesDBController controller = new UsersPagesDBController();
 
   /** The Controller 2. */

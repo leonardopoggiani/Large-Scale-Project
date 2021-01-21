@@ -7,6 +7,7 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -46,7 +47,7 @@ public class GameDBManager {
             cursor.close();
 
         }catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return g;
@@ -75,7 +76,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         }catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -104,7 +105,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         }catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -130,7 +131,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -157,7 +158,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -196,7 +197,7 @@ public class GameDBManager {
                 ret.add(g);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -241,14 +242,14 @@ public class GameDBManager {
         try{
             UpdateResult res = collection.updateOne(eq("name", game), update);
             if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
-                System.err.println("Unable to update MongoDB");
+                Logger.error("unable to update MongoDB");
                 return false;
             }
 
             return true;
         }
         catch (Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("unable to reach MongoDB");
             return false;
         }
 
@@ -276,14 +277,14 @@ public class GameDBManager {
         try{
             UpdateResult res = collection.updateOne(eq("name", game), update);
             if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
-                System.err.println("Unable to update MongoDB");
+                Logger.error("unable to update MongoDB");
                 return false;
             }
 
             return true;
         }
         catch (Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("unable to update MongoDB");
             return false;
         }
 
@@ -307,7 +308,7 @@ public class GameDBManager {
                 ret = (next.get("num_reviews") == null) ? 0 : Integer.parseInt(next.get("num_reviews").toString());
             }
         }catch(Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("unable to update MongoDB");
             return -1;
         }
         return ret;
@@ -322,14 +323,14 @@ public class GameDBManager {
         try{
             UpdateResult res =collection.updateOne(eq("name", game), update);
             if (res.getModifiedCount() == 0 || !res.wasAcknowledged()){
-                System.err.println("Unable to update MongoDB");
+                Logger.error("unable to update MongoDB");
                 return false;
             }
 
             return true;
         }
         catch (Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("unable to update MongoDB");
             return false;
         }
 
@@ -353,7 +354,7 @@ public class GameDBManager {
                 ret = (next.get("avg_rating") == null || next.get("avg_rating").equals("nan")) ? 0.0 : Double.parseDouble(next.get("avg_rating").toString());
             }
         }catch(Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("unable to update MongoDB");
             return -1;
         }
 
@@ -376,6 +377,8 @@ public class GameDBManager {
                 Document next = cursor.next();
                 ret = true;
             }
+        } catch (Exception ex) {
+            Logger.error("unable to update MongoDB");
         }
         return ret;
     }
@@ -398,7 +401,7 @@ public class GameDBManager {
                 ret = (next.get("num_votes") == null) ? 0 : Integer.parseInt(next.get("num_votes").toString());
             }
         }catch(Exception ex){
-            System.err.println("Unable to reach MongoDB");
+            Logger.error("unable to update MongoDB");
             return -1;
         }
         return ret;
@@ -492,13 +495,13 @@ public class GameDBManager {
         try{
             InsertOneResult res =collection.insertOne(doc);
             if (!res.wasAcknowledged()){
-                System.err.println("Unable to insert a new document in MongoDB");
+                Logger.error("unable to insert MongoDB");
                 return false;
             }
 
             return true;
         }catch (Exception ex){
-            System.out.println(ex.getMessage());
+            Logger.error(ex.getMessage());
 
             return false;
         }

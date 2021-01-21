@@ -15,13 +15,9 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.logging.Logger;
 
 /** The type Post view. */
 public class PostView {
-
-  /** The Logger. */
-  Logger logger = Logger.getLogger(this.getClass().getName());
 
   @FXML
   ScrollPane posts;
@@ -81,7 +77,6 @@ public class PostView {
   @FXML
   void post() {
         GroupsPagesDBController controller = new GroupsPagesDBController();
-        logger.info("add post");
 
         PostBean newPost = new PostBean(LoginPageView.getLoggedUser(),newmessage.getText(),String.valueOf(new Timestamp(System.currentTimeMillis())),HomepageGroups.getGroup(),HomepageGroups.getAdminGroup());
 

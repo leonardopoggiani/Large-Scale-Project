@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
 import it.unipi.dii.lsmdb.project.group5.bean.*;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import java.sql.Timestamp;
@@ -74,7 +75,7 @@ public class AnalyticsDBManager {
                 ret.add(g);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
         return ret;
     }
@@ -102,7 +103,8 @@ public class AnalyticsDBManager {
                 ret.add(a);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
+
         }
         return ret;
     }
@@ -134,7 +136,7 @@ public class AnalyticsDBManager {
                 ret.setTotGames(Integer.parseInt(next.get("totGames") == null ? "0" : next.get("totGames").toString()));
            }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
         return ret;
     }
@@ -165,7 +167,7 @@ public class AnalyticsDBManager {
                 ret.add(g);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
         return ret;
     }
@@ -191,7 +193,7 @@ public class AnalyticsDBManager {
                 ret.add(u);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -219,7 +221,7 @@ public class AnalyticsDBManager {
                 ret.add(a);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
         return ret;
     }
@@ -257,7 +259,7 @@ public class AnalyticsDBManager {
                 ret.add(a);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
         return ret;
     }
@@ -294,7 +296,7 @@ public class AnalyticsDBManager {
                 ret.add(a);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
         return ret;
     }
@@ -326,7 +328,7 @@ public class AnalyticsDBManager {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -365,7 +367,7 @@ public class AnalyticsDBManager {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -394,7 +396,7 @@ public class AnalyticsDBManager {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;
@@ -423,7 +425,7 @@ public class AnalyticsDBManager {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error(e.getMessage());
         }
 
         return ret;

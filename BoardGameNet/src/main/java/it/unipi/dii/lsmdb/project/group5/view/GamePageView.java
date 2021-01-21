@@ -6,6 +6,7 @@ import it.unipi.dii.lsmdb.project.group5.bean.RatingBean;
 import it.unipi.dii.lsmdb.project.group5.bean.ReviewBean;
 import it.unipi.dii.lsmdb.project.group5.cache.GamesCache;
 import it.unipi.dii.lsmdb.project.group5.controller.GamesPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,18 +19,11 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 /**
  * The type Game page view.
  */
 public class GamePageView {
-
-    /**
-     * The Logger.
-     */
-    Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
      * The Cache.
@@ -209,16 +203,16 @@ public class GamePageView {
         GameBean currentGame = cache.getDataIfPresent(game);
 
         if(currentGame == null || currentGame.getName() == null) {
-            logger.log(Level.INFO, "cache miss");
+            Logger.log("cache miss");
             currentGame = controller.showGame(game);
         } else {
-            logger.log(Level.INFO, "cache hit");
+            Logger.log("cache hit");
         }
 
         if( (currentGame.getImageUrl() != null) && !currentGame.getImageUrl().equals("") ) {
             image.setImage(new Image(currentGame.getImageUrl()));
         } else {
-            logger.info("immagine di default");
+            Logger.log("default image");
             image.setImage(new Image("file:src/main/resources/img/defaultgioco.png"));
         }
 
@@ -276,7 +270,6 @@ public class GamePageView {
         GamesPagesDBController controller = new GamesPagesDBController();
 
         List<ReviewBean> reviews = controller.listGamesReviews(game,3);
-        System.out.println("Numero di review: " + reviews.size());
 
         for (int i = 0;  i < 3; i++) {
             TextField review = chooseReview(i + 1);
@@ -357,6 +350,8 @@ public class GamePageView {
             votes.setText(String.valueOf(Math.round(votoMedio)));
             rate.setValue(0);
             buttonrate.setStyle("-fx-background-color: green");
+        } else {
+            Logger.warning("problems in add rating " + newRate);
         }
     }
 }

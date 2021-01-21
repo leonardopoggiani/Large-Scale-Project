@@ -19,17 +19,12 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * The view of Admin games.
  */
 public class AdminGames {
 
-    /**
-     * The Logger.
-     */
-    Logger logger =  Logger.getLogger(this.getClass().getName());
     /**
      * The Controller.
      */
@@ -229,12 +224,9 @@ public class AdminGames {
 
                 List<GameBean> lista = controller.showLeastRatedGames("category", categorie.get(choosenCategory.getSelectionModel().getSelectedIndex()));
 
-                logger.info("least rated game category, size " + lista.size());
-
                 for (int i = 0; i < 3; i++) {
                     Text game_i = chooseGame(i);
                     if (i < lista.size()) {
-                        logger.info("game " + lista.get(i).getName());
                         game_i.setText(lista.get(i).getName() + ", votes: " + lista.get(i).getNumVotes());
                     } else {
                         game_i.setText("");

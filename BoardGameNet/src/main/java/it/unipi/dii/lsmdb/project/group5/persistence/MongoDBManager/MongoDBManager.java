@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import org.bson.Document;
 
 /** The type Mongo db manager. */
@@ -35,7 +36,7 @@ public class MongoDBManager {
             return true;
         }
         catch (Exception ex){
-            System.out.println(ex.getMessage());
+            Logger.error(ex.getMessage());
             return false;
         }
 

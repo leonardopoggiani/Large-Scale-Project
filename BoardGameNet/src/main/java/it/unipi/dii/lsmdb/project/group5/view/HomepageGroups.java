@@ -2,6 +2,7 @@ package it.unipi.dii.lsmdb.project.group5.view;
 
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.GroupBean;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import it.unipi.dii.lsmdb.project.group5.view.tablebean.GroupMemberBean;
 import it.unipi.dii.lsmdb.project.group5.controller.GroupsPagesDBController;
 import it.unipi.dii.lsmdb.project.group5.view.tablebean.TableGroupBean;
@@ -15,18 +16,11 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The type Homepage groups.
  */
 public class HomepageGroups {
-
-    /**
-     * The Logger.
-     */
-    Logger logger =  Logger.getLogger(this.getClass().getName());
 
     private static String currentGroup;
     private static String adminGroup;
@@ -338,7 +332,7 @@ public class HomepageGroups {
             filter.setItems(giochiDeiGruppi);
         } else {
             ics.setVisible(true);
-            logger.log(Level.WARNING,"addGroup problems " + group.getName());
+            Logger.log("addGroup problems " + group.getName());
         }
     }
 
@@ -422,7 +416,7 @@ public class HomepageGroups {
                 }
             }
         } else {
-            logger.log(Level.WARNING, "deleteGroup problems " + gruppoSelezionato);
+            Logger.log("deleteGroup problems " + gruppoSelezionato);
         }
 
         admintable.setItems(gruppiAdmin);
@@ -464,7 +458,6 @@ public class HomepageGroups {
             filtering2.clear();
 
             if(gameFilter != null && !gameFilter.equals("")) {
-                logger.info(gameFilter);
 
                 for (int i = 0; i < gruppiAdmin.size(); i++) {
                     if (gruppiAdmin.get(i).getGame().equals(gameFilter)) {

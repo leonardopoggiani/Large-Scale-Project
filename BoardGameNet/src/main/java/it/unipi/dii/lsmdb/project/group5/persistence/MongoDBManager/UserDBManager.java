@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import java.sql.Timestamp;
@@ -202,7 +203,8 @@ public class UserDBManager extends MongoDBManager {
 
             return true;
         } catch (Exception ex) {
-                return false;
+            Logger.error(ex.getMessage());
+            return false;
         }
     }
 

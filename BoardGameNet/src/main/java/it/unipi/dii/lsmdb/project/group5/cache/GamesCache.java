@@ -5,6 +5,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
 import it.unipi.dii.lsmdb.project.group5.controller.GamesPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +42,7 @@ public class GamesCache {
     }
 
     public void invalidaCache() {
+        Logger.log("invalidate cahce");
         cache.invalidateAll();
     }
 
@@ -51,6 +54,7 @@ public class GamesCache {
         GameBean a = cache.get(name);
 
         if(a == null || a.getName() == null){
+            Logger.log("cache miss");
             cache.put(name,cercaGiochi(name));
         }
         return a;

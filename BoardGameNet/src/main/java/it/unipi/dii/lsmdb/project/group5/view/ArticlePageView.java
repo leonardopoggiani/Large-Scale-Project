@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -28,14 +29,9 @@ import javafx.scene.text.Text;
 public class ArticlePageView {
 
     /**
-     * The Logger.
-     */
-    Logger logger =  Logger.getLogger(this.getClass().getName());
-    /**
      * The Cache.
      */
     ArticlesCache cache = ArticlesCache.getInstance();
-
 
     @FXML
     Text titolo;
@@ -265,11 +261,11 @@ public class ArticlePageView {
         showed = a;
 
         if(a == null || a.getTitle() == null) {
-           logger.log(Level.INFO, "cache miss");
+           Logger.log("cache miss");
            a = article.showArticleDetails(articleSelected);
            showed = a;
         } else {
-           logger.log(Level.INFO, "cache hit");
+           Logger.log("cache hit");
         }
 
         author.setText(a.getAuthor());
@@ -445,7 +441,6 @@ public class ArticlePageView {
 
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
         Text identificatore = chooseId(index);
-        logger.log(Level.INFO, "identificatore " + identificatore);
         HomepageArticles.setId(Integer.parseInt(identificatore.getText()) );
         App.setRoot("ArticlePageView");
 
@@ -481,9 +476,9 @@ public class ArticlePageView {
 
         if(ret){
             cache.dimNumComment(showed.getId());
-            logger.log(Level.INFO,"Ho cancellato il commento");
+            Logger.log("comment deleted");
         } else {
-            logger.log(Level.INFO, "Non c'erano commenti da cancellare");
+            Logger.log( "no comments to delete");
         }
 
         setComments();
@@ -499,8 +494,10 @@ public class ArticlePageView {
         ArticlesPagesDBController controller = new ArticlesPagesDBController();
         if(controller.deleteArticle(showed.getId()))
         {
-            logger.log(Level.INFO,"article deleted " + showed.getId());
+            Logger.log("article deleted " + showed.getId());
             App.setRoot("HomepageArticles");
+        } else {
+            Logger.error("article not deleted correctly " + showed.getId());
         }
     }
 }
