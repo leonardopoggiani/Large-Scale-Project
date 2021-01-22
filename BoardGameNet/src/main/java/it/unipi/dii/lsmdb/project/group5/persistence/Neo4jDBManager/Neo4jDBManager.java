@@ -6,7 +6,15 @@ import org.neo4j.driver.GraphDatabase;
 
 public class Neo4jDBManager  {
 
-    protected static String uri="bolt://localhost:7687";
+    // local-host
+    // protected static String uri="bolt://localhost:7687";
+
+    // local-host cluster
+    protected static String uri="bolt://localhost:7688";
+
+    // vm standalone
+    // protected static String uri="neo4j://172.16.3.86:7687";
+
     protected static String user="neo4j";
     protected static String password="root";
     protected static Driver driver;
