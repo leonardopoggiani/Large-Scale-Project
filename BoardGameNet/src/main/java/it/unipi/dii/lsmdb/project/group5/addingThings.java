@@ -35,7 +35,7 @@ public class addingThings {
             List<GameBean> listaGiochi = controller1.showAllGames();
             List<UserBean> listaUtenti = controller2.showAllUsers();
 
-            for(int i = 0; i < 200; i++) {
+                for(int i = 0; i < 200; i++) {
                 String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 if(user != null) {
                     controller2.promoteDemoteUser(user, "influencer");
