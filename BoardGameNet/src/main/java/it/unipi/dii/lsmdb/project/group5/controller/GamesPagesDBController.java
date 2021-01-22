@@ -75,16 +75,16 @@ public class GamesPagesDBController {
 
     public boolean deleteGame(String game) {
 
-      if(GameDBManager.deleteGame(game))
+      if(GamesDBManager.deleteGame(game))
       {
-          if(!GamesDBManager.deleteGame(game))
+          if(!GameDBManager.deleteGame(game))
           {
-              Logger.warning("NEO4J | Game " + game + " non eliminato!");
+              Logger.warning("MONGODB | Game " + game + " non eliminato!");
               return false;
           }
           return true;
       }
-      Logger.warning("MONGODB | Game " + game + " non eliminato da mongoDB!");
+      Logger.warning("NEO4J | Game " + game + " non eliminato da mongoDB!");
       return false;
     }
 

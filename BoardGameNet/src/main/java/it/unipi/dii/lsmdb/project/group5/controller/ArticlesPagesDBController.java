@@ -91,16 +91,16 @@ public class ArticlesPagesDBController {
 
     public boolean deleteArticle(int idArt)
     {
-        if(ArticleDBManager.deleteArticle(idArt))
+        if(ArticlesDBManager.deleteArticle(idArt))
         {
-            if(!ArticlesDBManager.deleteArticle(idArt))
+            if(!ArticleDBManager.deleteArticle(idArt))
             {
-                Logger.warning("NEO4J | Articolo " + idArt + " non eliminato da Neo4j!");
+                Logger.warning("MONGODB | Articolo " + idArt + " non eliminato da Neo4j!");
                 return false;
             }
             return  true;
         }
-        Logger.warning("MONGODB | Articolo " + idArt + " non eliminato da MongoDB!");
+        Logger.warning("NEO4J | Articolo " + idArt + " non eliminato da MongoDB!");
         return  false;
     }
 
