@@ -515,7 +515,6 @@ public class UsersDBManager extends Neo4jDBManager{
      */
     private static boolean transactionPromoteDemoteUser(Transaction tx, String username, String role) {
         HashMap<String, Object> parameters = new HashMap<>();
-        Timestamp current = new Timestamp(System.currentTimeMillis());
         parameters.put("username", username);
         parameters.put("role", role);
 
@@ -528,7 +527,7 @@ public class UsersDBManager extends Neo4jDBManager{
                     , parameters);
 
         }
-        Result result = tx.run("MATCH(u1:User {username:$username})" +
+        Result result = tx.run("MATCH(u1:User{username:$username})" +
                         " SET u1.role=$role" +
                         " return u1.role AS newRole"
                 , parameters);

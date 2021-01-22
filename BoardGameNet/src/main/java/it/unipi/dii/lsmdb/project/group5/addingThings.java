@@ -24,7 +24,7 @@ public class addingThings {
 
             Random rand = new Random();
             ObservableList<String> titoli = FXCollections.observableArrayList("Articolo", "Articolone", "Che articolo", "Che idea ma quale idea", "Articolino", "Scontro tra titani","Confrontro tra i due", "Che ne pensate?", "Sapete che..", "Titolo", "Abbiamo provato il gioco", "");
-            ObservableList<String> autori = FXCollections.observableArrayList("chakado", "microcline", "Leonardo1", "Clarissa1", "kd5dgh", "jtong77", "notanseladams","t_s_sullivan", "okosp", "xoff");
+            ObservableList<String> autori = FXCollections.observableArrayList("chakado", "microcline","kd5dgh", "jtong77", "notanseladams","t_s_sullivan", "okosp", "xoff");
             ObservableList<String> categorie = FXCollections.observableArrayList("Card Game:1002","Humor:1079","Party Game:1030","Educational:1094","Medical:2145","Animals:1089","Racing:1031");
             ObservableList<String> text = FXCollections.observableArrayList("Ah incredibile", "Ah davvero", "Post", "Sono ioo", "Ci siete?", "Che fate?", "Tutto bene?");
             ObservableList<String> nomi = FXCollections.observableArrayList("Bel gruppo", "Gli sfollati", "Quelli di sempre", "Pisammare", "Cimone 2k16", "Quelli del quartiere");
@@ -71,6 +71,7 @@ public class addingThings {
             for (int i = 0; i < 2000; i++) {
 
                 String titolo = titoli.get(rand.nextInt(titoli.size()));
+                System.out.println(listaInfluencer);
                 String influencer = listaInfluencer.get(rand.nextInt(listaInfluencer.size())).getUsername();
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 String gioco1 = listaGiochi.get(rand.nextInt(listaGiochi.size())).getName();
