@@ -38,17 +38,17 @@ public class UsersPagesDBController {
     public  boolean deleteUser(String username)
     {
 
-        if(UserDBManager.deleteUser(username))
+        if(UsersDBManager.deleteUser(username))
         {
-            if(!UsersDBManager.deleteUser(username))
+            if(!UserDBManager.deleteUser(username))
             {
-                Logger.warning("NEO4J | Utente " + username +" non eliminato in Neo4j!");
+                Logger.warning("MONGODB | Utente " + username +" non eliminato in MongoDB!");
                 return false;
             }
 
             return  true;
         }
-        Logger.warning("MONGODB | Utente " + username +" non eliminato in MongoDB!");
+        Logger.warning("NEO4J | Utente " + username +" non eliminato in NEO4J!");
         return  false;
     }
 
