@@ -42,7 +42,7 @@ public class addingThings {
 
             System.out.println("recuperati utenti db ");
 
-            /*for(int i = 0; i < 1500; i++) {
+            for(int i = 0; i < 1500; i++) {
 
                 String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 if(user != null) {
@@ -107,9 +107,10 @@ public class addingThings {
 
                     for (int j = 0; j < likeLimit; j++) {
                         String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
-                        if(user != null)
+                        if(user != null) {
                             controller.addLike(
                                 new LikeBean("like", user, new Timestamp(System.currentTimeMillis()), a.getId()));
+                        }
                     }
 
                     int dislikeLimit = rand.nextInt(70) + 1;
@@ -123,7 +124,7 @@ public class addingThings {
                         }
                     }
                 }
-            } */
+            }
 
 
             for(int i = 0; i < 4000; i++){
