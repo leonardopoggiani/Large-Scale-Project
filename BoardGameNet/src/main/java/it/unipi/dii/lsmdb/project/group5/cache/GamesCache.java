@@ -42,7 +42,7 @@ public class GamesCache {
     }
 
     public void invalidaCache() {
-        Logger.log("invalidate cache");
+        Logger.log("cache invalidate");
         cache.invalidateAll();
     }
 
