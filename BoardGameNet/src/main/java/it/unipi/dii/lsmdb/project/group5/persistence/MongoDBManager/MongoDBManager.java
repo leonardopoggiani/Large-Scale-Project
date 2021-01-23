@@ -30,7 +30,7 @@ public class MongoDBManager {
 
             // replicas in VM
             mongoClient = MongoClients.create("mongodb://172.16.3.97:27020,172.16.3.98:27020,172.16.3.144:27020/" +
-                    " ?retryWrites=true&w=majority&timeout=1000&readPreference=primaryPreferred&maxStalenessSeconds=120");
+                    "?retryWrites=true&w=majority&timeout=1000&readPreference=primaryPreferred&maxStalenessSeconds=120");
 
             database = mongoClient.getDatabase("Project");
             // database = mongoClient.getDatabase("project");
