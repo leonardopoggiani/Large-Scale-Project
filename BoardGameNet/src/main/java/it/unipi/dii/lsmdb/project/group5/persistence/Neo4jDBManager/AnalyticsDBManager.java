@@ -34,7 +34,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
     }
     /**
      * La funzione trova gli influencer che hanno scritto articoli
-     * sul maggior numero categorie diverse di giochi
+     * sul maggior numero di categorie diverse di giochi
      * nell'ultimo mese
      * @param tx transaction
      * @return Lista degli username degli influencer e il numero di categorie
@@ -66,7 +66,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
 
     /**
      * La funzione trova gli utenti standard che hanno scritto reviews
-     * sul maggior numero di categorie
+     * sul maggior numero di categorie diverse di giochi
      * @param tx transaction
      * @return Lista degli username e il numero di categorie
      */

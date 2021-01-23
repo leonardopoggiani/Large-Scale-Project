@@ -42,7 +42,8 @@ public class RatingsDBManager extends Neo4jDBManager {
         int numberRates = 0;
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
-        Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) return count(distinct r) AS quantiRates", parameters);
+        Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) " +
+                " RETURN COUNT(distinct r) AS quantiRates", parameters);
 
         if (result.hasNext()) {
             org.neo4j.driver.Record record = result.next();
@@ -90,7 +91,8 @@ public class RatingsDBManager extends Neo4jDBManager {
         double avgRates = 0.0;
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
-        Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) return coalesce(avg(r.vote), 0) AS avgRates", parameters);
+        Result result = tx.run("MATCH (ul:User)-[r:RATED]->(g:Game{name:$name}) " +
+                " RETURN coalesce(avg(r.vote), 0) AS avgRates", parameters);
 
         if (result.hasNext()) {
             Record record = result.next();

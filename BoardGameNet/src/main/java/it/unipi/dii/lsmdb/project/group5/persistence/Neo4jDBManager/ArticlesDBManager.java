@@ -41,7 +41,6 @@ public class ArticlesDBManager extends Neo4jDBManager {
      * La funzione restituisce la lista degli articoli suggeriti nella home di un utente
      * Se un utente segue degli influencer mostra gli articoli di esse, altrimenti quelli suggeriti
      * in base alle sue categorie preferite
-     * se esso non ha amici, in base alle alle categorie che ha specificato come preferite
      * @param tx transaction
      * @param username username utente
      * @param limit
@@ -59,9 +58,10 @@ public class ArticlesDBManager extends Neo4jDBManager {
         String conInflu = "MATCH (u:User{username:$username})-[f:FOLLOW]->(i:User{role:$role})-[p:PUBLISHED]-(a:Article) " +
                 " RETURN a, i, p ORDER BY p.timestamp LIMIT $limit";
 
-        String nienteInflu = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game),(u:User) " +
-                " WHERE u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
-                " OR (g.category2 = u.category1 OR g.category2 = u.category2)) " +
+        String nienteInflu = "MATCH (i:User)-[p:PUBLISHED]->(a:Article)-[r:REFERRED]->(g:Game), (u:User) " +
+                " WHERE NOT(i.username = u.username) AND " +
+                " u.username=$username AND ((g.category1 = u.category1 OR g.category1 = u.category2) " +
+                " OR (g.category2 = u.category1 OR g.category2 = u.category2))" +
                 " RETURN distinct(a),i,p ORDER BY p.timestamp LIMIT $limit ";
 
         Result result;
