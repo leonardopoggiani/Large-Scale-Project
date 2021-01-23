@@ -1,0 +1,5 @@
+2021-01-23T21:40:12.773823804Z [LOG] App started
+2021-01-23T21:40:49.114694278Z [WARNING] login failed chakado/ Timed out after 30000 ms while waiting to connect. Client view of cluster state is {type=UNKNOWN, servers=[{address=172.16.3.144:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}, {address=172.16.3.97:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}, {address=172.16.3.98:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}]
+2021-01-23T21:40:49.114849977Z [LOG] can't login with these credentials!
+2021-01-23T21:40:49.114967536Z [LOG] login not correct
+2021-01-23T21:41:34.880907954Z [LOG] App started
