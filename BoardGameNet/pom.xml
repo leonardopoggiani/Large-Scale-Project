@@ -35,8 +35,6 @@
             <version>4.2.0</version>
         </dependency>
 
-
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -83,12 +81,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>3.8.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
             <version>1.1.0</version>
@@ -99,12 +91,7 @@
             <artifactId>commons-codec</artifactId>
             <version>1.15</version>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -112,6 +99,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
@@ -194,7 +187,5 @@
             </plugin>
         </plugins>
     </reporting>
-
-
 
 </project>
