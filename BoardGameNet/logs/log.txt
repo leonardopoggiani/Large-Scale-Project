@@ -151,3 +151,15 @@
 2021-01-23T11:17:41.583465320Z [LOG] cache hit
 2021-01-23T11:17:47.043534583Z [LOG] cache piena
 2021-01-23T11:17:47.044092963Z [LOG] cache piena
+2021-01-23T16:21:34.546851823Z [LOG] App started
+2021-01-23T16:21:34.597815056Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:21:34.598124676Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:21:34.598353658Z [ERROR] Mongo db not starterd
+2021-01-23T16:21:54.313626518Z [LOG] App started
+2021-01-23T16:21:54.368825702Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:21:54.369390914Z [ERROR] Mongo db not starterd
+2021-01-23T16:21:54.369103290Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:23:36.087147027Z [LOG] App started
+2021-01-23T16:23:36.125097114Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:23:36.125372302Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:23:36.125615356Z [ERROR] Mongo db not starterd
