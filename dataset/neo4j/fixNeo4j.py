@@ -6,11 +6,11 @@ import random
 
 def fixNeo4j(file):
     df = pd.read_csv(file)
-    df[['title','idArt']]=df["title;idArt"].str.split(";",expand=True,)
-    df.drop(columns=['title;idArt'], axis=1, inplace=True)
+    df[['name','admin','description']]=df['name;admin;description'].str.split(";",expand=True,)
+    df.drop(columns=['name;admin;description'], axis=1, inplace=True)
     print(df)
 
-    df.to_csv('article.csv', index=False)  
+    df.to_csv('Groups.csv', index=False)  
 
 
-fixNeo4j("article.csv")
+fixNeo4j("Groups.csv")
