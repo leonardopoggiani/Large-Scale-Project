@@ -12,12 +12,8 @@ module org.openjfx {
     requires jdk.net;
     requires com.google.common;
     requires java.sql;
-    requires com.github.benmanes.caffeine;
     requires org.checkerframework.checker.qual;
-    requires ehcache;
     requires org.apache.commons.codec;
-    requires log4j;
-    requires com.google.gson;
 
     opens it.unipi.dii.lsmdb.project.group5.view to javafx.fxml;
     opens it.unipi.dii.lsmdb.project.group5 to javafx.fxml;
