@@ -2,18 +2,16 @@ package it.unipi.dii.lsmdb.project.group5.controller;
 
 
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
+import it.unipi.dii.lsmdb.project.group5.logger.Logger;
 import it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.UserDBManager;
 import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.UsersDBManager;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UsersPagesDBController {
 
-    Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public UsersPagesDBController(){};
+    public UsersPagesDBController(){}
 
     public  List<String> listUsers(String username, String type)
     {
@@ -40,16 +38,17 @@ public class UsersPagesDBController {
     public  boolean deleteUser(String username)
     {
 
-        if(UserDBManager.deleteUser(username))
+        if(UsersDBManager.deleteUser(username))
         {
-            if(!UsersDBManager.deleteUser(username))
+            if(!UserDBManager.deleteUser(username))
             {
-                logger.log(Level.SEVERE, "NEO4J | Utente " + username +" non eliminato in Neo4j!");
+                Logger.warning("MONGODB | Utente " + username +" non eliminato in MongoDB!");
                 return false;
             }
 
             return  true;
         }
+        Logger.warning("NEO4J | Utente " + username +" non eliminato in NEO4J!");
         return  false;
     }
 
@@ -62,11 +61,12 @@ public class UsersPagesDBController {
         {
             if(!UserDBManager.promoteDemoteUser(username, role))
             {
-                logger.log(Level.SEVERE,"MONGODB | Ruolo dell'utente " + username +" non aggiornato!");
+                Logger.warning("MONGODB | Ruolo dell'utente " + username +" non aggiornato!");
                 return false;
             }
             return  true;
         }
+        Logger.warning("NEO4J | Ruolo dell'utente " + username +" non aggiornato!");
         return  false;
     }
 

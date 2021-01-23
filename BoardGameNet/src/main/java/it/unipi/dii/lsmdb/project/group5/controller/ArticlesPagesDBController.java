@@ -84,21 +84,23 @@ public class ArticlesPagesDBController {
             }
             return true;
         }
+        Logger.warning("MONGODB | Articolo " + id + " non aggiunto in mongoDB!");
         return  false;
     }
 
 
     public boolean deleteArticle(int idArt)
     {
-        if(ArticleDBManager.deleteArticle(idArt))
+        if(ArticlesDBManager.deleteArticle(idArt))
         {
-            if(!ArticlesDBManager.deleteArticle(idArt))
+            if(!ArticleDBManager.deleteArticle(idArt))
             {
-                Logger.warning("NEO4J | Articolo " + idArt + " non eliminato da Neo4j!");
+                Logger.warning("MONGODB | Articolo " + idArt + " non eliminato da Neo4j!");
                 return false;
             }
             return  true;
         }
+        Logger.warning("NEO4J | Articolo " + idArt + " non eliminato da MongoDB!");
         return  false;
     }
 
@@ -113,7 +115,7 @@ public class ArticlesPagesDBController {
             }
             return  ret;
         }
-
+        Logger.warning("Neo4j | Commento all'articolo "+ newComm.getId() + " non aggiunto!");
         return false;
 
     }
@@ -126,10 +128,12 @@ public class ArticlesPagesDBController {
                 if(like.getType().equals("like")){
                     if(!ArticleDBManager.updateNumLike(-1, like.getId())) {
                         Logger.warning("MONGODB | Numero dei like di " + like.getId() +" non decrementato!");
+                        return  ret;
                     }
                 }else {
                     if(!ArticleDBManager.updateNumDislike(-1, like.getId())) {
                         Logger.warning("MONGODB | Numero dei dislike di " + like.getId() +" non decrementato!");
+                        return ret;
                     }
 
                 }
@@ -137,17 +141,22 @@ public class ArticlesPagesDBController {
                 if(like.getType().equals("like")){
                     if(!ArticleDBManager.updateNumLike(1, like.getId())) {
                         Logger.warning("MONGODB | Numero dei like dell'articolo " + like.getId() +" non incrementato!");
+                        return ret;
                     }
                 }else {
                     if(!ArticleDBManager.updateNumDislike(1, like.getId())) {
                         Logger.warning("MONGODB | Numero dei dislike dell'articolo " + like.getId() +" non incrementato!");
+                        return ret;
                     }
 
                 }
             }
 
         }
-
+        if(ret == 0)
+            Logger.warning("NEO4j | Like all'articolo "+ like.getId() + " non eliminato!");
+        else
+            Logger.warning("NEO4j | Like all'articolo "+ like.getId() + " non aggiunto!");
         return ret;
 
     }
@@ -162,7 +171,7 @@ public class ArticlesPagesDBController {
 
             return true;
         }
-
+        Logger.warning("NEO4J | Commento all'articolo "+ comm.getId() + " non eliminato!");
         return  false;
     }
 }

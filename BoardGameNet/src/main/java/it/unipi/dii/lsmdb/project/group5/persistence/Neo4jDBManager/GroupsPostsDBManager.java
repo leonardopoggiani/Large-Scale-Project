@@ -1,6 +1,5 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager;
 
-
 import it.unipi.dii.lsmdb.project.group5.bean.GroupBean;
 import it.unipi.dii.lsmdb.project.group5.bean.PostBean;
 import org.neo4j.driver.Record;
@@ -17,6 +16,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
 
     /**
      * La funzione restituisce la lista dei gruppi di un utente è membro
+     * @param username
      * @param username
      * @param type
      * @return Lista dei gruppi di cui un utente è membro senza essere admin se type = member
@@ -329,7 +329,7 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                 , parameters);
 
         if (result0.hasNext()) {
-            System.out.println("Già hai creato un gruppo con questo nome, cambialo!");
+            System.err.println("groups already existing");
             return false;
         } else {
 
@@ -339,7 +339,6 @@ public class GroupsPostsDBManager extends Neo4jDBManager {
                     , parameters);
 
             if (result.hasNext()) {
-                System.out.println("Ho aggiunto il nuovo gruppo");
                 return true;
             }
             return false;

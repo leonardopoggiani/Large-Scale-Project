@@ -477,7 +477,8 @@ public class HomepageArticles {
                     // caching
                     savedID.add(a.getId());
 
-                    identificatore.setText(String.valueOf(a.getId() + 1));
+                    identificatore.setText(String.valueOf(a.getId()));
+
                     ar.setText(a.getTitle());
                     aut.setText(a.getAuthor());
                     tim.setText(String.valueOf(a.getTimestamp()));
@@ -506,9 +507,15 @@ public class HomepageArticles {
         String idArticle = articolo.getId();
 
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
+
         Text idSelected = chooseId(index - 1);
-        id = Integer.parseInt(idSelected.getText());
-        App.setRoot("ArticlePageView");
+        if(!idSelected.getText().equals("autore")) {
+            id = Integer.parseInt(idSelected.getText());
+            App.setRoot("ArticlePageView");
+        } else {
+            Logger.warning("article not present");
+        }
+
     }
 
     /**

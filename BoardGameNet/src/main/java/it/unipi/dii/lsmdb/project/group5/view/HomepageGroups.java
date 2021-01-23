@@ -318,7 +318,6 @@ public class HomepageGroups {
 
         if(ret) {
             TableGroupBean tableGroup = new TableGroupBean(group.getName(), String.valueOf(group.getTimestamp()),String.valueOf(group.getLastPost()), group.getAdmin(), group.getGame(),membersNumber.countGroupMembers(group.getName(),group.getAdmin()));
-            System.out.println(tableGroup);
             gruppiAdmin.add(tableGroup);
             admintable.setItems(gruppiAdmin);
             nomiDeiGruppi.add(group.getName());

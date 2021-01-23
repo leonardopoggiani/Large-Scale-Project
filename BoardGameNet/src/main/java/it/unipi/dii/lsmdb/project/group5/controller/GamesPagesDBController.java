@@ -37,7 +37,7 @@ public class GamesPagesDBController {
             }
             return true;
         }
-
+        Logger.warning("MONGODB | Gioco " + newGame.getName() + " non aggiunto in mongoDB!");
         return false;
     }
 
@@ -52,7 +52,7 @@ public class GamesPagesDBController {
             }
             return true;
         }
-
+        Logger.warning("NEO4j | Review al gioco " + newRev.getGame() +" non aggiunta!");
         return ret;
     }
 
@@ -68,29 +68,38 @@ public class GamesPagesDBController {
             }
             return  true;
         }
-
+        Logger.warning("NEO4j | Rating al gioco " + newRating.getGame() +" non aggiunto!");
         return ret;
     }
 
 
     public boolean deleteGame(String game) {
 
-      if(GameDBManager.deleteGame(game))
+      if(GamesDBManager.deleteGame(game))
       {
-          if(!GamesDBManager.deleteGame(game))
+          if(!GameDBManager.deleteGame(game))
           {
-              Logger.warning("NEO4J | Game " + game + " non eliminato!");
+              Logger.warning("MONGODB | Game " + game + " non eliminato!");
               return false;
           }
           return true;
       }
-
+      Logger.warning("NEO4J | Game " + game + " non eliminato da mongoDB!");
       return false;
     }
 
     public boolean deleteReview(ReviewBean review) {
-         return  ReviewsDBManager.deleteReview(review);
-
+        if(ReviewsDBManager.deleteReview(review))
+        {
+            if(!GameDBManager.updateNumReviews(-1, review.getGame()))
+            {
+                Logger.warning("MONGODB | num_reviews al gioco " + review.getGame() + " non decrementato!");
+                return false;
+            }
+            return true;
+        }
+        Logger.warning("NEO4J | Review al gioco " + review.getGame() + " non eliminata!");
+        return false;
     }
 
     public double getAvgRating(String game){
