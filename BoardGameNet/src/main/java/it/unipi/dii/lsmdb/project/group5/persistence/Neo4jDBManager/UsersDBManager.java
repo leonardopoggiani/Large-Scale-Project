@@ -83,7 +83,7 @@ public class UsersDBManager extends Neo4jDBManager{
         }
     }
 
-    /** La funzione restituisce la lista dei followers, o following o friends in base al parametro type
+    /** La funzione restituisce la lista dei followers, o followed o friends in base al parametro type
      * @param type (following, followers, friends)
      * @param tx
      * @param username
