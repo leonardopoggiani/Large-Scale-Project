@@ -163,3 +163,15 @@
 2021-01-23T16:23:36.125097114Z [ERROR] state should be: databaseName does not contain ' '
 2021-01-23T16:23:36.125372302Z [ERROR] state should be: databaseName does not contain ' '
 2021-01-23T16:23:36.125615356Z [ERROR] Mongo db not starterd
+2021-01-23T16:39:05.529418526Z [LOG] App started
+2021-01-23T16:39:05.562696376Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:39:05.562963587Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:39:05.563171816Z [ERROR] Mongo db not starterd
+2021-01-23T16:39:11.919505327Z [LOG] App started
+2021-01-23T16:39:11.949508833Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:39:11.949897728Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:39:11.950133686Z [ERROR] Mongo db not starterd
+2021-01-23T16:40:42.377909144Z [LOG] App started
+2021-01-23T16:40:42.465614481Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:40:42.465970320Z [ERROR] state should be: databaseName does not contain ' '
+2021-01-23T16:40:42.466490668Z [ERROR] Mongo db not starterd

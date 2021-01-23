@@ -13,7 +13,6 @@ module org.openjfx {
     requires com.google.common;
     requires java.sql;
     requires org.checkerframework.checker.qual;
-    requires ehcache;
     requires org.apache.commons.codec;
 
     opens it.unipi.dii.lsmdb.project.group5.view to javafx.fxml;
