@@ -53,7 +53,10 @@ public class ReviewsDBManager extends Neo4jDBManager {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("limit", limit);
         parameters.put("name", name);
-        Result result = tx.run("MATCH (u:User)-[r:REVIEWED]->(g:Game) WHERE g.name=$name return r,u,g ORDER BY r.timestamp DESC LIMIT $limit", parameters);
+        Result result = tx.run("MATCH (u:User)-[r:REVIEWED]->(g:Game) " +
+                " WHERE g.name=$name " +
+                " RETURN r,u,g " +
+                " ORDER BY r.timestamp DESC LIMIT $limit", parameters);
 
         while (result.hasNext()) {
             Record record = result.next();
