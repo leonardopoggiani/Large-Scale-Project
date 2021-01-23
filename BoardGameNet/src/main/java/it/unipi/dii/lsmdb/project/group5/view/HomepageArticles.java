@@ -509,7 +509,7 @@ public class HomepageArticles {
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
 
         Text idSelected = chooseId(index - 1);
-        if(!idSelected.getText().equals("autore")) {
+        if(!idSelected.getText().equals("autore") || idSelected.getText().equals("")) {
             id = Integer.parseInt(idSelected.getText());
             App.setRoot("ArticlePageView");
         } else {
