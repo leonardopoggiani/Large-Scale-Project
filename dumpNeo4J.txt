@@ -1,0 +1,7 @@
+Loading data in Neo4j
+
+1) BE_PART
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/be_part.csv' AS line
+MATCH (g:Group{ name: line.name})
+MATCH (u:User { username: line.username})
+MERGE (u)-[:BE_PART {timestamp: line.timestamp}]->(g);
