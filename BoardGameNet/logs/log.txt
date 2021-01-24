@@ -276,3 +276,108 @@ Il Risiko e' un gioco di strategia a turni dove ogni giocatore ha delle pedine (
 2021-01-24T15:26:49.467242827Z [LOG] can't login with these credentials!
 2021-01-24T15:26:49.467554558Z [LOG] login not correct
 2021-01-24T15:28:12.947896891Z [LOG] App started
+2021-01-24T15:52:05.285085630Z [LOG] App started
+2021-01-24T15:52:15.185944957Z [LOG] role: influencer
+2021-01-24T15:52:15.344351131Z [LOG] correct login thetalkingstove
+2021-01-24T15:52:15.523863746Z [LOG] cache vuota
+2021-01-24T15:52:16.291532528Z [LOG] cache piena
+2021-01-24T15:52:20.121871026Z [LOG] cache piena
+2021-01-24T15:52:20.123924932Z [LOG] cache piena
+2021-01-24T15:52:21.328163040Z [LOG] cache hit
+2021-01-24T15:52:21.888413327Z [LOG] cache hit
+2021-01-24T15:52:39.643192022Z [LOG] cache piena
+2021-01-24T15:52:39.643851093Z [LOG] cache piena
+2021-01-24T15:57:35.711776181Z [LOG] App started
+2021-01-24T15:57:46.336354658Z [LOG] role: influencer
+2021-01-24T15:57:46.488580721Z [LOG] correct login thetalkingstove
+2021-01-24T15:57:46.710270Z [LOG] cache vuota
+2021-01-24T15:57:47.482693884Z [LOG] cache piena
+2021-01-24T15:57:57.954168002Z [LOG] cache vuota
+2021-01-24T15:57:58.844390228Z [LOG] cache piena
+2021-01-24T15:58:00.784304428Z [LOG] cache piena
+2021-01-24T15:58:00.784968190Z [LOG] cache piena
+2021-01-24T15:58:13.976357633Z [LOG] cache hit
+2021-01-24T15:58:14.330850443Z [LOG] cache hit
+2021-01-24T15:58:17.047226785Z [LOG] cache piena
+2021-01-24T15:58:17.048484678Z [LOG] cache piena
+2021-01-24T15:58:44.763977148Z [LOG] cache piena
+2021-01-24T15:58:44.764980389Z [LOG] cache piena
+2021-01-24T15:58:45.674513839Z [LOG] cache piena
+2021-01-24T15:58:45.674971183Z [LOG] cache piena
+2021-01-24T16:08:48.854154532Z [LOG] App started
+2021-01-24T16:09:06.650389589Z [LOG] role: influencer
+2021-01-24T16:09:06.773131800Z [LOG] correct login thetalkingstove
+2021-01-24T16:09:06.993906224Z [LOG] cache vuota
+2021-01-24T16:09:07.746956825Z [LOG] cache piena
+2021-01-24T16:09:09.720566164Z [LOG] cache hit
+2021-01-24T16:09:10.267934578Z [LOG] cache hit
+2021-01-24T16:09:13.767679086Z [LOG] cache piena
+2021-01-24T16:09:13.768920677Z [LOG] cache piena
+2021-01-24T16:09:15.310583534Z [LOG] cache hit
+2021-01-24T16:09:15.680522829Z [LOG] cache hit
+2021-01-24T16:09:24.507523565Z [LOG] cache hit
+2021-01-24T16:09:24.865804471Z [LOG] cache hit
+2021-01-24T16:09:30.667777031Z [LOG] cache piena
+2021-01-24T16:09:30.669210731Z [LOG] cache piena
+2021-01-24T16:09:39.224644160Z [LOG] cache piena
+2021-01-24T16:09:39.225416725Z [LOG] cache piena
+2021-01-24T16:12:22.902597906Z [LOG] App started
+2021-01-24T16:12:43.769171402Z [LOG] role: influencer
+2021-01-24T16:12:43.939311026Z [LOG] correct login thetalkingstove
+2021-01-24T16:12:44.128977918Z [LOG] cache vuota
+2021-01-24T16:17:30.292505774Z [LOG] App started
+2021-01-24T16:17:38.520730325Z [LOG] role: influencer
+2021-01-24T16:17:38.683472447Z [LOG] correct login chakado
+2021-01-24T16:17:38.829921034Z [LOG] cache vuota
+2021-01-24T16:20:56.137142334Z [LOG] App started
+2021-01-24T16:21:19.805377703Z [WARNING] login failed chakado/ Exception opening socket
+2021-01-24T16:21:19.805722616Z [LOG] can't login with these credentials!
+2021-01-24T16:21:19.806093669Z [LOG] login not correct
+2021-01-24T16:23:56.745369025Z [LOG] App started
+2021-01-24T16:24:32.659526700Z [WARNING] login failed chakado/ Timed out after 30000 ms while waiting to connect. Client view of cluster state is {type=UNKNOWN, servers=[{address=172.16.3.144:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}, {address=172.16.3.97:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}, {address=172.16.3.98:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}]
+2021-01-24T16:24:32.660287744Z [LOG] login not correct
+2021-01-24T16:24:32.659925963Z [LOG] can't login with these credentials!
+2021-01-24T16:27:37.383127473Z [LOG] App started
+2021-01-24T16:27:44.327754491Z [LOG] role: influencer
+2021-01-24T16:27:44.483353609Z [LOG] correct login chakado
+2021-01-24T16:27:44.675635537Z [LOG] cache vuota
+2021-01-24T16:35:20.001466566Z [LOG] App started
+2021-01-24T16:35:31.198044841Z [LOG] role: influencer
+2021-01-24T16:35:31.349624632Z [LOG] correct login chakado
+2021-01-24T16:35:31.479561147Z [LOG] cache vuota
+2021-01-24T16:36:06.099733250Z [LOG] cache piena
+2021-01-24T16:36:17.339009536Z [LOG] cache vuota
+2021-01-24T16:36:18.322289426Z [LOG] cache piena
+2021-01-24T16:55:27.349038717Z [LOG] App started
+2021-01-24T16:56:18.573286864Z [LOG] App started
+2021-01-24T16:56:59.880814359Z [WARNING] login failed thetalkingstove/ Timed out after 30000 ms while waiting to connect. Client view of cluster state is {type=UNKNOWN, servers=[{address=172.16.3.144:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.ConnectException: Connection refused}}, {address=172.16.3.97:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.ConnectException: Connection refused}}, {address=172.16.3.98:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.ConnectException: Connection refused}}]
+2021-01-24T16:56:59.881204556Z [LOG] can't login with these credentials!
+2021-01-24T16:56:59.881566631Z [LOG] login not correct
+2021-01-24T16:58:38.307927917Z [LOG] App started
+2021-01-24T16:58:52.526603580Z [LOG] role: moderator
+2021-01-24T16:58:52.695021008Z [LOG] correct login yanawhy
+2021-01-24T16:58:52.889999816Z [LOG] cache vuota
+2021-01-24T16:58:53.779233620Z [LOG] cache piena
+2021-01-24T17:04:15.050385605Z [LOG] App started
+2021-01-24T17:04:27.977374618Z [LOG] role: moderator
+2021-01-24T17:04:28.175860264Z [LOG] correct login yanawhy
+2021-01-24T17:04:28.383865511Z [LOG] cache vuota
+2021-01-24T17:04:29.240726416Z [LOG] cache piena
+2021-01-24T17:04:57.334907364Z [LOG] App started
+2021-01-24T17:05:07.188680870Z [LOG] role: moderator
+2021-01-24T17:05:07.347598846Z [LOG] correct login yanawhy
+2021-01-24T17:05:07.537384039Z [LOG] cache vuota
+2021-01-24T17:05:08.356942689Z [LOG] cache piena
+2021-01-24T17:06:57.400916047Z [LOG] cache piena
+2021-01-24T17:06:57.402329527Z [LOG] cache piena
+2021-01-24T17:07:32.792880147Z [LOG] App started
+2021-01-24T17:07:38.454390495Z [LOG] role: admin
+2021-01-24T17:07:38.637010151Z [LOG] correct login eifelmartin
+2021-01-24T17:10:30.079821148Z [LOG] App started
+2021-01-24T17:10:40.563117305Z [LOG] role: admin
+2021-01-24T17:10:40.713928384Z [LOG] correct login eifelmartin
+2021-01-24T17:20:55.425612492Z [LOG] App started
+2021-01-24T17:21:06.542234Z [LOG] role: admin
+2021-01-24T17:21:06.696682211Z [LOG] correct login eifelmartin
+2021-01-24T17:22:09.083487192Z [ERROR] Query failed with error code 2 and error message 'unknown top level operator: $match' on server 172.16.3.97:27020
+2021-01-24T17:22:12.271513995Z [ERROR] Query failed with error code 2 and error message 'unknown top level operator: $match' on server 172.16.3.97:27020
