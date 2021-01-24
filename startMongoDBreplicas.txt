@@ -70,14 +70,17 @@ ccT4G6
 [SSH AUTH SETTINGS]
 
 IP addresses:
-172.16.3.85
-172.16.3.86
-172.16.3.87
+172.16.3.97
+172.16.3.98
+172.16.3.144
 
 Password: group5
 
 Example on how to access:
-ssh workgroup-01@<ip_address>
+ssh workgroup-05@<ip_address>
+ssh workgroup-05@172.16.3.97
+ssh workgroup-05@172.16.3.98
+ssh workgroup-05@172.16.3.144
 
 How to change passwork:
-sudo passwd workgroup-01
+sudo passwd workgroup-05
