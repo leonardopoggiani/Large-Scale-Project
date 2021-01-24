@@ -42,7 +42,7 @@ public class addingThings {
 
             System.out.println("recuperati utenti db ");
 
-            for(int i = 0; i < 1500; i++) {
+            /*for(int i = 0; i < 1500; i++) {
 
                 String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 if(user != null) {
@@ -135,7 +135,7 @@ public class addingThings {
                         System.out.println("ok");
                     }
                 }
-            }
+            }*/
 
             for(int i = 0; i < 1500; i++){
                 if(controller3.addGroup(new GroupBean((nomi.get(rand.nextInt(5))),new Timestamp(System.currentTimeMillis()), listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(),"no description",listaGiochi.get(i).getName()))){
@@ -168,6 +168,7 @@ public class addingThings {
                 }
             }
 
+            /*
             for(int i = 0; i < 4000; i++){
                 String author = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 String game = listaGiochi.get(rand.nextInt(listaGiochi.size())).getName();
@@ -183,6 +184,7 @@ public class addingThings {
                     System.out.println("ok");
                 }
             }
+             */
         }
 
         MongoDBManager.close();
