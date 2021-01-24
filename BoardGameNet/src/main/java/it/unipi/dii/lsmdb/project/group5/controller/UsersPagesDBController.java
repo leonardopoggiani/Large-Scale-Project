@@ -79,6 +79,6 @@ public class UsersPagesDBController {
     }
 
     public boolean modifyProfile(String username, String name, String surname, String password, String age, String categoria1, String categoria2) {
-        return UserDBManager.modifyProfile(username,name,surname,password,age,categoria1,categoria2);
+        return UserDBManager.modifyProfile(username,name,surname,password,age) && UsersDBManager.modifyProfile(categoria1,categoria2);
     }
 }

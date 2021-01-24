@@ -202,8 +202,7 @@ public class AdminGames {
     void displayGameStatisticResult() {
         choosenCategory.getSelectionModel().clearSelection();
         if(games.getSelectionModel().getSelectedIndex() != -1){
-            String statistic = gameStatistic.get(games.getSelectionModel().getSelectedIndex());
-            if(statistic.equals("Least rated game per category")) {
+            if(games.getSelectionModel().getSelectedIndex() == 0) {
                 choosenCategory.setItems(categorie);
             } else {
                 choosenCategory.setItems(years);
@@ -219,11 +218,10 @@ public class AdminGames {
     void displayCategoryStatisticResult() {
         if(choosenCategory.getSelectionModel().getSelectedIndex() != -1){
 
-            if(gameStatistic.get(games.getSelectionModel().getSelectedIndex()).equals("Least rated game per category"))
+            if(games.getSelectionModel().getSelectedIndex() == 0)
             {
 
                 List<GameBean> lista = controller.showLeastRatedGames("category", categorie.get(choosenCategory.getSelectionModel().getSelectedIndex()));
-
                 for (int i = 0; i < 3; i++) {
                     Text game_i = chooseGame(i);
                     if (i < lista.size()) {

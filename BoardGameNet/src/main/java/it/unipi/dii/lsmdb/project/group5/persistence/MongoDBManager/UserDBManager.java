@@ -157,8 +157,6 @@ public class UserDBManager extends MongoDBManager {
    * @param surname the surname
    * @param password the password
    * @param age the age
-   * @param categoria1 the categoria 1
-   * @param categoria2 the categoria 2
    * @return the boolean
    */
   public static boolean modifyProfile(
@@ -166,19 +164,17 @@ public class UserDBManager extends MongoDBManager {
       String name,
       String surname,
       String password,
-      String age,
-      String categoria1,
-      String categoria2) {
+      String age) {
 
         MongoCollection<Document> collection = getCollection("Users");
         Document updateProfile = new Document();
 
         if( name != null && !name.equals("")){
-            updateProfile.append("name", name);
+            updateProfile.append("first_name", name);
         }
 
         if( surname != null && !surname.equals("")) {
-            updateProfile.append("surname", surname);
+            updateProfile.append("last_name", surname);
         }
 
         if( password != null && !password.equals("")) {
@@ -189,23 +185,20 @@ public class UserDBManager extends MongoDBManager {
             updateProfile.append("age", age);
         }
 
-        if( categoria1 != null && !categoria1.equals("")) {
+        if (updateProfile != null && !updateProfile.isEmpty()) {
+            Document update = new Document();
+            update.append("$set", updateProfile);
+
+            try {
+                collection.updateOne(eq("username", username), update);
+                return true;
+            } catch (Exception ex) {
+                Logger.error(ex.getMessage());
+                return false;
+            }
+            } else {
+                return true;
+            }
         }
-
-        if( categoria2 != null && !categoria2.equals("")) {
-        }
-
-        Document update = new Document();
-        update.append("$set", updateProfile);
-
-        try {
-            collection.updateOne(eq("username", username), update);
-
-            return true;
-        } catch (Exception ex) {
-            Logger.error(ex.getMessage());
-            return false;
-        }
-    }
 
 }

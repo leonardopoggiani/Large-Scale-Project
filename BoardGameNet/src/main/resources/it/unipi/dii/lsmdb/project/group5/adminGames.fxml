@@ -87,11 +87,11 @@
             <Text fx:id="game1" layoutX="83.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="318.9830722808838" />
             <Text fx:id="game3" layoutX="83.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="318.9830722808838" />
             <Text fx:id="game2" layoutX="83.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="318.9830722808838" />
-            <ComboBox fx:id="choosenCategory" layoutX="81.0" layoutY="434.0" onAction="#displayCategoryStatisticResult" prefWidth="150.0" promptText="Choose category" />
+            <ComboBox fx:id="choosenCategory" layoutX="81.0" layoutY="434.0" onAction="#displayCategoryStatisticResult" prefWidth="150.0" promptText="Choose category or year" />
             <Text fx:id="text" fill="#30e210" layoutX="492.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game succesfully removed" visible="false" />
             <Button fx:id="remove" disable="true" layoutX="544.0" layoutY="419.0" mnemonicParsing="false" onAction="#removeGame" text="Remove" />
             <Button fx:id="add" layoutX="738.0" layoutY="211.0" mnemonicParsing="false" onAction="#addGame" text="Add" />
-            <PieChart fx:id="pie" layoutX="65.0" layoutY="501.0" prefHeight="249.0" prefWidth="807.0" title="User distribution per country" />
+            <PieChart fx:id="pie" layoutX="65.0" layoutY="501.0" prefHeight="249.0" prefWidth="807.0" title="Games distribution per category" />
          </children>
       </AnchorPane>
    </items>

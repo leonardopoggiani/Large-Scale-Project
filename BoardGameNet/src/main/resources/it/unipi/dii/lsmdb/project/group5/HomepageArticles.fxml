@@ -129,22 +129,22 @@
                   </ImageView>
                   <BottomNavigation layoutX="458.0" layoutY="-1.0" prefHeight="31.0" prefWidth="446.0">
                      <actionItems>
-                        <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
+                        <BottomNavigationButton fx:id="home" onMouseClicked="#returnToHomepage" selected="true" text="Home">
                            <graphic>
                               <Icon content="EMPTY" onMouseClicked="#returnToHomepage" />
                            </graphic>
                         </BottomNavigationButton>
-                        <BottomNavigationButton onMouseClicked="#goToGames" text="Games">
+                        <BottomNavigationButton fx:id="games" onMouseClicked="#goToGames" text="Games">
                            <graphic>
                               <Icon content="EMPTY" />
                            </graphic>
                         </BottomNavigationButton>
-                        <BottomNavigationButton onMouseClicked="#goToGroups" text="Groups">
+                        <BottomNavigationButton fx:id="groups" onMouseClicked="#goToGroups" text="Groups">
                            <graphic>
                               <Icon content="EMPTY" />
                            </graphic>
                         </BottomNavigationButton>
-                        <BottomNavigationButton onMouseClicked="#goToFriends" text="Users">
+                        <BottomNavigationButton fx:id="users" onMouseClicked="#goToFriends" text="Users">
                            <graphic>
                               <Icon content="EMPTY" />
                            </graphic>
@@ -163,7 +163,7 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="772.0" prefWidth="290.0">
                <children>
-                  <Button layoutX="41.0" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
+                  <Button layoutX="41.0" fx:id="modify" layoutY="88.0" mnemonicParsing="false" onMouseClicked="#goToSettings" prefHeight="32.0" prefWidth="128.0" text="Modify your profile" />
                   <Text layoutX="49.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter your research" />
                   <Text layoutX="11.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game:" />
                   <Text layoutX="11.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author:" />
