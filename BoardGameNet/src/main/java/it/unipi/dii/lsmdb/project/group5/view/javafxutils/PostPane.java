@@ -2,6 +2,7 @@ package it.unipi.dii.lsmdb.project.group5.view.javafxutils;
 
 import it.unipi.dii.lsmdb.project.group5.bean.PostBean;
 import it.unipi.dii.lsmdb.project.group5.controller.GroupsPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.view.LoginPageView;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -20,17 +21,22 @@ public class PostPane extends Pane {
         body.setStyle("-fx-border-style: solid; -fx-border-width: 4px; -fx-background-color: grey");
         Text author = new Text(post.getAuthor());
         Text timestamp = new Text(String.valueOf(post.getTimestamp()));
-
         Button delete = new Button();
-        delete.setText("Delete");
-        delete.setStyle("-fx-border-radius: 25; -fx-background-color: red;");
-        delete.setId(post.getAuthor() + post.getAuthor() + post.getTimestamp().toString());
-        delete.setOnAction(λ -> {
-            vbox.getChildren().removeAll(body,author,timestamp,delete);
-            GroupsPagesDBController controller = new GroupsPagesDBController();
-            controller.addDeletePost(post,"remove");
-            getChildren().remove(vbox);
-        });
+
+        if (post.getAuthor().equals(LoginPageView.getLoggedUser())) {
+            delete.setText("Delete");
+            delete.setStyle("-fx-border-radius: 25; -fx-background-color: red;");
+            delete.setId(post.getAuthor() + post.getAuthor() + post.getTimestamp().toString());
+            delete.setOnAction(
+              λ -> {
+                vbox.getChildren().removeAll(body, author, timestamp, delete);
+                GroupsPagesDBController controller = new GroupsPagesDBController();
+                controller.addDeletePost(post, "remove");
+                getChildren().remove(vbox);
+              });
+        } else {
+            delete.setVisible(false);
+        }
 
         vbox.getChildren().addAll(body,author,timestamp,delete);
         vbox.setSpacing(2);
