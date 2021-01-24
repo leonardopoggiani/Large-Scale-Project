@@ -238,7 +238,7 @@ public class UsersDBManager extends Neo4jDBManager{
         String searchForCategoryNormal = "MATCH (ub:User{username:$username}),(ua:User{role:$role})" +
                 " WHERE  NOT(ua.username=$username)" +
                 " AND NOT (ub)-[:FOLLOW]->(ua)" +
-                " ((ub.category1=ua.category1 or ub.category1=ua.category2)" +
+                " AND ((ub.category1=ua.category1 or ub.category1=ua.category2)" +
                 " OR (ub.category2=ua.category1 or ub.category2=ua.category2))" +
                 " RETURN ua.username AS suggestion " +
                 " LIMIT 6";

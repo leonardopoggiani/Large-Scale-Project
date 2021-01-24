@@ -28,7 +28,7 @@ public class AddMember {
   /** Initialize. */
   @FXML
   void initialize() {
-        List<String> utenti = controller.listUsers(HomepageGroups.getGroup(),"friends");
+        List<String> utenti = controller.listUsers(LoginPageView.getLoggedUser(),"friends");
         usersList.addAll(utenti);
         users.setItems(usersList);
     }

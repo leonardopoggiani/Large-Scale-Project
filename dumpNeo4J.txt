@@ -17,7 +17,7 @@ CREATE (a:Article{ title: line.title, idArt: line.idArt });
 
 4) GAMES
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/gamesNeo4j.csv' AS line
-CREATE (g:Games{ name: line.name, category1: line.category1, category2: line.category2 });
+CREATE (g:Game{ name: line.name, category1: line.category1, category2: line.category2 });
 
 5) USERS 
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/usersNeo4j.csv' AS line
@@ -32,14 +32,14 @@ MERGE (u)-[:COMMENTED {timestamp: line.timestamp,text: line.text }]->(a);
 7) FOLLOW
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/follow.csv' AS line
 MATCH (u:User { username: line.username, role: line.role, category1: line.category1, category2: line.category2})
-MATCH (u1:User { username: line.username-2, role: line.role-2, category1: line.category1-2, category2: line.category2-2})
+MATCH (u1:User { username: line.username2, role: line.role2, category1: line.category12, category2: line.category22})
 MERGE (u)-[:FOLLOW {timestamp: line.timestamp}]->(u1);
 
 8) LIKED
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/liked.csv' AS line
 MATCH (u:User { username: line.username, role: line.role, category1: line.category1, category2: line.category2})
 MATCH (a:Article { title: line.title, idArt: line.idArt})
-MERGE (u)-[:FOLLOW {timestamp: line.timestamp, type: line.type}]->(u1);
+MERGE (u)-[:LIKED {timestamp: line.timestamp, type: line.type}]->(a);
 
 9) PUBLISHED
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/published.csv' AS line MATCH (u:User {username:line.username}) MATCH(a:Article {title: line.title, idArt: line.idArt}) CREATE (u)-[:PUBLISHED {timestamp: line.timestamp}]->(a) 
@@ -50,13 +50,11 @@ MATCH (a:Game{ name: line.name })
 MATCH (u:User { username: line.username, role: line.role, category1: line.category1, category2: line.category2})
 MERGE (u)-[:REVIEWED {timestamp: line.timestamp,text: line.text }]->(a);
 
-
 10) RATED
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/reviewed.csv' AS line
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/rated.csv' AS line
 MATCH (a:Game{ name: line.name })
 MATCH (u:User { username: line.username, role: line.role, category1: line.category1, category2: line.category2})
 MERGE (u)-[:REVIEWED {timestamp: line.timestamp,text: line.text }]->(a);
-
 
 10) REFERRED
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/leonardopoggiani/Large-Scale-Project/master/dataset/neo4j/reviewed.csv' AS line

@@ -403,7 +403,7 @@ public class ArticlePageView {
 
         list.remove(showed);
 
-        if (list != null) {
+        if (list != null && list.size() != 0) {
             for( int i = 0; i < 3; i++) {
                 ArticleBean a = list.get(i);
                 TitledPane articolo = chooseArticle(i + 1);
@@ -423,7 +423,19 @@ public class ArticlePageView {
                     identificatore.setText("");
                 }
             }
+        } else {
+            for( int i = 0; i < 3; i++) {
+                TitledPane articolo = chooseArticle(i + 1);
+                Text author = chooseAuthorArticle(i + 1);
+                Text timestamp = chooseTimestampArticle(i + 1);
+                Text identificatore = chooseId(i + 1);
 
+                articolo.setText("");
+                author.setText("");
+                timestamp.setText("");
+                identificatore.setText("");
+
+            }
         }
     }
 
