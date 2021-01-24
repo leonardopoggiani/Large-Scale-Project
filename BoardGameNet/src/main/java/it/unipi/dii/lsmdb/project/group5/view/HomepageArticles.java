@@ -264,13 +264,13 @@ public class HomepageArticles {
      */
     @FXML
     void initialize() throws IOException, ExecutionException {
-        try {
+        //try {
             setSuggestedArticles();
             setSuggestedArticles();
-        } catch (Exception e){
-            Logger.error("neo4j not started");
-            App.getScene().getWindow().hide();
-        }
+        //} catch (Exception e){
+            //Logger.error("neo4j not started");
+           // App.getScene().getWindow().hide();
+        //}
 
         if(LoginPageView.getLoggedRole().equals("moderator")) {
             statisticsButton.setDisable(false);

@@ -271,8 +271,8 @@ public class ArticlePageView {
         author.setText(a.getAuthor());
         titolo.setText(a.getTitle());
         data.setText((a.getTimestamp() == null) ? new Timestamp(System.currentTimeMillis()).toString() : a.getTimestamp().toString());
-        numberlike.setText(String.valueOf(article.countLikes("like", showed.getId())));
-        numberunlike.setText(String.valueOf(article.countLikes("dislike", showed.getId())));
+        numberlike.setText(String.valueOf(a.getNumberLikes()));
+        numberunlike.setText(String.valueOf(a.getNumberDislike()));
         articlebody.setText(a.getText());
 
         setComments();

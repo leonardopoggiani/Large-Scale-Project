@@ -170,7 +170,7 @@
                   <Text layoutX="11.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Release date:" />
                   <Button cancelButton="true" layoutX="77.0" layoutY="474.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
                   <Button cancelButton="true" layoutX="77.0" layoutY="403.0" mnemonicParsing="false" onMouseClicked="#filterResearch" text="Search" />
-                  <TextField fx:id="game" layoutX="87.0" layoutY="245.0" prefHeight="26.0" prefWidth="99.0" visible="false" />
+                  <TextField fx:id="game" layoutX="100.0" layoutY="227.0" prefHeight="26.0" prefWidth="99.0" visible="false" />
                   <ImageView fitHeight="80.0" fitWidth="60.0" layoutX="76.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../../img/avatar.png" />
@@ -181,10 +181,10 @@
                   </ImageView>
                   <Text layoutX="11.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of filter:" />
                   <ComboBox fx:id="filtri" layoutX="100.0" layoutY="182.0" onAction="#setFilters" prefHeight="28.0" prefWidth="114.0" promptText="Filters" />
-                  <TextField fx:id="author" layoutX="94.0" layoutY="289.0" prefHeight="26.0" prefWidth="128.0" visible="false" />
+                  <TextField fx:id="author" layoutX="93.0" layoutY="265.0" prefHeight="26.0" prefWidth="128.0" visible="false" />
                   <Text layoutX="11.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order by:" />
-                  <ComboBox fx:id="order" layoutX="100.0" layoutY="329.0" onMouseClicked="#showOrdering" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
-                  <DatePicker fx:id="data" layoutX="109.0" layoutY="330.0" prefHeight="26.0" prefWidth="114.0" promptText="Date" visible="false" />
+                  <ComboBox fx:id="order" layoutX="100.0" layoutY="336.0" onMouseClicked="#showOrdering" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
+                  <DatePicker fx:id="data" layoutX="100.0" layoutY="301.0" prefHeight="26.0" prefWidth="114.0" promptText="Date" visible="false" />
                </children>
             </AnchorPane>
          </children></AnchorPane>
