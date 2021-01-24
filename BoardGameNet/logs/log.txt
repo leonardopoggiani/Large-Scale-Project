@@ -276,3 +276,17 @@ Il Risiko e' un gioco di strategia a turni dove ogni giocatore ha delle pedine (
 2021-01-24T15:26:49.467242827Z [LOG] can't login with these credentials!
 2021-01-24T15:26:49.467554558Z [LOG] login not correct
 2021-01-24T15:28:12.947896891Z [LOG] App started
+2021-01-24T15:41:30.754283400Z [LOG] App started
+2021-01-24T15:41:42.815503Z [LOG] role: normalUser
+2021-01-24T15:41:42.929503200Z [LOG] correct login microcline
+2021-01-24T15:41:43.116505800Z [LOG] cache vuota
+2021-01-24T15:41:43.731321Z [LOG] cache piena
+2021-01-24T15:41:47.566452300Z [LOG] cache hit
+2021-01-24T15:41:47.876084600Z [LOG] cache hit
+2021-01-24T15:41:50.928826100Z [LOG] cache piena
+2021-01-24T15:41:50.930825200Z [LOG] cache piena
+2021-01-24T15:41:55.055633500Z [LOG] cache vuota
+2021-01-24T15:41:55.529887200Z [LOG] cache piena
+2021-01-24T15:42:00.825710600Z [LOG] cache hit
+2021-01-24T15:42:03.525434100Z [LOG] cache piena
+2021-01-24T15:42:03.527434900Z [LOG] cache piena

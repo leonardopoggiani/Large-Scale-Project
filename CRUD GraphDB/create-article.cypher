@@ -1,1 +1,0 @@
-create (aa:Article{id:1})
