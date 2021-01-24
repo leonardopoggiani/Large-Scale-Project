@@ -165,9 +165,9 @@
                   <Button cancelButton="true" layoutX="77.0" layoutY="403.0" mnemonicParsing="false" onMouseClicked="#filterResearch" text="Search" />
                   <Text layoutX="11.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order by:" />
                   <ComboBox fx:id="category" layoutX="87.0" layoutY="226.0" onMouseClicked="#caricaCategorie" prefHeight="28.0" prefWidth="114.0" promptText="Categories" visible="false" />
-                  <ComboBox fx:id="order" layoutX="100.0" layoutY="362.0" onMouseClicked="#caricaOrdinamenti" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
-                  <TextField fx:id="year" layoutX="110.0" layoutY="315.0" prefHeight="26.0" prefWidth="78.0" visible="false" />
-                  <Slider fx:id="players" blockIncrement="1.0" layoutX="64.0" layoutY="272.0" majorTickUnit="3.0" max="16.0" min="1.0" minorTickCount="8" onDragExited="#aggiorna" onMouseClicked="#aggiorna" onMouseDragOver="#aggiorna" prefHeight="49.0" prefWidth="122.0" showTickLabels="true" showTickMarks="true" value="1.0" visible="false" />
+                  <ComboBox fx:id="order" layoutX="100.0" layoutY="366.0" onMouseClicked="#caricaOrdinamenti" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
+                  <TextField fx:id="year" layoutX="118.0" layoutY="301.0" prefHeight="26.0" prefWidth="78.0" visible="false" />
+                  <Slider fx:id="players" blockIncrement="1.0" layoutX="96.0" layoutY="251.0" majorTickUnit="3.0" max="16.0" min="1.0" minorTickCount="8" onDragExited="#aggiorna" onMouseClicked="#aggiorna" onMouseDragOver="#aggiorna" prefHeight="49.0" prefWidth="122.0" showTickLabels="true" showTickMarks="true" value="1.0" visible="false" />
                   <Text fx:id="numplayers" layoutX="188.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" visible="false" />
                   <Text layoutX="16.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of filter" />
                   <ComboBox fx:id="filter" layoutX="100.0" layoutY="182.0" onAction="#setFilters" onMouseClicked="#showFilters" prefHeight="28.0" prefWidth="98.0" promptText="Filter" />
@@ -177,7 +177,7 @@
                      </image>
                   </ImageView>
                   <Text layoutX="11.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
-                  <TextField fx:id="name" layoutX="113.0" layoutY="360.0" visible="false" />
+                  <TextField fx:id="name" layoutX="81.0" layoutY="337.0" visible="false" />
                </children>
             </AnchorPane>
          </children></AnchorPane>

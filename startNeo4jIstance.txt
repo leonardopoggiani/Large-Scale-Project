@@ -14,3 +14,5 @@ sudo apt-get install neo4j-enterprise=1:4.2.0
 
 # start
 service neo4j start 
+
+sudo neo4j start

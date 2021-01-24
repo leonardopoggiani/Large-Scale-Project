@@ -5,12 +5,12 @@ import random
 
 
 def fixNeo4j(file):
-    df = pd.read_csv(file)
-    df[['category2','role','category1','username','type','timestamp','title','idArt']]=df['category2;role;category1;username;type;timestamp;title;idArt'].str.split(";",expand=True,)
-    df.drop(columns=['category2;role;category1;username;type;timestamp;title;idArt'], axis=1, inplace=True)
+    df = pd.read_csv(file, sep="*")
+    df[['title','idArt','name','category1']]=df['title;idArt;name;category1'].str.split(";",expand=True,)
+    df.drop(columns=['title;idArt;name;category1'], axis=1, inplace=True)
     print(df)
 
-    df.to_csv('liked.csv', index=False)  
+    df.to_csv('referredArticle.csv', index=False)  
 
 
-fixNeo4j("liked.csv")
+fixNeo4j("referredArticle1.csv")

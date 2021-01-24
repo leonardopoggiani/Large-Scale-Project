@@ -264,8 +264,13 @@ public class HomepageArticles {
      */
     @FXML
     void initialize() throws IOException, ExecutionException {
-        setSuggestedArticles();
-        setSuggestedArticles();
+        //try {
+            setSuggestedArticles();
+            setSuggestedArticles();
+        //} catch (Exception e){
+            //Logger.error("neo4j not started");
+           // App.getScene().getWindow().hide();
+        //}
 
         if(LoginPageView.getLoggedRole().equals("moderator")) {
             statisticsButton.setDisable(false);
@@ -509,7 +514,7 @@ public class HomepageArticles {
         int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
 
         Text idSelected = chooseId(index - 1);
-        if(!idSelected.getText().equals("autore")) {
+        if(!idSelected.getText().equals("autore") || idSelected.getText().equals("")) {
             id = Integer.parseInt(idSelected.getText());
             App.setRoot("ArticlePageView");
         } else {

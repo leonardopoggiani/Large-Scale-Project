@@ -55,7 +55,7 @@ public class CommentsDBManager extends Neo4jDBManager {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("id", idArt);
         parameters.put("limit", limit);
-        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article) WHERE a.idArt=$id RETURN c,u  " +
+        Result result = tx.run("MATCH (u:User)-[c:COMMENTED]->(a:Article) WHERE a.idArt=$id RETURN c,u,a  " +
                 " ORDER BY c.timestamp DESC LIMIT $limit", parameters);
 
         while (result.hasNext()) {
