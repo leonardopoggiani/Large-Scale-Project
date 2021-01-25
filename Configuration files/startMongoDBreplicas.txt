@@ -3,9 +3,9 @@
 #######################################################################################
 
 #connecting to the virtual cluster
-ssh workgroup-01@172.16.3.97
-ssh workgroup-01@172.16.3.98
-ssh workgroup-01@172.16.3.144
+ssh workgroup-05@172.16.3.97
+ssh workgroup-05@172.16.3.98
+ssh workgroup-05@172.16.3.144
 
 #Downloading mongodb on virtual clusters
 wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
@@ -18,10 +18,10 @@ sudo apt-get install -y mongodb-org
 
 
 
-#on each virtual machine
+# on each virtual machine
 mkdir data 
 
-#starting mongod process in each virtual machine (Use UK keyboard for tilde: §->tilde)
+# starting mongod process in each virtual machine
 mongod --replSet lsmdb --dbpath ~/data --port 27020 --bind_ip localhost,172.16.3.97 --oplogSize 200
 mongod --replSet lsmdb --dbpath ~/data --port 27020 --bind_ip localhost,172.16.3.98 --oplogSize 200
 mongod --replSet lsmdb --dbpath ~/data --port 27020 --bind_ip localhost,172.16.3.144 --oplogSize 200
@@ -64,8 +64,6 @@ rs.initiate(rsconf);
 rs.status();
 #change configuration
 rs.reconfig(rsconfig);
-
-ccT4G6
 
 [SSH AUTH SETTINGS]
 
