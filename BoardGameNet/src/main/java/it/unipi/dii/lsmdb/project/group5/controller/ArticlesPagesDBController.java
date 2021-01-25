@@ -153,10 +153,9 @@ public class ArticlesPagesDBController {
             }
 
         }
-        if(ret == 0)
-            Logger.warning("NEO4j | Like all'articolo "+ like.getId() + " non eliminato!");
-        else
+        if(ret != 2) {
             Logger.warning("NEO4j | Like all'articolo "+ like.getId() + " non aggiunto!");
+        }
         return ret;
 
     }

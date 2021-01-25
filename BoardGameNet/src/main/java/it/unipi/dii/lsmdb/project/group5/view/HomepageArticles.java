@@ -287,13 +287,20 @@ public class HomepageArticles {
      */
     @FXML
     void initialize() throws IOException, ExecutionException {
-        if(limitedVersion) {
+        try {
+            Neo4jDBManager.getDriver().verifyConnectivity();
+            limitedVersion = false;
+        } catch (Exception e){
+            // if neo4j is not responding show articles ordered by likes
+            // disablig the nav bar
             users.setDisable(true);
             groups.setDisable(true);
             statisticsButton.setDisable(true);
             writetext.setVisible(false);
             modify.setDisable(true);
             addarticle.setVisible(false);
+            limitedVersion = true;
+            Logger.warning("Entering limited version of application, neo4j is not responding");
         }
 
         setSuggestedArticles();
@@ -460,22 +467,31 @@ public class HomepageArticles {
         if (savedID.isEmpty()) {
             Logger.log("cache vuota");
             List<ArticleBean> list;
-            try {
-                Neo4jDBManager.getDriver().verifyConnectivity();
-                list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
-            } catch (Exception e){
-                // if neo4j is not responding show articles ordered by likes
-                // disablig the nav bar
-                users.setDisable(true);
-                groups.setDisable(true);
-                statisticsButton.setDisable(true);
-                writetext.setVisible(false);
-                modify.setDisable(true);
-                addarticle.setVisible(false);
+
+            if(limitedVersion) {
                 list = home.orderByLikes();
-                limitedVersion = true;
-                Logger.warning("Entering limited version of application, neo4j is not responding");
+            } else {
+
+                try {
+                    Neo4jDBManager.getDriver().verifyConnectivity();
+                    limitedVersion = false;
+                    list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
+                } catch (Exception e){
+                    // if neo4j is not responding show articles ordered by likes
+                    // disablig the nav bar
+                    users.setDisable(true);
+                    groups.setDisable(true);
+                    statisticsButton.setDisable(true);
+                    writetext.setVisible(false);
+                    modify.setDisable(true);
+                    addarticle.setVisible(false);
+                    limitedVersion = true;
+                    list = home.orderByLikes();
+                    Logger.warning("Entering limited version of application, neo4j is not responding");
+                }
+
             }
+
             showArticles(list);
         } else {
             int i = 0;

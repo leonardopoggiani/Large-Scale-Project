@@ -165,10 +165,17 @@ public class HomepageGames {
     @FXML
     void initialize() throws IOException, ExecutionException {
 
-        if(limitedVersion){
+        try {
+            Neo4jDBManager.getDriver().verifyConnectivity();
+            limitedVersion = false;
+        } catch (Exception e){
+            // if neo4j is not responding show articles ordered by likes
+            // disablig the nav bar
             users.setDisable(true);
             groups.setDisable(true);
             statisticsButton.setDisable(true);
+            limitedVersion = true;
+            Logger.warning("Entering limited version of application, neo4j is not responding");
         }
 
         setSuggestedGames();
@@ -311,18 +318,23 @@ public class HomepageGames {
 
         if (savedGames.isEmpty()) {
             Logger.log("cache vuota");
-            try {
-                Neo4jDBManager.getDriver().verifyConnectivity();
-                list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), 6);
-            } catch (Exception e){
-                // if neo4j is not responding show articles ordered by likes
-                // disablig the nav bar
-                users.setDisable(true);
-                groups.setDisable(true);
-                statisticsButton.setDisable(true);
+            if(limitedVersion){
+                try {
+                    Neo4jDBManager.getDriver().verifyConnectivity();
+                    limitedVersion = false;
+                    list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), 6);
+                } catch (Exception e){
+                    // if neo4j is not responding show articles ordered by likes
+                    // disablig the nav bar
+                    users.setDisable(true);
+                    groups.setDisable(true);
+                    statisticsButton.setDisable(true);
+                    limitedVersion = true;
+                    list = controller.orderByAvgRating();
+                    Logger.warning("Entering limited version of application, neo4j is not responding");
+                }
+            } else {
                 list = controller.orderByAvgRating();
-                limitedVersion = true;
-                Logger.warning("Entering limited version of application, neo4j is not responding");
             }
 
             showGames(list);

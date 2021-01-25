@@ -341,6 +341,7 @@ public class ArticlePageView {
             likebutton.setText("Remove like");
             dislikebutton.setDisable(true);
             cache.addNumLike(showed.getId());
+
         } else if (ret == 1){
             likebutton.setStyle("-fx-background-color: green");
             likebutton.setText("Like");
@@ -348,7 +349,8 @@ public class ArticlePageView {
             cache.dimNumLike(showed.getId());
         }
 
-        like.setText(String.valueOf(update.countLikes("like", showed.getId())));
+        like.setText(String.valueOf(showed.getNumberLikes()));
+
     }
 
     /**
@@ -368,6 +370,7 @@ public class ArticlePageView {
             unlikebutton.setText("Remove dislike");
             likebutton.setDisable(true);
             cache.addNumUnlike(showed.getId());
+
         } else {
             unlikebutton.setStyle("-fx-background-color: red");
             unlikebutton.setText("Dislike");
@@ -375,7 +378,9 @@ public class ArticlePageView {
             cache.dimNumUnlike(showed.getId());
         }
 
-        like.setText(String.valueOf(update.countLikes("dislike", showed.getId())));
+        like.setText(String.valueOf(showed.getNumberDislike()));
+
+
     }
 
     /**

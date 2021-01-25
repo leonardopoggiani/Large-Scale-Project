@@ -330,6 +330,7 @@ public class GamePageView {
             reviewDaCancellare.setText("");
             autore.setText("");
             timestamp.setText("");
+            deleteButton.setVisible(false);
         }
 
     }
@@ -350,6 +351,7 @@ public class GamePageView {
             votes.setText(String.valueOf(Math.round(votoMedio)));
             rate.setValue(0);
             buttonrate.setStyle("-fx-background-color: green");
+            buttonrate.setDisable(true);
         } else {
             Logger.warning("problems in add rating " + newRate);
         }
