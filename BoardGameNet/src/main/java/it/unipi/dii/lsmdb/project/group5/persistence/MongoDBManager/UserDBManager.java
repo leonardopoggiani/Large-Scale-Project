@@ -15,6 +15,7 @@ import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.Projections.fields;
 import static it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.ArticleDBManager.convertStringToTimestamp;
+import static it.unipi.dii.lsmdb.project.group5.persistence.MongoDBManager.LoginSignupDBManager.passwordEncryption;
 
 /** The type User db manager. */
 public class UserDBManager extends MongoDBManager {
@@ -178,7 +179,8 @@ public class UserDBManager extends MongoDBManager {
         }
 
         if( password != null && !password.equals("")) {
-            updateProfile.append("password", surname);
+            String passEncrypted = passwordEncryption(password);
+            updateProfile.append("password", passEncrypted);
         }
 
         if( age != null && !age.equals("")) {
