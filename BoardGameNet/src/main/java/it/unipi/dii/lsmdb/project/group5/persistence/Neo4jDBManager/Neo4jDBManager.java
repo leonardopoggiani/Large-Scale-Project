@@ -11,7 +11,7 @@ public class Neo4jDBManager  {
     // protected static String uri="bolt://localhost:7687";
 
     // local-host cluster
-    // protected static String uri="bolt://localhost:7688";
+    // protected static String uri="bolt://localhost:7687";
 
     // vm standalone
     protected static String uri="neo4j://172.16.3.144:7687";

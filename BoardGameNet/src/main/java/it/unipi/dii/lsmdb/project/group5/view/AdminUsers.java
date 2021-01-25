@@ -157,8 +157,9 @@ public class AdminUsers {
         for(int i = 0; i < lista.size(); i++) {
             pieChartData.add(new PieChart.Data(lista.get(i).getCountry(), lista.get(i).getNumUser()));
 
-            if(i == 4)
+            if(i == 5) {
                 break;
+            }
         }
 
         userpie.setData(pieChartData);

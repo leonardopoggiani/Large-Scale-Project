@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane id="anchor" maxHeight="200" maxWidth="400" minHeight="200" minWidth="400" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.AddMember">
+<ScrollPane id="anchor" maxHeight="200" maxWidth="400" minHeight="200" minWidth="400" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="it.unipi.dii.lsmdb.project.group5.view.AddMember">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="202.0" prefWidth="397.0">
          <children>

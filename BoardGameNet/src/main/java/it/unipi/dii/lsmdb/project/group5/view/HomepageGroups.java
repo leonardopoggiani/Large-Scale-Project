@@ -3,6 +3,7 @@ package it.unipi.dii.lsmdb.project.group5.view;
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.GroupBean;
 import it.unipi.dii.lsmdb.project.group5.logger.Logger;
+import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.Neo4jDBManager;
 import it.unipi.dii.lsmdb.project.group5.view.tablebean.GroupMemberBean;
 import it.unipi.dii.lsmdb.project.group5.controller.GroupsPagesDBController;
 import it.unipi.dii.lsmdb.project.group5.view.tablebean.TableGroupBean;
@@ -130,6 +131,13 @@ public class HomepageGroups {
      */
     @FXML
     void initialize() throws IOException {
+
+        try {
+            Neo4jDBManager.getDriver().verifyConnectivity();
+        } catch(Exception e) {
+            App.setRoot("HomepageArticles");
+        }
+
         setGroups();
         ics.setVisible(false);
 

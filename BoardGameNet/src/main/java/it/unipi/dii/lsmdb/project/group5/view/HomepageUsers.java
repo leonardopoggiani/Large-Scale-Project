@@ -2,6 +2,7 @@ package it.unipi.dii.lsmdb.project.group5.view;
 
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
 import it.unipi.dii.lsmdb.project.group5.controller.UsersPagesDBController;
+import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.Neo4jDBManager;
 import javafx.fxml.FXML;
 import it.unipi.dii.lsmdb.project.group5.App;
 import javafx.scene.control.Button;
@@ -255,8 +256,15 @@ public static String getFilter() {
     /**
      * Initialize.
      */
-@FXML
-    void initialize() {
+    @FXML
+    void initialize() throws IOException {
+
+        try {
+            Neo4jDBManager.getDriver().verifyConnectivity();
+        } catch(Exception e) {
+            App.setRoot("HomepageArticles");
+        }
+
         showUsers();
 
         if(LoginPageView.getLoggedRole().equals("moderator")) {

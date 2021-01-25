@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane id="anchor" fx:id="posts" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.PostView">
+<ScrollPane id="anchor" fx:id="posts" stylesheets="@../../../../../../img/style.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="it.unipi.dii.lsmdb.project.group5.view.PostView">
   <content>
     <AnchorPane id="anchor" fx:id="ancora" minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="601.0" stylesheets="@../../../../../../img/style.css">
          <children>
