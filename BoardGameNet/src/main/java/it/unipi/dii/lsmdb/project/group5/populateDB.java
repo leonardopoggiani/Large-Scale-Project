@@ -14,13 +14,12 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
 
-public class addingThings {
+public class populateDB {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println("avvio ");
+        System.out.println("script that populate the DB ");
         if(MongoDBManager.createConnection() && Neo4jDBManager.InitializeDriver()){
-            System.out.println("connessi al db ");
 
             Random rand = new Random();
             ObservableList<String> titoli = FXCollections.observableArrayList("Articolo", "Articolone", "Che articolo", "Che idea ma quale idea", "Articolino", "Scontro tra titani","Confrontro tra i due", "Che ne pensate?", "Sapete che..", "Titolo", "Abbiamo provato il gioco", "");
@@ -36,13 +35,9 @@ public class addingThings {
             GroupsPagesDBController controller3 = new GroupsPagesDBController();
 
             List<GameBean> listaGiochi = controller1.showAllGames();
-            System.out.println("recuperati giochi db ");
-
             List<UserBean> listaUtenti = controller2.showAllUsers();
 
-            System.out.println("recuperati utenti db ");
-
-            /*for(int i = 0; i < 1500; i++) {
+            for(int i = 0; i < 1500; i++) {
 
                 String user = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 if(user != null) {
@@ -135,7 +130,7 @@ public class addingThings {
                         System.out.println("ok");
                     }
                 }
-            }*/
+            }
 
             for(int i = 0; i < 1500; i++){
                 if(controller3.addGroup(new GroupBean((nomi.get(rand.nextInt(5))),new Timestamp(System.currentTimeMillis()), listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername(),"no description",listaGiochi.get(i).getName()))){
@@ -168,7 +163,7 @@ public class addingThings {
                 }
             }
 
-            /*
+
             for(int i = 0; i < 4000; i++){
                 String author = listaUtenti.get(rand.nextInt(listaUtenti.size())).getUsername();
                 String game = listaGiochi.get(rand.nextInt(listaGiochi.size())).getName();
@@ -184,7 +179,6 @@ public class addingThings {
                     System.out.println("ok");
                 }
             }
-             */
         }
 
         MongoDBManager.close();

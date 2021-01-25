@@ -1,6 +1,7 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager;
 
 import it.unipi.dii.lsmdb.project.group5.bean.UserBean;
+import it.unipi.dii.lsmdb.project.group5.view.LoginPageView;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
 
@@ -541,5 +542,74 @@ public class UsersDBManager extends Neo4jDBManager{
         }
 
         return false;
+    }
+
+    public static boolean modifyProfile(String categoria1, String categoria2) {
+        try (Session session = driver.session()) {
+            return session.writeTransaction(new TransactionWork<Boolean>() {
+                @Override
+                public Boolean execute(Transaction tx) { return transactionModifyProfile(tx, LoginPageView.getLoggedUser(), categoria1, categoria2);
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
+
+    private static Boolean transactionModifyProfile(Transaction tx,String username, String categoria1, String categoria2) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("username", username);
+        parameters.put("category1", categoria1);
+        parameters.put("category2", categoria2);
+
+        if (categoria1 != null && !categoria1.equals("")) {
+          tx.run(
+              "MATCH(u1:User {username:$username})"
+                  + " SET u1.category1 = $category1"
+                  + " return u1",
+              parameters);
+        }
+
+        if (categoria2 != null && !categoria2.equals("")) {
+            tx.run(
+                    "MATCH(u1:User {username:$username})"
+                            + " SET u1.category2 = $category2"
+                            + " return u1",
+                    parameters);
+        }
+
+
+        Result result = tx.run("MATCH(u1:User{username:$username})" +
+                        " return u1.category1 AS category1, u1.category2 AS category2 "
+                , parameters);
+
+        boolean ret = false;
+
+        if(result.hasNext())
+        {
+            Record record = result.next();
+            if(categoria1 != null && !categoria1.equals("")){
+                if(record.get("category1").asString().equals(categoria1)) {
+                    ret = true;
+                } else {
+                    System.out.println("sono false qui  " + record.get("category1").asString());
+                    ret = false;
+                }
+            }
+
+            if(categoria2 != null && !categoria2.equals("")){
+                if(record.get("category2").asString().equals(categoria2)) {
+                    ret &= true;
+                } else {
+                    System.out.println("sono false qui 2 " + record.get("category2").asString());
+                    ret = false;
+                }
+            }
+        }
+
+        return ret;
     }
 }

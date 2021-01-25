@@ -122,22 +122,22 @@
                   </TitledPane>
                   <BottomNavigation layoutX="458.0" layoutY="-1.0" prefHeight="31.0" prefWidth="446.0">
                      <actionItems>
-                        <BottomNavigationButton onMouseClicked="#returnToHomepage" selected="true" text="Home">
+                        <BottomNavigationButton fx:id="home" onMouseClicked="#returnToHomepage" selected="true" text="Home">
                            <graphic>
                               <Icon content="EMPTY" onMouseClicked="#returnToHomepage" />
                            </graphic>
                         </BottomNavigationButton>
-                        <BottomNavigationButton onMouseClicked="#goToGames" text="Games">
+                        <BottomNavigationButton fx:id="games" onMouseClicked="#goToGames" text="Games">
                            <graphic>
                               <Icon content="EMPTY" />
                            </graphic>
                         </BottomNavigationButton>
-                        <BottomNavigationButton onMouseClicked="#goToGroups" text="Groups">
+                        <BottomNavigationButton fx:id="groups" onMouseClicked="#goToGroups" text="Groups">
                            <graphic>
                               <Icon content="EMPTY" />
                            </graphic>
                         </BottomNavigationButton>
-                        <BottomNavigationButton onMouseClicked="#goToFriends" text="Users">
+                        <BottomNavigationButton fx:id="users" onMouseClicked="#goToFriends" text="Users">
                            <graphic>
                               <Icon content="EMPTY" />
                            </graphic>

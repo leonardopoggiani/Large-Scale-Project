@@ -1,11 +1,13 @@
 package it.unipi.dii.lsmdb.project.group5.view;
 
+import com.gluonhq.charm.glisten.control.BottomNavigationButton;
 import com.google.common.collect.Lists;
 import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
 import it.unipi.dii.lsmdb.project.group5.cache.ArticlesCache;
 import it.unipi.dii.lsmdb.project.group5.controller.ArticlesPagesDBController;
 import it.unipi.dii.lsmdb.project.group5.logger.Logger;
+import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.Neo4jDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -141,6 +144,21 @@ public class HomepageArticles {
     @FXML
     ImageView addarticle;
 
+    @FXML
+    BottomNavigationButton home;
+
+    @FXML
+    BottomNavigationButton games;
+
+    @FXML
+    BottomNavigationButton groups;
+
+    @FXML
+    BottomNavigationButton users;
+
+    @FXML
+    Button modify;
+
     /**
      * The Cache.
      */
@@ -182,6 +200,11 @@ public class HomepageArticles {
     private static String timestamp;
     private static int id;
     private static String titolo;
+
+    private static boolean limitedVersion = false;
+
+    public static void setLitimitedVersion() {limitedVersion = true;}
+    public static boolean getLimitedVersion() { return limitedVersion;}
 
     /**
      * Gets id.
@@ -264,13 +287,17 @@ public class HomepageArticles {
      */
     @FXML
     void initialize() throws IOException, ExecutionException {
-        //try {
-            setSuggestedArticles();
-            setSuggestedArticles();
-        //} catch (Exception e){
-            //Logger.error("neo4j not started");
-           // App.getScene().getWindow().hide();
-        //}
+        if(limitedVersion) {
+            users.setDisable(true);
+            groups.setDisable(true);
+            statisticsButton.setDisable(true);
+            writetext.setVisible(false);
+            modify.setDisable(true);
+            addarticle.setVisible(false);
+        }
+
+        setSuggestedArticles();
+        setSuggestedArticles();
 
         if(LoginPageView.getLoggedRole().equals("moderator")) {
             statisticsButton.setDisable(false);
@@ -432,7 +459,23 @@ public class HomepageArticles {
 
         if (savedID.isEmpty()) {
             Logger.log("cache vuota");
-            List<ArticleBean> list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
+            List<ArticleBean> list;
+            try {
+                Neo4jDBManager.getDriver().verifyConnectivity();
+                list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
+            } catch (Exception e){
+                // if neo4j is not responding show articles ordered by likes
+                // disablig the nav bar
+                users.setDisable(true);
+                groups.setDisable(true);
+                statisticsButton.setDisable(true);
+                writetext.setVisible(false);
+                modify.setDisable(true);
+                addarticle.setVisible(false);
+                list = home.orderByLikes();
+                limitedVersion = true;
+                Logger.warning("Entering limited version of application, neo4j is not responding");
+            }
             showArticles(list);
         } else {
             int i = 0;
@@ -508,19 +551,20 @@ public class HomepageArticles {
     @FXML
     void goToArticle (MouseEvent event) throws IOException {
 
-        AnchorPane articolo = (AnchorPane) event.getSource();
-        String idArticle = articolo.getId();
+        if(!limitedVersion){
+            AnchorPane articolo = (AnchorPane) event.getSource();
+            String idArticle = articolo.getId();
 
-        int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
+            int index = Integer.parseInt(idArticle.substring(idArticle.length() - 1));
 
-        Text idSelected = chooseId(index - 1);
-        if(!idSelected.getText().equals("autore") || idSelected.getText().equals("")) {
-            id = Integer.parseInt(idSelected.getText());
-            App.setRoot("ArticlePageView");
-        } else {
-            Logger.warning("article not present");
+            Text idSelected = chooseId(index - 1);
+            if(!idSelected.getText().equals("autore") || idSelected.getText().equals("")) {
+                id = Integer.parseInt(idSelected.getText());
+                App.setRoot("ArticlePageView");
+            } else {
+                Logger.warning("article not present");
+            }
         }
-
     }
 
     /**
@@ -663,8 +707,9 @@ public class HomepageArticles {
      */
     @FXML
     void addArticle () throws IOException {
-        App.setRoot("AddArticle");
-
+        if(!limitedVersion){
+            App.setRoot("AddArticle");
+        }
     }
 
     /**

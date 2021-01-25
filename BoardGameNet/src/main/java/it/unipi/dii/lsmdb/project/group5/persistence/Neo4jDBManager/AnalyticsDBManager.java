@@ -47,13 +47,12 @@ public class AnalyticsDBManager extends Neo4jDBManager{
         String query = "MATCH (u:User {role:\"influencer\"})-[:PUBLISHED]->(a:Article)-[:REFERRED]->(g: Game)" +
                 " RETURN u.username AS influencer, COUNT(DISTINCT g.category1) AS numeroCategorie" +
                 " ORDER BY numeroCategorie DESC " +
-                " LIMIT 3";
+                " LIMIT 5";
         Result result = tx.run(query);
-        VersatileUser temp;
 
         while(result.hasNext())
         {
-            temp = new VersatileUser();
+            VersatileUser temp = new VersatileUser();
             Record record = result.next();
             temp.setUsername(record.get("influencer").asString());
             temp.setHowManyCategories(record.get("numeroCategorie").asInt());
@@ -73,7 +72,6 @@ public class AnalyticsDBManager extends Neo4jDBManager{
     private static List<VersatileUser> transactionMostVersatileNormalUser(Transaction tx)
     {
         List<VersatileUser> versatileNormalUsers = new ArrayList<>();
-        VersatileUser temp = new VersatileUser();
 
         String versatileNormalUser = "MATCH (u:User {role:\"normalUser\"})-[:REVIEWED]->(g: Game)" +
                 " RETURN u.username AS username, COUNT(DISTINCT g.category1) AS numeroCategorie" +
@@ -84,6 +82,7 @@ public class AnalyticsDBManager extends Neo4jDBManager{
 
         while(result.hasNext())
         {
+            VersatileUser temp = new VersatileUser();
             Record record = result.next();
             temp.setUsername(record.get("username").asString());
             temp.setHowManyCategories(record.get("numeroCategorie").asInt());

@@ -1,5 +1,6 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager;
 
+import it.unipi.dii.lsmdb.project.group5.view.HomepageArticles;
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
@@ -27,6 +28,7 @@ public class Neo4jDBManager  {
         }
         catch (Exception ex){
             System.err.println(ex.getMessage());
+            HomepageArticles.setLitimitedVersion();
             return false;
         }
     }
@@ -34,6 +36,10 @@ public class Neo4jDBManager  {
     public static void close() throws Exception
     {
         driver.close();
+    }
+
+    public static Driver getDriver() {
+        return driver;
     }
 
 }

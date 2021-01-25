@@ -1,292 +1,198 @@
-2021-01-24T09:02:23.440199242Z [LOG] App started
-2021-01-24T09:02:43.997054200Z [LOG] role: influencer
-2021-01-24T09:02:44.138955075Z [LOG] correct login thetalkingstove
-2021-01-24T09:02:44.349894963Z [LOG] cache vuota
-2021-01-24T09:02:45.146450802Z [LOG] cache vuota
-2021-01-24T09:04:15.140447071Z [LOG] article added Article{, author='thetalkingstove', timestamp='2021-01-24 10:04:13.807', text='Nuovo articolo pubblicato sul Risiko.
-Penso sia un gioco fantastico, non so come ho fatto a giocarci cosi' poco finora!
-Il Risiko e' un gioco di strategia a turni dove ogni giocatore ha delle pedine (carri armati) da disporre su una mappa. ', id=575}
-2021-01-24T09:04:17.210545448Z [LOG] cache vuota
-2021-01-24T09:04:18.039204120Z [LOG] cache vuota
-2021-01-24T09:04:35.461617043Z [LOG] cache hit
-2021-01-24T09:05:30.023491389Z [LOG] App started
-2021-01-24T09:05:38.712226590Z [LOG] role: influencer
-2021-01-24T09:05:38.853074067Z [LOG] correct login thetalkingstove
-2021-01-24T09:05:39.045265497Z [LOG] cache vuota
-2021-01-24T09:05:39.818695367Z [LOG] cache vuota
-2021-01-24T09:05:45.083195487Z [LOG] cache hit
-2021-01-24T09:05:45.819981899Z [LOG] cache hit
-2021-01-24T09:06:40.128882649Z [LOG] App started
-2021-01-24T09:06:52.079960484Z [LOG] role: influencer
-2021-01-24T09:06:52.239020843Z [LOG] correct login thetalkingstove
-2021-01-24T09:06:52.494182897Z [LOG] cache vuota
-2021-01-24T09:06:53.219568872Z [LOG] cache vuota
-2021-01-24T09:06:58.698265422Z [LOG] cache hit
-2021-01-24T09:06:59.433422989Z [LOG] cache hit
-2021-01-24T09:07:05.378191720Z [LOG] cache vuota
-2021-01-24T09:07:05.590914934Z [LOG] cache vuota
-2021-01-24T09:07:12.865128239Z [LOG] cache hit
-2021-01-24T09:07:13.452138114Z [LOG] cache hit
-2021-01-24T09:07:33.483924494Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:34.321933548Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:35.295150720Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:36.238797481Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:36.732976040Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:37.850971907Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:38.312818363Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:38.765884370Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:39.255078756Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:39.695966481Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:07:55.507128462Z [LOG] cache vuota
-2021-01-24T09:07:55.936967188Z [LOG] cache vuota
-2021-01-24T09:07:58.027767165Z [LOG] cache vuota
-2021-01-24T09:07:58.799509027Z [LOG] cache piena
-2021-01-24T09:08:00.359437366Z [LOG] cache hit
-2021-01-24T09:09:30.536492089Z [LOG] cache invalidate
-2021-01-24T09:09:30.538289817Z [LOG] cache invalidate
-2021-01-24T09:09:35.659102465Z [LOG] role: normalUser
-2021-01-24T09:09:35.720176388Z [LOG] correct login ojcall
-2021-01-24T09:09:35.805990799Z [LOG] cache vuota
-2021-01-24T09:09:36.014673145Z [LOG] cache vuota
-2021-01-24T09:09:56.941479549Z [LOG] cache invalidate
-2021-01-24T09:09:56.941864371Z [LOG] cache invalidate
-2021-01-24T09:10:04.972649731Z [LOG] role: influencer
-2021-01-24T09:10:05.036946940Z [LOG] correct login thetalkingstove
-2021-01-24T09:10:05.108503520Z [LOG] cache vuota
-2021-01-24T09:10:05.295272149Z [LOG] cache vuota
-2021-01-24T09:11:01.721045364Z [LOG] cache piena
-2021-01-24T09:11:02.039446211Z [LOG] cache piena
-2021-01-24T09:11:03.727004560Z [LOG] cache vuota
-2021-01-24T09:11:03.931862213Z [LOG] cache vuota
-2021-01-24T09:11:11.286745952Z [LOG] cache hit
-2021-01-24T09:11:11.886994564Z [LOG] cache hit
-2021-01-24T09:11:15.303461619Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T09:11:21.230835284Z [WARNING] Neo4j | Commento all'articolo 1 non aggiunto!
-2021-01-24T09:11:26.175252952Z [WARNING] Neo4j | Commento all'articolo 1 non aggiunto!
-2021-01-24T09:11:27.208370728Z [LOG] cache vuota
-2021-01-24T09:11:27.403235441Z [LOG] cache vuota
-2021-01-24T09:18:51.679863170Z [LOG] App started
-2021-01-24T09:19:00.817158428Z [LOG] role: influencer
-2021-01-24T09:19:00.992026514Z [LOG] correct login thetalkingstove
-2021-01-24T09:19:01.222409725Z [LOG] cache vuota
-2021-01-24T09:19:01.953023854Z [LOG] cache vuota
-2021-01-24T09:19:41.107397891Z [LOG] cache vuota
-2021-01-24T09:19:41.311584007Z [LOG] cache vuota
-2021-01-24T09:19:42.031582715Z [LOG] cache invalidate
-2021-01-24T09:19:42.031931117Z [LOG] cache invalidate
-2021-01-24T09:19:46.627253908Z [LOG] role: normalUser
-2021-01-24T09:19:46.684811947Z [LOG] correct login ojcall
-2021-01-24T09:19:46.722561733Z [LOG] cache vuota
-2021-01-24T09:19:46.915774093Z [LOG] cache vuota
-2021-01-24T09:20:24.166754403Z [LOG] cache vuota
-2021-01-24T09:20:24.963386029Z [LOG] cache piena
-2021-01-24T09:20:27.034557377Z [LOG] cache vuota
-2021-01-24T09:20:27.246380962Z [LOG] cache vuota
-2021-01-24T09:20:30.156913345Z [LOG] cache invalidate
-2021-01-24T09:20:30.159089132Z [LOG] cache invalidate
-2021-01-24T09:23:59.132016791Z [LOG] App started
-2021-01-24T09:24:07.732822034Z [LOG] role: influencer
-2021-01-24T09:24:07.888899644Z [LOG] correct login thetalkingstove
-2021-01-24T09:24:08.092386906Z [LOG] cache vuota
-2021-01-24T09:24:08.842694454Z [LOG] cache vuota
-2021-01-24T09:25:20.486377143Z [LOG] cache vuota
-2021-01-24T09:25:21.250732073Z [LOG] cache piena
-2021-01-24T09:25:22.833751137Z [LOG] cache hit
-2021-01-24T09:25:28.458246462Z [LOG] cache piena
-2021-01-24T09:25:28.459493568Z [LOG] cache piena
-2021-01-24T09:25:39.067031114Z [LOG] cache hit
-2021-01-24T09:25:54.350101588Z [LOG] cache piena
-2021-01-24T09:25:54.350259284Z [LOG] cache piena
-2021-01-24T09:25:55.703431771Z [LOG] cache hit
-2021-01-24T09:26:02.568216365Z [LOG] cache vuota
-2021-01-24T09:26:02.768548120Z [LOG] cache vuota
-2021-01-24T11:44:56.554999163Z [LOG] App started
-2021-01-24T11:45:05.918905068Z [LOG] role: influencer
-2021-01-24T11:45:06.068266462Z [LOG] correct login thetalkingstove
-2021-01-24T11:45:06.271639383Z [LOG] cache vuota
-2021-01-24T11:45:07.026466899Z [LOG] cache vuota
-2021-01-24T11:45:09.752130137Z [LOG] cache vuota
-2021-01-24T11:45:10.533353144Z [LOG] cache piena
-2021-01-24T11:45:12.875980894Z [LOG] cache vuota
-2021-01-24T11:45:13.071975743Z [LOG] cache vuota
-2021-01-24T11:45:31.131598750Z [LOG] cache hit
-2021-01-24T11:45:31.868312283Z [LOG] cache hit
-2021-01-24T11:45:34.119578724Z [WARNING] NEO4j | Like all'articolo 1 non eliminato!
-2021-01-24T11:45:35.670690377Z [WARNING] MONGODB | Numero dei dislike di 1 non decrementato!
-2021-01-24T11:45:35.963406828Z [LOG] cache vuota
-2021-01-24T11:45:36.163244987Z [LOG] cache vuota
-2021-01-24T11:45:42.085397298Z [LOG] cache hit
-2021-01-24T11:45:42.638996320Z [LOG] cache hit
-2021-01-24T11:45:45.517519598Z [WARNING] NEO4j | Like all'articolo 29 non eliminato!
-2021-01-24T11:45:47.392263855Z [LOG] cache vuota
-2021-01-24T11:45:47.591268770Z [LOG] cache vuota
-2021-01-24T11:46:32.130451070Z [LOG] App started
-2021-01-24T11:46:38.213417694Z [LOG] role: influencer
-2021-01-24T11:46:38.374800708Z [LOG] correct login chakado
-2021-01-24T11:46:38.510502881Z [LOG] cache vuota
-2021-01-24T11:48:51.630838713Z [LOG] App started
-2021-01-24T11:48:57.757546124Z [LOG] role: influencer
-2021-01-24T11:48:57.911659858Z [LOG] correct login chakado
-2021-01-24T11:48:58.153743052Z [LOG] cache vuota
-2021-01-24T11:55:17.930309990Z [LOG] App started
-2021-01-24T11:55:23.872764150Z [LOG] role: influencer
-2021-01-24T11:55:24.030114026Z [LOG] correct login chakado
-2021-01-24T11:55:24.231094577Z [LOG] cache vuota
-2021-01-24T11:57:44.008408736Z [LOG] App started
-2021-01-24T11:57:49.772774518Z [LOG] role: influencer
-2021-01-24T11:57:49.957263099Z [LOG] correct login chakado
-2021-01-24T11:57:50.164908035Z [LOG] cache vuota
-2021-01-24T12:01:41.763177518Z [LOG] App started
-2021-01-24T12:01:47.465937464Z [LOG] role: influencer
-2021-01-24T12:01:47.637392217Z [LOG] correct login chakado
-2021-01-24T12:01:47.823891641Z [LOG] cache vuota
-2021-01-24T12:04:54.783454150Z [LOG] App started
-2021-01-24T12:05:00.788540637Z [LOG] role: influencer
-2021-01-24T12:05:00.943403127Z [LOG] correct login chakado
-2021-01-24T12:05:01.151220260Z [LOG] cache vuota
-2021-01-24T14:41:35.262142802Z [LOG] App started
-2021-01-24T14:41:49.034472272Z [LOG] role: influencer
-2021-01-24T14:41:49.206845551Z [LOG] correct login thetalkingstove
-2021-01-24T14:41:49.433128513Z [LOG] cache vuota
-2021-01-24T14:41:51.104965901Z [ERROR] neo4j not started
-2021-01-24T14:43:20.258004736Z [LOG] App started
-2021-01-24T14:43:27.682418263Z [LOG] role: influencer
-2021-01-24T14:43:27.831794302Z [LOG] correct login chakado
-2021-01-24T14:43:27.986580555Z [LOG] cache vuota
-2021-01-24T14:43:28.736605827Z [ERROR] neo4j not started
-2021-01-24T14:44:03.697702957Z [LOG] App started
-2021-01-24T14:44:13.475697353Z [LOG] role: influencer
-2021-01-24T14:44:13.630226301Z [LOG] correct login thetalkingstove
-2021-01-24T14:44:13.790731318Z [LOG] cache vuota
-2021-01-24T14:45:21.322269203Z [LOG] App started
-2021-01-24T14:45:31.301682218Z [LOG] role: influencer
-2021-01-24T14:45:31.431786106Z [LOG] correct login thetalkingstove
-2021-01-24T14:45:31.657860285Z [LOG] cache vuota
-2021-01-24T14:48:34.659385932Z [LOG] App started
-2021-01-24T14:48:42.599517938Z [LOG] role: influencer
-2021-01-24T14:48:42.773328311Z [LOG] correct login thetalkingstove
-2021-01-24T14:48:42.967045149Z [LOG] cache vuota
-2021-01-24T14:48:43.752928839Z [LOG] cache piena
-2021-01-24T14:48:52.194205176Z [LOG] cache hit
-2021-01-24T14:48:53.068436528Z [LOG] cache hit
-2021-01-24T14:49:05.161647470Z [WARNING] NEO4j | Like all'articolo 21 non eliminato!
-2021-01-24T14:49:06.250174327Z [WARNING] NEO4j | Like all'articolo 21 non eliminato!
-2021-01-24T14:49:07.379925165Z [LOG] cache piena
-2021-01-24T14:49:07.380745389Z [LOG] cache piena
-2021-01-24T14:49:15.785413237Z [LOG] cache hit
-2021-01-24T14:49:16.446697163Z [LOG] cache hit
-2021-01-24T14:49:18.954332932Z [WARNING] NEO4j | Like all'articolo 39 non eliminato!
-2021-01-24T14:49:19.483897045Z [LOG] cache piena
-2021-01-24T14:49:19.484454007Z [LOG] cache piena
-2021-01-24T14:49:21.808114652Z [LOG] cache hit
-2021-01-24T14:49:22.445444385Z [LOG] cache hit
-2021-01-24T14:49:24.533876936Z [WARNING] NEO4j | Like all'articolo 51 non eliminato!
-2021-01-24T14:49:25.077321515Z [LOG] cache piena
-2021-01-24T14:49:25.078383291Z [LOG] cache piena
-2021-01-24T14:49:29.333567596Z [LOG] cache hit
-2021-01-24T14:49:29.966580091Z [LOG] cache hit
-2021-01-24T14:49:32.473447729Z [WARNING] NEO4j | Like all'articolo 51 non eliminato!
-2021-01-24T14:49:32.954371476Z [WARNING] NEO4j | Like all'articolo 51 non eliminato!
-2021-01-24T14:49:33.457433489Z [WARNING] NEO4j | Like all'articolo 51 non eliminato!
-2021-01-24T14:49:34.360576433Z [WARNING] NEO4j | Like all'articolo 51 non eliminato!
-2021-01-24T14:49:35.629310646Z [LOG] cache piena
-2021-01-24T14:49:35.630396943Z [LOG] cache piena
-2021-01-24T14:49:38.922075719Z [LOG] cache hit
-2021-01-24T14:49:39.556724888Z [LOG] cache hit
-2021-01-24T14:49:41.541739651Z [WARNING] NEO4j | Like all'articolo 243 non eliminato!
-2021-01-24T14:49:42.126652036Z [LOG] cache piena
-2021-01-24T14:49:42.127528087Z [LOG] cache piena
-2021-01-24T14:56:51.679537171Z [LOG] App started
-2021-01-24T14:57:01.704579747Z [LOG] role: influencer
-2021-01-24T14:57:01.806970278Z [LOG] correct login thetalkingstove
-2021-01-24T14:57:01.971926666Z [LOG] cache vuota
-2021-01-24T14:57:02.633069693Z [LOG] cache piena
-2021-01-24T14:57:04.989154457Z [LOG] cache hit
-2021-01-24T14:57:05.802837619Z [LOG] cache hit
-2021-01-24T14:57:08.981966528Z [WARNING] NEO4j | Like all'articolo 21 non eliminato!
-2021-01-24T14:57:09.728937733Z [WARNING] NEO4j | Like all'articolo 21 non eliminato!
-2021-01-24T14:57:10.244258912Z [LOG] cache piena
-2021-01-24T14:57:10.245364872Z [LOG] cache piena
-2021-01-24T15:05:20.874149026Z [LOG] App started
-2021-01-24T15:05:33.889329464Z [LOG] role: influencer
-2021-01-24T15:05:33.999787821Z [LOG] correct login thetalkingstove
-2021-01-24T15:05:34.156132523Z [LOG] cache vuota
-2021-01-24T15:06:03.664127505Z [LOG] App started
-2021-01-24T15:06:14.209333158Z [LOG] role: influencer
-2021-01-24T15:06:14.300541491Z [LOG] correct login thetalkingstove
-2021-01-24T15:06:14.472322226Z [LOG] cache vuota
-2021-01-24T15:06:15.147822203Z [LOG] cache piena
-2021-01-24T15:06:18.461088811Z [LOG] cache hit
-2021-01-24T15:06:19.306056706Z [LOG] cache hit
-2021-01-24T15:06:25.966020418Z [LOG] cache piena
-2021-01-24T15:06:25.966720159Z [LOG] cache piena
-2021-01-24T15:06:27.415250128Z [LOG] cache hit
-2021-01-24T15:06:28.076368066Z [LOG] cache hit
-2021-01-24T15:06:30.473218661Z [WARNING] NEO4j | Like all'articolo 21 non aggiunto!
-2021-01-24T15:06:32.974903498Z [WARNING] NEO4j | Like all'articolo 21 non aggiunto!
-2021-01-24T15:06:34.731857484Z [WARNING] NEO4j | Like all'articolo 21 non aggiunto!
-2021-01-24T15:06:36.086050959Z [WARNING] NEO4j | Like all'articolo 21 non aggiunto!
-2021-01-24T15:06:37.218414928Z [LOG] cache piena
-2021-01-24T15:06:37.219754889Z [LOG] cache piena
-2021-01-24T15:07:24.314113308Z [LOG] cache hit
-2021-01-24T15:07:24.957271689Z [LOG] cache hit
-2021-01-24T15:07:28.866156600Z [LOG] cache piena
-2021-01-24T15:07:28.867466730Z [LOG] cache piena
-2021-01-24T15:07:30.763212318Z [LOG] cache hit
-2021-01-24T15:07:31.383716950Z [LOG] cache hit
-2021-01-24T15:07:33.926898144Z [LOG] cache piena
-2021-01-24T15:07:33.927220775Z [LOG] cache piena
-2021-01-24T15:07:37.122597842Z [LOG] cache hit
-2021-01-24T15:07:37.745430906Z [LOG] cache hit
-2021-01-24T15:07:40.318535925Z [LOG] cache piena
-2021-01-24T15:07:40.319550444Z [LOG] cache piena
-2021-01-24T15:15:48.534955155Z [LOG] App started
-2021-01-24T15:15:59.165312694Z [LOG] role: influencer
-2021-01-24T15:15:59.285092483Z [LOG] correct login thetalkingstove
-2021-01-24T15:15:59.461414408Z [LOG] cache vuota
-2021-01-24T15:16:00.108150458Z [LOG] cache piena
-2021-01-24T15:16:34.730099467Z [LOG] cache hit
-2021-01-24T15:16:36.589466251Z [LOG] cache hit
-2021-01-24T15:16:45.056915619Z [WARNING] NEO4j | Like all'articolo 21 non aggiunto!
-2021-01-24T15:16:46.806338224Z [LOG] cache piena
-2021-01-24T15:16:46.807562110Z [LOG] cache piena
-2021-01-24T15:19:56.670437220Z [LOG] App started
-2021-01-24T15:20:06.966241162Z [LOG] role: influencer
-2021-01-24T15:20:07.109736283Z [LOG] correct login thetalkingstove
-2021-01-24T15:20:07.305881404Z [LOG] cache vuota
-2021-01-24T15:20:08.069281850Z [LOG] cache piena
-2021-01-24T15:20:10.157208209Z [LOG] cache hit
-2021-01-24T15:20:10.662891790Z [LOG] cache hit
-2021-01-24T15:20:14.521753831Z [LOG] cache piena
-2021-01-24T15:20:14.522261727Z [LOG] cache piena
-2021-01-24T15:20:18.859953245Z [LOG] cache hit
-2021-01-24T15:20:19.436808547Z [LOG] cache hit
-2021-01-24T15:21:47.037325702Z [LOG] cache piena
-2021-01-24T15:21:47.038573083Z [LOG] cache piena
-2021-01-24T15:21:59.940423721Z [LOG] cache hit
-2021-01-24T15:22:00.279980271Z [LOG] cache hit
-2021-01-24T15:22:02.668768094Z [LOG] cache piena
-2021-01-24T15:22:02.669836365Z [LOG] cache piena
-2021-01-24T15:23:20.938573519Z [LOG] cache hit
-2021-01-24T15:25:38.634750288Z [LOG] App started
-2021-01-24T15:26:19.443824819Z [WARNING] login failed thetalkingstove/ Timed out after 30000 ms while waiting to connect. Client view of cluster state is {type=UNKNOWN, servers=[{address=172.16.3.144:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}, {address=172.16.3.97:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}, {address=172.16.3.98:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}]
-2021-01-24T15:26:19.444268032Z [LOG] can't login with these credentials!
-2021-01-24T15:26:19.444673222Z [LOG] login not correct
-2021-01-24T15:26:49.466834069Z [WARNING] login failed thetalkingstove/ Timed out after 30000 ms while waiting to connect. Client view of cluster state is {type=UNKNOWN, servers=[{address=172.16.3.144:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}, {address=172.16.3.97:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}, {address=172.16.3.98:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.SocketTimeoutException: Connect timed out}}]
-2021-01-24T15:26:49.467242827Z [LOG] can't login with these credentials!
-2021-01-24T15:26:49.467554558Z [LOG] login not correct
-2021-01-24T15:28:12.947896891Z [LOG] App started
-2021-01-24T15:41:30.754283400Z [LOG] App started
-2021-01-24T15:41:42.815503Z [LOG] role: normalUser
-2021-01-24T15:41:42.929503200Z [LOG] correct login microcline
-2021-01-24T15:41:43.116505800Z [LOG] cache vuota
-2021-01-24T15:41:43.731321Z [LOG] cache piena
-2021-01-24T15:41:47.566452300Z [LOG] cache hit
-2021-01-24T15:41:47.876084600Z [LOG] cache hit
-2021-01-24T15:41:50.928826100Z [LOG] cache piena
-2021-01-24T15:41:50.930825200Z [LOG] cache piena
-2021-01-24T15:41:55.055633500Z [LOG] cache vuota
-2021-01-24T15:41:55.529887200Z [LOG] cache piena
-2021-01-24T15:42:00.825710600Z [LOG] cache hit
-2021-01-24T15:42:03.525434100Z [LOG] cache piena
-2021-01-24T15:42:03.527434900Z [LOG] cache piena
+2021-01-24T20:42:43.238138980Z [LOG] App started
+2021-01-24T20:42:52.503103857Z [WARNING] login failed chakado/ Exception receiving message
+2021-01-24T20:42:52.503536770Z [LOG] can't login with these credentials!
+2021-01-24T20:42:52.504071757Z [LOG] login not correct
+2021-01-24T20:43:12.883264984Z [LOG] App started
+2021-01-24T20:43:52.305946833Z [WARNING] login failed chakado/ Timed out after 30000 ms while waiting to connect. Client view of cluster state is {type=UNKNOWN, servers=[{address=172.16.3.144:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.ConnectException: Connection refused}}, {address=172.16.3.97:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.ConnectException: Connection refused}}, {address=172.16.3.98:27020, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.ConnectException: Connection refused}}]
+2021-01-24T20:43:52.306378761Z [LOG] can't login with these credentials!
+2021-01-24T20:43:52.306758900Z [LOG] login not correct
+2021-01-24T20:45:35.282244535Z [LOG] App started
+2021-01-24T20:45:43.509360645Z [LOG] role: influencer
+2021-01-24T20:45:43.656638832Z [LOG] correct login chakado
+2021-01-24T20:45:43.801280696Z [LOG] cache vuota
+2021-01-24T20:45:43.968759160Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-24T20:45:43.981034338Z [LOG] cache piena
+2021-01-24T20:45:45.933740180Z [LOG] cache vuota
+2021-01-24T20:45:46.072584986Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-24T20:45:46.073784109Z [LOG] cache piena
+2021-01-24T20:45:47.277226244Z [LOG] cache piena
+2021-01-24T20:45:47.277842446Z [LOG] cache piena
+2021-01-24T20:49:12.083186158Z [LOG] App started
+2021-01-24T20:49:18.212480915Z [LOG] role: influencer
+2021-01-24T20:49:18.310085507Z [LOG] correct login chakado
+2021-01-24T20:49:18.408579738Z [LOG] cache vuota
+2021-01-24T20:49:18.576010178Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-24T20:49:18.586955560Z [LOG] cache piena
+2021-01-24T20:49:20.334391051Z [LOG] cache vuota
+2021-01-24T20:49:20.458381364Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-24T20:49:20.459692346Z [LOG] cache piena
+2021-01-24T20:49:22.893760618Z [LOG] cache piena
+2021-01-24T20:49:22.894400921Z [LOG] cache piena
+2021-01-24T20:49:27.485768642Z [LOG] cache piena
+2021-01-24T20:49:27.486227657Z [LOG] cache piena
+2021-01-24T20:49:29.131839259Z [LOG] cache hit
+2021-01-24T20:51:03.678806125Z [LOG] App started
+2021-01-24T20:51:10.656313691Z [LOG] role: admin
+2021-01-24T20:51:10.743741081Z [LOG] correct login eifelmartin
+2021-01-24T20:51:15.618157527Z [LOG] App started
+2021-01-24T20:51:22.607735377Z [LOG] role: influencer
+2021-01-24T20:51:22.726095002Z [LOG] correct login chakado
+2021-01-24T20:51:22.838956668Z [LOG] cache vuota
+2021-01-24T20:51:23.016706753Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-24T20:51:23.027439617Z [LOG] cache piena
+2021-01-24T20:51:24.913806512Z [LOG] cache vuota
+2021-01-24T20:51:25.061068015Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-24T20:51:25.062674384Z [LOG] cache piena
+2021-01-24T20:51:26.387539218Z [LOG] cache piena
+2021-01-24T20:51:26.387946694Z [LOG] cache piena
+2021-01-24T20:51:31.093319305Z [LOG] cache piena
+2021-01-24T20:51:31.093627423Z [LOG] cache piena
+2021-01-24T20:51:42.419710015Z [LOG] cache piena
+2021-01-24T20:51:42.420131168Z [LOG] cache piena
+2021-01-24T20:53:08.676689498Z [LOG] App started
+2021-01-24T20:53:16.308858666Z [LOG] role: influencer
+2021-01-24T20:53:16.424296272Z [LOG] correct login chakado
+2021-01-24T20:53:16.536610158Z [LOG] cache vuota
+2021-01-24T20:53:20.944737430Z [LOG] cache piena
+2021-01-24T20:53:23.637004451Z [LOG] cache vuota
+2021-01-24T20:53:24.647545962Z [LOG] cache piena
+2021-01-24T20:53:41.627990551Z [LOG] cache piena
+2021-01-24T20:53:41.628480893Z [LOG] cache piena
+2021-01-24T20:56:06.715176544Z [LOG] App started
+2021-01-24T20:56:15.198516244Z [LOG] role: influencer
+2021-01-24T20:56:15.299154912Z [LOG] correct login chakado
+2021-01-24T20:56:15.435946138Z [LOG] cache vuota
+2021-01-24T20:56:16.438435553Z [LOG] cache piena
+2021-01-24T20:56:23.254079865Z [LOG] cache vuota
+2021-01-24T20:56:24.121073554Z [LOG] cache piena
+2021-01-24T20:56:37.524358351Z [LOG] cache piena
+2021-01-24T20:56:37.524985498Z [LOG] cache piena
+2021-01-24T21:06:53.926676202Z [LOG] App started
+2021-01-24T21:07:00.577445285Z [LOG] role: influencer
+2021-01-24T21:07:00.695275326Z [LOG] correct login chakado
+2021-01-24T21:07:00.833347096Z [LOG] cache vuota
+2021-01-24T21:07:01.705602450Z [LOG] cache piena
+2021-01-24T21:07:18.639778437Z [WARNING] profile not updated
+2021-01-24T21:07:28.031104340Z [LOG] cache piena
+2021-01-24T21:07:28.031627728Z [LOG] cache piena
+2021-01-24T21:14:40.657128013Z [LOG] App started
+2021-01-24T21:14:47.269883658Z [LOG] role: influencer
+2021-01-24T21:14:47.358763833Z [LOG] correct login chakado
+2021-01-24T21:14:47.480600992Z [LOG] cache vuota
+2021-01-24T21:14:48.500551501Z [LOG] cache piena
+2021-01-24T21:15:02.124094185Z [ERROR] '$set' is empty. You must specify a field like so: {$set: {<field>: ...}}
+2021-01-24T21:15:02.124626911Z [WARNING] profile not updated
+2021-01-24T21:15:04.797924448Z [LOG] cache piena
+2021-01-24T21:15:04.798499571Z [LOG] cache piena
+2021-01-24T21:15:18.048817898Z [LOG] cache vuota
+2021-01-24T21:15:18.959208578Z [LOG] cache piena
+2021-01-24T21:15:21.502074655Z [LOG] cache piena
+2021-01-24T21:15:21.502453020Z [LOG] cache piena
+2021-01-24T21:19:16.563794217Z [LOG] App started
+2021-01-24T21:19:53.992710001Z [LOG] role: influencer
+2021-01-24T21:19:54.128632298Z [LOG] correct login chakado
+2021-01-24T21:19:54.244551655Z [LOG] cache vuota
+2021-01-24T21:19:55.170401066Z [LOG] cache piena
+2021-01-24T21:20:02.671523205Z [WARNING] profile not updated
+2021-01-24T21:20:06.569880600Z [LOG] cache piena
+2021-01-24T21:20:06.570359580Z [LOG] cache piena
+2021-01-24T21:21:08.547193387Z [LOG] App started
+2021-01-24T21:21:20.277602601Z [LOG] role: normalUser
+2021-01-24T21:21:20.396349420Z [LOG] correct login microcline
+2021-01-24T21:21:20.510687529Z [LOG] cache vuota
+2021-01-24T21:21:21.427740515Z [LOG] cache piena
+2021-01-24T21:21:28.343875159Z [WARNING] profile not updated
+2021-01-24T21:21:30.067117992Z [LOG] cache piena
+2021-01-24T21:21:30.067551806Z [LOG] cache piena
+2021-01-24T21:24:37.599496912Z [LOG] App started
+2021-01-24T21:24:45.389857470Z [LOG] role: normalUser
+2021-01-24T21:24:45.483736858Z [LOG] correct login microcline
+2021-01-24T21:24:45.605963364Z [LOG] cache vuota
+2021-01-24T21:24:46.450863261Z [LOG] cache piena
+2021-01-24T21:24:53.439244721Z [WARNING] profile not updated
+2021-01-24T21:24:55.862590263Z [LOG] cache piena
+2021-01-24T21:24:55.863084126Z [LOG] cache piena
+2021-01-24T21:27:14.043103647Z [LOG] App started
+2021-01-24T21:27:21.120871005Z [LOG] role: influencer
+2021-01-24T21:27:21.230246601Z [LOG] correct login chakado
+2021-01-24T21:27:21.340647718Z [LOG] cache vuota
+2021-01-24T21:27:22.279100530Z [LOG] cache piena
+2021-01-24T21:27:29.653161335Z [WARNING] profile not updated
+2021-01-24T21:27:33.489801044Z [LOG] cache piena
+2021-01-24T21:27:33.490267010Z [LOG] cache piena
+2021-01-24T21:30:46.598451228Z [LOG] App started
+2021-01-24T21:31:05.358228661Z [LOG] role: influencer
+2021-01-24T21:31:05.509298228Z [LOG] correct login chakado
+2021-01-24T21:31:05.622878796Z [LOG] cache vuota
+2021-01-24T21:31:06.519942612Z [LOG] cache piena
+2021-01-24T21:31:36.417353340Z [WARNING] profile not updated
+2021-01-24T21:31:38.728126877Z [LOG] cache piena
+2021-01-24T21:31:38.728696378Z [LOG] cache piena
+2021-01-24T21:32:32.191408857Z [LOG] App started
+2021-01-24T21:32:38.988798150Z [LOG] role: influencer
+2021-01-24T21:32:39.073667483Z [LOG] correct login chakado
+2021-01-24T21:32:39.178390703Z [LOG] cache vuota
+2021-01-24T21:32:40.173233703Z [LOG] cache piena
+2021-01-24T21:32:49.620762652Z [WARNING] profile not updated
+2021-01-24T21:34:13.474580997Z [LOG] App started
+2021-01-24T21:34:19.922924352Z [LOG] role: influencer
+2021-01-24T21:34:20.044640039Z [LOG] correct login chakado
+2021-01-24T21:34:20.157730657Z [LOG] cache vuota
+2021-01-24T21:34:21.023349245Z [LOG] cache piena
+2021-01-24T21:34:28.471330120Z [WARNING] profile not updated
+2021-01-24T21:36:41.598906166Z [LOG] App started
+2021-01-24T21:36:48.937271634Z [LOG] role: influencer
+2021-01-24T21:36:49.061846991Z [LOG] correct login chakado
+2021-01-24T21:36:49.193231019Z [LOG] cache vuota
+2021-01-24T21:36:50.108488655Z [LOG] cache piena
+2021-01-24T21:37:03.389032302Z [WARNING] profile not updated
+2021-01-24T21:38:37.648344503Z [LOG] App started
+2021-01-24T21:38:52.852667600Z [LOG] role: influencer
+2021-01-24T21:38:52.997899262Z [LOG] correct login chakado
+2021-01-24T21:38:53.132464578Z [LOG] cache vuota
+2021-01-24T21:38:54.084706519Z [LOG] cache piena
+2021-01-24T21:39:01.240897558Z [WARNING] profile not updated
+2021-01-24T21:40:32.368950678Z [LOG] App started
+2021-01-24T21:42:48.727153947Z [LOG] role: influencer
+2021-01-24T21:42:48.879881434Z [LOG] correct login chakado
+2021-01-24T21:42:49.014942677Z [LOG] cache vuota
+2021-01-24T21:42:49.957585152Z [LOG] cache piena
+2021-01-24T21:42:55.558338618Z [LOG] profile updated
+2021-01-24T21:43:11.263588527Z [LOG] App started
+2021-01-24T21:43:25.660059764Z [LOG] role: influencer
+2021-01-24T21:43:25.806031688Z [LOG] correct login chakado
+2021-01-24T21:43:26.008127449Z [LOG] cache vuota
+2021-01-24T21:43:26.973260267Z [LOG] cache piena
+2021-01-24T21:43:37.136532465Z [LOG] profile updated
+2021-01-24T21:45:26.881664184Z [LOG] App started
+2021-01-24T21:45:33.250125673Z [LOG] role: influencer
+2021-01-24T21:45:33.408828686Z [LOG] correct login chakado
+2021-01-24T21:45:33.608171503Z [LOG] cache vuota
+2021-01-24T21:45:34.558981720Z [LOG] cache piena
+2021-01-24T21:45:40.065909646Z [LOG] cache hit
+2021-01-24T21:45:40.602518746Z [LOG] cache hit
+2021-01-24T21:45:45.069484875Z [LOG] cache piena
+2021-01-24T21:45:45.069947305Z [LOG] cache piena
+2021-01-24T21:45:46.403348555Z [LOG] cache vuota
+2021-01-24T21:45:47.287385927Z [LOG] cache piena
+2021-01-24T21:45:48.826074947Z [LOG] cache hit
+2021-01-24T21:46:02.647208471Z [LOG] cache piena
+2021-01-24T21:46:02.648480471Z [LOG] cache piena
+2021-01-24T21:46:59.425348625Z [LOG] App started
+2021-01-24T21:47:06.699995363Z [LOG] role: admin
+2021-01-24T21:47:06.823786516Z [LOG] correct login eifelmartin
+2021-01-24T21:47:30.859138685Z [ERROR] Query failed with error code 2 and error message 'unknown top level operator: $match' on server 172.16.3.98:27020
+2021-01-24T21:52:16.136285227Z [LOG] App started
+2021-01-24T21:52:53.445984270Z [LOG] role: admin
+2021-01-24T21:52:53.589982766Z [LOG] correct login eifelmartin
+2021-01-24T21:53:07.698541390Z [ERROR] Query failed with error code 2 and error message 'unknown top level operator: $match' on server 172.16.3.98:27020
+2021-01-24T21:53:19.351213097Z [ERROR] Query failed with error code 2 and error message 'unknown top level operator: $match' on server 172.16.3.98:27020
+2021-01-24T21:59:05.106570370Z [LOG] App started
+2021-01-24T21:59:17.018112661Z [LOG] role: admin
+2021-01-24T21:59:17.161056445Z [LOG] correct login eifelmartin
+2021-01-24T22:02:18.573831408Z [LOG] App started
+2021-01-24T22:02:37.515032746Z [LOG] role: admin
+2021-01-24T22:02:37.682427239Z [LOG] correct login eifelmartin
+2021-01-24T22:03:39.845819894Z [LOG] App started
+2021-01-24T22:03:58.184718767Z [LOG] role: admin
+2021-01-24T22:03:58.281912771Z [LOG] correct login eifelmartin

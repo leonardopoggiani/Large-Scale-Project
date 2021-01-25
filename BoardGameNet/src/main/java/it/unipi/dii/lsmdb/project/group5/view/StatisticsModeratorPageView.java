@@ -213,6 +213,7 @@ public class StatisticsModeratorPageView {
 
         List<VersatileUser> listUser = controller.mostVersatileUsers("normalUser");
 
+
         for(int i = 0; i < 3; i++){
             Text modify = chooseVersatile(i + 1);
             if(i < listUser.size()) {

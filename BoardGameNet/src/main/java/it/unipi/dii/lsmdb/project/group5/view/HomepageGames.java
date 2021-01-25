@@ -1,9 +1,12 @@
 package it.unipi.dii.lsmdb.project.group5.view;
 
+import com.gluonhq.charm.glisten.control.BottomNavigationButton;
 import com.google.common.collect.Lists;
+import com.mongodb.internal.connection.tlschannel.ClientTlsChannel;
 import it.unipi.dii.lsmdb.project.group5.bean.GameBean;
 import it.unipi.dii.lsmdb.project.group5.cache.GamesCache;
 import it.unipi.dii.lsmdb.project.group5.logger.Logger;
+import it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager.Neo4jDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -60,6 +63,8 @@ public class HomepageGames {
      */
     ObservableList<String> filters = FXCollections.observableArrayList(
             "Category", "Number of players", "Release year", "Name", "None");
+
+    private static boolean limitedVersion = false;
 
     @FXML
     TitledPane fullgame1;
@@ -139,6 +144,18 @@ public class HomepageGames {
     @FXML
     Button statisticsButton;
 
+    @FXML
+    BottomNavigationButton home;
+
+    @FXML
+    BottomNavigationButton games;
+
+    @FXML
+    BottomNavigationButton groups;
+
+    @FXML
+    BottomNavigationButton users;
+
     /**
      * Initialize.
      *
@@ -147,6 +164,13 @@ public class HomepageGames {
      */
     @FXML
     void initialize() throws IOException, ExecutionException {
+
+        if(limitedVersion){
+            users.setDisable(true);
+            groups.setDisable(true);
+            statisticsButton.setDisable(true);
+        }
+
         setSuggestedGames();
         setSuggestedGames();
 
@@ -263,12 +287,14 @@ public class HomepageGames {
      */
     @FXML
     void goToGame(MouseEvent event) throws IOException {
-        AnchorPane gamePressed = (AnchorPane) event.getSource();
-        int index =  Integer.parseInt(gamePressed.getId().substring(gamePressed.getId().length() - 1));
+        if(!limitedVersion){
+            AnchorPane gamePressed = (AnchorPane) event.getSource();
+            int index =  Integer.parseInt(gamePressed.getId().substring(gamePressed.getId().length() - 1));
 
-        TitledPane gameSelected = chooseGame(index);
-        game = gameSelected.getText();
-        App.setRoot("GamePageView");
+            TitledPane gameSelected = chooseGame(index);
+            game = gameSelected.getText();
+            App.setRoot("GamePageView");
+        }
     }
 
     /**
@@ -281,9 +307,24 @@ public class HomepageGames {
     void setSuggestedGames() throws IOException, ExecutionException {
 
         GamesPagesDBController controller = new GamesPagesDBController();
+        List<GameBean> list;
+
         if (savedGames.isEmpty()) {
             Logger.log("cache vuota");
-            List<GameBean> list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), 6);
+            try {
+                Neo4jDBManager.getDriver().verifyConnectivity();
+                list = controller.listSuggestedGames(LoginPageView.getLoggedUser(), 6);
+            } catch (Exception e){
+                // if neo4j is not responding show articles ordered by likes
+                // disablig the nav bar
+                users.setDisable(true);
+                groups.setDisable(true);
+                statisticsButton.setDisable(true);
+                list = controller.orderByAvgRating();
+                limitedVersion = true;
+                Logger.warning("Entering limited version of application, neo4j is not responding");
+            }
+
             showGames(list);
         } else {
             int i = 0;

@@ -61,7 +61,7 @@ public class AnalyticsDBManager {
 
         try{
             MongoCursor<Document> cursor;
-            if(value.equals("category")) {
+            if(mode.equals("category")) {
                 //We are searching the least rated games given a category
                 cursor = collection.aggregate(Arrays.asList(unwind, match, projection, sort, limit)).iterator();
             }
@@ -74,7 +74,7 @@ public class AnalyticsDBManager {
 
             while (cursor.hasNext()) {
                 Document next = cursor.next();
-                if(value.equals("category")){
+                if(mode.equals("category")){
                     g = GameDBManager.fillInfoGameFields(next, true);
                 }else {
                     g = GameDBManager.fillInfoGameFields(next, false);

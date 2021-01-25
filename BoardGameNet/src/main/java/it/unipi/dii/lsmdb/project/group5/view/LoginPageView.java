@@ -69,6 +69,10 @@ public class LoginPageView {
         if(validateLogin()) {
             Logger.log("correct login " + loggedUser);
             if(loggedRole.equals("admin")){
+                if(HomepageArticles.getLimitedVersion()){
+                    App.getScene().getWindow().hide();
+                    return;
+                }
                 App.setRoot("adminHomepage");
             } else {
                 App.setRoot("HomepageArticles");

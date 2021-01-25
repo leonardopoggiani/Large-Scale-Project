@@ -1,5 +1,7 @@
 package it.unipi.dii.lsmdb.project.group5.persistence.Neo4jDBManager;
 
+import com.google.common.collect.Lists;
+import it.unipi.dii.lsmdb.project.group5.App;
 import it.unipi.dii.lsmdb.project.group5.bean.ArticleBean;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.*;
@@ -30,7 +32,14 @@ public class ArticlesDBManager extends Neo4jDBManager {
                 @Override
                 public List<ArticleBean> execute(Transaction tx)
                 {
-                    return transactionSearchSuggestedArticles(tx, username, limit);
+                    List<ArticleBean> ret = Lists.newArrayList();
+                    try {
+                        ret = transactionSearchSuggestedArticles(tx, username, limit);
+                    } catch(Exception e) {
+                        System.err.println("error neo4j");
+                        App.getScene().getWindow().hide();
+                    }
+                    return ret;
                 }
             });
         }
