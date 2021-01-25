@@ -122,6 +122,12 @@ public class HomepageGroups {
     Button statisticsButton;
 
     @FXML
+    Button users;
+
+    @FXML
+    Button groups;
+
+    @FXML
     ImageView ics;
 
     /**
@@ -135,7 +141,11 @@ public class HomepageGroups {
         try {
             Neo4jDBManager.getDriver().verifyConnectivity();
         } catch(Exception e) {
-            App.setRoot("HomepageArticles");
+            users.setDisable(true);
+            groups.setDisable(true);
+            statisticsButton.setDisable(true);
+            returnToHomepage();
+            return;
         }
 
         setGroups();

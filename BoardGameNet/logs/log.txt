@@ -1,0 +1,89 @@
+2021-01-25T16:27:49.406213191Z [LOG] App started
+2021-01-25T16:28:05.153221045Z [LOG] role: influencer
+2021-01-25T16:28:05.296290417Z [LOG] correct login thetalkingstove
+2021-01-25T16:28:05.868465541Z [LOG] cache vuota
+2021-01-25T16:28:06.230212389Z [LOG] cache piena
+2021-01-25T16:28:21.294083947Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:28:21.294232132Z [LOG] cache piena
+2021-01-25T16:28:21.295025317Z [LOG] cache piena
+2021-01-25T16:29:46.844417600Z [LOG] App started
+2021-01-25T16:30:00.433403507Z [LOG] role: influencer
+2021-01-25T16:30:00.511820580Z [LOG] correct login thetalkingstove
+2021-01-25T16:30:02.753877848Z [LOG] cache vuota
+2021-01-25T16:30:04.503890754Z [LOG] cache piena
+2021-01-25T16:31:26.109361167Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:31:26.109746855Z [LOG] cache piena
+2021-01-25T16:31:26.111411026Z [LOG] cache piena
+2021-01-25T16:31:33.028033798Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:31:33.028158145Z [LOG] cache piena
+2021-01-25T16:31:33.028621904Z [LOG] cache piena
+2021-01-25T16:31:35.580243135Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:31:35.580387624Z [LOG] cache piena
+2021-01-25T16:31:35.580873528Z [LOG] cache piena
+2021-01-25T16:31:39.323034096Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:31:39.323160373Z [LOG] cache vuota
+2021-01-25T16:31:39.686633222Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:31:39.686979879Z [LOG] cache piena
+2021-01-25T16:36:43.281069691Z [LOG] App started
+2021-01-25T16:36:59.052431938Z [LOG] role: influencer
+2021-01-25T16:36:59.150232374Z [LOG] correct login thetalkingstove
+2021-01-25T16:36:59.342967478Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:36:59.343120755Z [LOG] cache vuota
+2021-01-25T16:36:59.413814430Z [LOG] cache piena
+2021-01-25T16:37:07.088493142Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:37:07.088727492Z [LOG] cache vuota
+2021-01-25T16:37:07.193322707Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:37:07.194570431Z [LOG] cache piena
+2021-01-25T16:37:08.723275273Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:37:08.723706359Z [LOG] cache piena
+2021-01-25T16:37:08.725119179Z [LOG] cache piena
+2021-01-25T16:37:09.542202653Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:37:09.542351065Z [LOG] cache piena
+2021-01-25T16:37:09.542805093Z [LOG] cache piena
+2021-01-25T16:37:14.219101777Z [LOG] cache piena
+2021-01-25T16:37:14.219988226Z [LOG] cache piena
+2021-01-25T16:37:22.591609887Z [LOG] cache piena
+2021-01-25T16:37:22.592493182Z [LOG] cache piena
+2021-01-25T16:37:45.137115267Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:37:45.137199905Z [LOG] cache piena
+2021-01-25T16:37:45.137498271Z [LOG] cache piena
+2021-01-25T16:42:28.581883792Z [LOG] App started
+2021-01-25T16:42:43.132116687Z [LOG] role: influencer
+2021-01-25T16:42:43.237911700Z [LOG] correct login thetalkingstove
+2021-01-25T16:42:45.350237177Z [LOG] cache vuota
+2021-01-25T16:42:47.024245137Z [LOG] cache piena
+2021-01-25T16:43:08.002447594Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:43:08.002609428Z [LOG] cache piena
+2021-01-25T16:43:08.003247025Z [LOG] cache piena
+2021-01-25T16:43:15.491836917Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:43:15.492317456Z [LOG] cache vuota
+2021-01-25T16:43:15.585859645Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:43:15.586828069Z [LOG] cache piena
+2021-01-25T16:43:17.289355755Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:43:17.289518686Z [LOG] cache piena
+2021-01-25T16:43:17.289900659Z [LOG] cache piena
+2021-01-25T16:43:20.070685442Z [WARNING] Entering limited version of application, neo4j is not responding
+2021-01-25T16:43:20.070818610Z [LOG] cache piena
+2021-01-25T16:43:20.071209629Z [LOG] cache piena
+2021-01-25T16:52:59.749187201Z [LOG] App started
+2021-01-25T16:53:10.025303508Z [LOG] role: influencer
+2021-01-25T16:53:10.118039613Z [LOG] correct login thetalkingstove
+2021-01-25T16:53:12.195244467Z [LOG] cache vuota
+2021-01-25T16:53:14.064116302Z [LOG] cache piena
+2021-01-25T16:53:15.871302633Z [LOG] cache vuota
+2021-01-25T16:53:15.934530311Z [LOG] cache piena
+2021-01-25T16:53:25.208982325Z [LOG] cache piena
+2021-01-25T16:53:25.209574456Z [LOG] cache piena
+2021-01-25T16:53:26.310542005Z [LOG] cache hit
+2021-01-25T16:53:26.676227800Z [LOG] cache hit
+2021-01-25T16:53:31.578369304Z [LOG] cache piena
+2021-01-25T16:53:31.579218313Z [LOG] cache piena
+2021-01-25T16:53:33.038789969Z [LOG] cache piena
+2021-01-25T16:53:33.039130610Z [LOG] cache piena
+2021-01-25T16:53:33.984895519Z [LOG] cache hit
+2021-01-25T16:53:39.500062934Z [LOG] cache piena
+2021-01-25T16:53:39.500480389Z [LOG] cache piena
+2021-01-25T16:53:42.251909114Z [LOG] cache piena
+2021-01-25T16:53:42.252396964Z [LOG] cache piena
+2021-01-25T16:53:45.820163332Z [LOG] cache piena
+2021-01-25T16:53:45.821173228Z [LOG] cache piena

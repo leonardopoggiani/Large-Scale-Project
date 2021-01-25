@@ -147,6 +147,12 @@ public static String getFilter() {
     @FXML
     Button statisticsButton;
 
+    @FXML
+    Button users;
+
+    @FXML
+    Button groups;
+
     private Text chooseUser(int i){
         return switch (i) {
             case 0 -> username1;
@@ -262,7 +268,11 @@ public static String getFilter() {
         try {
             Neo4jDBManager.getDriver().verifyConnectivity();
         } catch(Exception e) {
-            App.setRoot("HomepageArticles");
+            users.setDisable(true);
+            groups.setDisable(true);
+            statisticsButton.setDisable(true);
+            returnToHomepage();
+            return;
         }
 
         showUsers();

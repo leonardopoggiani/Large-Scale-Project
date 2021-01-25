@@ -58,12 +58,12 @@
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToGroups" text="Groups">
+                  <BottomNavigationButton fx:id="groups" onMouseClicked="#goToGroups" text="Groups">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>
                   </BottomNavigationButton>
-                  <BottomNavigationButton onMouseClicked="#goToFriends" text="Users">
+                  <BottomNavigationButton fx:id="users" onMouseClicked="#goToFriends" text="Users">
                      <graphic>
                         <Icon content="EMPTY" />
                      </graphic>
