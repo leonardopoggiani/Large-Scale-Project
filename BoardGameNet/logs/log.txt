@@ -423,3 +423,18 @@
 2021-01-25T10:52:12.385868729Z [LOG] cache piena
 2021-01-25T10:52:16.076138285Z [LOG] cache invalidate
 2021-01-25T10:52:16.076852065Z [LOG] cache invalidate
+2021-01-25T11:10:11.282859914Z [LOG] App started
+2021-01-25T11:10:20.570517125Z [LOG] role: admin
+2021-01-25T11:10:20.738954014Z [LOG] correct login chakado
+2021-01-25T11:11:06.518778870Z [WARNING] NEO4J | Gioco giochino non aggiunto!
+2021-01-25T11:11:06.596226456Z [WARNING] MONGODB | Gioco giochino rimosso da mongoDB!
+2021-01-25T11:14:34.040878316Z [LOG] App started
+2021-01-25T11:14:40.549379204Z [LOG] role: admin
+2021-01-25T11:14:40.715288293Z [LOG] correct login chakado
+2021-01-25T11:15:14.977806141Z [WARNING] NEO4J | Gioco Monopoly non aggiunto!
+2021-01-25T11:15:15.274716571Z [WARNING] MONGODB | Gioco Monopoly rimosso da mongoDB!
+2021-01-25T11:16:39.664722770Z [LOG] App started
+2021-01-25T11:16:46.311135787Z [LOG] role: admin
+2021-01-25T11:16:46.473383728Z [LOG] correct login chakado
+2021-01-25T11:17:16.482334073Z [WARNING] NEO4J | Gioco Nuovo gioco messo da me non aggiunto!
+2021-01-25T11:17:16.567593Z [WARNING] MONGODB | Gioco Nuovo gioco messo da me rimosso da mongoDB!

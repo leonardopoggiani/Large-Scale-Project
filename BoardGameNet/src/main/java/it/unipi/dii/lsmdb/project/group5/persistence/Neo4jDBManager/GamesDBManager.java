@@ -91,7 +91,7 @@ public class  GamesDBManager extends Neo4jDBManager{
             return session.writeTransaction(new TransactionWork<Boolean>() {
                 @Override
                 public Boolean execute(Transaction tx) {
-                    return transactionAddArticle(tx, newGame);
+                    return transactionAddGame(tx, newGame);
                 }
             });
 
@@ -111,23 +111,27 @@ public class  GamesDBManager extends Neo4jDBManager{
      * @return true se ha aggiunto con successo, false altrimenti
      */
 
-    private static boolean transactionAddArticle(Transaction tx, GameBean newGame) {
+    private static boolean transactionAddGame(Transaction tx, GameBean newGame) {
         HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("name", newGame.getName());
-        parameters.put("category1", newGame.getCategory1() );
-        parameters.put("category2", newGame.getCategory2());
-        String checkGame = "MATCH (g:Game{name:$name})" +
-                " RETURN g";
-        Result result = tx.run(checkGame, parameters);
-        if (result.hasNext()) {
-            return false;
-        }
+        if(!newGame.getCategory1().equals("")) {
+            parameters.put("category1", newGame.getCategory1() );
 
-        result = tx.run("CREATE (g:Game{category1:$category1, category2:$category2})"
-                , parameters);
-        if (result.hasNext()) {
+            String checkGame = "MATCH (g:Game{name:$name})" +
+                    " RETURN g";
+
+            Result result = tx.run(checkGame, parameters);
+
+            if (result.hasNext()) {
+                return false;
+            }
+
+            result = tx.run("CREATE (g:Game{name:$name, category1:$category1})"
+                    , parameters);
+
             return true;
         }
+
         return false;
     }
 

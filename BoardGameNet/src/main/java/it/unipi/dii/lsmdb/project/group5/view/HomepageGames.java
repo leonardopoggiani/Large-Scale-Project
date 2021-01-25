@@ -156,6 +156,9 @@ public class HomepageGames {
     @FXML
     BottomNavigationButton users;
 
+    @FXML
+    Button modify;
+
     /**
      * Initialize.
      *
@@ -174,6 +177,7 @@ public class HomepageGames {
             users.setDisable(true);
             groups.setDisable(true);
             statisticsButton.setDisable(true);
+            modify.setDisable(true);
             limitedVersion = true;
             Logger.warning("Entering limited version of application, neo4j is not responding");
         }
@@ -329,6 +333,8 @@ public class HomepageGames {
                     users.setDisable(true);
                     groups.setDisable(true);
                     statisticsButton.setDisable(true);
+                    modify.setDisable(true);
+
                     limitedVersion = true;
                     list = controller.orderByAvgRating();
                     Logger.warning("Entering limited version of application, neo4j is not responding");
