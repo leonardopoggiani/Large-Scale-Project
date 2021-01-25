@@ -322,7 +322,7 @@ public class HomepageGames {
 
         if (savedGames.isEmpty()) {
             Logger.log("cache vuota");
-            if(limitedVersion){
+            if(!limitedVersion){
                 try {
                     Neo4jDBManager.getDriver().verifyConnectivity();
                     limitedVersion = false;

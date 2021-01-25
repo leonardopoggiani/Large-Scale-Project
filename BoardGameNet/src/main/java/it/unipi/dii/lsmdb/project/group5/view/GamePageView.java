@@ -85,7 +85,6 @@ public class GamePageView {
     @FXML
     TextField timestamp3;
 
-
     @FXML
     Button delete1;
 
