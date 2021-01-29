@@ -471,14 +471,13 @@ public class HomepageArticles {
             if(limitedVersion) {
                 list = home.orderByLikes();
             } else {
-
                 try {
                     Neo4jDBManager.getDriver().verifyConnectivity();
                     limitedVersion = false;
                     list = home.listSuggestedArticles(LoginPageView.getLoggedUser(), 6);
                 } catch (Exception e){
                     // if neo4j is not responding show articles ordered by likes
-                    // disablig the nav bar
+                    // disabling the nav bar
                     users.setDisable(true);
                     groups.setDisable(true);
                     statisticsButton.setDisable(true);

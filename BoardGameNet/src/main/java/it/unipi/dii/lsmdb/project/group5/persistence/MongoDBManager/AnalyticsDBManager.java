@@ -157,14 +157,16 @@ public class AnalyticsDBManager {
    * @return the list
    */
   public static List<CategoryBean> gamesDistribution() {
-      //For each category it computes the total number of games based on the currently considered category and then will return the top 6 category for number of games based on them
+      //For each category it computes the total number of games based on the currently considered
+      // category and then will return the top 6 category for number of games based on them
         List<CategoryBean> ret = new ArrayList<CategoryBean>();
         MongoCollection<Document> collection = MongoDBManager.getCollection("Games");
         Bson unwind = unwind("$category");
         Bson group = group("$category", sum("count", 1L));
         Bson match = match(and(ne("category", null),(ne("category", ""))));
         Bson limit = limit(6);
-        Bson projection2 = project(fields(excludeId(), computed("category", "$_id"), include("count")));
+        Bson projection2 = project(fields(excludeId(), computed("category", "$_id"),
+                include("count")));
         Bson sort = sort(descending("count"));
 
         try(MongoCursor<Document> cursor = collection.aggregate(Arrays.asList( unwind, match, group, projection2,sort,limit)).iterator()) {

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="783.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="it.unipi.dii.lsmdb.project.group5.view.HomepageGames">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="783.0" prefWidth="1017.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.lsmdb.project.group5.view.HomepageGames">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1030.0">
          <children>
@@ -168,7 +168,7 @@
                   <ComboBox fx:id="order" layoutX="100.0" layoutY="366.0" onMouseClicked="#caricaOrdinamenti" prefHeight="28.0" prefWidth="114.0" promptText="Order" />
                   <TextField fx:id="year" layoutX="118.0" layoutY="301.0" prefHeight="26.0" prefWidth="78.0" visible="false" />
                   <Slider fx:id="players" blockIncrement="1.0" layoutX="96.0" layoutY="251.0" majorTickUnit="3.0" max="16.0" min="1.0" minorTickCount="8" onDragExited="#aggiorna" onMouseClicked="#aggiorna" onMouseDragOver="#aggiorna" prefHeight="49.0" prefWidth="122.0" showTickLabels="true" showTickMarks="true" value="1.0" visible="false" />
-                  <Text fx:id="numplayers" layoutX="188.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" visible="false" />
+                  <Text fx:id="numplayers" layoutX="229.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" visible="false" />
                   <Text layoutX="16.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type of filter" />
                   <ComboBox fx:id="filter" layoutX="100.0" layoutY="182.0" onAction="#setFilters" onMouseClicked="#showFilters" prefHeight="28.0" prefWidth="98.0" promptText="Filter" />
                   <ImageView fitHeight="59.0" fitWidth="85.0" layoutX="76.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

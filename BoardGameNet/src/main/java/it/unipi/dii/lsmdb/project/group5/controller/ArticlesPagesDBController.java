@@ -95,12 +95,12 @@ public class ArticlesPagesDBController {
         {
             if(!ArticleDBManager.deleteArticle(idArt))
             {
-                Logger.warning("MONGODB | Articolo " + idArt + " non eliminato da Neo4j!");
+                Logger.warning("MONGODB | Articolo " + idArt + " non eliminato da MONGODB!");
                 return false;
             }
             return  true;
         }
-        Logger.warning("NEO4J | Articolo " + idArt + " non eliminato da MongoDB!");
+        Logger.warning("NEO4J | Articolo " + idArt + " non eliminato da Neo4j!");
         return  false;
     }
 

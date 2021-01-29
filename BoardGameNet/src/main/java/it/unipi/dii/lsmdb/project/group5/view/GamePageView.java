@@ -280,7 +280,7 @@ public class GamePageView {
                 author.setText(reviews.get(i).getAuthor());
                 timestamp.setText(String.valueOf(reviews.get(i).getTimestamp()));
 
-                if (reviews.get(i).getAuthor().equals(LoginPageView.getLoggedUser())) {
+                if (reviews.get(i).getAuthor().equals(LoginPageView.getLoggedUser()) || LoginPageView.getLoggedRole().equals("moderator")) {
                     Button delete = chooseDeleteButton(i + 1);
                     delete.setDisable(false);
                     delete.setVisible(true);

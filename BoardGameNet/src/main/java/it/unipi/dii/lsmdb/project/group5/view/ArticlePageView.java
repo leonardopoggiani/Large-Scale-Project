@@ -299,7 +299,7 @@ public class ArticlePageView {
                 autore.setText(infoComments.get(i).getAuthor());
                 timestamp.setText(String.valueOf(infoComments.get(i).getTimestamp()));
 
-                if(infoComments.get(i).getAuthor().equals(LoginPageView.getLoggedUser())){
+                if(infoComments.get(i).getAuthor().equals(LoginPageView.getLoggedUser()) || LoginPageView.getLoggedRole().equals("moderator")){
                     Button delete = chooseDeleteButton(i + 1);
                     delete.setDisable(false);
                     delete.setVisible(true);
