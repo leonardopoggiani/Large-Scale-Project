@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91e2638a-d791-4362-8e9b-0678e78ead84" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/StatisticsModeratorPageView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/StatisticsModerator.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/AnalyticsDBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/AnalyticsDBController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/GamesPagesDBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/GamesPagesDBController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/UsersPagesDBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/UsersPagesDBController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/MongoDBManager/UserDBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/MongoDBManager/UserDBManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/Neo4jDBManager/UsersDBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/Neo4jDBManager/UsersDBManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/AdminGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/AdminGames.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/AdminUsers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/AdminUsers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/adminGames.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/adminGames.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/adminUsers.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/adminUsers.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="91e2638a-d791-4362-8e9b-0678e78ead84" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,7 +29,7 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="1mf1wbiP03M7BIsxEhbNOvdPyjU" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -140,6 +128,7 @@
       <workItem from="1610879557505" duration="364000" />
       <workItem from="1610877963891" duration="3676000" />
       <workItem from="1610886549229" duration="3180000" />
+      <workItem from="1612258227904" duration="171000" />
     </task>
     <servers />
   </component>
