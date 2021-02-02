@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.AdminUsers">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="562.0">
+         <children>
+            <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
+            <BottomNavigation layoutX="51.0" layoutY="6.0" prefHeight="66.0" prefWidth="339.0">
+               <actionItems>
+                  <BottomNavigationButton onMouseClicked="#returnToStatistics" selected="true" text="Statistics">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminGames" text="Games">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminUsers" text="Users">
+                  </BottomNavigationButton>
+               </actionItems>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </BottomNavigation>
+            <Button layoutX="421.0" layoutY="27.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Text layoutX="51.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove a user">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Text>
+            <TextField fx:id="deleting" layoutX="316.0" layoutY="114.0" />
+            <Button fx:id="remove" disable="true" layoutX="538.0" layoutY="163.0" mnemonicParsing="false" onAction="#removeUser" text="Remove" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b6c9da" height="200.0" layoutX="24.0" layoutY="228.0" stroke="BLACK" strokeType="INSIDE" width="498.0" />
+            <Text layoutX="31.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least recently logged user" />
+            <Text fx:id="user1" layoutX="29.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="473.28361511230474" />
+            <Text fx:id="user2" layoutX="29.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="473.28361511230474" />
+            <Text fx:id="user3" layoutX="28.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.3830890655518" />
+            <Text fx:id="user4" layoutX="28.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.38308906555176" />
+            <Text fx:id="user5" layoutX="27.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="484.38308906555176" />
+            <Button layoutX="541.0" layoutY="111.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
+            <ImageView fx:id="tic" fitHeight="32.0" fitWidth="46.0" layoutX="479.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../../../../../img/Tick-Icon.png" />
+               </image>
+            </ImageView>
+            <Text fill="#15d548" layoutX="316.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User removed succesfully" />
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>

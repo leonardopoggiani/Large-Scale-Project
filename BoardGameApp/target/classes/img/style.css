@@ -1,0 +1,35 @@
+.root {
+    -fx-background-image: url("sfondo.png");
+    -fx-background-repeat: repeat;
+    -fx-background-size: 1200 600;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+#anchor {
+    -fx-background-image: url("sfondo.png");
+    -fx-background-repeat: repeat;
+    -fx-background-size: 1200 600;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+#scroll {
+    -fx-background-image: url("sfondo.png");
+    -fx-background-repeat: repeat;
+    -fx-background-size: 1200 600;
+    -fx-background-position: center center;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
+
+.titledPane {
+    -fx-background-image: url("sfondo.jpg");
+    -fx-border-radius: 30;
+}
+
+.button {
+    -fx-border-radius: 30;
+}
+.button:hover {
+    -fx-opacity: 20;
+}

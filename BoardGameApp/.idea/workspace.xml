@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="91e2638a-d791-4362-8e9b-0678e78ead84" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/StatisticsModeratorPageView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/StatisticsModerator.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/AnalyticsDBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/AnalyticsDBController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/GamesPagesDBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/GamesPagesDBController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/UsersPagesDBController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/controller/UsersPagesDBController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/MongoDBManager/UserDBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/MongoDBManager/UserDBManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/Neo4jDBManager/UsersDBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/persistence/Neo4jDBManager/UsersDBManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/AdminGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/AdminGames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/AdminUsers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/unipi/dii/LSMDB/project/group5/view/AdminUsers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/adminGames.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/adminGames.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/adminUsers.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/it/unipi/dii/LSMDB/project/group5/adminUsers.fxml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1mf1wbiP03M7BIsxEhbNOvdPyjU" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="ignore.preview.features.used" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="it.unipi.dii.LSMDB.project.group5.App" />
+      <module name="BoardGameApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.openjfx.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="addingThings" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="it.unipi.dii.LSMDB.project.group5.addingThings" />
+      <module name="BoardGameApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.unipi.dii.LSMDB.project.group5.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.App" />
+      <item itemvalue="Application.addingThings" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.addingThings" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="91e2638a-d791-4362-8e9b-0678e78ead84" name="Default Changelist" comment="" />
+      <created>1609870071914</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1609870071914</updated>
+      <workItem from="1609870073701" duration="2236000" />
+      <workItem from="1609910747900" duration="105000" />
+      <workItem from="1609911183084" duration="11957000" />
+      <workItem from="1609936008855" duration="1422000" />
+      <workItem from="1609947319277" duration="7466000" />
+      <workItem from="1609962819936" duration="2242000" />
+      <workItem from="1609965122625" duration="2686000" />
+      <workItem from="1610005601668" duration="914000" />
+      <workItem from="1610025172743" duration="19920000" />
+      <workItem from="1610049726969" duration="9383000" />
+      <workItem from="1610092896873" duration="835000" />
+      <workItem from="1610093991218" duration="11680000" />
+      <workItem from="1610107049186" duration="393000" />
+      <workItem from="1610113430664" duration="20835000" />
+      <workItem from="1610200264590" duration="544000" />
+      <workItem from="1610200844051" duration="17956000" />
+      <workItem from="1610270844789" duration="3536000" />
+      <workItem from="1610274505448" duration="153000" />
+      <workItem from="1610283604853" duration="4225000" />
+      <workItem from="1610294193442" duration="10198000" />
+      <workItem from="1610824299534" duration="230000" />
+      <workItem from="1610828182540" duration="2687000" />
+      <workItem from="1610879557505" duration="364000" />
+      <workItem from="1610877963891" duration="3676000" />
+      <workItem from="1610886549229" duration="3180000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

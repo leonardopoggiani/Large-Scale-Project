@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
+<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
+<?import com.gluonhq.charm.glisten.control.Icon?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.LSMDB.project.group5.view.AdminGames">
+   <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="562.0">
+         <children>
+            <HBox layoutX="9.899999618530273" layoutY="10.899999618530273" />
+            <BottomNavigation layoutX="51.0" layoutY="6.0" prefHeight="66.0" prefWidth="339.0">
+               <actionItems>
+                  <BottomNavigationButton onMouseClicked="#returnToStatistics" selected="true" text="Statistics">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminGames" text="Games">
+                  </BottomNavigationButton>
+                  <BottomNavigationButton onMouseClicked="#goToAdminUsers" text="Users">
+                     <graphic>
+                        <Icon content="EMPTY" />
+                     </graphic>
+                  </BottomNavigationButton>
+               </actionItems>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </BottomNavigation>
+            <Button layoutX="413.0" layoutY="23.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Text layoutX="51.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+            <Text layoutX="348.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a game">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Text>
+            <TextField layoutX="116.0" layoutY="132.0" />
+            <Text layoutX="51.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
+            <TextField layoutX="116.0" layoutY="172.0" />
+            <Text layoutX="280.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min players:" />
+            <TextField layoutX="354.0" layoutY="132.0" />
+            <Text layoutX="281.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max players:" />
+            <TextField layoutX="356.0" layoutY="172.0" />
+            <Text layoutX="512.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min age:" />
+            <TextField layoutX="577.0" layoutY="132.0" />
+            <Text layoutX="512.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max age:" />
+            <TextField layoutX="577.0" layoutY="172.0" />
+            <ComboBox layoutX="117.0" layoutY="213.0" prefWidth="150.0" promptText="Category" />
+            <Text layoutX="52.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" wrappingWidth="30.06510353088379" />
+            <Text layoutX="280.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Publisher:" />
+            <TextField layoutX="356.0" layoutY="215.0" />
+            <CheckBox layoutX="601.0" layoutY="215.0" mnemonicParsing="false" text="Cooperative" />
+            <Text layoutX="315.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove a game">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#06b5cd" height="200.0" layoutX="28.0" layoutY="330.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+            <TextField fx:id="delete" layoutX="355.0" layoutY="339.0" />
+            <Text layoutX="293.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game:" wrappingWidth="50.55989456176758" />
+            <Button layoutX="608.0" layoutY="336.0" mnemonicParsing="false" onAction="#searchGame" text="Search" />
+            <ImageView fx:id="tic" fitHeight="48.0" fitWidth="39.0" layoutX="544.0" layoutY="335.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../../../../../img/Tick-Icon.png" />
+               </image>
+            </ImageView>
+            <ComboBox fx:id="games" layoutX="48.0" layoutY="340.0" onAction="#displayGameStatisticResult" prefHeight="30.0" prefWidth="161.0" promptText="Choose statistics" />
+            <Text layoutX="37.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1)" />
+            <Text layoutX="37.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2)" />
+            <Text layoutX="37.0" layoutY="444.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3)" />
+            <Text fx:id="game1" layoutX="56.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+            <Text fx:id="game3" layoutX="56.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+            <Text fx:id="game2" layoutX="56.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="147.9830722808838" />
+            <ComboBox fx:id="choosenCategory" layoutX="54.0" layoutY="472.0" onAction="#displayCategoryStatisticResult" prefWidth="150.0" promptText="Choose category" />
+            <Text fill="#30e210" layoutX="345.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game succesfully removed" />
+            <Button fx:id="remove" disable="true" layoutX="397.0" layoutY="413.0" mnemonicParsing="false" onAction="#removeGame" text="Remove" />
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>
